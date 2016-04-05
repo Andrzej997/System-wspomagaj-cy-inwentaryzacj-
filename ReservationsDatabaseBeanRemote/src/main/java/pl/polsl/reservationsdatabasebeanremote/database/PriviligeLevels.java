@@ -1,0 +1,111 @@
+package pl.polsl.reservationsdatabasebeanremote.database;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Objects;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "PRIVILIGE_LEVELS")
+public class PriviligeLevels implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "PRIVILIGE_LEVEL", updatable = true, insertable = true, nullable = false)
+    private Long priviligeLevel;
+    
+    @ManyToMany(targetEntity = Priviliges.class)
+    private List<Priviliges> priviligesCollection;
+
+    @Column(name = "DESCRIPTION", updatable = true, insertable = true, nullable = true)
+    @Lob
+    private String description;
+
+    @OneToMany(targetEntity = Users.class, mappedBy = "priviligeLevel", cascade = CascadeType.MERGE)
+    private List<Users> usersCollection;
+
+    public PriviligeLevels() {
+
+    }
+
+    public List<Priviliges> getPriviligesCollection() {
+        return this.priviligesCollection;
+    }
+
+    public void setPriviligesCollection(List<Priviliges> priviligesCollection) {
+        this.priviligesCollection = priviligesCollection;
+    }
+
+    public Long getPriviligeLevel() {
+        return this.priviligeLevel;
+    }
+
+    public void setPriviligeLevel(Long priviligeLevel) {
+        this.priviligeLevel = priviligeLevel;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<Users> getUsersCollection() {
+        return this.usersCollection;
+    }
+
+    public void setUsersCollection(List<Users> usersCollection) {
+        this.usersCollection = usersCollection;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 79 * hash + Objects.hashCode(this.priviligeLevel);
+        hash = 79 * hash + Objects.hashCode(this.priviligesCollection);
+        hash = 79 * hash + Objects.hashCode(this.description);
+        hash = 79 * hash + Objects.hashCode(this.usersCollection);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final PriviligeLevels other = (PriviligeLevels) obj;
+        if (!Objects.equals(this.description, other.description)) {
+            return false;
+        }
+        if (!Objects.equals(this.priviligeLevel, other.priviligeLevel)) {
+            return false;
+        }
+        if (!Objects.equals(this.priviligesCollection, other.priviligesCollection)) {
+            return false;
+        }
+        return Objects.equals(this.usersCollection, other.usersCollection);
+    }
+
+    @Override
+    public String toString() {
+        return "PriviligeLevels{" + "priviligeLevel=" + priviligeLevel + ", priviligesCollection=" + priviligesCollection + ", description=" + description + ", usersCollection=" + usersCollection + '}';
+    }
+    
+}
