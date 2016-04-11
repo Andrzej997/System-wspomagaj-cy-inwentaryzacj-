@@ -22,6 +22,8 @@ import javax.persistence.TemporalType;
 @Table(name = "ROOM_SCHEDULE")
 public class RoomSchedule implements Serializable {
 
+    private static final long serialVersionUID = -4139906567566932774L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID", updatable = true, insertable = true, nullable = false)
@@ -84,11 +86,11 @@ public class RoomSchedule implements Serializable {
     }
 
     public Date get_year() {
-        return this._year;
+        return (Date)this._year.clone();
     }
 
     public void set_year(Date sYear) {
-        this._year = sYear;
+        this._year = (Date)sYear.clone();
     }
 
     public Room getRoom() {

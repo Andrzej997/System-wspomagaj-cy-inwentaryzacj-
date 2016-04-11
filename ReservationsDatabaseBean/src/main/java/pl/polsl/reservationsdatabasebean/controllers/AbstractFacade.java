@@ -76,7 +76,7 @@ public abstract class AbstractFacade<T> {
             predicates.add(cb.equal(rt.get(name), values.get(i)));
             i++;
         }
-        criteriaQuery.select(rt).where(predicates.toArray(new Predicate[]{}));
+        criteriaQuery.select(rt).where(predicates.toArray(new Predicate[predicates.size()]));
         TypedQuery<T> query = getEntityManager().createQuery(criteriaQuery);
         List<T> resultList = query.getResultList();
         return resultList;

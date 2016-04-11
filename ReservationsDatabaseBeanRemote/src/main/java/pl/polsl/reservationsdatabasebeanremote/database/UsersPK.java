@@ -5,6 +5,8 @@ import java.util.Objects;
 
 public class UsersPK implements Serializable {
 
+    private static final long serialVersionUID = -7467824673158319231L;
+
     private Long userId;
 
     private Long workers;

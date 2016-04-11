@@ -13,20 +13,18 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "WORKERS")
 public class Workers implements Serializable {
 
+    private static final long serialVersionUID = 2838010209475855091L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID", updatable = true, insertable = true, nullable = false)
     private Long id;
-
-    @OneToOne(optional = true, targetEntity = Chiefs.class, mappedBy = "workers", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Chiefs chiefs;
 
     @Column(name = "SURNAME", updatable = true, insertable = true, nullable = false)
     private String surname;
@@ -53,16 +51,12 @@ public class Workers implements Serializable {
     @ManyToOne(optional = true, targetEntity = Room.class)
     private Room room;
 
+    @ManyToOne(targetEntity = Workers.class, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.EAGER, optional = true)
+    @JoinColumn(updatable = true, nullable = true)
+    private Workers chiefId;
+
     public Workers() {
 
-    }
-
-    public Chiefs getChiefs() {
-        return this.chiefs;
-    }
-
-    public void setChiefs(Chiefs chiefs) {
-        this.chiefs = chiefs;
     }
 
     public String getSurname() {
@@ -137,11 +131,18 @@ public class Workers implements Serializable {
         this.room = room;
     }
 
+    public Workers getChiefId() {
+        return this.chiefId;
+    }
+
+    public void setChiefId(Workers chiefID) {
+        this.chiefId = chiefID;
+    }
+
     @Override
     public int hashCode() {
         int hash = 5;
         hash = 73 * hash + Objects.hashCode(this.id);
-        hash = 73 * hash + Objects.hashCode(this.chiefs);
         hash = 73 * hash + Objects.hashCode(this.surname);
         hash = 73 * hash + Objects.hashCode(this.grade);
         hash = 73 * hash + Objects.hashCode(this.roomCollection);
@@ -183,13 +184,13 @@ public class Workers implements Serializable {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.chiefs, other.chiefs)) {
-            return false;
-        }
         if (!Objects.equals(this.roomCollection, other.roomCollection)) {
             return false;
         }
         if (!Objects.equals(this.departamentId, other.departamentId)) {
+            return false;
+        }
+        if (!Objects.equals(this.chiefId, other.chiefId)) {
             return false;
         }
         return Objects.equals(this.room, other.room);
@@ -197,7 +198,7 @@ public class Workers implements Serializable {
 
     @Override
     public String toString() {
-        return "Workers{" + "id=" + id + ", chiefs=" + chiefs + ", surname=" + surname + ", grade=" + grade + ", roomCollection=" + roomCollection + ", adress=" + adress + ", workerName=" + workerName + ", pesel=" + pesel + ", departamentId=" + departamentId + ", room=" + room + '}';
+        return "Workers{" + "id=" + id + ", surname=" + surname + ", grade=" + grade + ", roomCollection=" + roomCollection + ", adress=" + adress + ", workerName=" + workerName + ", pesel=" + pesel + ", chiefId=" + chiefId + ", departamentId=" + departamentId + ", room=" + room + '}';
     }
 
 }

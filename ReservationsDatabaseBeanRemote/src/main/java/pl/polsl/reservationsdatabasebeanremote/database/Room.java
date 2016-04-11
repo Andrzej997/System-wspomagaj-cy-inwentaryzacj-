@@ -20,6 +20,8 @@ import javax.persistence.UniqueConstraint;
 @Table(name = "ROOM", uniqueConstraints = @UniqueConstraint(columnNames = {"ROOM_NUMBER"}))
 public class Room implements Serializable {
 
+    private static final long serialVersionUID = -4970767790381180082L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID", updatable = true, insertable = true, nullable = false)

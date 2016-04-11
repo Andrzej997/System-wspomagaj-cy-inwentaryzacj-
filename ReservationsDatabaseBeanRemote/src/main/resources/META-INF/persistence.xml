@@ -1,28 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-  <persistence-unit name="ReservationAdminPU" transaction-type="JTA">
-    <provider>org.hibernate.jpa.LazyHibernatePersistenceProvider</provider>
-    <jta-data-source>jdbc/reservations</jta-data-source>
-    <class>pl.polsl.reservations.database.RoomTypes</class>
-    <class>pl.polsl.reservations.database.Chiefs</class>
-    <class>pl.polsl.reservations.database.Users</class>
-    <class>pl.polsl.reservations.database.Institutes</class>
-    <class>pl.polsl.reservations.database.EqupmentState</class>
-    <class>pl.polsl.reservations.database.RoomSchedule</class>
-    <class>pl.polsl.reservations.database.Room</class>
-    <class>pl.polsl.reservations.database.Departaments</class>
-    <class>pl.polsl.reservations.database.Equipment</class>
-    <class>pl.polsl.reservations.database.ReservationTypes</class>
-    <class>pl.polsl.reservations.database.Priviliges</class>
-    <class>pl.polsl.reservations.database.PriviligeLevels</class>
-    <class>pl.polsl.reservations.database.Workers</class>
-    <class>pl.polsl.reservations.database.Reservations</class>
-    <exclude-unlisted-classes>false</exclude-unlisted-classes>
-    <properties>
-      <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform"/>
-      <property name="hibernate.hbm2ddl.auto" value="create"/>
-      <property name="hibernate.show_sql" value="true"/>
-      <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-    </properties>
-  </persistence-unit>
+    <persistence-unit name="ReservationAdminPU" transaction-type="JTA">
+        <provider>org.hibernate.jpa.LazyHibernatePersistenceProvider</provider>
+        <jta-data-source>jdbc/reservations</jta-data-source>
+        <class>pl.polsl.reservations.database.RoomTypes</class>
+        <class>pl.polsl.reservations.database.Chiefs</class>
+        <class>pl.polsl.reservations.database.Users</class>
+        <class>pl.polsl.reservations.database.Institutes</class>
+        <class>pl.polsl.reservations.database.EqupmentState</class>
+        <class>pl.polsl.reservations.database.EquipmentType</class>
+        <class>pl.polsl.reservations.database.RoomSchedule</class>
+        <class>pl.polsl.reservations.database.Room</class>
+        <class>pl.polsl.reservations.database.Departaments</class>
+        <class>pl.polsl.reservations.database.Equipment</class>
+        <class>pl.polsl.reservations.database.ReservationTypes</class>
+        <class>pl.polsl.reservations.database.Priviliges</class>
+        <class>pl.polsl.reservations.database.PriviligeLevels</class>
+        <class>pl.polsl.reservations.database.Workers</class>
+        <class>pl.polsl.reservations.database.Reservations</class>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <properties>
+            <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform"/>
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+        </properties>
+    </persistence-unit>
+    <persistence-unit name="ReservationTestsPU" transaction-type="JTA">
+        <provider>org.hibernate.jpa.LazyHibernatePersistenceProvider</provider>
+        <jta-data-source>jdbc/reservationstests</jta-data-source>
+        <class>pl.polsl.reservations.database.RoomTypes</class>
+        <class>pl.polsl.reservations.database.Chiefs</class>
+        <class>pl.polsl.reservations.database.Users</class>
+        <class>pl.polsl.reservations.database.Institutes</class>
+        <class>pl.polsl.reservations.database.EqupmentState</class>
+        <class>pl.polsl.reservations.database.EquipmentType</class>
+        <class>pl.polsl.reservations.database.RoomSchedule</class>
+        <class>pl.polsl.reservations.database.Room</class>
+        <class>pl.polsl.reservations.database.Departaments</class>
+        <class>pl.polsl.reservations.database.Equipment</class>
+        <class>pl.polsl.reservations.database.ReservationTypes</class>
+        <class>pl.polsl.reservations.database.Priviliges</class>
+        <class>pl.polsl.reservations.database.PriviligeLevels</class>
+        <class>pl.polsl.reservations.database.Workers</class>
+        <class>pl.polsl.reservations.database.Reservations</class>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <properties>
+            <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform"/>
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+        </properties>
+    </persistence-unit>
 </persistence>

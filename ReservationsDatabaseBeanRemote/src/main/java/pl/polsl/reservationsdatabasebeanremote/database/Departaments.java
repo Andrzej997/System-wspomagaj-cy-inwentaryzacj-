@@ -13,11 +13,15 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "DEPARTAMENTS")
 public class Departaments implements Serializable {
+
+    private static final long serialVersionUID = 6165441491842214227L;
 
     @Id
     @Column(name = "ID", updatable = true, insertable = true, nullable = false)
@@ -34,11 +38,12 @@ public class Departaments implements Serializable {
     @JoinColumn(name = "INSTITUTE_ID", insertable = true, nullable = false, unique = false, updatable = true)
     private Institutes instituteId;
 
-    @OneToMany(targetEntity = Chiefs.class, mappedBy = "departamentId", cascade = CascadeType.ALL)
-    private List<Chiefs> chiefsCollection;
-
     @OneToMany(targetEntity = Workers.class, mappedBy = "departamentId", cascade = CascadeType.ALL)
     private List<Workers> workersCollection;
+
+    @OneToOne(targetEntity = Workers.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @PrimaryKeyJoinColumn
+    private Workers chiefId;
 
     public Departaments() {
 
@@ -76,20 +81,20 @@ public class Departaments implements Serializable {
         this.id = id;
     }
 
-    public List<Chiefs> getChiefsCollection() {
-        return this.chiefsCollection;
-    }
-
-    public void setChiefsCollection(List<Chiefs> chiefsCollection) {
-        this.chiefsCollection = chiefsCollection;
-    }
-
     public List<Workers> getWorkersCollection() {
         return this.workersCollection;
     }
 
     public void setWorkersCollection(List<Workers> workersCollection) {
         this.workersCollection = workersCollection;
+    }
+
+    public Workers getChiefId() {
+        return this.chiefId;
+    }
+
+    public void setChiefId(Workers chiefId) {
+        this.chiefId = chiefId;
     }
 
     @Override
@@ -99,7 +104,7 @@ public class Departaments implements Serializable {
         hash = 89 * hash + Objects.hashCode(this.depratamentName);
         hash = 89 * hash + Objects.hashCode(this.roomCollection);
         hash = 89 * hash + Objects.hashCode(this.instituteId);
-        hash = 89 * hash + Objects.hashCode(this.chiefsCollection);
+        hash = 89 * hash + Objects.hashCode(this.chiefId);
         hash = 89 * hash + Objects.hashCode(this.workersCollection);
         return hash;
     }
@@ -128,7 +133,7 @@ public class Departaments implements Serializable {
         if (!Objects.equals(this.instituteId, other.instituteId)) {
             return false;
         }
-        if (!Objects.equals(this.chiefsCollection, other.chiefsCollection)) {
+        if (!Objects.equals(this.chiefId, other.chiefId)) {
             return false;
         }
         return Objects.equals(this.workersCollection, other.workersCollection);
@@ -136,7 +141,7 @@ public class Departaments implements Serializable {
 
     @Override
     public String toString() {
-        return "Departaments{" + "id=" + id + ", depratamentName=" + depratamentName + ", roomCollection=" + roomCollection + ", instituteId=" + instituteId + ", chiefsCollection=" + chiefsCollection + ", workersCollection=" + workersCollection + '}';
+        return "Departaments{" + "id=" + id + ", depratamentName=" + depratamentName + ", roomCollection=" + roomCollection + ", instituteId=" + instituteId +", chiefId=" + chiefId + ", workersCollection=" + workersCollection + '}';
     }
 
 }

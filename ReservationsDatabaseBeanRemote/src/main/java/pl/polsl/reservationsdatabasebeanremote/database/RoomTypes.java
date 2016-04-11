@@ -17,6 +17,8 @@ import javax.persistence.Table;
 @Table(name = "ROOM_TYPES")
 public class RoomTypes implements Serializable {
 
+    private static final long serialVersionUID = 2452760095506900391L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ROOM_TYPE", updatable = true, insertable = true, nullable = false)

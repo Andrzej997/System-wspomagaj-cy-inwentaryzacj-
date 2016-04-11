@@ -18,6 +18,8 @@ import javax.persistence.Table;
 @Table(name = "PRIVILIGE_LEVELS")
 public class PriviligeLevels implements Serializable {
 
+    private static final long serialVersionUID = 7642276419680143633L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "PRIVILIGE_LEVEL", updatable = true, insertable = true, nullable = false)

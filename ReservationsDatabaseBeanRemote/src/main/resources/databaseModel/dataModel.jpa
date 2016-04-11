@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jpa:entity-mappings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:java="http://jcp.org/en/jsr/detail?id=270" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jpa="http://java.sun.com/xml/ns/persistence/orm" pkg="pl.polsl.reservationsdatabasebeanremote.database" v="1.5.4" status="GENERATED" xs="false" id="_1460326143317624" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm orm_2_1.xsd">
+    <jpa:entity xre="false" compositePrimaryKeyClass="WorkersPK" sm="false" abs="false" class="Workers" visibile="true" minimized="false" rootElement="_1460326143317624" id="_1460326143366625">
+        <jpa:attributes>
+            <basic attribute-type="String" visibile="true" name="surname" id="_1460326143366626">
+                <jpa:column name="SURNAME" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="grade" id="_1460326143366627">
+                <jpa:column name="GRADE" nullable="false" insertable="true" updatable="true" length="50"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="adress" id="_1460326143366629">
+                <jpa:column name="ADRESS" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="workerName" id="_1460326143366631">
+                <jpa:column name="WORKER_NAME" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="pesel" id="_1460326143366632">
+                <jpa:column name="PESEL" unique="true" nullable="false" insertable="true" updatable="true" length="11"/>
+            </basic>
+            <many-to-one optional="false" connected-entity-id="_1460326143435641" connected-attribute-id="_1460326143435646" fetch="LAZY" visibile="true" name="departamentId" id="_1460326143366633">
+                <join-column name="DEPARTAMENT_ID" nullable="false" insertable="true" updatable="true"/>
+            </many-to-one>
+            <many-to-one optional="true" connected-entity-id="_1460326143667675" visibile="true" name="room" id="_1460326143366634"/>
+            <many-to-one connected-entity-id="_1460326143366625" fetch="LAZY" visibile="true" name="chiefId" id="_1460326143366635">
+                <cascade>
+                    <jpa:cascade-persist/>
+                    <jpa:cascade-merge/>
+                    <jpa:cascade-refresh/>
+                </cascade>
+            </many-to-one>
+            <one-to-many own="false" collection-type="java.util.List" connected-entity-id="_1460326143667675" connected-attribute-id="_1460326143667679" visibile="true" name="roomCollection" id="_1460326143366628">
+                <cascade>
+                    <jpa:cascade-merge/>
+                    <jpa:cascade-refresh/>
+                    <jpa:cascade-detach/>
+                </cascade>
+            </one-to-many>
+            <jpa:id attribute-type="Long" visibile="true" name="id" id="_1460326143366630">
+                <jpa:column name="ID" nullable="false" insertable="true" updatable="true"/>
+                <jpa:generated-value strategy="AUTO"/>
+                <jpa:sequence-generator name="ID"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:table name="WORKERS"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="InstitutesPK" sm="false" abs="false" class="Institutes" visibile="true" minimized="false" rootElement="_1460326143317624" id="_1460326143401636">
+        <jpa:attributes>
+            <basic attribute-type="String" visibile="true" name="instituteName" id="_1460326143402639">
+                <jpa:column name="INSTITUTE_NAME" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <one-to-many own="false" collection-type="java.util.List" connected-entity-id="_1460326143435641" connected-attribute-id="_1460326143435644" visibile="true" name="departamentsCollection" id="_1460326143401637">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+            </one-to-many>
+            <one-to-one own="true" connected-entity-id="_1460326143366625" fetch="LAZY" visibile="true" name="chiefId" id="_1460326143402640">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+            </one-to-one>
+            <jpa:id attribute-type="Long" visibile="true" name="id" id="_1460326143402638">
+                <jpa:column name="ID" nullable="false" insertable="true" updatable="true"/>
+                <jpa:generated-value strategy="AUTO"/>
+                <jpa:sequence-generator name="ID"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:table name="INSTITUTES"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="DepartamentsPK" sm="false" abs="false" class="Departaments" visibile="true" minimized="false" rootElement="_1460326143317624" id="_1460326143435641">
+        <jpa:attributes>
+            <basic attribute-type="String" visibile="true" name="depratamentName" id="_1460326143435642">
+                <jpa:column name="DEPRATAMENT_NAME" unique="true" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <many-to-one optional="false" connected-entity-id="_1460326143401636" connected-attribute-id="_1460326143401637" fetch="LAZY" visibile="true" name="instituteId" id="_1460326143435644">
+                <join-column name="INSTITUTE_ID" unique="false" nullable="false" insertable="true" updatable="true"/>
+            </many-to-one>
+            <one-to-many own="false" collection-type="java.util.List" connected-entity-id="_1460326143667675" connected-attribute-id="_1460326143667681" visibile="true" name="roomCollection" id="_1460326143435643">
+                <cascade>
+                    <jpa:cascade-persist/>
+                </cascade>
+            </one-to-many>
+            <one-to-many own="false" collection-type="java.util.List" connected-entity-id="_1460326143366625" connected-attribute-id="_1460326143366633" visibile="true" name="workersCollection" id="_1460326143435646">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+            </one-to-many>
+            <one-to-one own="true" connected-entity-id="_1460326143366625" fetch="LAZY" visibile="true" name="chiefId" id="_1460326143435647">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+            </one-to-one>
+            <jpa:id attribute-type="Long" visibile="true" name="id" id="_1460326143435645">
+                <jpa:column name="ID" nullable="false" insertable="true" updatable="true"/>
+                <jpa:generated-value strategy="AUTO"/>
+                <jpa:sequence-generator name="ID"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:table name="DEPARTAMENTS"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="EqupmentStatePK" sm="false" abs="false" class="EqupmentState" visibile="true" minimized="false" rootElement="_1460326143317624" id="_1460326143467648">
+        <jpa:attributes>
+            <basic attribute-type="String" visibile="true" name="stateDefinition" id="_1460326143467651">
+                <jpa:column name="STATE_DEFINITION" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <one-to-many own="false" collection-type="java.util.List" connected-entity-id="_1460326143499652" connected-attribute-id="_1460326143499653" visibile="true" name="equipmentCollection" id="_1460326143467650">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+            </one-to-many>
+            <jpa:id attribute-type="Short" visibile="true" name="stateId" id="_1460326143467649">
+                <jpa:column name="STATE_ID" nullable="false" insertable="true" updatable="true"/>
+                <jpa:generated-value strategy="AUTO"/>
+                <jpa:sequence-generator name="STATE_ID"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:table name="EQUPMENT_STATE"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="EquipmentPK" sm="false" abs="false" class="Equipment" visibile="true" minimized="false" rootElement="_1460326143317624" id="_1460326143499652">
+        <jpa:attributes>
+            <basic attribute-type="String" visibile="true" name="equipmentData" id="_1460326143500654">
+                <jpa:column name="EQUIPMENT_DATA" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="equipmentName" id="_1460326143500655">
+                <jpa:column name="EQUIPMENT_NAME" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <many-to-one optional="false" connected-entity-id="_1460326143467648" connected-attribute-id="_1460326143467650" fetch="LAZY" visibile="true" name="equipmentState" id="_1460326143499653">
+                <join-column name="EQUIPMENT_STATE" nullable="false" insertable="true" updatable="true"/>
+            </many-to-one>
+            <many-to-one optional="false" connected-entity-id="_1460326143536659" connected-attribute-id="_1460326143536660" fetch="LAZY" visibile="true" name="equipmentType" id="_1460326143500657">
+                <join-column name="EQUIPMENT_TYPE" nullable="false" insertable="true" updatable="true"/>
+            </many-to-one>
+            <many-to-one optional="false" connected-entity-id="_1460326143667675" connected-attribute-id="_1460326143667680" fetch="LAZY" visibile="true" name="roomId" id="_1460326143500658">
+                <join-column name="ROOM_ID" nullable="false" insertable="true" updatable="true"/>
+            </many-to-one>
+            <jpa:id attribute-type="Long" visibile="true" name="id" id="_1460326143500656">
+                <jpa:column name="ID" nullable="false" insertable="true" updatable="true"/>
+                <jpa:generated-value strategy="AUTO"/>
+                <jpa:sequence-generator name="ID"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:table name="EQUIPMENT"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="EquipmentTypePK" sm="false" abs="false" class="EquipmentType" visibile="true" minimized="false" rootElement="_1460326143317624" id="_1460326143536659">
+        <jpa:attributes>
+            <basic attribute-type="String" visibile="true" name="shortDescription" id="_1460326143536661">
+                <jpa:column name="SHORT_DEFINITION" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="longDescription" id="_1460326143536662">
+                <jpa:column name="LONG_DEFINITION" nullable="true" insertable="true" updatable="true"/>
+            </basic>
+            <one-to-many own="false" collection-type="java.util.List" connected-entity-id="_1460326143499652" connected-attribute-id="_1460326143500657" visibile="true" name="equipmentCollection" id="_1460326143536660">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+            </one-to-many>
+        </jpa:attributes>
+        <jpa:table name="EQUPMENT_TYPE"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="PriviligeLevelsPK" sm="false" abs="false" class="PriviligeLevels" visibile="true" minimized="false" rootElement="_1460326143317624" id="_1460326143578663">
+        <jpa:attributes>
+            <basic attribute-type="String" visibile="true" name="description" id="_1460326143578666">
+                <jpa:column name="DESCRIPTION" nullable="true" insertable="true" updatable="true"/>
+                <jpa:lob/>
+            </basic>
+            <one-to-many own="false" collection-type="java.util.List" connected-entity-id="_1460326143914705" connected-attribute-id="_1460326143914708" visibile="true" name="usersCollection" id="_1460326143578667">
+                <cascade>
+                    <jpa:cascade-merge/>
+                </cascade>
+            </one-to-many>
+            <many-to-many own="true" collection-type="java.util.List" connected-entity-id="_1460326143820695" visibile="true" name="priviligesCollection" id="_1460326143578664"/>
+            <jpa:id attribute-type="Long" visibile="true" name="priviligeLevel" id="_1460326143578665">
+                <jpa:column name="PRIVILIGE_LEVEL" nullable="false" insertable="true" updatable="true"/>
+                <jpa:generated-value strategy="AUTO"/>
+                <jpa:sequence-generator name="PRIVILIGE_LEVEL"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:table name="PRIVILIGE_LEVELS"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="ReservationsPK" sm="false" abs="false" class="Reservations" visibile="true" minimized="false" rootElement="_1460326143317624" id="_1460326143625668">
+        <jpa:attributes>
+            <basic attribute-type="int" visibile="true" name="startTime" id="_1460326143625671">
+                <jpa:column name="START_TIME" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <basic attribute-type="int" visibile="true" name="endTime" id="_1460326143625673">
+                <jpa:column name="END_TIME" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <many-to-one optional="false" connected-entity-id="_1460326143703684" connected-attribute-id="_1460326143703686" fetch="LAZY" visibile="true" name="roomNumber" id="_1460326143625669">
+                <join-column name="ROOM_NUMBER" nullable="true" insertable="true" updatable="true"/>
+            </many-to-one>
+            <many-to-one optional="false" connected-entity-id="_1460326143764690" connected-attribute-id="_1460326143764691" fetch="LAZY" visibile="true" name="reservationType" id="_1460326143625670">
+                <join-column name="RESERVATION_TYPE" nullable="true" insertable="true" updatable="true"/>
+            </many-to-one>
+            <many-to-one optional="true" connected-entity-id="_1460326143914705" fetch="EAGER" visibile="true" name="userId" id="_1460326143625674">
+                <join-column name="USER_ID" nullable="true" insertable="true" updatable="true"/>
+            </many-to-one>
+            <jpa:id attribute-type="Long" visibile="true" name="id" id="_1460326143625672">
+                <jpa:column name="ID" nullable="false" insertable="true" updatable="true"/>
+                <jpa:generated-value strategy="AUTO"/>
+                <jpa:sequence-generator name="ID"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:table name="RESERVATIONS"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="RoomPK" sm="false" abs="false" class="Room" visibile="true" minimized="false" rootElement="_1460326143317624" id="_1460326143667675">
+        <jpa:attributes>
+            <basic attribute-type="long" visibile="true" name="schedule" id="_1460326143667676">
+                <jpa:column name="SCHEDULE" insertable="true" updatable="true"/>
+            </basic>
+            <basic attribute-type="int" visibile="true" name="roomNumber" id="_1460326143667677">
+                <jpa:column name="ROOM_NUMBER" insertable="true" updatable="true"/>
+            </basic>
+            <many-to-one optional="true" connected-entity-id="_1460326143366625" connected-attribute-id="_1460326143366628" fetch="EAGER" visibile="true" name="keeperId" id="_1460326143667679">
+                <join-column name="KEEPER_ID" nullable="true" insertable="true" updatable="true"/>
+            </many-to-one>
+            <many-to-one optional="false" connected-entity-id="_1460326143435641" connected-attribute-id="_1460326143435643" fetch="LAZY" visibile="true" name="departamentId" id="_1460326143667681">
+                <join-column name="DEPARTAMENT_ID" nullable="true" insertable="true" updatable="true"/>
+            </many-to-one>
+            <many-to-one optional="true" connected-entity-id="_1460326143866700" connected-attribute-id="_1460326143866702" fetch="EAGER" visibile="true" name="roomType" id="_1460326143667682">
+                <join-column name="ROOM_TYPE" nullable="true" insertable="true" updatable="true"/>
+            </many-to-one>
+            <one-to-many own="false" collection-type="java.util.List" connected-entity-id="_1460326143499652" connected-attribute-id="_1460326143500658" fetch="LAZY" visibile="true" name="equipmentCollection" id="_1460326143667680">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+            </one-to-many>
+            <one-to-many own="false" collection-type="java.util.List" connected-entity-id="_1460326143703684" connected-attribute-id="_1460326143703689" fetch="LAZY" visibile="true" name="roomScheduleCollection" id="_1460326143667683">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+            </one-to-many>
+            <jpa:id attribute-type="Long" visibile="true" name="id" id="_1460326143667678">
+                <jpa:column name="ID" nullable="false" insertable="true" updatable="true"/>
+                <jpa:generated-value strategy="AUTO"/>
+                <jpa:sequence-generator name="ID"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:table name="ROOM">
+            <jpa:unique-constraint>
+                <jpa:column-name>"ROOM_NUMBER"</jpa:column-name>
+            </jpa:unique-constraint>
+        </jpa:table>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="RoomSchedulePK" sm="false" abs="false" class="RoomSchedule" visibile="true" minimized="false" rootElement="_1460326143317624" id="_1460326143703684">
+        <jpa:attributes>
+            <basic attribute-type="Integer" visibile="true" name="week" id="_1460326143703685">
+                <jpa:column name="WEEK" nullable="true" insertable="true" updatable="true"/>
+            </basic>
+            <basic attribute-type="java.util.Date" visibile="true" name="_year" id="_1460326143703688">
+                <jpa:column name="S_YEAR" nullable="false" insertable="true" updatable="true"/>
+                <jpa:temporal>DATE</jpa:temporal>
+            </basic>
+            <many-to-one optional="true" connected-entity-id="_1460326143667675" connected-attribute-id="_1460326143667683" fetch="EAGER" visibile="true" name="room" id="_1460326143703689">
+                <join-column name="ROOM" nullable="true" insertable="true" updatable="true"/>
+            </many-to-one>
+            <one-to-many own="false" collection-type="java.util.List" connected-entity-id="_1460326143625668" connected-attribute-id="_1460326143625669" visibile="true" name="reservationsCollection" id="_1460326143703686">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+            </one-to-many>
+            <jpa:id attribute-type="Long" visibile="true" name="id" id="_1460326143703687">
+                <jpa:column name="ID" nullable="false" insertable="true" updatable="true"/>
+                <jpa:generated-value strategy="AUTO"/>
+                <jpa:sequence-generator name="ID"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:table name="ROOM_SCHEDULE"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="ReservationTypesPK" sm="false" abs="false" class="ReservationTypes" visibile="true" minimized="false" rootElement="_1460326143317624" id="_1460326143764690">
+        <jpa:attributes>
+            <basic attribute-type="String" visibile="true" name="typeShortDescription" id="_1460326143764693">
+                <jpa:column name="TYPE_SHORT_DESCRIPTION" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="typeLongDescription" id="_1460326143768694">
+                <jpa:column name="TYPE_LONG_DESCRIPTION" nullable="true" insertable="true" updatable="true"/>
+                <jpa:lob/>
+            </basic>
+            <one-to-many orphan-removal="true" own="false" collection-type="java.util.List" connected-entity-id="_1460326143625668" connected-attribute-id="_1460326143625670" visibile="true" name="reservationsCollection" id="_1460326143764691">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+            </one-to-many>
+            <jpa:id attribute-type="Long" visibile="true" name="typeId" id="_1460326143764692">
+                <jpa:column name="TYPE_ID" nullable="false" insertable="true" updatable="true"/>
+                <jpa:generated-value strategy="AUTO"/>
+                <jpa:sequence-generator name="TYPE_ID"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:table name="RESERVATION_TYPES"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="PriviligesPK" sm="false" abs="false" class="Priviliges" visibile="true" minimized="false" rootElement="_1460326143317624" id="_1460326143820695">
+        <jpa:attributes>
+            <basic attribute-type="String" visibile="true" name="description" id="_1460326143820697">
+                <jpa:column name="DESCRIPTION" nullable="true" insertable="true" updatable="true"/>
+                <jpa:lob/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="privilegeName" id="_1460326143820699">
+                <jpa:column name="PRIVILEGE_NAME" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <many-to-many own="true" collection-type="java.util.List" connected-entity-id="_1460326143578663" visibile="true" name="priviligeLevelsCollection" id="_1460326143820698">
+                <join-table name="PRIVILIGE_MAP">
+                    <jpa:join-column name="PRIVILIGE_ID" nullable="false" insertable="true" updatable="true"/>
+                    <jpa:inverse-join-column name="PRIVILIGE_LEVEL" nullable="false" insertable="true" updatable="true"/>
+                </join-table>
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+            </many-to-many>
+            <jpa:id attribute-type="Long" visibile="true" name="priviligeId" id="_1460326143820696">
+                <jpa:column name="PRIVILIGE_ID" nullable="false" insertable="true" updatable="true"/>
+                <jpa:generated-value strategy="AUTO"/>
+                <jpa:sequence-generator name="PRIVILIGE_ID"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:table name="PRIVILIGES"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="RoomTypesPK" sm="false" abs="false" class="RoomTypes" visibile="true" minimized="false" rootElement="_1460326143317624" id="_1460326143866700">
+        <jpa:attributes>
+            <basic attribute-type="String" visibile="true" name="longDescription" id="_1460326143866701">
+                <jpa:column name="LONG_DESCRIPTION" nullable="true" insertable="true" updatable="true"/>
+                <jpa:lob/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="shortDescription" id="_1460326143866703">
+                <jpa:column name="SHORT_DESCRIPTION" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <one-to-many own="false" collection-type="java.util.List" connected-entity-id="_1460326143667675" connected-attribute-id="_1460326143667682" visibile="true" name="roomCollection" id="_1460326143866702">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+            </one-to-many>
+            <jpa:id attribute-type="Short" visibile="true" name="roomType" id="_1460326143866704">
+                <jpa:column name="ROOM_TYPE" nullable="false" insertable="true" updatable="true"/>
+                <jpa:generated-value strategy="AUTO"/>
+                <jpa:sequence-generator name="ROOM_TYPE"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:table name="ROOM_TYPES"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="UsersPK" sm="false" abs="false" class="Users" visibile="true" minimized="false" rootElement="_1460326143317624" id="_1460326143914705">
+        <jpa:attributes>
+            <basic attribute-type="String" visibile="true" name="password" id="_1460326143914706">
+                <jpa:column name="PASSWORD" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <basic attribute-type="short" visibile="true" name="userType" id="_1460326143914709">
+                <jpa:column name="USER_TYPE" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="username" id="_1460326143914712">
+                <jpa:column name="USERNAME" nullable="false" insertable="true" updatable="true"/>
+            </basic>
+            <many-to-one optional="true" connected-entity-id="_1460326143578663" connected-attribute-id="_1460326143578667" fetch="EAGER" visibile="true" name="priviligeLevel" id="_1460326143914708">
+                <join-column name="PRIVILIGE_LEVEL" nullable="true" insertable="true" updatable="true"/>
+            </many-to-one>
+            <one-to-many own="true" collection-type="java.util.List" connected-entity-id="_1460326143625668" visibile="true" name="reservationsCollection" id="_1460326143914707">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+            </one-to-many>
+            <one-to-one own="true" optional="false" connected-entity-id="_1460326143366625" fetch="LAZY" visibile="true" name="workers" id="_1460326143914711">
+                <cascade>
+                    <jpa:cascade-persist/>
+                </cascade>
+            </one-to-one>
+            <jpa:id attribute-type="Long" visibile="true" name="userId" id="_1460326143914710">
+                <jpa:column name="USER_ID" nullable="false" insertable="true" updatable="true"/>
+                <jpa:generated-value strategy="AUTO"/>
+                <jpa:sequence-generator name="USER_ID"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:table name="USERS"/>
+    </jpa:entity>
+    <jpa:diagram>
+        <plane elementRef="_1460326143317624"/>
+    </jpa:diagram>
+</jpa:entity-mappings>

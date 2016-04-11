@@ -19,6 +19,8 @@ import javax.persistence.Table;
 @Table(name = "PRIVILIGES")
 public class Priviliges implements Serializable {
 
+    private static final long serialVersionUID = -280370735684039513L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "PRIVILIGE_ID", updatable = true, insertable = true, nullable = false)

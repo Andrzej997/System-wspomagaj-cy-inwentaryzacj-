@@ -20,6 +20,8 @@ import javax.persistence.Table;
 @Table(name = "USERS")
 public class Users implements Serializable {
 
+    private static final long serialVersionUID = 6427096331927019081L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "USER_ID", updatable = true, insertable = true, nullable = false)
@@ -43,6 +45,12 @@ public class Users implements Serializable {
 
     @Column(name = "USERNAME", updatable = true, insertable = true, nullable = false)
     private String username;
+
+    @Column(name = "EMAIL", nullable = false, unique = true)
+    private String email;
+
+    @Column(name = "PHONENUMBER", updatable = true, insertable = true, nullable = false)
+    private Long phoneNumber;
 
     public Users() {
 
@@ -104,6 +112,22 @@ public class Users implements Serializable {
         this.username = username;
     }
 
+    public String getEmail() {
+        return this.email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Long getPhoneNumber() {
+        return this.phoneNumber;
+    }
+
+    public void setPhoneNumber(Long phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     @Override
     public int hashCode() {
         int hash = 3;
@@ -111,9 +135,11 @@ public class Users implements Serializable {
         hash = 61 * hash + Objects.hashCode(this.password);
         hash = 61 * hash + Objects.hashCode(this.reservationsCollection);
         hash = 61 * hash + Objects.hashCode(this.priviligeLevel);
-        hash = 61 * hash + this.userType;
+        hash = 61 * hash + Objects.hashCode(this.userType);
         hash = 61 * hash + Objects.hashCode(this.workers);
         hash = 61 * hash + Objects.hashCode(this.username);
+        hash = 61 * hash + Objects.hashCode(this.email);
+        hash = 61 * hash + Objects.hashCode(this.phoneNumber);
         return hash;
     }
 
@@ -147,12 +173,22 @@ public class Users implements Serializable {
         if (!Objects.equals(this.priviligeLevel, other.priviligeLevel)) {
             return false;
         }
+        if (!Objects.equals(this.phoneNumber, other.phoneNumber)) {
+            return false;
+        }
+        if (!Objects.equals(this.email, other.email)) {
+            return false;
+        }
         return Objects.equals(this.workers, other.workers);
     }
 
     @Override
     public String toString() {
-        return "Users{" + "userId=" + userId + ", password=" + password + ", reservationsCollection=" + reservationsCollection + ", priviligeLevel=" + priviligeLevel + ", userType=" + userType + ", workers=" + workers + ", username=" + username + '}';
+        return "Users{" + "userId=" + userId + ", password=" + password 
+                + ", reservationsCollection=" + reservationsCollection 
+                + ", priviligeLevel=" + priviligeLevel + ", userType=" 
+                + userType + ", workers=" + workers + ", username=" + username 
+                + ", email=" + email + ", phoneNumber=" + phoneNumber + '}';
     }
 
 }

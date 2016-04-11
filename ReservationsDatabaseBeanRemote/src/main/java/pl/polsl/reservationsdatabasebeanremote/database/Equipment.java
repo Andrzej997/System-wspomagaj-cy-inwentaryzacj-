@@ -16,6 +16,8 @@ import javax.persistence.Table;
 @Table(name = "EQUIPMENT")
 public class Equipment implements Serializable {
 
+    private static final long serialVersionUID = 5276213664855009030L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID", updatable = true, insertable = true, nullable = false)
@@ -25,14 +27,15 @@ public class Equipment implements Serializable {
     @JoinColumn(name = "EQUIPMENT_STATE", insertable = true, nullable = false, updatable = true)
     private EqupmentState equipmentState;
 
+    @ManyToOne(optional = false, targetEntity = EquipmentType.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "EQUIPMENT_TYPE", insertable = true, nullable = false, updatable = true)
+    private EquipmentType equipmentType;
+
     @Column(name = "EQUIPMENT_DATA", updatable = true, insertable = true, nullable = false)
     private String equipmentData;
 
     @Column(name = "EQUIPMENT_NAME", updatable = true, insertable = true, nullable = false)
     private String equipmentName;
-
-    @Column(name = "EQUIPMENT_TYPE", updatable = true, insertable = true, nullable = false)
-    private String equipmentType;
 
     @ManyToOne(optional = false, targetEntity = Room.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "ROOM_ID", insertable = true, nullable = false, updatable = true)
@@ -74,11 +77,11 @@ public class Equipment implements Serializable {
         this.id = id;
     }
 
-    public String getEquipmentType() {
+    public EquipmentType getEquipmentType() {
         return this.equipmentType;
     }
 
-    public void setEquipmentType(String equipmentType) {
+    public void setEquipmentType(EquipmentType equipmentType) {
         this.equipmentType = equipmentType;
     }
 
@@ -135,5 +138,5 @@ public class Equipment implements Serializable {
     public String toString() {
         return "Equipment{" + "id=" + id + ", equipmentState=" + equipmentState + ", equipmentData=" + equipmentData + ", equipmentName=" + equipmentName + ", equipmentType=" + equipmentType + ", roomId=" + roomId + '}';
     }
-    
+
 }

@@ -16,6 +16,8 @@ import javax.persistence.Table;
 @Table(name = "RESERVATIONS")
 public class Reservations implements Serializable {
 
+    private static final long serialVersionUID = 1110572173097587524L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID", updatable = true, insertable = true, nullable = false)

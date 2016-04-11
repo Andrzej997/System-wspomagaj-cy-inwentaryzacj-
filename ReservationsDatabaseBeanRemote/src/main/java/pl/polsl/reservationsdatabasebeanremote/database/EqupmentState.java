@@ -16,6 +16,8 @@ import javax.persistence.Table;
 @Table(name = "EQUPMENT_STATE")
 public class EqupmentState implements Serializable {
 
+    private static final long serialVersionUID = 2504464193763388953L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "STATE_ID", updatable = true, insertable = true, nullable = false)
