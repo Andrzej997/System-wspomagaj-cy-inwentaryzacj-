@@ -1,6 +1,6 @@
 # System wspomagający inwentaryzajcę pomieszczeń poszczególnych zakładów w instytucie
 
-Maven java EE eap to glassfish application server
+Maven java EE EAR to glassfish application server
 
 JDK 1.8
 
