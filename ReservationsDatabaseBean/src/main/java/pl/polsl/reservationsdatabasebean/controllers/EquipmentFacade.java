@@ -1,10 +1,8 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
 import javax.ejb.Stateful;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import pl.polsl.reservationsdatabasebeanremote.database.controllers.EquipmentFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.Equipment;
+import pl.polsl.reservationsdatabasebeanremote.database.controllers.EquipmentFacadeRemote;
 
 /**
  *
@@ -12,14 +10,6 @@ import pl.polsl.reservationsdatabasebeanremote.database.Equipment;
  */
 @Stateful
 public class EquipmentFacade extends AbstractFacade<Equipment> implements EquipmentFacadeRemote {
-
-    @PersistenceContext(unitName = "ReservationAdminPU")
-    private EntityManager em;
-
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
 
     public EquipmentFacade() {
         super(Equipment.class);

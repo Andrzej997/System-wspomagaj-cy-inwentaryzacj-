@@ -2,12 +2,14 @@ package pl.polsl.reservationsdatabasebean.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import pl.polsl.reservationsdatabasebean.context.PriviligeContext;
 
 /**
  *
@@ -16,12 +18,23 @@ import javax.persistence.criteria.Root;
 public abstract class AbstractFacade<T> {
 
     private final Class<T> entityClass;
+    
+    @EJB
+    private PriviligeContext priviligeContext;
 
     public AbstractFacade(Class<T> entityClass) {
         this.entityClass = entityClass;
+        //start with minimal priviliges (Standard User)
+        priviligeContext.setPriviligeLevel(6);
+    }
+    
+    public void setPriviligeLevel(Integer level){
+        priviligeContext.setPriviligeLevel(level);
     }
 
-    protected abstract EntityManager getEntityManager();
+    private EntityManager getEntityManager(){
+        return priviligeContext.getPrivilige().getEntityManager();
+    }
 
     public void create(T entity) {
         getEntityManager().persist(entity);
