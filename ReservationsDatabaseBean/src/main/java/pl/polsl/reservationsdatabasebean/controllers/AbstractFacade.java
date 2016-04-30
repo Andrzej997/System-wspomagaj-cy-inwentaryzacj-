@@ -1,39 +1,42 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.ejb.EJB;
+import pl.polsl.reservationsdatabasebean.context.PriviligeContext;
+
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import pl.polsl.reservationsdatabasebean.context.PriviligeContext;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- *
  * @author matis
  */
-public abstract class AbstractFacade<T> {
+public abstract class AbstractFacade<T> implements Serializable {
+
+    private static final long serialVersionUID = -13071878948980250L;
 
     private final Class<T> entityClass;
-    
-    @EJB
-    private PriviligeContext priviligeContext;
+
+    private final PriviligeContext priviligeContext;
 
     public AbstractFacade(Class<T> entityClass) {
         this.entityClass = entityClass;
-        //start with minimal priviliges (Standard User)
-        priviligeContext.setPriviligeLevel(6);
+        priviligeContext = new PriviligeContext();
+        priviligeContext.setPriviligeLevel(1);
+
     }
-    
-    public void setPriviligeLevel(Integer level){
+
+    public void setPriviligeLevel(Integer level) {
         priviligeContext.setPriviligeLevel(level);
     }
 
-    private EntityManager getEntityManager(){
-        return priviligeContext.getPrivilige().getEntityManager();
+    private EntityManager getEntityManager() {
+        return priviligeContext.getEntityManager();
     }
 
     public void create(T entity) {
@@ -47,8 +50,8 @@ public abstract class AbstractFacade<T> {
     public void remove(T entity) {
         getEntityManager().remove(getEntityManager().merge(entity));
     }
-    
-    public void merge(T entity){
+
+    public void merge(T entity) {
         getEntityManager().merge(entity);
     }
 
@@ -56,26 +59,30 @@ public abstract class AbstractFacade<T> {
         return getEntityManager().find(entityClass, id);
     }
 
+    public T getReference(Object id) {
+        return getEntityManager().getReference(entityClass, id);
+    }
+
     public List<T> findAll() {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
         return getEntityManager().createQuery(cq).getResultList();
     }
 
     public List<T> findRange(int[] range) {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
-        javax.persistence.Query q = getEntityManager().createQuery(cq);
+        Query q = getEntityManager().createQuery(cq);
         q.setMaxResults(range[1] - range[0] + 1);
         q.setFirstResult(range[0]);
         return q.getResultList();
     }
 
     public int count() {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        javax.persistence.criteria.Root<T> rt = cq.from(entityClass);
+        CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        Root<T> rt = cq.from(entityClass);
         cq.select(getEntityManager().getCriteriaBuilder().count(rt));
-        javax.persistence.Query q = getEntityManager().createQuery(cq);
+        Query q = getEntityManager().createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
     }
 

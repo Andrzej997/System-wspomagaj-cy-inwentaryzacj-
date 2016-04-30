@@ -1,20 +1,9 @@
 package pl.polsl.reservationsdatabasebeanremote.database;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "USERS")
@@ -40,7 +29,7 @@ public class Users implements Serializable {
     @Column(name = "USER_TYPE", updatable = true, insertable = true, nullable = false)
     private short userType;
 
-    @OneToOne(optional = false, targetEntity = Workers.class, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToOne(optional = false, targetEntity = Workers.class, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private Workers workers;
 
     @Column(name = "USERNAME", updatable = true, insertable = true, nullable = false)
@@ -184,10 +173,10 @@ public class Users implements Serializable {
 
     @Override
     public String toString() {
-        return "Users{" + "userId=" + userId + ", password=" + password 
-                + ", reservationsCollection=" + reservationsCollection 
-                + ", priviligeLevel=" + priviligeLevel + ", userType=" 
-                + userType + ", workers=" + workers + ", username=" + username 
+        return "Users{" + "userId=" + userId + ", password=" + password
+                + ", reservationsCollection=" + reservationsCollection
+                + ", priviligeLevel=" + priviligeLevel + ", userType="
+                + userType + ", workers=" + workers + ", username=" + username
                 + ", email=" + email + ", phoneNumber=" + phoneNumber + '}';
     }
 

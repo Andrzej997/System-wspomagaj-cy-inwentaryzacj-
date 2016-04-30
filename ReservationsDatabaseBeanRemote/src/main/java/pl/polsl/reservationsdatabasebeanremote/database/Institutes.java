@@ -1,19 +1,9 @@
 package pl.polsl.reservationsdatabasebeanremote.database;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "INSTITUTES")
@@ -26,7 +16,7 @@ public class Institutes implements Serializable {
     @Column(name = "ID", updatable = true, insertable = true, nullable = false)
     private Long id;
 
-    @OneToMany(targetEntity = Departaments.class, mappedBy = "instituteId", cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = Departaments.class, mappedBy = "instituteId", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Departaments> departamentsCollection;
 
     @Column(name = "INSTITUTE_NAME", updatable = true, insertable = true, nullable = false)

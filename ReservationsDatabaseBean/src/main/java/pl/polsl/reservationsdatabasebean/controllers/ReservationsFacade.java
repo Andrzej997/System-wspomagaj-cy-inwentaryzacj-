@@ -1,18 +1,21 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
-import javax.ejb.Stateful;
 import pl.polsl.reservationsdatabasebeanremote.database.Reservations;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.ReservationsFacadeRemote;
 
+import javax.ejb.Stateful;
+import javax.naming.NamingException;
+
 /**
- *
  * @author matis
  */
-@Stateful
+@Stateful(mappedName = "ReservationsFacade")
 public class ReservationsFacade extends AbstractFacade<Reservations> implements ReservationsFacadeRemote {
 
-    public ReservationsFacade() {
+    private static final long serialVersionUID = 8947630232538216657L;
+
+    public ReservationsFacade() throws NamingException {
         super(Reservations.class);
     }
-    
+
 }

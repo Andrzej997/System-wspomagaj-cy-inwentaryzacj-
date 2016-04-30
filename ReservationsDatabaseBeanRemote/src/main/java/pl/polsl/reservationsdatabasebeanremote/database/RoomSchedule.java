@@ -1,22 +1,10 @@
 package pl.polsl.reservationsdatabasebeanremote.database;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "ROOM_SCHEDULE")
@@ -32,7 +20,7 @@ public class RoomSchedule implements Serializable {
     @Column(name = "WEEK", updatable = true, insertable = true, nullable = true)
     private Integer week;
 
-    @OneToMany(targetEntity = Reservations.class, mappedBy = "roomNumber", cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = Reservations.class, mappedBy = "roomNumber", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Reservations> reservationsCollection;
 
     @Column(name = "SEMESTER", updatable = true, insertable = true, nullable = false)
@@ -86,11 +74,11 @@ public class RoomSchedule implements Serializable {
     }
 
     public Date get_year() {
-        return (Date)this._year.clone();
+        return (Date) this._year.clone();
     }
 
     public void set_year(Date sYear) {
-        this._year = (Date)sYear.clone();
+        this._year = (Date) sYear.clone();
     }
 
     public Room getRoom() {
@@ -159,5 +147,5 @@ public class RoomSchedule implements Serializable {
     public String toString() {
         return "RoomSchedule{" + "id=" + id + ", week=" + week + ", reservationsCollection=" + reservationsCollection + ", semester=" + semester + ", _year=" + _year + ", room=" + room + ", examinationSession=" + examinationSession + '}';
     }
-    
+
 }

@@ -1,18 +1,21 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
-import javax.ejb.Stateful;
 import pl.polsl.reservationsdatabasebeanremote.database.RoomTypes;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomTypesFacadeRemote;
 
+import javax.ejb.Stateful;
+import javax.naming.NamingException;
+
 /**
- *
  * @author matis
  */
-@Stateful
+@Stateful(mappedName = "RoomTypesFacade")
 public class RoomTypesFacade extends AbstractFacade<RoomTypes> implements RoomTypesFacadeRemote {
 
-    public RoomTypesFacade() {
+    private static final long serialVersionUID = 3614381092644979715L;
+
+    public RoomTypesFacade() throws NamingException {
         super(RoomTypes.class);
     }
-    
+
 }

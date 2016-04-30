@@ -1,19 +1,9 @@
 package pl.polsl.reservationsdatabasebeanremote.database;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "WORKERS")
@@ -32,7 +22,9 @@ public class Workers implements Serializable {
     @Column(name = "GRADE", updatable = true, insertable = true, nullable = false, length = 50)
     private String grade;
 
-    @OneToMany(targetEntity = Room.class, mappedBy = "keeperId", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+    @OneToMany(targetEntity = Room.class, mappedBy = "keeperId",
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH}
+            , fetch = FetchType.EAGER)
     private List<Room> roomCollection;
 
     @Column(name = "ADRESS", updatable = true, insertable = true, nullable = false)
@@ -44,14 +36,15 @@ public class Workers implements Serializable {
     @Column(name = "PESEL", unique = true, updatable = true, insertable = true, nullable = false, length = 11)
     private String pesel;
 
-    @ManyToOne(optional = false, targetEntity = Departaments.class, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, targetEntity = Departaments.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "DEPARTAMENT_ID", insertable = true, nullable = false, updatable = true)
     private Departaments departamentId;
 
-    @ManyToOne(optional = true, targetEntity = Room.class)
+    @ManyToOne(optional = true, targetEntity = Room.class, fetch = FetchType.EAGER)
     private Room room;
 
-    @ManyToOne(targetEntity = Workers.class, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.EAGER, optional = true)
+    @ManyToOne(targetEntity = Workers.class,
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.EAGER, optional = true)
     @JoinColumn(updatable = true, nullable = true)
     private Workers chiefId;
 

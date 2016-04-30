@@ -1,18 +1,9 @@
 package pl.polsl.reservationsdatabasebeanremote.database;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "PRIVILIGE_LEVELS")
@@ -24,15 +15,18 @@ public class PriviligeLevels implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "PRIVILIGE_LEVEL", updatable = true, insertable = true, nullable = false)
     private Long priviligeLevel;
-    
-    @ManyToMany(targetEntity = Priviliges.class)
+
+    @ManyToMany(targetEntity = Priviliges.class, fetch = FetchType.EAGER)
+    @JoinTable(name = "PRIVILIGE_MAP", joinColumns = {
+            @JoinColumn(name = "PRIVILIGE_LEVEL", insertable = true, nullable = false, updatable = true)}, inverseJoinColumns = {
+            @JoinColumn(name = "PRIVILIGE_ID", insertable = true, nullable = false, updatable = true)})
     private List<Priviliges> priviligesCollection;
 
     @Column(name = "DESCRIPTION", updatable = true, insertable = true, nullable = true)
     @Lob
     private String description;
 
-    @OneToMany(targetEntity = Users.class, mappedBy = "priviligeLevel", cascade = CascadeType.MERGE)
+    @OneToMany(targetEntity = Users.class, mappedBy = "priviligeLevel", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     private List<Users> usersCollection;
 
     public PriviligeLevels() {
@@ -109,5 +103,5 @@ public class PriviligeLevels implements Serializable {
     public String toString() {
         return "PriviligeLevels{" + "priviligeLevel=" + priviligeLevel + ", priviligesCollection=" + priviligesCollection + ", description=" + description + ", usersCollection=" + usersCollection + '}';
     }
-    
+
 }

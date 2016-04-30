@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-ear" name="InventarisationAndReservationSystemMaven:ear exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/InventarisationAndReservationSystemMaven_ear_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="InventarisationAndReservationSystemMaven/javaeeApplication/javaEEApplication" />
+      <element id="directory" name="ejb.jar">
+        <element id="artifact" artifact-name="InventarisationAndReservationSystemMaven:ejb exploded" />
+      </element>
+    </root>
+  </artifact>
+</component>

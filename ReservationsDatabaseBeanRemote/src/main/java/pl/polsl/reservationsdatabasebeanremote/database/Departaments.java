@@ -1,27 +1,15 @@
 package pl.polsl.reservationsdatabasebeanremote.database;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "DEPARTAMENTS")
 public class Departaments implements Serializable {
 
-    private static final long serialVersionUID = 6165441491842214227L;
+    private static final long serialVersionUID = 61654414912214227L;
 
     @Id
     @Column(name = "ID", updatable = true, insertable = true, nullable = false)
@@ -31,17 +19,17 @@ public class Departaments implements Serializable {
     @Column(name = "DEPRATAMENT_NAME", updatable = true, insertable = true, nullable = false, unique = true)
     private String depratamentName;
 
-    @OneToMany(targetEntity = Room.class, mappedBy = "departamentId", cascade = CascadeType.PERSIST)
+    @OneToMany(targetEntity = Room.class, mappedBy = "departamentId", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private List<Room> roomCollection;
 
-    @ManyToOne(optional = false, targetEntity = Institutes.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "INSTITUTE_ID", insertable = true, nullable = false, unique = false, updatable = true)
+    @ManyToOne(optional = true, targetEntity = Institutes.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "INSTITUTE_ID", insertable = true, nullable = true, unique = false, updatable = true)
     private Institutes instituteId;
 
     @OneToMany(targetEntity = Workers.class, mappedBy = "departamentId", cascade = CascadeType.ALL)
     private List<Workers> workersCollection;
 
-    @OneToOne(targetEntity = Workers.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(targetEntity = Workers.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @PrimaryKeyJoinColumn
     private Workers chiefId;
 
@@ -141,7 +129,7 @@ public class Departaments implements Serializable {
 
     @Override
     public String toString() {
-        return "Departaments{" + "id=" + id + ", depratamentName=" + depratamentName + ", roomCollection=" + roomCollection + ", instituteId=" + instituteId +", chiefId=" + chiefId + ", workersCollection=" + workersCollection + '}';
+        return "Departaments{" + "id=" + id + ", depratamentName=" + depratamentName + ", roomCollection=" + roomCollection + ", instituteId=" + instituteId + ", chiefId=" + chiefId + ", workersCollection=" + workersCollection + '}';
     }
 
 }

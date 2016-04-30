@@ -1,17 +1,9 @@
 package pl.polsl.reservationsdatabasebeanremote.database;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "RESERVATION_TYPES")
@@ -24,7 +16,7 @@ public class ReservationTypes implements Serializable {
     @Column(name = "TYPE_ID", updatable = true, insertable = true, nullable = false)
     private Long typeId;
 
-    @OneToMany(targetEntity = Reservations.class, mappedBy = "reservationType", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(targetEntity = Reservations.class, mappedBy = "reservationType", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Reservations> reservationsCollection;
 
     @Column(name = "TYPE_SHORT_DESCRIPTION", updatable = true, insertable = true, nullable = false)
@@ -108,5 +100,5 @@ public class ReservationTypes implements Serializable {
     public String toString() {
         return "ReservationTypes{" + "typeId=" + typeId + ", reservationsCollection=" + reservationsCollection + ", typeShortDescription=" + typeShortDescription + ", typeLongDescription=" + typeLongDescription + '}';
     }
-    
+
 }

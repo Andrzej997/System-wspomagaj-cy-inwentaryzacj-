@@ -1,16 +1,9 @@
 package pl.polsl.reservationsdatabasebeanremote.database;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "EQUPMENT_STATE")
@@ -23,7 +16,7 @@ public class EqupmentState implements Serializable {
     @Column(name = "STATE_ID", updatable = true, insertable = true, nullable = false)
     private Short stateId;
 
-    @OneToMany(targetEntity = Equipment.class, mappedBy = "equipmentState", cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = Equipment.class, mappedBy = "equipmentState", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Equipment> equipmentCollection;
 
     @Column(name = "STATE_DEFINITION", updatable = true, insertable = true, nullable = false)
@@ -91,5 +84,5 @@ public class EqupmentState implements Serializable {
     public String toString() {
         return "EqupmentState{" + "stateId=" + stateId + ", equipmentCollection=" + equipmentCollection + ", stateDefinition=" + stateDefinition + '}';
     }
-   
+
 }

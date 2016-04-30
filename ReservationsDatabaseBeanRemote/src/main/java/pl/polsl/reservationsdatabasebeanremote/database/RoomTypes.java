@@ -1,17 +1,9 @@
 package pl.polsl.reservationsdatabasebeanremote.database;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "ROOM_TYPES")
@@ -28,7 +20,7 @@ public class RoomTypes implements Serializable {
     @Lob
     private String longDescription;
 
-    @OneToMany(targetEntity = Room.class, mappedBy = "roomType", cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = Room.class, mappedBy = "roomType", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Room> roomCollection;
 
     @Column(name = "SHORT_DESCRIPTION", updatable = true, insertable = true, nullable = false)
@@ -108,5 +100,5 @@ public class RoomTypes implements Serializable {
     public String toString() {
         return "RoomTypes{" + "roomType=" + roomType + ", longDescription=" + longDescription + ", roomCollection=" + roomCollection + ", shortDescription=" + shortDescription + '}';
     }
-    
+
 }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/InventarisationAndReservationSystemMaven.iml" filepath="$PROJECT_DIR$/InventarisationAndReservationSystemMaven.iml" />
+      <module fileurl="file://$PROJECT_DIR$/InventarisationAndReservationSystemMaven-ear/InventarisationAndReservationSystemMaven-ear.iml" filepath="$PROJECT_DIR$/InventarisationAndReservationSystemMaven-ear/InventarisationAndReservationSystemMaven-ear.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ReservationsDatabaseBean/ReservationsDatabaseBean.iml" filepath="$PROJECT_DIR$/ReservationsDatabaseBean/ReservationsDatabaseBean.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ReservationsDatabaseBeanRemote/ReservationsDatabaseBeanRemote.iml" filepath="$PROJECT_DIR$/ReservationsDatabaseBeanRemote/ReservationsDatabaseBeanRemote.iml" />
+    </modules>
+  </component>
+</project>

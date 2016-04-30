@@ -1,20 +1,9 @@
 package pl.polsl.reservationsdatabasebeanremote.database;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "ROOM", uniqueConstraints = @UniqueConstraint(columnNames = {"ROOM_NUMBER"}))
@@ -27,11 +16,8 @@ public class Room implements Serializable {
     @Column(name = "ID", updatable = true, insertable = true, nullable = false)
     private Long id;
 
-    @OneToMany(targetEntity = Workers.class, mappedBy = "room", cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = Workers.class, mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Workers> workers;
-
-    @Column(name = "SCHEDULE", updatable = true, insertable = true)
-    private long schedule;
 
     @Column(name = "ROOM_NUMBER", updatable = true, insertable = true)
     private int roomNumber;
@@ -40,10 +26,10 @@ public class Room implements Serializable {
     @JoinColumn(name = "KEEPER_ID", insertable = true, nullable = true, updatable = true)
     private Workers keeperId;
 
-    @OneToMany(targetEntity = Equipment.class, mappedBy = "roomId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = Equipment.class, mappedBy = "roomId", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Equipment> equipmentCollection;
 
-    @ManyToOne(optional = false, targetEntity = Departaments.class, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, targetEntity = Departaments.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "DEPARTAMENT_ID", insertable = true, nullable = true, updatable = true)
     private Departaments departamentId;
 
@@ -51,7 +37,7 @@ public class Room implements Serializable {
     @JoinColumn(name = "ROOM_TYPE", insertable = true, nullable = true, updatable = true)
     private RoomTypes roomType;
 
-    @OneToMany(targetEntity = RoomSchedule.class, mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = RoomSchedule.class, mappedBy = "room", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<RoomSchedule> roomScheduleCollection;
 
     public Room() {
@@ -64,14 +50,6 @@ public class Room implements Serializable {
 
     public void setWorkerses(List<Workers> workerses) {
         this.workers = workerses;
-    }
-
-    public long getSchedule() {
-        return this.schedule;
-    }
-
-    public void setSchedule(long schedule) {
-        this.schedule = schedule;
     }
 
     public int getRoomNumber() {
@@ -135,7 +113,6 @@ public class Room implements Serializable {
         int hash = 7;
         hash = 97 * hash + Objects.hashCode(this.id);
         hash = 97 * hash + Objects.hashCode(this.workers);
-        hash = 97 * hash + (int) (this.schedule ^ (this.schedule >>> 32));
         hash = 97 * hash + this.roomNumber;
         hash = 97 * hash + Objects.hashCode(this.keeperId);
         hash = 97 * hash + Objects.hashCode(this.equipmentCollection);
@@ -157,9 +134,6 @@ public class Room implements Serializable {
             return false;
         }
         final Room other = (Room) obj;
-        if (this.schedule != other.schedule) {
-            return false;
-        }
         if (this.roomNumber != other.roomNumber) {
             return false;
         }
@@ -186,7 +160,7 @@ public class Room implements Serializable {
 
     @Override
     public String toString() {
-        return "Room{" + "id=" + id + ", workers=" + workers + ", schedule=" + schedule + ", roomNumber=" + roomNumber + ", keeperId=" + keeperId + ", equipmentCollection=" + equipmentCollection + ", departamentId=" + departamentId + ", roomType=" + roomType + ", roomScheduleCollection=" + roomScheduleCollection + '}';
+        return "Room{" + "id=" + id + ", workers=" + workers + ", roomNumber=" + roomNumber + ", keeperId=" + keeperId + ", equipmentCollection=" + equipmentCollection + ", departamentId=" + departamentId + ", roomType=" + roomType + ", roomScheduleCollection=" + roomScheduleCollection + '}';
     }
-    
+
 }

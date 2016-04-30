@@ -1,18 +1,21 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
-import javax.ejb.Stateful;
 import pl.polsl.reservationsdatabasebeanremote.database.PriviligeLevels;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.PriviligeLevelsFacadeRemote;
 
+import javax.ejb.Stateful;
+import javax.naming.NamingException;
+
 /**
- *
  * @author matis
  */
-@Stateful
+@Stateful(mappedName = "PriviligeLevelsFacade")
 public class PriviligeLevelsFacade extends AbstractFacade<PriviligeLevels> implements PriviligeLevelsFacadeRemote {
 
-    public PriviligeLevelsFacade() {
+    private static final long serialVersionUID = 940693942951656679L;
+
+    public PriviligeLevelsFacade() throws NamingException {
         super(PriviligeLevels.class);
     }
-    
+
 }

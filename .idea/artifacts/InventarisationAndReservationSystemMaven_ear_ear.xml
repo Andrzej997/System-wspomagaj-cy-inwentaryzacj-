@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="ear" name="InventarisationAndReservationSystemMaven-ear:ear">
+    <output-path>$PROJECT_DIR$/InventarisationAndReservationSystemMaven-ear/target</output-path>
+    <root id="archive" name="InventarisationAndReservationSystemMaven-ear-0.7.ear">
+      <element id="artifact" artifact-name="InventarisationAndReservationSystemMaven-ear:ear exploded" />
+    </root>
+  </artifact>
+</component>

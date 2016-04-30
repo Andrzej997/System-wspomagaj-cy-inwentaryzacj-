@@ -1,22 +1,21 @@
 package pl.polsl.reservationsdatabasebean.context;
 
-import javax.ejb.Stateful;
+import pl.polsl.reservationsdatabasebeanremote.database.context.IPrivilige;
+
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
- *
  * @author matis
  */
-@Stateful
-public class AdminPrivilige implements IPrivilige{
+public class AdminPrivilige implements IPrivilige {
 
-    @PersistenceContext(unitName = "ReservationAdminPU")
-    EntityManager entityManager;
-    
+    private static final EntityManagerFactory EMF = Persistence.createEntityManagerFactory("ReservationAdminPU");
+
     @Override
     public EntityManager getEntityManager() {
-        return entityManager;
+        return EMF.createEntityManager();
     }
-    
+
 }

@@ -1,19 +1,9 @@
 package pl.polsl.reservationsdatabasebeanremote.database;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "PRIVILIGES")
@@ -30,10 +20,10 @@ public class Priviliges implements Serializable {
     @Lob
     private String description;
 
-    @ManyToMany(targetEntity = PriviligeLevels.class, cascade = CascadeType.ALL)
+    @ManyToMany(targetEntity = PriviligeLevels.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "PRIVILIGE_MAP", joinColumns = {
-        @JoinColumn(name = "PRIVILIGE_ID", insertable = true, nullable = false, updatable = true)}, inverseJoinColumns = {
-        @JoinColumn(name = "PRIVILIGE_LEVEL", insertable = true, nullable = false, updatable = true)})
+            @JoinColumn(name = "PRIVILIGE_ID", insertable = true, nullable = false, updatable = true)}, inverseJoinColumns = {
+            @JoinColumn(name = "PRIVILIGE_LEVEL", insertable = true, nullable = false, updatable = true)})
     private List<PriviligeLevels> priviligeLevelsCollection;
 
     @Column(name = "PRIVILEGE_NAME", updatable = true, insertable = true, nullable = false)
@@ -113,5 +103,5 @@ public class Priviliges implements Serializable {
     public String toString() {
         return "Priviliges{" + "priviligeId=" + priviligeId + ", description=" + description + ", priviligeLevelsCollection=" + priviligeLevelsCollection + ", privilegeName=" + privilegeName + '}';
     }
-    
+
 }
