@@ -22,9 +22,22 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="InventarisationAndReservationSystemMaven-ear" />
-        <module name="ReservationsDatabaseBean" />
         <module name="ReservationsDatabaseBeanRemote" />
+        <module name="test-client" />
+      </profile>
+      <profile default="false" name="Annotation profile for InventarisationAndReservationSystemMaven-ear" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="InventarisationAndReservationSystemMaven-ear" />
+      </profile>
+      <profile default="false" name="Annotation profile for ReservationsDatabaseBean" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="ReservationsDatabaseBean" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -32,6 +45,7 @@
       <module name="InventarisationAndReservationSystemMaven-ear" target="1.7" />
       <module name="ReservationsDatabaseBean" target="1.7" />
       <module name="ReservationsDatabaseBeanRemote" target="1.8" />
+      <module name="test-client" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

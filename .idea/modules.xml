@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/InventarisationAndReservationSystemMaven-ear/InventarisationAndReservationSystemMaven-ear.iml" filepath="$PROJECT_DIR$/InventarisationAndReservationSystemMaven-ear/InventarisationAndReservationSystemMaven-ear.iml" />
       <module fileurl="file://$PROJECT_DIR$/ReservationsDatabaseBean/ReservationsDatabaseBean.iml" filepath="$PROJECT_DIR$/ReservationsDatabaseBean/ReservationsDatabaseBean.iml" />
       <module fileurl="file://$PROJECT_DIR$/ReservationsDatabaseBeanRemote/ReservationsDatabaseBeanRemote.iml" filepath="$PROJECT_DIR$/ReservationsDatabaseBeanRemote/ReservationsDatabaseBeanRemote.iml" />
+      <module fileurl="file://$PROJECT_DIR$/test-client/test-client.iml" filepath="$PROJECT_DIR$/test-client/test-client.iml" />
     </modules>
   </component>
 </project>

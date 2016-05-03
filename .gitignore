@@ -1,0 +1,6 @@
+.idea/
+test-client/target/
+*.iml
+ReservationsDatabaseBeanRemote/target/
+ReservationsDatabaseBean/target/
+InventarisationAndReservationSystemMaven-ear/target/
