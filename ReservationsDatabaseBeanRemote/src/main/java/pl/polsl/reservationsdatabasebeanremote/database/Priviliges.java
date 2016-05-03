@@ -99,9 +99,4 @@ public class Priviliges implements Serializable {
         return Objects.equals(this.priviligeLevelsCollection, other.priviligeLevelsCollection);
     }
 
-    @Override
-    public String toString() {
-        return "Priviliges{" + "priviligeId=" + priviligeId + ", description=" + description + ", priviligeLevelsCollection=" + priviligeLevelsCollection + ", privilegeName=" + privilegeName + '}';
-    }
-
 }

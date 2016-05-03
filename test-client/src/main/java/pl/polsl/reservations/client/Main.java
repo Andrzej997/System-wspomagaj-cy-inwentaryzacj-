@@ -16,7 +16,7 @@ public class Main {
      */
     public static void main(String[] args) {
         Lookup l = new Lookup();
-        UsersFacadeRemote usersFacadeRemote = (UsersFacadeRemote) l.getRemote("pl.polsl.reservationsdatabasebeanremote.database.controllers.UsersFacadeRemote");
+        UsersFacadeRemote usersFacadeRemote = (UsersFacadeRemote) l.getRemote("UsersFacade");
         RoomFacadeRemote roomFacadeRemote = (RoomFacadeRemote) l.getRemote("RoomFacade");
         DepartamentsFacadeRemote departamentsFacadeRemote = (DepartamentsFacadeRemote) l.getRemote("DepartamentsFacade");
         EquipmentFacadeRemote equipmentFacadeRemote = (EquipmentFacadeRemote) l.getRemote("EquipmentFacade");
