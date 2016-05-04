@@ -18,7 +18,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>ReservationsDatabaseBean</artifactId>
+            <artifactId>ReservationsDatabaseBeanRemote</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

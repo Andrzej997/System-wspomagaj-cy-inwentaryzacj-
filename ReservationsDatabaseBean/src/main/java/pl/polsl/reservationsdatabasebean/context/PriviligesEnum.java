@@ -1,5 +1,7 @@
 package pl.polsl.reservationsdatabasebean.context;
 
+import pl.polsl.reservationsdatabasebeanremote.database.context.IPrivilige;
+
 /**
  * @author matis
  */
