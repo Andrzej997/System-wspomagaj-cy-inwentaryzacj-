@@ -1,9 +1,11 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
+import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
 import pl.polsl.reservationsdatabasebeanremote.database.Departaments;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.DepartamentsFacadeRemote;
 
 import javax.ejb.Stateful;
+import javax.interceptor.Interceptors;
 import javax.naming.NamingException;
 import javax.persistence.Query;
 import java.util.List;
@@ -11,6 +13,7 @@ import java.util.List;
 /**
  * @author matis
  */
+//@Interceptors({LoggerImpl.class})
 @Stateful(mappedName = "DepartamentsFacade")
 public class DepartamentsFacade extends AbstractFacade<Departaments> implements DepartamentsFacadeRemote {
 

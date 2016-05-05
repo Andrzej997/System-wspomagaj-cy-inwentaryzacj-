@@ -26,8 +26,8 @@ public class Equipment implements Serializable {
     @JoinColumn(name = "EQUIPMENT_TYPE", insertable = true, nullable = false, updatable = true)
     private EquipmentType equipmentType;
 
-    @Column(name = "EQUIPMENT_DATA", updatable = true, insertable = true, nullable = false)
-    private String equipmentData;
+    @Column(name = "QUANTITY", updatable = true, insertable = true, nullable = false)
+    private Integer quantity;
 
     @Column(name = "EQUIPMENT_NAME", updatable = true, insertable = true, nullable = false)
     private String equipmentName;
@@ -46,14 +46,6 @@ public class Equipment implements Serializable {
 
     public void setEquipmentState(EqupmentState equipmentState) {
         this.equipmentState = equipmentState;
-    }
-
-    public String getEquipmentData() {
-        return this.equipmentData;
-    }
-
-    public void setEquipmentData(String equipmentData) {
-        this.equipmentData = equipmentData;
     }
 
     public String getEquipmentName() {
@@ -88,4 +80,11 @@ public class Equipment implements Serializable {
         this.roomId = roomId;
     }
 
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
 }

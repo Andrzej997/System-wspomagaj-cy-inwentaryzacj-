@@ -32,9 +32,6 @@ public class Users implements Serializable {
     @JoinColumn(name = "PRIVILIGE_LEVEL", insertable = true, nullable = true, updatable = true)
     private PriviligeLevels priviligeLevel;
 
-    @Column(name = "USER_TYPE", updatable = true, insertable = true, nullable = false)
-    private short userType;
-
     @OneToOne(optional = false, targetEntity = Workers.class, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private Workers workers;
 
@@ -73,14 +70,6 @@ public class Users implements Serializable {
 
     public void setPriviligeLevel(PriviligeLevels priviligeLevel) {
         this.priviligeLevel = priviligeLevel;
-    }
-
-    public short getUserType() {
-        return this.userType;
-    }
-
-    public void setUserType(short userType) {
-        this.userType = userType;
     }
 
     public Long getUserId() {
