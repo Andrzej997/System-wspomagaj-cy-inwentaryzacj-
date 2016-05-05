@@ -1,6 +1,7 @@
 package pl.polsl.reservationsdatabasebeanremote.database.controllers;
 
 import pl.polsl.reservationsdatabasebeanremote.database.Users;
+import pl.polsl.reservationsdatabasebeanremote.database.Workers;
 
 import javax.ejb.Remote;
 import java.util.List;
@@ -33,4 +34,11 @@ public interface UsersFacadeRemote {
 
     public List<Users> findEntity(List<String> columnNames, List<Object> values);
 
+    Boolean validateUser(String username, String password);
+
+    Boolean validateUserByEmail(String email, String password);
+
+    Long getUserPrivligeLevelByUsername(String username);
+
+    Workers getWorkerByUsername(String username);
 }

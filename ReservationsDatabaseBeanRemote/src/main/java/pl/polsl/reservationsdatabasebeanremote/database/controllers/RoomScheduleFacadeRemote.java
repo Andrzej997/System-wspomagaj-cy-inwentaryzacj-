@@ -33,4 +33,11 @@ public interface RoomScheduleFacadeRemote {
 
     public List<RoomSchedule> findEntity(List<String> columnNames, List<Object> values);
 
+    List<RoomSchedule> getAllSchedulesByYearAndSemester(int year, boolean semester);
+
+    List<RoomSchedule> getAllSchedulesAtSession(int year, boolean semester);
+
+    RoomSchedule getCurrentDateSchedule(int year, int week);
+
+    RoomSchedule getCurrentScheduleForRoom(int roomNumber);
 }

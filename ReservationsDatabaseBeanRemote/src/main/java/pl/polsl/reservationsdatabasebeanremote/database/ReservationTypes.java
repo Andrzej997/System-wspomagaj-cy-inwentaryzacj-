@@ -62,43 +62,4 @@ public class ReservationTypes implements Serializable {
         this.typeLongDescription = typeLongDescription;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 89 * hash + Objects.hashCode(this.typeId);
-        hash = 89 * hash + Objects.hashCode(this.reservationsCollection);
-        hash = 89 * hash + Objects.hashCode(this.typeShortDescription);
-        hash = 89 * hash + Objects.hashCode(this.typeLongDescription);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final ReservationTypes other = (ReservationTypes) obj;
-        if (!Objects.equals(this.typeShortDescription, other.typeShortDescription)) {
-            return false;
-        }
-        if (!Objects.equals(this.typeLongDescription, other.typeLongDescription)) {
-            return false;
-        }
-        if (!Objects.equals(this.typeId, other.typeId)) {
-            return false;
-        }
-        return Objects.equals(this.reservationsCollection, other.reservationsCollection);
-    }
-
-    @Override
-    public String toString() {
-        return "ReservationTypes{" + "typeId=" + typeId + ", reservationsCollection=" + reservationsCollection + ", typeShortDescription=" + typeShortDescription + ", typeLongDescription=" + typeLongDescription + '}';
-    }
-
 }

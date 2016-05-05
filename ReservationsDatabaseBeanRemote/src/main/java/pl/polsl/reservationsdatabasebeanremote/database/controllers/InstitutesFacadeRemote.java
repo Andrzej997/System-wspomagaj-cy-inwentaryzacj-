@@ -33,4 +33,7 @@ public interface InstitutesFacadeRemote {
 
     public List<Institutes> findEntity(List<String> columnNames, List<Object> values);
 
+    Institutes getInstituteByName(String name);
+
+    Institutes getInstituteByChiefId(Long chiefId);
 }

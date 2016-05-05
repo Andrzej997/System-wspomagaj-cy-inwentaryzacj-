@@ -31,6 +31,11 @@ public interface DepartamentsFacadeRemote {
 
     int count();
 
-    public List<Departaments> findEntity(List<String> columnNames, List<Object> values);
+    List<Departaments> findEntity(List<String> columnNames, List<Object> values);
 
+    Departaments getDepartamentByName(String name);
+
+    List<Departaments> findDepartametsHavingWorkers();
+
+    Departaments getDepartamentByChiefId(Long chiefId);
 }

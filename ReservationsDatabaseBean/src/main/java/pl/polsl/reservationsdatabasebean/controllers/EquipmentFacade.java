@@ -5,6 +5,8 @@ import pl.polsl.reservationsdatabasebeanremote.database.controllers.EquipmentFac
 
 import javax.ejb.Stateful;
 import javax.naming.NamingException;
+import javax.persistence.Query;
+import java.util.List;
 
 /**
  * @author matis
@@ -18,4 +20,10 @@ public class EquipmentFacade extends AbstractFacade<Equipment> implements Equipm
         super(Equipment.class);
     }
 
+    @Override
+    public List<Equipment> getEquipmentByRoomNumber(int roomNumber){
+        Query query = getEntityManager().createNamedQuery("getEquipmentByRoomNumber", Equipment.class);
+        query.setParameter("roomNumber", roomNumber);
+        return query.getResultList();
+    }
 }

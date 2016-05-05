@@ -5,6 +5,12 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
+@NamedQueries({
+        @NamedQuery(name = "getDepartamentByName", query = "select d from Departaments d where d.depratamentName like :name"),
+        @NamedQuery(name = "findDepartametsHavingWorkers", query = "select d from Departaments d where d.workersCollection is not empty"),
+        @NamedQuery(name = "getDepartamentByChiefId", query = "select d from Departaments d where d.chiefId.id = :id")
+})
+
 @Entity
 @Table(name = "DEPARTAMENTS")
 public class Departaments implements Serializable {
@@ -83,53 +89,6 @@ public class Departaments implements Serializable {
 
     public void setChiefId(Workers chiefId) {
         this.chiefId = chiefId;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 89 * hash + Objects.hashCode(this.id);
-        hash = 89 * hash + Objects.hashCode(this.depratamentName);
-        hash = 89 * hash + Objects.hashCode(this.roomCollection);
-        hash = 89 * hash + Objects.hashCode(this.instituteId);
-        hash = 89 * hash + Objects.hashCode(this.chiefId);
-        hash = 89 * hash + Objects.hashCode(this.workersCollection);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Departaments other = (Departaments) obj;
-        if (!Objects.equals(this.depratamentName, other.depratamentName)) {
-            return false;
-        }
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        if (!Objects.equals(this.roomCollection, other.roomCollection)) {
-            return false;
-        }
-        if (!Objects.equals(this.instituteId, other.instituteId)) {
-            return false;
-        }
-        if (!Objects.equals(this.chiefId, other.chiefId)) {
-            return false;
-        }
-        return Objects.equals(this.workersCollection, other.workersCollection);
-    }
-
-    @Override
-    public String toString() {
-        return "Departaments{" + "id=" + id + ", depratamentName=" + depratamentName + ", roomCollection=" + roomCollection + ", instituteId=" + instituteId + ", chiefId=" + chiefId + ", workersCollection=" + workersCollection + '}';
     }
 
 }

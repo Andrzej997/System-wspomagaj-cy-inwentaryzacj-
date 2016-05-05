@@ -5,6 +5,7 @@ import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomFacadeRe
 
 import javax.ejb.Stateful;
 import javax.naming.NamingException;
+import javax.persistence.Query;
 
 /**
  * @author matis
@@ -18,4 +19,10 @@ public class RoomFacade extends AbstractFacade<Room> implements RoomFacadeRemote
         super(Room.class);
     }
 
+    @Override
+    public Room getRoomByNumber(int number){
+        Query query = getEntityManager().createNamedQuery("getRoomByNumber", Room.class);
+        query.setParameter("roomNumber", number);
+        return (Room)query.getSingleResult();
+    }
 }

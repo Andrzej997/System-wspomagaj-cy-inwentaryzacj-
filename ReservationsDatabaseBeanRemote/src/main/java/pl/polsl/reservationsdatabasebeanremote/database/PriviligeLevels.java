@@ -65,38 +65,4 @@ public class PriviligeLevels implements Serializable {
         this.usersCollection = usersCollection;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 79 * hash + Objects.hashCode(this.priviligeLevel);
-        hash = 79 * hash + Objects.hashCode(this.priviligesCollection);
-        hash = 79 * hash + Objects.hashCode(this.description);
-        hash = 79 * hash + Objects.hashCode(this.usersCollection);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final PriviligeLevels other = (PriviligeLevels) obj;
-        if (!Objects.equals(this.description, other.description)) {
-            return false;
-        }
-        if (!Objects.equals(this.priviligeLevel, other.priviligeLevel)) {
-            return false;
-        }
-        if (!Objects.equals(this.priviligesCollection, other.priviligesCollection)) {
-            return false;
-        }
-        return Objects.equals(this.usersCollection, other.usersCollection);
-    }
-
 }

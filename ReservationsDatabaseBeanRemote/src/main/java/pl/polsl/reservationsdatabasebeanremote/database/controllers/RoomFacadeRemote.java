@@ -33,4 +33,5 @@ public interface RoomFacadeRemote {
 
     public List<Room> findEntity(List<String> columnNames, List<Object> values);
 
+    Room getRoomByNumber(int number);
 }

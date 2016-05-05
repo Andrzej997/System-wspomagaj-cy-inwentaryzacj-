@@ -1,6 +1,7 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
 import pl.polsl.reservationsdatabasebean.context.PriviligeContext;
+import pl.polsl.reservationsdatabasebeanremote.database.Reservations;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -35,7 +36,7 @@ public abstract class AbstractFacade<T> implements Serializable {
         priviligeContext.setPriviligeLevel(level);
     }
 
-    private EntityManager getEntityManager() {
+    protected EntityManager getEntityManager() {
         return priviligeContext.getEntityManager();
     }
 
@@ -101,4 +102,5 @@ public abstract class AbstractFacade<T> implements Serializable {
         List<T> resultList = query.getResultList();
         return resultList;
     }
+
 }

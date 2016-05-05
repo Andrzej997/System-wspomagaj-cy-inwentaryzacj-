@@ -4,6 +4,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
+@NamedQueries({@NamedQuery(name = "getRoomByNumber", query = "select r from Room  r where r.roomNumber = :roomNumber")
+                })
 
 @Entity
 @Table(name = "ROOM", uniqueConstraints = @UniqueConstraint(columnNames = {"ROOM_NUMBER"}))
@@ -106,61 +108,6 @@ public class Room implements Serializable {
 
     public void setRoomScheduleCollection(List<RoomSchedule> roomScheduleCollection) {
         this.roomScheduleCollection = roomScheduleCollection;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 97 * hash + Objects.hashCode(this.id);
-        hash = 97 * hash + Objects.hashCode(this.workers);
-        hash = 97 * hash + this.roomNumber;
-        hash = 97 * hash + Objects.hashCode(this.keeperId);
-        hash = 97 * hash + Objects.hashCode(this.equipmentCollection);
-        hash = 97 * hash + Objects.hashCode(this.departamentId);
-        hash = 97 * hash + Objects.hashCode(this.roomType);
-        hash = 97 * hash + Objects.hashCode(this.roomScheduleCollection);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Room other = (Room) obj;
-        if (this.roomNumber != other.roomNumber) {
-            return false;
-        }
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        if (!Objects.equals(this.workers, other.workers)) {
-            return false;
-        }
-        if (!Objects.equals(this.keeperId, other.keeperId)) {
-            return false;
-        }
-        if (!Objects.equals(this.equipmentCollection, other.equipmentCollection)) {
-            return false;
-        }
-        if (!Objects.equals(this.departamentId, other.departamentId)) {
-            return false;
-        }
-        if (!Objects.equals(this.roomType, other.roomType)) {
-            return false;
-        }
-        return Objects.equals(this.roomScheduleCollection, other.roomScheduleCollection);
-    }
-
-    @Override
-    public String toString() {
-        return "Room{" + "id=" + id + ", workers=" + workers + ", roomNumber=" + roomNumber + ", keeperId=" + keeperId + ", equipmentCollection=" + equipmentCollection + ", departamentId=" + departamentId + ", roomType=" + roomType + ", roomScheduleCollection=" + roomScheduleCollection + '}';
     }
 
 }
