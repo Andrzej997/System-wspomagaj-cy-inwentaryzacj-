@@ -8,5 +8,5 @@ import javax.ejb.Remote;
 @Remote
 public interface UserFacadeRemote {
 
-    String getUser();
+    int getUser();
 }

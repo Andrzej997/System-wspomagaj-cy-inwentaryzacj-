@@ -17,8 +17,8 @@ public class UserFacade implements UserFacadeRemote {
     ReservationsFacadeRemote reservation;
 
     @Override
-    public String getUser() {
+    public int getUser() {
         List<Reservations> list =  reservation.findAll();
-        return "asdasd";
+        return list.size();
     }
 }

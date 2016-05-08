@@ -16,7 +16,7 @@ import java.util.List;
  * @author matis
  */
 //@Interceptors({LoggerImpl.class})
-@Stateful(mappedName = "ReservationsFacade")
+@Stateful
 public class ReservationsFacade extends AbstractFacade<Reservations> implements ReservationsFacadeRemote {
 
     private static final long serialVersionUID = 8947630232538216657L;

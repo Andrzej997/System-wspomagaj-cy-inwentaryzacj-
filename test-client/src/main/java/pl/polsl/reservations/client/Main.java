@@ -20,7 +20,7 @@ public class Main {
         Lookup l = new Lookup();
 
         UserFacadeRemote test = (UserFacadeRemote) l.getRemote("UserFacade");
-        String s = test.getUser();
+        int s = test.getUser();
 
 
         UsersFacadeRemote usersFacadeRemote = (UsersFacadeRemote) l.getRemote("UsersFacade");
