@@ -62,12 +62,14 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeRem
         return (Workers) query.getSingleResult();
     }
     
+    @Override
     public Users getUserByUsername(String username){
         Query query = this.getEntityManager().createNamedQuery("getUserByUsername", Users.class);
         query.setParameter("username", username);
         return (Users) query.getSingleResult();
     }
     
+    @Override
     public Users getUserByEmail(String email){
         Query query = this.getEntityManager().createNamedQuery("getUserByEmail", Users.class);
         query.setParameter("email", email);

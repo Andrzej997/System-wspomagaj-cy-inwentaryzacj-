@@ -32,7 +32,7 @@ public interface UsersFacadeRemote {
 
     int count();
 
-    public List<Users> findEntity(List<String> columnNames, List<Object> values);
+    List<Users> findEntity(List<String> columnNames, List<Object> values);
 
     Boolean validateUser(String username, String password);
 
@@ -41,4 +41,8 @@ public interface UsersFacadeRemote {
     Long getUserPrivligeLevelByUsername(String username);
 
     Workers getWorkerByUsername(String username);
+
+    Users getUserByUsername(String username);
+
+    Users getUserByEmail(String email);
 }
