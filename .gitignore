@@ -9,3 +9,5 @@ ejb/user/target//remoteClient2/target/
 /ReservationsTestClient/nbproject/private/
 /ReservationsTestClient/build/
 /ReservationsTestClient/dist/
+ejb/user/target/user-0.7/pl/polsl/reservations/user/UserFacade.class
+ejb/user/target/
