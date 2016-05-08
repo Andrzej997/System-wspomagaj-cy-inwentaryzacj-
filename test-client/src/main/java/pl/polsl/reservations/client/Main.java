@@ -2,6 +2,8 @@ package pl.polsl.reservations.client;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import pl.polsl.reservations.user.UserFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.*;
 import pl.polsl.reservationsdatabasebeanremote.database.*;
 
@@ -16,6 +18,11 @@ public class Main {
      */
     public static void main(String[] args) {
         Lookup l = new Lookup();
+
+        UserFacadeRemote test = (UserFacadeRemote) l.getRemote("UserFacade");
+        String s = test.getUser();
+
+
         UsersFacadeRemote usersFacadeRemote = (UsersFacadeRemote) l.getRemote("UsersFacade");
         RoomFacadeRemote roomFacadeRemote = (RoomFacadeRemote) l.getRemote("RoomFacade");
         DepartamentsFacadeRemote departamentsFacadeRemote = (DepartamentsFacadeRemote) l.getRemote("DepartamentsFacade");

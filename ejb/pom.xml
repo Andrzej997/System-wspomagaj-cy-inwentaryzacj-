@@ -17,5 +17,13 @@
         <module>reservations-root</module>
     </modules>
 
+    <dependencies>
+        <dependency>
+            <groupId>pl.polsl</groupId>
+            <artifactId>ReservationsDatabaseBeanRemote</artifactId>
+            <version>0.7</version>
+        </dependency>
+    </dependencies>
+
 
 </project>
