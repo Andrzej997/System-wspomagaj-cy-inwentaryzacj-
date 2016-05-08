@@ -11,7 +11,8 @@
         <module>test-client</module>
         <module>ReservationsDatabaseBean</module>
         <module>ReservationsDatabaseBeanRemote</module>
-		<module>ejb</module>		<module>ReservationsTestClient</module>    </modules>
+	<module>ejb</module>
+    </modules>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>

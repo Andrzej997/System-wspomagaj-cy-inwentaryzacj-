@@ -2,8 +2,8 @@ package pl.polsl.reservations.client;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import pl.polsl.reservations.user.UserFacadeRemote;
+
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.*;
 import pl.polsl.reservationsdatabasebeanremote.database.*;
 
