@@ -4,3 +4,5 @@ test-client/target/
 ReservationsDatabaseBeanRemote/target/
 ReservationsDatabaseBean/target/
 InventarisationAndReservationSystemMaven-ear/target/
+ejb/reservations-root/target/
+ejb/user/target/
