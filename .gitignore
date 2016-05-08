@@ -5,4 +5,7 @@ ReservationsDatabaseBeanRemote/target/
 ReservationsDatabaseBean/target/
 InventarisationAndReservationSystemMaven-ear/target/
 ejb/reservations-root/target/
-ejb/user/target/
+ejb/user/target//remoteClient2/target/
+/ReservationsTestClient/nbproject/private/
+/ReservationsTestClient/build/
+/ReservationsTestClient/dist/
