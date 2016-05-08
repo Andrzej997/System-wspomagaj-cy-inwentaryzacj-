@@ -4,6 +4,13 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+@NamedQueries({
+        @NamedQuery(name = "getAllReservationsByRoomSchedule", query = "select r from Reservations  r where r.roomNumber = :roomSchedule"),
+        @NamedQuery(name = "getAllWeekReservations", query = "select r from Reservations  r where r.roomNumber.week = :week and r.roomNumber._year = :year"),
+        @NamedQuery(name = "getAllReservationsByType", query = "select r from Reservations r where r.reservationType.id = :typeId"),
+        @NamedQuery(name = "getAllReservationsByUser", query = "select r from Reservations r where r.userId.id = :userId")
+})
+
 @Entity
 @Table(name = "RESERVATIONS")
 public class Reservations implements Serializable {
@@ -83,53 +90,6 @@ public class Reservations implements Serializable {
 
     public void setUserId(Users userId) {
         this.userId = userId;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 79 * hash + Objects.hashCode(this.id);
-        hash = 79 * hash + Objects.hashCode(this.roomNumber);
-        hash = 79 * hash + Objects.hashCode(this.reservationType);
-        hash = 79 * hash + this.startTime;
-        hash = 79 * hash + this.endTime;
-        hash = 79 * hash + Objects.hashCode(this.userId);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Reservations other = (Reservations) obj;
-        if (this.startTime != other.startTime) {
-            return false;
-        }
-        if (this.endTime != other.endTime) {
-            return false;
-        }
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        if (!Objects.equals(this.roomNumber, other.roomNumber)) {
-            return false;
-        }
-        if (!Objects.equals(this.reservationType, other.reservationType)) {
-            return false;
-        }
-        return Objects.equals(this.userId, other.userId);
-    }
-
-    @Override
-    public String toString() {
-        return "Reservations{" + "id=" + id + ", roomNumber=" + roomNumber + ", reservationType=" + reservationType + ", startTime=" + startTime + ", endTime=" + endTime + ", userId=" + userId + '}';
     }
 
 }

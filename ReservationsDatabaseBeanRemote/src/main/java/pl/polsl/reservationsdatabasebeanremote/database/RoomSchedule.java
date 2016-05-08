@@ -6,6 +6,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+@NamedQueries({@NamedQuery(name = "getAllSchedulesByYearAndSemester", query = "select rs from RoomSchedule rs where rs.semester = :semester and rs._year = :year "),
+                @NamedQuery(name = "getAllSchedulesAtSession", query = "select rs from RoomSchedule rs where rs.semester = :semester and rs._year = :year and rs.examinationSession = true "),
+                @NamedQuery(name = "getCurrentDateSchedule", query = "select rs from RoomSchedule  rs where rs._year = :year and rs.week = :week"),
+                @NamedQuery(name = "getCurrentScheduleForRoom", query = "select rs from RoomSchedule rs where rs = :RoomSchedule and rs.room.roomNumber = :roomNumber")
+
+})
 @Entity
 @Table(name = "ROOM_SCHEDULE")
 public class RoomSchedule implements Serializable {
@@ -95,57 +101,6 @@ public class RoomSchedule implements Serializable {
 
     public void setExaminationSession(Boolean examinationSession) {
         this.examinationSession = examinationSession;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 83 * hash + Objects.hashCode(this.id);
-        hash = 83 * hash + Objects.hashCode(this.week);
-        hash = 83 * hash + Objects.hashCode(this.reservationsCollection);
-        hash = 83 * hash + Objects.hashCode(this.semester);
-        hash = 83 * hash + Objects.hashCode(this._year);
-        hash = 83 * hash + Objects.hashCode(this.room);
-        hash = 83 * hash + Objects.hashCode(this.examinationSession);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final RoomSchedule other = (RoomSchedule) obj;
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        if (!Objects.equals(this.week, other.week)) {
-            return false;
-        }
-        if (!Objects.equals(this.reservationsCollection, other.reservationsCollection)) {
-            return false;
-        }
-        if (!Objects.equals(this.semester, other.semester)) {
-            return false;
-        }
-        if (!Objects.equals(this._year, other._year)) {
-            return false;
-        }
-        if (!Objects.equals(this.room, other.room)) {
-            return false;
-        }
-        return Objects.equals(this.examinationSession, other.examinationSession);
-    }
-
-    @Override
-    public String toString() {
-        return "RoomSchedule{" + "id=" + id + ", week=" + week + ", reservationsCollection=" + reservationsCollection + ", semester=" + semester + ", _year=" + _year + ", room=" + room + ", examinationSession=" + examinationSession + '}';
     }
 
 }

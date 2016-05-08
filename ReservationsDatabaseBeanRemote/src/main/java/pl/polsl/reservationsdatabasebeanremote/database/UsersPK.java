@@ -31,32 +31,4 @@ public class UsersPK implements Serializable {
         this.workers = workers;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 59 * hash + Objects.hashCode(this.userId);
-        hash = 59 * hash + Objects.hashCode(this.workers);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final UsersPK other = (UsersPK) obj;
-        if (!Objects.equals(this.userId, other.userId)) {
-            return false;
-        }
-        return Objects.equals(this.workers, other.workers);
-    }
-
-    @Override
-    public String toString() {
-        return "UsersPK{" + "userId=" + userId + ", workers=" + workers + '}';
-    }
-
 }

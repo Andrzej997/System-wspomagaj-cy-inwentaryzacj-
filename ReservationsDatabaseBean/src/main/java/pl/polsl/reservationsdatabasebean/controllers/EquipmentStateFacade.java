@@ -1,14 +1,17 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
+import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
 import pl.polsl.reservationsdatabasebeanremote.database.EqupmentState;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.EquipmentStateFacadeRemote;
 
 import javax.ejb.Stateful;
+import javax.interceptor.Interceptors;
 import javax.naming.NamingException;
 
 /**
  * @author matis
  */
+//@Interceptors({LoggerImpl.class})
 @Stateful(mappedName = "EquipmentStateFacade")
 public class EquipmentStateFacade extends AbstractFacade<EqupmentState> implements EquipmentStateFacadeRemote {
 

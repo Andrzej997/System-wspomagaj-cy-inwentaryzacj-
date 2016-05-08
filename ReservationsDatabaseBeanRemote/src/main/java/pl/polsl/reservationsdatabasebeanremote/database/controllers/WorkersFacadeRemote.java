@@ -1,5 +1,7 @@
 package pl.polsl.reservationsdatabasebeanremote.database.controllers;
 
+import pl.polsl.reservationsdatabasebeanremote.database.Departaments;
+import pl.polsl.reservationsdatabasebeanremote.database.Room;
 import pl.polsl.reservationsdatabasebeanremote.database.Workers;
 
 import javax.ejb.Remote;
@@ -33,4 +35,21 @@ public interface WorkersFacadeRemote {
 
     public List<Workers> findEntity(List<String> columnNames, List<Object> values);
 
+    List<Workers> getWorkersByName(String workerName);
+
+    List<Workers> getWorkersBySurname(String surname);
+
+    List<Workers> getWorkersByGrade(String grade);
+
+    List<Workers> getWorkersByAdress(String adress);
+
+    List<Workers> getWorkerByPesel(String pesel);
+
+    List<Room> getRoomsCollectionByKeeperId(Long id);
+
+    Departaments getDepartamentByWorkerId(Long id);
+
+    List<Workers> getAllChiefs();
+
+    List<Workers> getWorkersWhichHaveChief();
 }

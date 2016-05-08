@@ -62,43 +62,4 @@ public class RoomTypes implements Serializable {
         this.roomType = roomType;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 83 * hash + Objects.hashCode(this.roomType);
-        hash = 83 * hash + Objects.hashCode(this.longDescription);
-        hash = 83 * hash + Objects.hashCode(this.roomCollection);
-        hash = 83 * hash + Objects.hashCode(this.shortDescription);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final RoomTypes other = (RoomTypes) obj;
-        if (!Objects.equals(this.longDescription, other.longDescription)) {
-            return false;
-        }
-        if (!Objects.equals(this.shortDescription, other.shortDescription)) {
-            return false;
-        }
-        if (!Objects.equals(this.roomType, other.roomType)) {
-            return false;
-        }
-        return Objects.equals(this.roomCollection, other.roomCollection);
-    }
-
-    @Override
-    public String toString() {
-        return "RoomTypes{" + "roomType=" + roomType + ", longDescription=" + longDescription + ", roomCollection=" + roomCollection + ", shortDescription=" + shortDescription + '}';
-    }
-
 }

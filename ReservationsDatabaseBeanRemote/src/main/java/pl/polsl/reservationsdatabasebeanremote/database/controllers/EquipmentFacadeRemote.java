@@ -33,4 +33,6 @@ public interface EquipmentFacadeRemote {
 
     public List<Equipment> findEntity(List<String> columnNames, List<Object> values);
 
+    List<Equipment> getEquipmentByRoomNumber(int roomNumber);
+
 }

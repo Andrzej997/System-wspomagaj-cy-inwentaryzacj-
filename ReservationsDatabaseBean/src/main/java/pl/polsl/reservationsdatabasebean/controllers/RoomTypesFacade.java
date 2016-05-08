@@ -1,14 +1,17 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
+import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
 import pl.polsl.reservationsdatabasebeanremote.database.RoomTypes;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomTypesFacadeRemote;
 
 import javax.ejb.Stateful;
+import javax.interceptor.Interceptors;
 import javax.naming.NamingException;
 
 /**
  * @author matis
  */
+//@Interceptors({LoggerImpl.class})
 @Stateful(mappedName = "RoomTypesFacade")
 public class RoomTypesFacade extends AbstractFacade<RoomTypes> implements RoomTypesFacadeRemote {
 

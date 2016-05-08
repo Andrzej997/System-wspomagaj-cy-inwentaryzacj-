@@ -31,7 +31,7 @@ public class Main {
         WorkersFacadeRemote workersFacadeRemote = (WorkersFacadeRemote) l.getRemote("WorkersFacade");
 
         usersFacadeRemote.setPriviligeLevel(1);
-
+/*
         EqupmentState equpmentState = new EqupmentState();
         equpmentState.setStateDefinition("Uszkodzony");
         equpmentStateFacadeRemote.create(equpmentState);
@@ -1389,7 +1389,7 @@ public class Main {
         w.setWorkerName("Zbyszek");
         w.setChiefId(workersFacadeRemote.find(new Long(17)));
         w.setDepartamentId(departamentsFacadeRemote.find(new Long(5)));
-        workersFacadeRemote.create(w);
+        workersFacadeRemote.create(w);*/
 
     }
 }

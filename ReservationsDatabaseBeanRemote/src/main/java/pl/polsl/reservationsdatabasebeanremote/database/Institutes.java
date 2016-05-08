@@ -5,6 +5,11 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
+@NamedQueries({
+        @NamedQuery(name = "getInstituteByName", query = "select i from Institutes i where i.instituteName = :name"),
+        @NamedQuery(name = "getInstituteByChiefId", query = "select i from Institutes i where i.chiefId.id = :id")
+})
+
 @Entity
 @Table(name = "INSTITUTES")
 public class Institutes implements Serializable {
@@ -22,7 +27,7 @@ public class Institutes implements Serializable {
     @Column(name = "INSTITUTE_NAME", updatable = true, insertable = true, nullable = false)
     private String instituteName;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Workers.class)
+    @OneToOne(fetch = FetchType.EAGER, targetEntity = Workers.class)
     @PrimaryKeyJoinColumn
     private Workers chiefId;
 
@@ -60,45 +65,6 @@ public class Institutes implements Serializable {
 
     public void setChiefId(Workers chiefId) {
         this.chiefId = chiefId;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 17 * hash + Objects.hashCode(this.id);
-        hash = 17 * hash + Objects.hashCode(this.departamentsCollection);
-        hash = 17 * hash + Objects.hashCode(this.instituteName);
-        hash = 17 * hash + Objects.hashCode(this.chiefId);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Institutes other = (Institutes) obj;
-        if (!Objects.equals(this.instituteName, other.instituteName)) {
-            return false;
-        }
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        if (!Objects.equals(this.chiefId, other.chiefId)) {
-            return false;
-        }
-        return Objects.equals(this.departamentsCollection, other.departamentsCollection);
-    }
-
-    @Override
-    public String toString() {
-        return "Institutes{" + "id=" + id + ", departamentsCollection=" + departamentsCollection + ", chiefId=" + chiefId + ", instituteName=" + instituteName + '}';
     }
 
 }

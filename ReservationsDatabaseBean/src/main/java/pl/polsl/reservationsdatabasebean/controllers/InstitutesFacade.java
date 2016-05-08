@@ -1,14 +1,18 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
+import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
 import pl.polsl.reservationsdatabasebeanremote.database.Institutes;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.InstitutesFacadeRemote;
 
 import javax.ejb.Stateful;
+import javax.interceptor.Interceptors;
 import javax.naming.NamingException;
+import javax.persistence.Query;
 
 /**
  * @author matis
  */
+//@Interceptors({LoggerImpl.class})
 @Stateful(mappedName = "InstitutesFacade")
 public class InstitutesFacade extends AbstractFacade<Institutes> implements InstitutesFacadeRemote {
 
@@ -16,6 +20,20 @@ public class InstitutesFacade extends AbstractFacade<Institutes> implements Inst
 
     public InstitutesFacade() throws NamingException {
         super(Institutes.class);
+    }
+
+    @Override
+    public Institutes getInstituteByName(String name){
+        Query query = getEntityManager().createNamedQuery("getInstituteByName", Institutes.class);
+        query.setParameter("name", name);
+        return (Institutes) query.getSingleResult();
+    }
+
+    @Override
+    public Institutes getInstituteByChiefId(Long chiefId){
+        Query query = getEntityManager().createNamedQuery("getInstituteByChiefId", Institutes.class);
+        query.setParameter("id", chiefId);
+        return (Institutes) query.getSingleResult();
     }
 
 }

@@ -6,7 +6,6 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <jta-data-source>jdbc/reservationsRootAdminPool</jta-data-source>
         <class>pl.polsl.reservationsdatabasebeanremote.database.RoomTypes</class>
-        <class>pl.polsl.reservationsdatabasebeanremote.database.Chiefs</class>
         <class>pl.polsl.reservationsdatabasebeanremote.database.Users</class>
         <class>pl.polsl.reservationsdatabasebeanremote.database.Institutes</class>
         <class>pl.polsl.reservationsdatabasebeanremote.database.EqupmentState</class>
@@ -33,7 +32,6 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <jta-data-source>jdbc/reservationsInstituteChiefPool</jta-data-source>
         <class>pl.polsl.reservationsdatabasebeanremote.database.RoomTypes</class>
-        <class>pl.polsl.reservationsdatabasebeanremote.database.Chiefs</class>
         <class>pl.polsl.reservationsdatabasebeanremote.database.Users</class>
         <class>pl.polsl.reservationsdatabasebeanremote.database.Institutes</class>
         <class>pl.polsl.reservationsdatabasebeanremote.database.EqupmentState</class>
@@ -60,7 +58,6 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <jta-data-source>jdbc/reservationsDepartamentChiefPool</jta-data-source>
         <class>pl.polsl.reservationsdatabasebeanremote.database.RoomTypes</class>
-        <class>pl.polsl.reservationsdatabasebeanremote.database.Chiefs</class>
         <class>pl.polsl.reservationsdatabasebeanremote.database.Users</class>
         <class>pl.polsl.reservationsdatabasebeanremote.database.Institutes</class>
         <class>pl.polsl.reservationsdatabasebeanremote.database.EqupmentState</class>
@@ -87,7 +84,6 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <jta-data-source>jdbc/reservationsTechnicalChiefPool</jta-data-source>
         <class>pl.polsl.reservationsdatabasebeanremote.database.RoomTypes</class>
-        <class>pl.polsl.reservationsdatabasebeanremote.database.Chiefs</class>
         <class>pl.polsl.reservationsdatabasebeanremote.database.Users</class>
         <class>pl.polsl.reservationsdatabasebeanremote.database.Institutes</class>
         <class>pl.polsl.reservationsdatabasebeanremote.database.EqupmentState</class>
@@ -114,7 +110,6 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <jta-data-source>jdbc/reservationsTechnicalWorkerPool</jta-data-source>
         <class>pl.polsl.reservationsdatabasebeanremote.database.RoomTypes</class>
-        <class>pl.polsl.reservationsdatabasebeanremote.database.Chiefs</class>
         <class>pl.polsl.reservationsdatabasebeanremote.database.Users</class>
         <class>pl.polsl.reservationsdatabasebeanremote.database.Institutes</class>
         <class>pl.polsl.reservationsdatabasebeanremote.database.EqupmentState</class>
@@ -141,7 +136,6 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <jta-data-source>jdbc/reservationsStandardUserPool</jta-data-source>
         <class>pl.polsl.reservationsdatabasebeanremote.database.RoomTypes</class>
-        <class>pl.polsl.reservationsdatabasebeanremote.database.Chiefs</class>
         <class>pl.polsl.reservationsdatabasebeanremote.database.Users</class>
         <class>pl.polsl.reservationsdatabasebeanremote.database.Institutes</class>
         <class>pl.polsl.reservationsdatabasebeanremote.database.EqupmentState</class>
@@ -168,7 +162,6 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <jta-data-source>jdbc/reservationstests</jta-data-source>
         <class>pl.polsl.reservationsdatabasebeanremote.database.RoomTypes</class>
-        <class>pl.polsl.reservationsdatabasebeanremote.database.Chiefs</class>
         <class>pl.polsl.reservationsdatabasebeanremote.database.Users</class>
         <class>pl.polsl.reservationsdatabasebeanremote.database.Institutes</class>
         <class>pl.polsl.reservationsdatabasebeanremote.database.EqupmentState</class>

@@ -5,6 +5,16 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
+@NamedQueries({@NamedQuery(name = "getWorkersByName", query = "select w from Workers w where w.workerName = :workerName"),
+                @NamedQuery(name = "getWorkersBySurname", query = "select w from Workers w where w.surname = :surname"),
+                @NamedQuery(name = "getWorkersByGrade", query = "select w from Workers  w where w.grade = :grade"),
+                @NamedQuery(name = "getWorkersByAdress", query = "select w from Workers  w where w.adress = :adress"),
+                @NamedQuery(name = "getWorkerByPesel", query = "select w from Workers  w where w.pesel = :pesel"),
+                @NamedQuery(name = "getRoomsCollectionByKeeperId", query = "select w.roomCollection from Workers w where w.id = :id"),
+                @NamedQuery(name = "getDepartamentByWorkerId", query = "select w.departamentId from Workers w where w.id = :id"),
+                @NamedQuery(name = "getAllChiefs", query = "select w from Workers w where w.chiefId is null"),
+                @NamedQuery(name = "getWorkersWhichHaveChief", query = "select w from Workers w where w.chiefId is not null")
+            })
 @Entity
 @Table(name = "WORKERS")
 public class Workers implements Serializable {
@@ -130,68 +140,6 @@ public class Workers implements Serializable {
 
     public void setChiefId(Workers chiefID) {
         this.chiefId = chiefID;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 73 * hash + Objects.hashCode(this.id);
-        hash = 73 * hash + Objects.hashCode(this.surname);
-        hash = 73 * hash + Objects.hashCode(this.grade);
-        hash = 73 * hash + Objects.hashCode(this.roomCollection);
-        hash = 73 * hash + Objects.hashCode(this.adress);
-        hash = 73 * hash + Objects.hashCode(this.workerName);
-        hash = 73 * hash + Objects.hashCode(this.pesel);
-        hash = 73 * hash + Objects.hashCode(this.departamentId);
-        hash = 73 * hash + Objects.hashCode(this.room);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Workers other = (Workers) obj;
-        if (!Objects.equals(this.surname, other.surname)) {
-            return false;
-        }
-        if (!Objects.equals(this.grade, other.grade)) {
-            return false;
-        }
-        if (!Objects.equals(this.adress, other.adress)) {
-            return false;
-        }
-        if (!Objects.equals(this.workerName, other.workerName)) {
-            return false;
-        }
-        if (!Objects.equals(this.pesel, other.pesel)) {
-            return false;
-        }
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        if (!Objects.equals(this.roomCollection, other.roomCollection)) {
-            return false;
-        }
-        if (!Objects.equals(this.departamentId, other.departamentId)) {
-            return false;
-        }
-        if (!Objects.equals(this.chiefId, other.chiefId)) {
-            return false;
-        }
-        return Objects.equals(this.room, other.room);
-    }
-
-    @Override
-    public String toString() {
-        return "Workers{" + "id=" + id + ", surname=" + surname + ", grade=" + grade + ", roomCollection=" + roomCollection + ", adress=" + adress + ", workerName=" + workerName + ", pesel=" + pesel + ", chiefId=" + chiefId + ", departamentId=" + departamentId + ", room=" + room + '}';
     }
 
 }

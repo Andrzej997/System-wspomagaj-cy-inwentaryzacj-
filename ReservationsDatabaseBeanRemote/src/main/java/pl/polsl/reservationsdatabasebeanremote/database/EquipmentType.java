@@ -60,43 +60,4 @@ public class EquipmentType implements Serializable {
         this.longDescription = longDescription;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 97 * hash + Objects.hashCode(this.typeId);
-        hash = 97 * hash + Objects.hashCode(this.equipmentCollection);
-        hash = 97 * hash + Objects.hashCode(this.shortDescription);
-        hash = 97 * hash + Objects.hashCode(this.longDescription);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final EquipmentType other = (EquipmentType) obj;
-        if (!Objects.equals(this.shortDescription, other.shortDescription)) {
-            return false;
-        }
-        if (!Objects.equals(this.longDescription, other.longDescription)) {
-            return false;
-        }
-        if (!Objects.equals(this.typeId, other.typeId)) {
-            return false;
-        }
-        return Objects.equals(this.equipmentCollection, other.equipmentCollection);
-    }
-
-    @Override
-    public String toString() {
-        return "EquipmentType{" + "typeId=" + typeId + ", equipmentCollection=" + equipmentCollection + ", shortDescription=" + shortDescription + ", longDescription=" + longDescription + '}';
-    }
-
 }

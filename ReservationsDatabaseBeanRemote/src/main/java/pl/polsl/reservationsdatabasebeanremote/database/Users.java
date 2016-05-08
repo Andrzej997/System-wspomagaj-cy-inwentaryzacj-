@@ -5,6 +5,12 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
+@NamedQueries({@NamedQuery(name = "validateUser", query = "select u from Users u where u.username = :username and u.password = :password"),
+                @NamedQuery(name = "validateUserByEmail", query = "select u from Users u where u.email = :email and u.password = :password"),
+                @NamedQuery(name = "getUserPrivligeLevelByUsername", query = "select u.priviligeLevel from Users u where u.username = :username"),
+                @NamedQuery(name = "getWorkerByUsername", query = "select u.workers from Users u where u.username = :username")
+                })
+
 @Entity
 @Table(name = "USERS")
 public class Users implements Serializable {
@@ -25,9 +31,6 @@ public class Users implements Serializable {
     @ManyToOne(optional = true, targetEntity = PriviligeLevels.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "PRIVILIGE_LEVEL", insertable = true, nullable = true, updatable = true)
     private PriviligeLevels priviligeLevel;
-
-    @Column(name = "USER_TYPE", updatable = true, insertable = true, nullable = false)
-    private short userType;
 
     @OneToOne(optional = false, targetEntity = Workers.class, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private Workers workers;
@@ -69,14 +72,6 @@ public class Users implements Serializable {
         this.priviligeLevel = priviligeLevel;
     }
 
-    public short getUserType() {
-        return this.userType;
-    }
-
-    public void setUserType(short userType) {
-        this.userType = userType;
-    }
-
     public Long getUserId() {
         return this.userId;
     }
@@ -115,69 +110,6 @@ public class Users implements Serializable {
 
     public void setPhoneNumber(Long phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 61 * hash + Objects.hashCode(this.userId);
-        hash = 61 * hash + Objects.hashCode(this.password);
-        hash = 61 * hash + Objects.hashCode(this.reservationsCollection);
-        hash = 61 * hash + Objects.hashCode(this.priviligeLevel);
-        hash = 61 * hash + Objects.hashCode(this.userType);
-        hash = 61 * hash + Objects.hashCode(this.workers);
-        hash = 61 * hash + Objects.hashCode(this.username);
-        hash = 61 * hash + Objects.hashCode(this.email);
-        hash = 61 * hash + Objects.hashCode(this.phoneNumber);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Users other = (Users) obj;
-        if (this.userType != other.userType) {
-            return false;
-        }
-        if (!Objects.equals(this.password, other.password)) {
-            return false;
-        }
-        if (!Objects.equals(this.username, other.username)) {
-            return false;
-        }
-        if (!Objects.equals(this.userId, other.userId)) {
-            return false;
-        }
-        if (!Objects.equals(this.reservationsCollection, other.reservationsCollection)) {
-            return false;
-        }
-        if (!Objects.equals(this.priviligeLevel, other.priviligeLevel)) {
-            return false;
-        }
-        if (!Objects.equals(this.phoneNumber, other.phoneNumber)) {
-            return false;
-        }
-        if (!Objects.equals(this.email, other.email)) {
-            return false;
-        }
-        return Objects.equals(this.workers, other.workers);
-    }
-
-    @Override
-    public String toString() {
-        return "Users{" + "userId=" + userId + ", password=" + password
-                + ", reservationsCollection=" + reservationsCollection
-                + ", priviligeLevel=" + priviligeLevel + ", userType="
-                + userType + ", workers=" + workers + ", username=" + username
-                + ", email=" + email + ", phoneNumber=" + phoneNumber + '}';
     }
 
 }

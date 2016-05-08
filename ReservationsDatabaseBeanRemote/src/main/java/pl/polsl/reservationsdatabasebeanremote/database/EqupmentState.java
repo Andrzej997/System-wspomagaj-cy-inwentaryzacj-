@@ -50,39 +50,4 @@ public class EqupmentState implements Serializable {
         this.stateDefinition = stateDefinition;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 37 * hash + Objects.hashCode(this.stateId);
-        hash = 37 * hash + Objects.hashCode(this.equipmentCollection);
-        hash = 37 * hash + Objects.hashCode(this.stateDefinition);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final EqupmentState other = (EqupmentState) obj;
-        if (!Objects.equals(this.stateDefinition, other.stateDefinition)) {
-            return false;
-        }
-        if (!Objects.equals(this.stateId, other.stateId)) {
-            return false;
-        }
-        return Objects.equals(this.equipmentCollection, other.equipmentCollection);
-    }
-
-    @Override
-    public String toString() {
-        return "EqupmentState{" + "stateId=" + stateId + ", equipmentCollection=" + equipmentCollection + ", stateDefinition=" + stateDefinition + '}';
-    }
-
 }
