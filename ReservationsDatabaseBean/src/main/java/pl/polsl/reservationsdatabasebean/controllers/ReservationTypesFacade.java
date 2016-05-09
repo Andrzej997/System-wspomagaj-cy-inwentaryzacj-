@@ -12,7 +12,7 @@ import javax.naming.NamingException;
  * @author matis
  */
 //@Interceptors({LoggerImpl.class})
-@Stateful(mappedName = "ReservationTypesFacade")
+@Stateful
 public class ReservationTypesFacade extends AbstractFacade<ReservationTypes> implements ReservationTypesFacadeRemote {
 
     private static final long serialVersionUID = -3961133009017351835L;

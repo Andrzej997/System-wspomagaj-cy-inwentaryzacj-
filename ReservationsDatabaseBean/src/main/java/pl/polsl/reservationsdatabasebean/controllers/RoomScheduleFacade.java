@@ -16,7 +16,7 @@ import java.util.List;
  * @author matis
  */
 //@Interceptors({LoggerImpl.class})
-@Stateful(mappedName = "RoomScheduleFacade")
+@Stateful
 public class RoomScheduleFacade extends AbstractFacade<RoomSchedule> implements RoomScheduleFacadeRemote {
 
     private static final long serialVersionUID = -8439468008559137683L;

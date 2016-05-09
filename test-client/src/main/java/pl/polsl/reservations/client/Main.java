@@ -1,14 +1,12 @@
 package pl.polsl.reservations.client;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import pl.polsl.reservations.roomManagement.RoomManagementFacadeRemote;
-import pl.polsl.reservations.user.UserFacadeRemote;
 
 import pl.polsl.reservations.userManagement.UserManagementFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.*;
-import pl.polsl.reservationsdatabasebeanremote.database.*;
 
 /**
  *
@@ -28,6 +26,8 @@ public class Main {
         RoomManagementFacadeRemote test2 = (RoomManagementFacadeRemote) l.getRemote("RoomManagementFacade");
 
         String a = test2.addEquipment(1, 2);
+        List<Map<String, String>> s = test2.getRoomsList();
+        s = test2.getRoomEquipment(Integer.valueOf(s.get(0).get("number")));
 
         UserManagementFacadeRemote test3 = (UserManagementFacadeRemote) l.getRemote("UserManagementFacade");
 
