@@ -21,8 +21,8 @@ public class Main {
     public static void main(String[] args) {
         Lookup l = new Lookup();
 
-        UserFacadeRemote test = (UserFacadeRemote) l.getRemote("UserFacade");
-        int s = test.getUser();
+//        UserFacadeRemote test = (UserFacadeRemote) l.getRemote("UserFacade");
+//        int s = test.getUser();
 
         RoomManagementFacadeRemote test2 = (RoomManagementFacadeRemote) l.getRemote("RoomManagementFacade");
 

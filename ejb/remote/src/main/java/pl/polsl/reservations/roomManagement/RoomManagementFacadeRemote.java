@@ -7,5 +7,6 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface RoomManagementFacadeRemote {
+
     String addEquipment(long roomId, long equipmentId);
 }

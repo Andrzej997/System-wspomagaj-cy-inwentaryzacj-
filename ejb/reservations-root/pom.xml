@@ -38,6 +38,7 @@
             <groupId>pl.polsl</groupId>
             <artifactId>room-management</artifactId>
             <version>0.7</version>
+            <type>ejb</type>
         </dependency>
     </dependencies>
 

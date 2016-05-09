@@ -14,8 +14,8 @@
     <modules>
         <module>remote</module>
         <module>user</module>
-        <module>reservations-root</module>
         <module>room-management</module>
+        <module>reservations-root</module>
     </modules>
 
     <dependencies>
