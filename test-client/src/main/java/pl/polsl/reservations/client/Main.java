@@ -2,6 +2,8 @@ package pl.polsl.reservations.client;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import pl.polsl.reservations.roomManagement.RoomManagementFacadeRemote;
 import pl.polsl.reservations.user.UserFacadeRemote;
 
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.*;
@@ -22,6 +24,9 @@ public class Main {
         UserFacadeRemote test = (UserFacadeRemote) l.getRemote("UserFacade");
         int s = test.getUser();
 
+        RoomManagementFacadeRemote test2 = (RoomManagementFacadeRemote) l.getRemote("RoomManagementFacade");
+
+        String a = test2.addEquipment(1, 2);
 
         UsersFacadeRemote usersFacadeRemote = (UsersFacadeRemote) l.getRemote("UsersFacade");
         RoomFacadeRemote roomFacadeRemote = (RoomFacadeRemote) l.getRemote("RoomFacade");

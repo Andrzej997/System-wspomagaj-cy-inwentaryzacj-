@@ -13,7 +13,7 @@ import javax.persistence.Query;
  * @author matis
  */
 //@Interceptors({LoggerImpl.class})
-@Stateful(mappedName = "RoomFacade")
+@Stateful
 public class RoomFacade extends AbstractFacade<Room> implements RoomFacadeRemote {
 
     private static final long serialVersionUID = 3846358829048447657L;
