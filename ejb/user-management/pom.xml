@@ -9,19 +9,18 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>reservations-root</artifactId>
+    <artifactId>user-management</artifactId>
 
-    <packaging>ear</packaging>
+    <packaging>ejb</packaging>
 
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-ear-plugin</artifactId>
-                <version>2.8</version>
+                <artifactId>maven-ejb-plugin</artifactId>
+                <version>2.3</version>
                 <configuration>
-                    <version>6</version>
-                    <defaultLibBundleDir>lib/ejb</defaultLibBundleDir>
+                    <ejbVersion>3.1</ejbVersion>
                 </configuration>
             </plugin>
         </plugins>
@@ -30,22 +29,8 @@
     <dependencies>
         <dependency>
             <groupId>pl.polsl</groupId>
-            <artifactId>user</artifactId>
+            <artifactId>remote</artifactId>
             <version>0.7</version>
-            <type>ejb</type>
-        </dependency>
-        <dependency>
-            <groupId>pl.polsl</groupId>
-            <artifactId>room-management</artifactId>
-            <version>0.7</version>
-            <type>ejb</type>
-        </dependency>
-        <dependency>
-            <groupId>pl.polsl</groupId>
-            <artifactId>user-management</artifactId>
-            <version>0.7</version>
-            <type>ejb</type>
         </dependency>
     </dependencies>
-
 </project>

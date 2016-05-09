@@ -16,6 +16,7 @@
         <module>user</module>
         <module>room-management</module>
         <module>reservations-root</module>
+        <module>user-management</module>
     </modules>
 
     <dependencies>

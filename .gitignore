@@ -13,3 +13,4 @@ ejb/user/target/user-0.7/pl/polsl/reservations/user/UserFacade.class
 ejb/user/target/
 /ejb/remote/target/
 ejb/room-management/target/
+ejb/user-management/target/
