@@ -1,5 +1,6 @@
 package pl.polsl.reservations.user;
 
+import java.util.Map;
 import javax.ejb.Remote;
 
 /**
@@ -8,5 +9,13 @@ import javax.ejb.Remote;
 @Remote
 public interface UserFacadeRemote {
 
-    int getUser();
+    public boolean login(String nameOrEmail, String password);
+    
+    public boolean logout();
+    
+    public Long getUserPrivilege();
+    
+    public boolean changePassword(String oldPassword, String newPassword);
+    
+    public Map<String, String> getUserDetails();
 }
