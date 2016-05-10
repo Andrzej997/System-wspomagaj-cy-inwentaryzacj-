@@ -1,14 +1,16 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
 import javax.ejb.Stateful;
+import javax.interceptor.Interceptors;
 import javax.naming.NamingException;
+import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
 import pl.polsl.reservationsdatabasebeanremote.database.ReservationTypes;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.ReservationTypesFacadeRemote;
 
 /**
  * @author matis
  */
-//@Interceptors({LoggerImpl.class})
+@Interceptors({LoggerImpl.class})
 @Stateful
 public class ReservationTypesFacade extends AbstractFacade<ReservationTypes> implements ReservationTypesFacadeRemote {
 

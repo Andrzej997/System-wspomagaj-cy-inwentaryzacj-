@@ -3,8 +3,10 @@ package pl.polsl.reservationsdatabasebean.controllers;
 import java.util.Calendar;
 import java.util.List;
 import javax.ejb.Stateful;
+import javax.interceptor.Interceptors;
 import javax.naming.NamingException;
 import javax.persistence.Query;
+import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
 import pl.polsl.reservationsdatabasebeanremote.database.Reservations;
 import pl.polsl.reservationsdatabasebeanremote.database.RoomSchedule;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.ReservationsFacadeRemote;
@@ -12,7 +14,7 @@ import pl.polsl.reservationsdatabasebeanremote.database.controllers.Reservations
 /**
  * @author matis
  */
-//@Interceptors({LoggerImpl.class})
+@Interceptors({LoggerImpl.class})
 @Stateful
 public class ReservationsFacade extends AbstractFacade<Reservations> implements ReservationsFacadeRemote {
 

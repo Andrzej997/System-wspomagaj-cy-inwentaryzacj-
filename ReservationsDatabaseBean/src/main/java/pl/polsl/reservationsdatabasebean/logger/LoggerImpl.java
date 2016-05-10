@@ -25,13 +25,12 @@ public class LoggerImpl {
 
     @PostConstruct
     public void postConstruct(InvocationContext ctx){
-        log.info("*** Object: "
-                + ctx.getConstructor().getName() + "was created");
+        log.log(Level.INFO, "*** Object: {0} was created", ctx.getTarget().getClass().getName());
     }
 
     @PreDestroy
     public void preDestroy(InvocationContext ctx){
-        log.log(Level.INFO, "*** Object: {0} will be destroyed", ctx.getConstructor().getName());
+        log.log(Level.INFO, "*** Object: {0} will be destroyed", ctx.getTarget().getClass().getName());
     }
 
     @PrePersist
@@ -69,6 +68,6 @@ public class LoggerImpl {
 
     @PostLoad
     public void postLoad(Object object){
-        log.info("*** Entity:" + object.getClass().getName() + "was loaded");
+        log.log(Level.INFO, "*** Entity: {0} was loaded", object.getClass().getName());
     }
 }
