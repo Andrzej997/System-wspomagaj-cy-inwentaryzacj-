@@ -1,8 +1,8 @@
 package pl.polsl.reservations.roomManagement;
 
-import javax.ejb.Remote;
 import java.util.List;
 import java.util.Map;
+import javax.ejb.Remote;
 
 /**
  * Created by Krzysztof Stręk on 2016-05-09.

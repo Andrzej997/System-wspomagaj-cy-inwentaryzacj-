@@ -1,9 +1,8 @@
 package pl.polsl.reservationsdatabasebeanremote.database;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Objects;
+import javax.persistence.*;
 
 @NamedQueries({@NamedQuery(name = "validateUser", query = "select u from Users u where u.username = :username and u.password = :password"),
                 @NamedQuery(name = "validateUserByEmail", query = "select u from Users u where u.email = :email and u.password = :password"),

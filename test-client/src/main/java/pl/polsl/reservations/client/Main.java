@@ -1,11 +1,5 @@
 package pl.polsl.reservations.client;
 
-import java.util.List;
-import java.util.Map;
-
-import pl.polsl.reservations.roomManagement.RoomManagementFacadeRemote;
-
-import pl.polsl.reservations.userManagement.UserManagementFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.*;
 
 /**

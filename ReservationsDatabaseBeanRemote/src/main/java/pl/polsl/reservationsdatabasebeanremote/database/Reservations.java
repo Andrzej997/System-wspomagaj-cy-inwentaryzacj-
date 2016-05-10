@@ -1,8 +1,7 @@
 package pl.polsl.reservationsdatabasebeanremote.database;
 
-import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Objects;
+import javax.persistence.*;
 
 @NamedQueries({
         @NamedQuery(name = "getAllReservationsByRoomSchedule", query = "select r from Reservations  r where r.roomNumber = :roomSchedule"),

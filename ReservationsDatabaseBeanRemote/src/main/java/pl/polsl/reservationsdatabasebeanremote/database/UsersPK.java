@@ -1,7 +1,6 @@
 package pl.polsl.reservationsdatabasebeanremote.database;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 public class UsersPK implements Serializable {
 

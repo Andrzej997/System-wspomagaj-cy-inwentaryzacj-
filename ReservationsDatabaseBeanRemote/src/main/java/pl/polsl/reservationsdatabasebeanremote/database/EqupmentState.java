@@ -1,13 +1,12 @@
 package pl.polsl.reservationsdatabasebeanremote.database;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Objects;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "EQUPMENT_STATE")
-public class EqupmentState implements Serializable {
+public class EqupmentState  implements Serializable {
 
     private static final long serialVersionUID = 2504464193763388953L;
 
