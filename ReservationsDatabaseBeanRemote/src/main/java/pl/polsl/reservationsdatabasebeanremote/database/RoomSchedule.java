@@ -26,7 +26,7 @@ public class RoomSchedule implements Serializable {
     @Column(name = "WEEK", updatable = true, insertable = true, nullable = true)
     private Integer week;
 
-    @OneToMany(targetEntity = Reservations.class, mappedBy = "roomNumber", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = Reservations.class, mappedBy = "roomNumber", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Reservations> reservationsCollection;
 
     @Column(name = "SEMESTER", updatable = true, insertable = true, nullable = false)
@@ -36,7 +36,7 @@ public class RoomSchedule implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date _year;
 
-    @ManyToOne(optional = true, targetEntity = Room.class, fetch = FetchType.EAGER)
+    @ManyToOne(optional = true, targetEntity = Room.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "ROOM", insertable = true, nullable = true, updatable = true)
     private Room room;
 

@@ -1,5 +1,6 @@
 package pl.polsl.reservationsdatabasebean.logger;
 
+import java.util.logging.Level;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.interceptor.AroundInvoke;
@@ -18,8 +19,7 @@ public class LoggerImpl {
     @AroundInvoke
     public Object methodInterceptor(InvocationContext ctx) throws Exception
     {
-        log.info("*** Intercepting call to ReservationsDatabaseBean method: "
-                + ctx.getMethod().getName());
+        log.log(Level.INFO, "*** Intercepting call to ReservationsDatabaseBean method: {0}", ctx.getMethod().getName());
         return ctx.proceed();
     }
 
@@ -31,40 +31,39 @@ public class LoggerImpl {
 
     @PreDestroy
     public void preDestroy(InvocationContext ctx){
-        log.info("*** Object: "
-                + ctx.getConstructor().getName() + "will be destroyed");
+        log.log(Level.INFO, "*** Object: {0} will be destroyed", ctx.getConstructor().getName());
     }
 
     @PrePersist
     public void prePersist(Object object){
-        log.info("*** Entity:" + object.getClass().getName() + "will be persisted");
+        log.log(Level.INFO, "*** Entity: {0} will be persisted", object.getClass().getName());
     }
 
     @PostPersist
     public void postPersist(Object object){
-        log.info("*** Entity:" + object.getClass().getName() + "was persisted");
+        log.log(Level.INFO, "*** Entity: {0} was persisted", object.getClass().getName());
     }
 
     @PreRemove
     public void preRemove(Object object){
-        log.info("*** Entity:" + object.getClass().getName() + "will be removed");
+        log.log(Level.INFO, "*** Entity: {0} will be removed", object.getClass().getName());
     }
 
 
     @PostRemove
     public void postRemove(Object object){
-        log.info("*** Entity:" + object.getClass().getName() + "was removed");
+        log.log(Level.INFO, "*** Entity: {0} was removed", object.getClass().getName());
     }
 
     @PreUpdate
     public void preUpdate(Object object){
-        log.info("*** Entity:" + object.getClass().getName() + "will be updated");
+        log.log(Level.INFO, "*** Entity: {0} will be updated", object.getClass().getName());
     }
 
 
     @PostUpdate
     public void postUpdate(Object object){
-        log.info("*** Entity:" + object.getClass().getName() + "was updated");
+        log.log(Level.INFO, "*** Entity: {0} was updated", object.getClass().getName());
     }
 
 

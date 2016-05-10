@@ -25,7 +25,9 @@ public class Lookup {
 
     public Lookup() {
         try {
-            ic = new InitialContext();
+            Properties p = new Properties();
+            p.put("java.rmi.server.useCodebaseOnly", "false");
+            ic = new InitialContext(p);
             NamingEnumeration<NameClassPair> list = ic.list("");
             while (list.hasMore()) {
                 System.out.println(list.next().getName());

@@ -18,28 +18,28 @@ public class Room implements Serializable {
     @Column(name = "ID", updatable = true, insertable = true, nullable = false)
     private Long id;
 
-    @OneToMany(targetEntity = Workers.class, mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = Workers.class, mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Workers> workers;
 
     @Column(name = "ROOM_NUMBER", updatable = true, insertable = true)
     private int roomNumber;
 
-    @ManyToOne(optional = true, targetEntity = Workers.class, fetch = FetchType.EAGER)
+    @ManyToOne(optional = true, targetEntity = Workers.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "KEEPER_ID", insertable = true, nullable = true, updatable = true)
     private Workers keeperId;
 
-    @OneToMany(targetEntity = Equipment.class, mappedBy = "roomId", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = Equipment.class, mappedBy = "roomId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Equipment> equipmentCollection;
 
-    @ManyToOne(optional = false, targetEntity = Departaments.class, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, targetEntity = Departaments.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "DEPARTAMENT_ID", insertable = true, nullable = true, updatable = true)
     private Departaments departamentId;
 
-    @ManyToOne(optional = true, targetEntity = RoomTypes.class, fetch = FetchType.EAGER)
+    @ManyToOne(optional = true, targetEntity = RoomTypes.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "ROOM_TYPE", insertable = true, nullable = true, updatable = true)
     private RoomTypes roomType;
 
-    @OneToMany(targetEntity = RoomSchedule.class, mappedBy = "room", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = RoomSchedule.class, mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<RoomSchedule> roomScheduleCollection;
 
     public Room() {

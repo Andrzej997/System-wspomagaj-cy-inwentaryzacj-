@@ -11,8 +11,11 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.io.Serializable;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Id;
 
 /**
  * @author matis
@@ -57,7 +60,29 @@ public abstract class AbstractFacade<T> implements Serializable {
     }
 
     public T find(Object id) {
-        return getEntityManager().find(entityClass, id);
+        Long idValue = getLongValue(id);
+        Field[] fields = this.entityClass.getDeclaredFields();
+        for(Field field : fields){
+            Annotation[] annotations = field.getAnnotations();
+            for(Annotation annotation : annotations){
+                if(annotation instanceof Id){
+                    Class<?> type = field.getType();
+                    if(Byte.class == type){
+                        id = idValue.byteValue();
+                    } else if (Integer.class == type){
+                        id = idValue.intValue();
+                    } else if (Short.class == type){
+                        id = idValue.shortValue();
+                    } else if (Long.class == type){
+                        id = idValue;
+                    } else {
+                        return null;
+                    }
+                }
+            }
+        }
+        T object = getEntityManager().find(entityClass, id);
+        return object;
     }
 
     public T getReference(Object id) {
@@ -102,5 +127,22 @@ public abstract class AbstractFacade<T> implements Serializable {
         List<T> resultList = query.getResultList();
         return resultList;
     }
-
+    
+    private Long getLongValue(Object o){
+        if(o instanceof Long){
+            return (Long)o;
+        } else if (o instanceof Integer){
+            Integer value = (Integer) o;
+            return value.longValue();
+        } else if (o instanceof Short){
+            Short value = (Short) o;
+            return value.longValue();
+        } else if(o instanceof Byte){
+            Byte value = (Byte) o;
+            return value.longValue();
+        } else {
+            return null;
+        }
+    }
+    
 }

@@ -3,7 +3,6 @@ package pl.polsl.reservationsdatabasebeanremote.database;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author matis
@@ -19,7 +18,7 @@ public class EquipmentType implements Serializable {
     @Column(name = "TYPE_ID", updatable = true, insertable = true, nullable = false)
     private Short typeId;
 
-    @OneToMany(targetEntity = Equipment.class, mappedBy = "equipmentType", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = Equipment.class, mappedBy = "equipmentType", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Equipment> equipmentCollection;
 
     @Column(name = "SHORT_DEFINITION", updatable = true, insertable = true, nullable = false)

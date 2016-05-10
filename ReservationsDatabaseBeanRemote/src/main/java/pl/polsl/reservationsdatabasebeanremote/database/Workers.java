@@ -34,7 +34,7 @@ public class Workers implements Serializable {
 
     @OneToMany(targetEntity = Room.class, mappedBy = "keeperId",
             cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH}
-            , fetch = FetchType.EAGER)
+            , fetch = FetchType.LAZY)
     private List<Room> roomCollection;
 
     @Column(name = "ADRESS", updatable = true, insertable = true, nullable = false)
@@ -46,15 +46,15 @@ public class Workers implements Serializable {
     @Column(name = "PESEL", unique = true, updatable = true, insertable = true, nullable = false, length = 11)
     private String pesel;
 
-    @ManyToOne(optional = false, targetEntity = Departaments.class, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, targetEntity = Departaments.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "DEPARTAMENT_ID", insertable = true, nullable = false, updatable = true)
     private Departaments departamentId;
 
-    @ManyToOne(optional = true, targetEntity = Room.class, fetch = FetchType.EAGER)
+    @ManyToOne(optional = true, targetEntity = Room.class, fetch = FetchType.LAZY)
     private Room room;
 
     @ManyToOne(targetEntity = Workers.class,
-            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.EAGER, optional = true)
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY, optional = true)
     @JoinColumn(updatable = true, nullable = true)
     private Workers chiefId;
 

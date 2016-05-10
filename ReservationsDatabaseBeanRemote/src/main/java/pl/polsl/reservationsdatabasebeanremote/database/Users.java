@@ -30,11 +30,11 @@ public class Users implements Serializable {
     @OneToMany(targetEntity = Reservations.class, cascade = CascadeType.ALL)
     private List<Reservations> reservationsCollection;
 
-    @ManyToOne(optional = true, targetEntity = PriviligeLevels.class, fetch = FetchType.EAGER)
+    @ManyToOne(optional = true, targetEntity = PriviligeLevels.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "PRIVILIGE_LEVEL", insertable = true, nullable = true, updatable = true)
     private PriviligeLevels priviligeLevel;
 
-    @OneToOne(optional = false, targetEntity = Workers.class, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @OneToOne(optional = false, targetEntity = Workers.class, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Workers workers;
 
     @Column(name = "USERNAME", updatable = true, insertable = true, nullable = false)

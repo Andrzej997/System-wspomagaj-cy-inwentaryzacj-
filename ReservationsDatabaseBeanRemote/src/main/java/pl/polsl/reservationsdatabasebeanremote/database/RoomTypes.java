@@ -20,7 +20,7 @@ public class RoomTypes implements Serializable {
     @Lob
     private String longDescription;
 
-    @OneToMany(targetEntity = Room.class, mappedBy = "roomType", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = Room.class, mappedBy = "roomType", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Room> roomCollection;
 
     @Column(name = "SHORT_DESCRIPTION", updatable = true, insertable = true, nullable = false)

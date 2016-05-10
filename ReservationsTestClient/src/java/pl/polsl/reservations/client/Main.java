@@ -17,11 +17,11 @@ public class Main {
     public static void main(String[] args) {
         Lookup l = new Lookup();
         UsersFacadeRemote usersFacadeRemote = (UsersFacadeRemote) l.getRemote("UsersFacade");
-        RoomFacadeRemote roomFacadeRemote = (RoomFacadeRemote) l.getRemote("RoomFacade");
+    /*    RoomFacadeRemote roomFacadeRemote = (RoomFacadeRemote) l.getRemote("RoomFacade");
         DepartamentsFacadeRemote departamentsFacadeRemote = (DepartamentsFacadeRemote) l.getRemote("DepartamentsFacade");
-        EquipmentFacadeRemote equipmentFacadeRemote = (EquipmentFacadeRemote) l.getRemote("EquipmentFacade");
+        EquipmentFacadeRemote equipmentFacadeRemote = (EquipmentFacadeRemote) l.getRemote("EquipmentFacade");*/
         EquipmentTypeFacadeRemote equipmentTypeFacadeRemote = (EquipmentTypeFacadeRemote) l.getRemote("EquipmentTypeFacade");
-        EquipmentStateFacadeRemote equpmentStateFacadeRemote = (EquipmentStateFacadeRemote) l.getRemote("EquipmentStateFacade");
+ /*       EquipmentStateFacadeRemote equpmentStateFacadeRemote = (EquipmentStateFacadeRemote) l.getRemote("EquipmentStateFacade");
         InstitutesFacadeRemote institutesFacadeRemote = (InstitutesFacadeRemote) l.getRemote("InstitutesFacade");
         PriviligesFacadeRemote priviligesFacadeRemote = (PriviligesFacadeRemote) l.getRemote("PriviligesFacade");
         PriviligeLevelsFacadeRemote priviligeLevelsFacadeRemote = (PriviligeLevelsFacadeRemote) l.getRemote("PriviligeLevelsFacade");
@@ -29,8 +29,14 @@ public class Main {
         ReservationsFacadeRemote reservationsFacadeRemote = (ReservationsFacadeRemote) l.getRemote("ReservationsFacade");
         RoomTypesFacadeRemote roomTypesFacadeRemote = (RoomTypesFacadeRemote) l.getRemote("RoomTypesFacade");
         WorkersFacadeRemote workersFacadeRemote = (WorkersFacadeRemote) l.getRemote("WorkersFacade");
-
+*/
         usersFacadeRemote.setPriviligeLevel(1);
+        usersFacadeRemote.find(1);
+        usersFacadeRemote.find(new Long(1));
+        
+        equipmentTypeFacadeRemote.setPriviligeLevel(2);
+        equipmentTypeFacadeRemote.find(1l);
+        equipmentTypeFacadeRemote.find(new Short("2"));
 /*
         EqupmentState equpmentState = new EqupmentState();
         equpmentState.setStateDefinition("Uszkodzony");

@@ -25,7 +25,7 @@ public class Departaments implements Serializable {
     @Column(name = "DEPRATAMENT_NAME", updatable = true, insertable = true, nullable = false, unique = true)
     private String depratamentName;
 
-    @OneToMany(targetEntity = Room.class, mappedBy = "departamentId", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = Room.class, mappedBy = "departamentId", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private List<Room> roomCollection;
 
     @ManyToOne(optional = true, targetEntity = Institutes.class, fetch = FetchType.LAZY)
@@ -35,7 +35,7 @@ public class Departaments implements Serializable {
     @OneToMany(targetEntity = Workers.class, mappedBy = "departamentId", cascade = CascadeType.ALL)
     private List<Workers> workersCollection;
 
-    @OneToOne(targetEntity = Workers.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(targetEntity = Workers.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @PrimaryKeyJoinColumn
     private Workers chiefId;
 

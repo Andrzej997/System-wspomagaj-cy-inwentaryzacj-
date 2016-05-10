@@ -18,11 +18,11 @@ public class Equipment implements Serializable {
     @Column(name = "ID", updatable = true, insertable = true, nullable = false)
     private Long id;
 
-    @ManyToOne(optional = false, targetEntity = EqupmentState.class, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, targetEntity = EqupmentState.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "EQUIPMENT_STATE", insertable = true, nullable = false, updatable = true)
     private EqupmentState equipmentState;
 
-    @ManyToOne(optional = false, targetEntity = EquipmentType.class, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, targetEntity = EquipmentType.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "EQUIPMENT_TYPE", insertable = true, nullable = false, updatable = true)
     private EquipmentType equipmentType;
 
@@ -32,7 +32,7 @@ public class Equipment implements Serializable {
     @Column(name = "EQUIPMENT_NAME", updatable = true, insertable = true, nullable = false)
     private String equipmentName;
 
-    @ManyToOne(optional = false, targetEntity = Room.class, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, targetEntity = Room.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "ROOM_ID", insertable = true, nullable = false, updatable = true)
     private Room roomId;
 

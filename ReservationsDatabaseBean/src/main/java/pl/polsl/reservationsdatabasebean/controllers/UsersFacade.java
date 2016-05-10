@@ -20,7 +20,7 @@ import java.util.List;
  * @author matis
  */
 //@Interceptors({LoggerImpl.class})
-@Stateful
+@Stateful(mappedName = "UsersFacade")
 public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeRemote {
 
     private static final long serialVersionUID = -8931746196880043035L;

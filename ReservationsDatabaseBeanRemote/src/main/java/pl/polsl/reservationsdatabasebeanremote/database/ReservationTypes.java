@@ -16,7 +16,7 @@ public class ReservationTypes implements Serializable {
     @Column(name = "TYPE_ID", updatable = true, insertable = true, nullable = false)
     private Long typeId;
 
-    @OneToMany(targetEntity = Reservations.class, mappedBy = "reservationType", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = Reservations.class, mappedBy = "reservationType", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Reservations> reservationsCollection;
 
     @Column(name = "TYPE_SHORT_DESCRIPTION", updatable = true, insertable = true, nullable = false)

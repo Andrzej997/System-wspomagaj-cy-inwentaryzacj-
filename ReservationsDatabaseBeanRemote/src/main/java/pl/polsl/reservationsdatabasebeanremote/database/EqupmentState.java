@@ -16,7 +16,7 @@ public class EqupmentState implements Serializable {
     @Column(name = "STATE_ID", updatable = true, insertable = true, nullable = false)
     private Short stateId;
 
-    @OneToMany(targetEntity = Equipment.class, mappedBy = "equipmentState", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = Equipment.class, mappedBy = "equipmentState", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Equipment> equipmentCollection;
 
     @Column(name = "STATE_DEFINITION", updatable = true, insertable = true, nullable = false)

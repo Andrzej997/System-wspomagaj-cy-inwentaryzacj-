@@ -21,13 +21,13 @@ public class Institutes implements Serializable {
     @Column(name = "ID", updatable = true, insertable = true, nullable = false)
     private Long id;
 
-    @OneToMany(targetEntity = Departaments.class, mappedBy = "instituteId", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = Departaments.class, mappedBy = "instituteId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Departaments> departamentsCollection;
 
     @Column(name = "INSTITUTE_NAME", updatable = true, insertable = true, nullable = false)
     private String instituteName;
 
-    @OneToOne(fetch = FetchType.EAGER, targetEntity = Workers.class)
+    @OneToOne(fetch = FetchType.LAZY, targetEntity = Workers.class)
     @PrimaryKeyJoinColumn
     private Workers chiefId;
 

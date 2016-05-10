@@ -20,7 +20,7 @@ public class Priviliges implements Serializable {
     @Lob
     private String description;
 
-    @ManyToMany(targetEntity = PriviligeLevels.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(targetEntity = PriviligeLevels.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "PRIVILIGE_MAP", joinColumns = {
             @JoinColumn(name = "PRIVILIGE_ID", insertable = true, nullable = false, updatable = true)}, inverseJoinColumns = {
             @JoinColumn(name = "PRIVILIGE_LEVEL", insertable = true, nullable = false, updatable = true)})
