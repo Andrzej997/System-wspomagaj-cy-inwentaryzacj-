@@ -1,14 +1,13 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
-import pl.polsl.reservationsdatabasebeanremote.database.Reservations;
-import pl.polsl.reservationsdatabasebeanremote.database.RoomSchedule;
-import pl.polsl.reservationsdatabasebeanremote.database.controllers.ReservationsFacadeRemote;
-
+import java.util.Calendar;
+import java.util.List;
 import javax.ejb.Stateful;
 import javax.naming.NamingException;
 import javax.persistence.Query;
-import java.util.Calendar;
-import java.util.List;
+import pl.polsl.reservationsdatabasebeanremote.database.Reservations;
+import pl.polsl.reservationsdatabasebeanremote.database.RoomSchedule;
+import pl.polsl.reservationsdatabasebeanremote.database.controllers.ReservationsFacadeRemote;
 
 /**
  * @author matis
@@ -45,7 +44,7 @@ public class ReservationsFacade extends AbstractFacade<Reservations> implements 
         Query query = getEntityManager().createNamedQuery("getAllWeekReservations", Reservations.class);
         Calendar c = Calendar.getInstance();
         query.setParameter("year", c.get(Calendar.YEAR));
-        query.setParameter("week", c.get(Calendar.WEEK_OF_YEAR));
+    query.setParameter("week", c.get(Calendar.WEEK_OF_YEAR));
         return query.getResultList();
     }
 

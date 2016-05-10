@@ -1,12 +1,9 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
-import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
+import javax.ejb.Stateful;
+import javax.naming.NamingException;
 import pl.polsl.reservationsdatabasebeanremote.database.EquipmentType;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.EquipmentTypeFacadeRemote;
-
-import javax.ejb.Stateful;
-import javax.interceptor.Interceptors;
-import javax.naming.NamingException;
 
 /**
  * @author matis

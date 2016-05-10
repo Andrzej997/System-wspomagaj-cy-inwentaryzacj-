@@ -1,12 +1,12 @@
 package pl.polsl.reservationsdatabasebean.logger;
 
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 import javax.persistence.*;
-import java.util.logging.Logger;
 
 
 /**

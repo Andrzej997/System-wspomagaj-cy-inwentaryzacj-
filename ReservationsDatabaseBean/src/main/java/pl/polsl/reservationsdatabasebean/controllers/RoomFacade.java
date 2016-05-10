@@ -1,13 +1,10 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
-import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
-import pl.polsl.reservationsdatabasebeanremote.database.Room;
-import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomFacadeRemote;
-
 import javax.ejb.Stateful;
-import javax.interceptor.Interceptors;
 import javax.naming.NamingException;
 import javax.persistence.Query;
+import pl.polsl.reservationsdatabasebeanremote.database.Room;
+import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomFacadeRemote;
 
 /**
  * @author matis
