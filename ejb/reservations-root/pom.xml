@@ -46,6 +46,12 @@
             <version>0.7</version>
             <type>ejb</type>
         </dependency>
+        <dependency>
+            <groupId>pl.polsl</groupId>
+            <artifactId>schedule</artifactId>
+            <version>0.7</version>
+            <type>ejb</type>
+        </dependency>
     </dependencies>
 
 </project>

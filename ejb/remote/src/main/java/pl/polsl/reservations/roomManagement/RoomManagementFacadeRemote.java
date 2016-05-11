@@ -18,4 +18,9 @@ public interface RoomManagementFacadeRemote {
     List<Map<String, String>> getEquipmentTypes();
     default void assignUserToRoom() {};
     default void assignKeeperToRoom() {};
+    default void addEquipmentType() {};
+    default void removeEquipmentType() {};
+    default void addEquipmentState() {};
+    default void removeEquipmentState() {};
+    default void findRoom() {};
 }

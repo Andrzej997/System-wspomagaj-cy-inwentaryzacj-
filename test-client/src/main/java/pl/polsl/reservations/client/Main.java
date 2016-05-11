@@ -1,6 +1,12 @@
 package pl.polsl.reservations.client;
 
+import pl.polsl.reservations.roomManagement.RoomManagementFacadeRemote;
+import pl.polsl.reservations.schedule.ScheduleFacadeRemote;
+import pl.polsl.reservations.userManagement.UserManagementFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.*;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -16,6 +22,9 @@ public class Main {
 
 //        UserFacadeRemote test = (UserFacadeRemote) l.getRemote("UserFacade");
 //        int s = test.getUser();
+
+        ScheduleFacadeRemote schedule = (ScheduleFacadeRemote) l.getRemote("ScheduleFacade");
+        //int result = schedule.testMethod();
 
         RoomManagementFacadeRemote test2 = (RoomManagementFacadeRemote) l.getRemote("RoomManagementFacade");
 
