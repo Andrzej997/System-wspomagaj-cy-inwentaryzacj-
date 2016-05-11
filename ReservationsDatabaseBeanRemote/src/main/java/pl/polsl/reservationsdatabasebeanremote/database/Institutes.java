@@ -1,5 +1,7 @@
 package pl.polsl.reservationsdatabasebeanremote.database;
 
+import org.hibernate.annotations.Proxy;
+
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.*;
@@ -9,6 +11,7 @@ import javax.persistence.*;
         @NamedQuery(name = "getInstituteByChiefId", query = "select i from Institutes i where i.chiefId.id = :id")
 })
 
+@Proxy(lazy = false)
 @Entity
 @Table(name = "INSTITUTES")
 public class Institutes implements Serializable {
@@ -26,7 +29,7 @@ public class Institutes implements Serializable {
     @Column(name = "INSTITUTE_NAME", updatable = true, insertable = true, nullable = false)
     private String instituteName;
 
-    @OneToOne(fetch = FetchType.LAZY, targetEntity = Workers.class)
+    @OneToOne(fetch = FetchType.EAGER, targetEntity = Workers.class)
     @PrimaryKeyJoinColumn
     private Workers chiefId;
 

@@ -1,5 +1,7 @@
 package pl.polsl.reservationsdatabasebeanremote.database;
 
+import org.hibernate.annotations.Proxy;
+
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.*;
@@ -11,7 +13,7 @@ import javax.persistence.*;
                 @NamedQuery(name = "getUserByUsername", query = "select u from Users u where u.username = :username"),
                 @NamedQuery(name = "getUserByEmail", query = "select u from Users u where u.email = :email")
                 })
-
+@Proxy(lazy = false)
 @Entity
 @Table(name = "USERS")
 public class Users implements Serializable {
@@ -29,11 +31,11 @@ public class Users implements Serializable {
     @OneToMany(targetEntity = Reservations.class, cascade = CascadeType.ALL)
     private List<Reservations> reservationsCollection;
 
-    @ManyToOne(optional = true, targetEntity = PriviligeLevels.class, fetch = FetchType.LAZY)
+    @ManyToOne(optional = true, targetEntity = PriviligeLevels.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "PRIVILIGE_LEVEL", insertable = true, nullable = true, updatable = true)
     private PriviligeLevels priviligeLevel;
 
-    @OneToOne(optional = false, targetEntity = Workers.class, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToOne(optional = false, targetEntity = Workers.class, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private Workers workers;
 
     @Column(name = "USERNAME", updatable = true, insertable = true, nullable = false)

@@ -1,11 +1,14 @@
 package pl.polsl.reservationsdatabasebeanremote.database;
 
+import org.hibernate.annotations.Proxy;
+
 import java.io.Serializable;
 import javax.persistence.*;
 @NamedQueries({
         @NamedQuery(name = "getEquipmentByRoomNumber", query = "select e from Equipment e where e.roomId.roomNumber = :roomNumber")
 })
 
+@Proxy(lazy = false)
 @Entity
 @Table(name = "EQUIPMENT")
 public class Equipment implements Serializable {
@@ -17,11 +20,11 @@ public class Equipment implements Serializable {
     @Column(name = "ID", updatable = true, insertable = true, nullable = false)
     private Long id;
 
-    @ManyToOne(optional = false, targetEntity = EqupmentState.class, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, targetEntity = EqupmentState.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "EQUIPMENT_STATE", insertable = true, nullable = false, updatable = true)
     private EqupmentState equipmentState;
 
-    @ManyToOne(optional = false, targetEntity = EquipmentType.class, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, targetEntity = EquipmentType.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "EQUIPMENT_TYPE", insertable = true, nullable = false, updatable = true)
     private EquipmentType equipmentType;
 
@@ -31,7 +34,7 @@ public class Equipment implements Serializable {
     @Column(name = "EQUIPMENT_NAME", updatable = true, insertable = true, nullable = false)
     private String equipmentName;
 
-    @ManyToOne(optional = false, targetEntity = Room.class, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, targetEntity = Room.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "ROOM_ID", insertable = true, nullable = false, updatable = true)
     private Room roomId;
 

@@ -1,9 +1,12 @@
 package pl.polsl.reservationsdatabasebeanremote.database;
 
+import org.hibernate.annotations.Proxy;
+
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.*;
 
+@Proxy(lazy = false)
 @Entity
 @Table(name = "ROOM_TYPES")
 public class RoomTypes implements Serializable {

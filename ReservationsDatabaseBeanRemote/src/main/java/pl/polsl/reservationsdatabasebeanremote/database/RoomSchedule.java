@@ -1,5 +1,7 @@
 package pl.polsl.reservationsdatabasebeanremote.database;
 
+import org.hibernate.annotations.Proxy;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -11,6 +13,8 @@ import javax.persistence.*;
                 @NamedQuery(name = "getCurrentScheduleForRoom", query = "select rs from RoomSchedule rs where rs = :RoomSchedule and rs.room.roomNumber = :roomNumber")
 
 })
+
+@Proxy(lazy = false)
 @Entity
 @Table(name = "ROOM_SCHEDULE")
 public class RoomSchedule implements Serializable {
@@ -35,7 +39,7 @@ public class RoomSchedule implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date _year;
 
-    @ManyToOne(optional = true, targetEntity = Room.class, fetch = FetchType.LAZY)
+    @ManyToOne(optional = true, targetEntity = Room.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "ROOM", insertable = true, nullable = true, updatable = true)
     private Room room;
 

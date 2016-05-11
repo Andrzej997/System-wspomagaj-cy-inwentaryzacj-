@@ -1,5 +1,7 @@
 package pl.polsl.reservationsdatabasebeanremote.database;
 
+import org.hibernate.annotations.Proxy;
+
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.*;
@@ -14,6 +16,7 @@ import javax.persistence.*;
                 @NamedQuery(name = "getAllChiefs", query = "select w from Workers w where w.chiefId is null"),
                 @NamedQuery(name = "getWorkersWhichHaveChief", query = "select w from Workers w where w.chiefId is not null")
             })
+@Proxy(lazy = false)
 @Entity
 @Table(name = "WORKERS")
 public class Workers implements Serializable {
@@ -45,15 +48,15 @@ public class Workers implements Serializable {
     @Column(name = "PESEL", unique = true, updatable = true, insertable = true, nullable = false, length = 11)
     private String pesel;
 
-    @ManyToOne(optional = false, targetEntity = Departaments.class, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, targetEntity = Departaments.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "DEPARTAMENT_ID", insertable = true, nullable = false, updatable = true)
     private Departaments departamentId;
 
-    @ManyToOne(optional = true, targetEntity = Room.class, fetch = FetchType.LAZY)
+    @ManyToOne(optional = true, targetEntity = Room.class, fetch = FetchType.EAGER)
     private Room room;
 
     @ManyToOne(targetEntity = Workers.class,
-            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY, optional = true)
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.EAGER, optional = true)
     @JoinColumn(updatable = true, nullable = true)
     private Workers chiefId;
 

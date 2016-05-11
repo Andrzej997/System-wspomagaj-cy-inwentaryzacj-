@@ -1,5 +1,7 @@
 package pl.polsl.reservationsdatabasebeanremote.database;
 
+import org.hibernate.annotations.Proxy;
+
 import java.io.Serializable;
 import javax.persistence.*;
 
@@ -10,6 +12,7 @@ import javax.persistence.*;
         @NamedQuery(name = "getAllReservationsByUser", query = "select r from Reservations r where r.userId.id = :userId")
 })
 
+@Proxy(lazy = false)
 @Entity
 @Table(name = "RESERVATIONS")
 public class Reservations implements Serializable {
@@ -21,11 +24,11 @@ public class Reservations implements Serializable {
     @Column(name = "ID", updatable = true, insertable = true, nullable = false)
     private Long id;
 
-    @ManyToOne(optional = false, targetEntity = RoomSchedule.class, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, targetEntity = RoomSchedule.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "ROOM_NUMBER", insertable = true, nullable = true, updatable = true)
     private RoomSchedule roomNumber;
 
-    @ManyToOne(optional = false, targetEntity = ReservationTypes.class, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, targetEntity = ReservationTypes.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "RESERVATION_TYPE", insertable = true, nullable = true, updatable = true)
     private ReservationTypes reservationType;
 
@@ -35,7 +38,7 @@ public class Reservations implements Serializable {
     @Column(name = "END_TIME", updatable = true, insertable = true, nullable = false)
     private int endTime;
 
-    @ManyToOne(optional = true, targetEntity = Users.class, fetch = FetchType.LAZY)
+    @ManyToOne(optional = true, targetEntity = Users.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "USER_ID", insertable = true, nullable = true, updatable = true)
     private Users userId;
 

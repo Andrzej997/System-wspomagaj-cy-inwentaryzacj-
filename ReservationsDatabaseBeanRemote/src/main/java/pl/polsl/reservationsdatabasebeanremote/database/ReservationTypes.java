@@ -1,9 +1,12 @@
 package pl.polsl.reservationsdatabasebeanremote.database;
 
+import org.hibernate.annotations.Proxy;
+
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.*;
 
+@Proxy(lazy = false)
 @Entity
 @Table(name = "RESERVATION_TYPES")
 public class ReservationTypes implements Serializable {
@@ -15,7 +18,7 @@ public class ReservationTypes implements Serializable {
     @Column(name = "TYPE_ID", updatable = true, insertable = true, nullable = false)
     private Long typeId;
 
-    @OneToMany(targetEntity = Reservations.class, mappedBy = "reservationType", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = Reservations.class, mappedBy = "reservationType", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Reservations> reservationsCollection;
 
     @Column(name = "TYPE_SHORT_DESCRIPTION", updatable = true, insertable = true, nullable = false)
