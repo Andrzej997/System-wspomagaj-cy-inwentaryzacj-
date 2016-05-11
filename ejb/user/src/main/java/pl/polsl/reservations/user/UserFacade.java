@@ -37,14 +37,7 @@ public class UserFacade implements UserFacadeRemote {
 
     private Users user = null;
 
-    /**
-     * Loguje u¿ytkownika. Automatycznie wykrywa czy u¿yty zosta³ login czy
-     * e-mail.
-     *
-     * @param nameOrEmail nazwa u¿ytkownika lub e-mail
-     * @param password has³o
-     * @return true jeœli zalogowano, false jeœli nie
-     */
+
     @Override
     public boolean login(String nameOrEmail, String password) {
         if (nameOrEmail.contains("@") && nameOrEmail.contains(".")) {
@@ -61,11 +54,7 @@ public class UserFacade implements UserFacadeRemote {
         return false;
     }
 
-    /**
-     * Wylogowuje u¿ytkownika.
-     *
-     * @return true je¿eli uzytkownik by³ zalogowany, false je¿eli nie
-     */
+
     @Override
     public boolean logout() {
         if (user != null) {
@@ -75,13 +64,7 @@ public class UserFacade implements UserFacadeRemote {
         return false;
     }
 
-    /**
-     * Zwraca poziom uprawnieñ zalogowanego u¿ytkownika. Gdy u¿ytkownik jest
-     * niezalogowany zwraca null.
-     *
-     * @return liczba reprezentuj¹ca poziom uprawnieñ lub null, gdy z jakiegoœ
-     * powodu nie ma uprawnieñ
-     */
+
     @Override
     public Long getUserPrivilege() {
         if (user == null) {
@@ -91,13 +74,7 @@ public class UserFacade implements UserFacadeRemote {
         }
     }
 
-    /**
-     * Zmiana has³a zalogowanego u¿ytkownika.
-     *
-     * @param oldPassword stare has³o
-     * @param newPassword nowe has³o
-     * @return true jeœli zmieniono has³o, w przeciwnym razie false
-     */
+
     @Override
     public boolean changePassword(String oldPassword, String newPassword) {
         if (user == null) {
@@ -111,12 +88,6 @@ public class UserFacade implements UserFacadeRemote {
         return false;
     }
 
-    /**
-     * Dostêpne pola w mapie: userName, email, phoneNumber, name, surname,
-     * address, pesel, grade, roomNumber i departamentName.
-     *
-     * @return mapa z danymi o u¿ytkowniku i danymi pracowniczymi, b¹dŸ null
-     */
     @Override
     public Map<String, String> getUserDetails() {
         if (user == null) {

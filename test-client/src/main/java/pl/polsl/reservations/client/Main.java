@@ -23,16 +23,20 @@ public class Main {
 //        UserFacadeRemote test = (UserFacadeRemote) l.getRemote("UserFacade");
 //        int s = test.getUser();
 
-  /*      RoomManagementFacadeRemote test2 = (RoomManagementFacadeRemote) l.getRemote("RoomManagementFacade");
+        RoomManagementFacadeRemote test2 = (RoomManagementFacadeRemote) l.getRemote("RoomManagementFacade");
 
-        String a = test2.addEquipment(1, 2);
+
         List<Map<String, String>> s = test2.getRoomsList();
-        s = test2.getRoomEquipment(Integer.valueOf(s.get(0).get("number")));
+        int roomId = Integer.valueOf(s.get(0).get("number"));
+        List<Map<String, String>> beforeUpdate = test2.getRoomEquipment(roomId);
+        test2.addEquipment(roomId, "Projektor", 4, (short)1, (short)1);
+        List<Map<String, String>> afterUpdate = test2.getRoomEquipment(roomId);
+
 
         UserManagementFacadeRemote test3 = (UserManagementFacadeRemote) l.getRemote("UserManagementFacade");
 
         int u = test3.testMethod();
-*/
+
         UsersFacadeRemote usersFacadeRemote = (UsersFacadeRemote) l.getRemote("UsersFacade");
         RoomFacadeRemote roomFacadeRemote = (RoomFacadeRemote) l.getRemote("RoomFacade");
         DepartamentsFacadeRemote departamentsFacadeRemote = (DepartamentsFacadeRemote) l.getRemote("DepartamentsFacade");

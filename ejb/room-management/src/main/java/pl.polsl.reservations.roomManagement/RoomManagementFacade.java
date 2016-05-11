@@ -1,11 +1,7 @@
 package pl.polsl.reservations.roomManagement;
 
-import pl.polsl.reservationsdatabasebeanremote.database.Equipment;
-import pl.polsl.reservationsdatabasebeanremote.database.Room;
-import pl.polsl.reservationsdatabasebeanremote.database.Workers;
-import pl.polsl.reservationsdatabasebeanremote.database.controllers.DepartamentsFacadeRemote;
-import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomFacadeRemote;
-import pl.polsl.reservationsdatabasebeanremote.database.controllers.UsersFacadeRemote;
+import pl.polsl.reservationsdatabasebeanremote.database.*;
+import pl.polsl.reservationsdatabasebeanremote.database.controllers.*;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
@@ -29,9 +25,30 @@ public class RoomManagementFacade implements RoomManagementFacadeRemote {
     @EJB
     DepartamentsFacadeRemote departmentDAO;
 
+    @EJB
+    EquipmentStateFacadeRemote equipmentStateDAO;
+
+    @EJB
+    EquipmentTypeFacadeRemote equipmentTypeDAO;
+
+    @EJB
+    EquipmentFacadeRemote equipmentDAO;
+
     @Override
-    public String addEquipment(long roomId, long equipmentId) {
-        return "testdDfs";
+    public void addEquipment(int roomNumber, String name, int quantity, short stateId, short typeId) {
+        Equipment newEquipment = new Equipment();
+        newEquipment.setEquipmentName(name);
+        newEquipment.setQuantity(quantity);
+        newEquipment.setEquipmentState(equipmentStateDAO.find(Short.valueOf(stateId)));
+        newEquipment.setEquipmentType(equipmentTypeDAO.find(Short.valueOf(typeId)));
+
+        Room room = roomsDAO.getRoomByNumber(roomNumber);
+
+        newEquipment.setRoomId(room);
+        equipmentDAO.create(newEquipment);
+
+        room.getEquipmentCollection().add(newEquipment);
+        roomsDAO.edit(room);
     }
 
     @Override
@@ -71,6 +88,28 @@ public class RoomManagementFacade implements RoomManagementFacadeRemote {
             result.add(roomData);
         }
 
+        return result;
+    }
+
+    @Override
+    public List<Map<String, String>> getEquipmentStates() {
+        List<Map<String, String>> result = new ArrayList<>();
+        for(EqupmentState es: equipmentStateDAO.findAll()) {
+            Map<String, String> type = new HashMap<>();
+            type.put("id", String.valueOf(es.getStateId()));
+            type.put("description", es.getStateDefinition());
+        }
+        return result;
+    }
+
+    @Override
+    public List<Map<String, String>> getEquipmentTypes() {
+        List<Map<String, String>> result = new ArrayList<>();
+        for(EquipmentType et: equipmentTypeDAO.findAll()) {
+            Map<String, String> type = new HashMap<>();
+            type.put("id", String.valueOf(et.getId()));
+            type.put("description", et.getShortDescription());
+        }
         return result;
     }
 }

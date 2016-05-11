@@ -10,7 +10,12 @@ import java.util.Map;
 @Remote
 public interface RoomManagementFacadeRemote {
 
-    String addEquipment(long roomId, long equipmentId);
+    void addEquipment(int roomNumber, String name, int quantity, short stateId, short typeId);
+    default void removeEquipment() {};
     List<Map<String, String>> getRoomsList();
     List<Map<String, String>> getRoomEquipment(int number);
+    List<Map<String, String>> getEquipmentStates();
+    List<Map<String, String>> getEquipmentTypes();
+    default void assignUserToRoom() {};
+    default void assignKeeperToRoom() {};
 }
