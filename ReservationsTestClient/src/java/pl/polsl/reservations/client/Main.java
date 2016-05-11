@@ -1,9 +1,8 @@
 package pl.polsl.reservations.client;
 
-import java.util.ArrayList;
 import java.util.List;
+import pl.polsl.reservationsdatabasebeanremote.database.Users;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.*;
-import pl.polsl.reservationsdatabasebeanremote.database.*;
 
 /**
  *
@@ -37,7 +36,13 @@ public class Main {
         equipmentTypeFacadeRemote.setPriviligeLevel(2);
         equipmentTypeFacadeRemote.find(1l);
         equipmentTypeFacadeRemote.find(new Short("2"));
-/*
+        
+        List<Users> findAll = usersFacadeRemote.findAll();
+        findAll.stream().forEach((u) -> {
+            System.out.println(u.getEmail());
+        });
+        
+        /*
         EqupmentState equpmentState = new EqupmentState();
         equpmentState.setStateDefinition("Uszkodzony");
         equpmentStateFacadeRemote.create(equpmentState);
@@ -50,7 +55,6 @@ public class Main {
         equpmentState = new EqupmentState();
         equpmentState.setStateDefinition("W naprawie");
         equpmentStateFacadeRemote.create(equpmentState);
-
         EquipmentType equipmentType = new EquipmentType();
         equipmentType.setShortDescription("Komputer");
         equipmentType.setLongDescription("Komputer osobisty klasy PC");
@@ -75,7 +79,6 @@ public class Main {
         equipmentType.setShortDescription("Szafa");
         equipmentType.setLongDescription("Szafa naro\u017Cnikowa dwudrzwiowa");
         equipmentTypeFacadeRemote.create(equipmentType);
-
         RoomTypes roomType = new RoomTypes();
         roomType.setShortDescription("aula");
         roomType.setLongDescription("sala wyk\u0142adowa");
@@ -95,7 +98,6 @@ public class Main {
         roomType.setShortDescription("sekretariat");
         roomType.setLongDescription("sekretariat zak\u0142adu");
         roomTypesFacadeRemote.create(roomType);
-
         ReservationTypes rt = new ReservationTypes();
         rt.setTypeShortDescription("Laboratorium");
         rt.setTypeLongDescription("Laboratorium Elektroniki Analogowiej");
@@ -116,7 +118,6 @@ public class Main {
         rt.setTypeShortDescription("Zebranie ZTI");
         rt.setTypeLongDescription("Zebranie zak\u0142adu teorii informatyki");
         reservationTypesFacadeRemote.create(rt);
-
         PriviligeLevels pl = new PriviligeLevels();
         pl.setDescription("Admin Priviliges");
         priviligeLevelsFacadeRemote.create(pl);
@@ -135,7 +136,6 @@ public class Main {
         pl = new PriviligeLevels();
         pl.setDescription("Standard User Priviliges");
         priviligeLevelsFacadeRemote.create(pl);
-
         Priviliges priviliges = new Priviliges();
         priviliges.setPrivilegeName("SELECT_PRIVILIGES");
         priviliges.setDescription("Select from priviliges");
@@ -164,7 +164,6 @@ public class Main {
         priviliges.setPrivilegeName("DROP_PRIVILIGES");
         priviliges.setDescription("drop priviliges");
         priviligesFacadeRemote.create(priviliges);
-
         priviliges = new Priviliges();
         priviliges.setPrivilegeName("SELECT_PRIVILIGE_LEVELS");
         priviliges.setDescription("Select from privilige levels");
@@ -193,7 +192,6 @@ public class Main {
         priviliges.setPrivilegeName("DROP_PRIVILIGE_LEVELS");
         priviliges.setDescription("drop privilige levels");
         priviligesFacadeRemote.create(priviliges);
-
         priviliges = new Priviliges();
         priviliges.setPrivilegeName("SELECT_USERS");
         priviliges.setDescription("Select from users");
@@ -222,7 +220,6 @@ public class Main {
         priviliges.setPrivilegeName("DROP_USERS");
         priviliges.setDescription("drop users");
         priviligesFacadeRemote.create(priviliges);
-
         priviliges = new Priviliges();
         priviliges.setPrivilegeName("SELECT_RESERVATION_TYPES");
         priviliges.setDescription("Select from reservation types");
@@ -251,7 +248,6 @@ public class Main {
         priviliges.setPrivilegeName("DROP_RESERVATION_TYPES");
         priviliges.setDescription("drop reservation types");
         priviligesFacadeRemote.create(priviliges);
-
         priviliges = new Priviliges();
         priviliges.setPrivilegeName("SELECT_RESERVATIONS");
         priviliges.setDescription("Select from reservations");
@@ -280,7 +276,6 @@ public class Main {
         priviliges.setPrivilegeName("DROP_RESERVATIONS");
         priviliges.setDescription("drop reservations");
         priviligesFacadeRemote.create(priviliges);
-
         priviliges = new Priviliges();
         priviliges.setPrivilegeName("SELECT_EQUIPMENT_TYPE");
         priviliges.setDescription("Select from equipment type");
@@ -309,7 +304,6 @@ public class Main {
         priviliges.setPrivilegeName("DROP_EQUIPMENT_TYPE");
         priviliges.setDescription("drop equipment type");
         priviligesFacadeRemote.create(priviliges);
-
         priviliges = new Priviliges();
         priviliges.setPrivilegeName("SELECT_EQUIPMENT");
         priviliges.setDescription("Select from equipment");
@@ -338,7 +332,6 @@ public class Main {
         priviliges.setPrivilegeName("DROP_EQUIPMENT");
         priviliges.setDescription("drop equipment");
         priviligesFacadeRemote.create(priviliges);
-
         priviliges = new Priviliges();
         priviliges.setPrivilegeName("SELECT_EQUIPMENT_STATE");
         priviliges.setDescription("Select from equipment state");
@@ -367,7 +360,6 @@ public class Main {
         priviliges.setPrivilegeName("DROP_EQUIPMENT_STATE");
         priviliges.setDescription("drop equipment state");
         priviligesFacadeRemote.create(priviliges);
-
         priviliges = new Priviliges();
         priviliges.setPrivilegeName("SELECT_WORKERS");
         priviliges.setDescription("Select from workers");
@@ -396,7 +388,6 @@ public class Main {
         priviliges.setPrivilegeName("DROP_WORKERS");
         priviliges.setDescription("drop workers");
         priviligesFacadeRemote.create(priviliges);
-
         priviliges = new Priviliges();
         priviliges.setPrivilegeName("SELECT_ROOM");
         priviliges.setDescription("Select from room");
@@ -425,7 +416,6 @@ public class Main {
         priviliges.setPrivilegeName("DROP_ROOM");
         priviliges.setDescription("drop room");
         priviligesFacadeRemote.create(priviliges);
-
         priviliges = new Priviliges();
         priviliges.setPrivilegeName("SELECT_ROOM_SCHEDULE");
         priviliges.setDescription("Select from room schedule");
@@ -454,7 +444,6 @@ public class Main {
         priviliges.setPrivilegeName("DROP_ROOM_SCHEDULE");
         priviliges.setDescription("drop room schedule");
         priviligesFacadeRemote.create(priviliges);
-
         priviliges = new Priviliges();
         priviliges.setPrivilegeName("SELECT_ROOM_TYPES");
         priviliges.setDescription("Select from room types");
@@ -484,7 +473,6 @@ public class Main {
         priviliges.setDescription("drop room types");
         priviligesFacadeRemote.create(priviliges);
         priviliges = new Priviliges();
-
         priviliges.setPrivilegeName("SELECT_DEPARTAMENTS");
         priviliges.setDescription("Select from departaments");
         priviligesFacadeRemote.create(priviliges);
@@ -512,7 +500,6 @@ public class Main {
         priviliges.setPrivilegeName("DROP_DEPARTAMENTS");
         priviliges.setDescription("drop departaments");
         priviligesFacadeRemote.create(priviliges);
-
         priviliges.setPrivilegeName("SELECT_INSTITUTES");
         priviliges.setDescription("Select from institutes");
         priviligesFacadeRemote.create(priviliges);
@@ -540,7 +527,6 @@ public class Main {
         priviliges.setPrivilegeName("DROP_INSTITUTES");
         priviliges.setDescription("drop institutes");
         priviligesFacadeRemote.create(priviliges);
-
         //Admin
         PriviligeLevels find = priviligeLevelsFacadeRemote.find(new Long(1));
         List<Priviliges> findAll = priviligesFacadeRemote.findAll();
@@ -549,657 +535,619 @@ public class Main {
         List<PriviligeLevels> list = new ArrayList<>();
         list.add(find);
         findAll.stream().forEach((p) -> {
-            p.setPriviligeLevelsCollection(list);
-            priviligesFacadeRemote.merge(p);
+        p.setPriviligeLevelsCollection(list);
+        priviligesFacadeRemote.merge(p);
         });
-
         //Standard User
         PriviligeLevels find2 = priviligeLevelsFacadeRemote.find(new Long(6));
         for (Priviliges p : findAll) {
-            if (p.getPrivilegeName().equals("SELECT_ROOM")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find2)) {
-                    priviligeLevelsCollection.add(find2);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find2.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find2.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find2);
-            }
-            if (p.getPrivilegeName().equals("SELECT_RESERVATIONS")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find2)) {
-                    priviligeLevelsCollection.add(find2);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find2.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find2.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find2);
-            }
-
-            if (p.getPrivilegeName().equals("SELECT_ROOM_SCHEDULE")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find2)) {
-                    priviligeLevelsCollection.add(find2);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find2.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find2.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find2);
-            }
-
-            if (p.getPrivilegeName().equals("SELECT_RESERVATION_TYPES")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find2)) {
-                    priviligeLevelsCollection.add(find2);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find2.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find2.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find2);
-            }
-
-            if (p.getPrivilegeName().equals("SELECT_ROOM_TYPES")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find2)) {
-                    priviligeLevelsCollection.add(find2);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find2.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find2.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find2);
-            }
-
-            if (p.getPrivilegeName().equals("SELECT_USERS")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find2)) {
-                    priviligeLevelsCollection.add(find2);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find2.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find2.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find2);
-            }
+        if (p.getPrivilegeName().equals("SELECT_ROOM")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find2)) {
+        priviligeLevelsCollection.add(find2);
         }
-
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find2.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find2.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find2);
+        }
+        if (p.getPrivilegeName().equals("SELECT_RESERVATIONS")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find2)) {
+        priviligeLevelsCollection.add(find2);
+        }
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find2.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find2.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find2);
+        }
+        if (p.getPrivilegeName().equals("SELECT_ROOM_SCHEDULE")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find2)) {
+        priviligeLevelsCollection.add(find2);
+        }
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find2.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find2.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find2);
+        }
+        if (p.getPrivilegeName().equals("SELECT_RESERVATION_TYPES")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find2)) {
+        priviligeLevelsCollection.add(find2);
+        }
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find2.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find2.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find2);
+        }
+        if (p.getPrivilegeName().equals("SELECT_ROOM_TYPES")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find2)) {
+        priviligeLevelsCollection.add(find2);
+        }
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find2.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find2.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find2);
+        }
+        if (p.getPrivilegeName().equals("SELECT_USERS")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find2)) {
+        priviligeLevelsCollection.add(find2);
+        }
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find2.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find2.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find2);
+        }
+        }
         //Technical worker
         PriviligeLevels find3 = priviligeLevelsFacadeRemote.find(new Long(5));
         for (Priviliges p : findAll) {
-            if (p.getPrivilegeName().startsWith("SELECT")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find3)) {
-                    priviligeLevelsCollection.add(find3);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find3.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find3.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find3);
-            }
-            if (p.getPrivilegeName().endsWith("USERS")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find3)) {
-                    priviligeLevelsCollection.add(find3);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find3.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find3.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find3);
-            }
-
-            if (p.getPrivilegeName().equals("ALTER_RESERVATIONS")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find3)) {
-                    priviligeLevelsCollection.add(find3);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find3.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find3.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find3);
-            }
-
-            if (p.getPrivilegeName().equals("CREATE_RESERVATIONS")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find3)) {
-                    priviligeLevelsCollection.add(find3);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find3.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find3.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find3);
-            }
-
-            if (p.getPrivilegeName().equals("INSERT_RESERVATIONS")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find3)) {
-                    priviligeLevelsCollection.add(find3);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find3.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find3.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find3);
-            }
-
-            if (p.getPrivilegeName().equals("SELECT_RESERVATIONS")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find3)) {
-                    priviligeLevelsCollection.add(find3);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find3.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find3.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find3);
-            }
-
-            if (p.getPrivilegeName().equals("UPDATE_RESERVATIONS")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find3)) {
-                    priviligeLevelsCollection.add(find3);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find3.getPriviligesCollection();
-                priviligesCollection.add(p);
-                find3.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find3);
-            }
-
-            if (p.getPrivilegeName().equals("DELETE_RESERVATIONS")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find3)) {
-                    priviligeLevelsCollection.add(find3);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find3.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find3.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find3);
-            }
-
-            if (p.getPrivilegeName().equals("ALTER_RESERVATION_TYPES")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find3)) {
-                    priviligeLevelsCollection.add(find3);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find3.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find3.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find3);
-            }
-
-            if (p.getPrivilegeName().equals("CREATE_RESERVATION_TYPES")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find3)) {
-                    priviligeLevelsCollection.add(find3);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find3.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find3.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find3);
-            }
-
-            if (p.getPrivilegeName().equals("INSERT_RESERVATION_TYPES")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find3)) {
-                    priviligeLevelsCollection.add(find3);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find3.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find3.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find3);
-            }
-
-            if (p.getPrivilegeName().equals("SELECT_RESERVATION_TYPES")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find3)) {
-                    priviligeLevelsCollection.add(find3);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find3.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find3.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find3);
-            }
-
-            if (p.getPrivilegeName().equals("UPDATE_RESERVATION_TYPES")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find3)) {
-                    priviligeLevelsCollection.add(find3);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find3.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find3.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find3);
-            }
+        if (p.getPrivilegeName().startsWith("SELECT")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find3)) {
+        priviligeLevelsCollection.add(find3);
         }
-
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find3.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find3.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find3);
+        }
+        if (p.getPrivilegeName().endsWith("USERS")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find3)) {
+        priviligeLevelsCollection.add(find3);
+        }
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find3.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find3.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find3);
+        }
+        if (p.getPrivilegeName().equals("ALTER_RESERVATIONS")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find3)) {
+        priviligeLevelsCollection.add(find3);
+        }
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find3.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find3.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find3);
+        }
+        if (p.getPrivilegeName().equals("CREATE_RESERVATIONS")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find3)) {
+        priviligeLevelsCollection.add(find3);
+        }
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find3.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find3.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find3);
+        }
+        if (p.getPrivilegeName().equals("INSERT_RESERVATIONS")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find3)) {
+        priviligeLevelsCollection.add(find3);
+        }
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find3.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find3.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find3);
+        }
+        if (p.getPrivilegeName().equals("SELECT_RESERVATIONS")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find3)) {
+        priviligeLevelsCollection.add(find3);
+        }
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find3.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find3.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find3);
+        }
+        if (p.getPrivilegeName().equals("UPDATE_RESERVATIONS")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find3)) {
+        priviligeLevelsCollection.add(find3);
+        }
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find3.getPriviligesCollection();
+        priviligesCollection.add(p);
+        find3.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find3);
+        }
+        if (p.getPrivilegeName().equals("DELETE_RESERVATIONS")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find3)) {
+        priviligeLevelsCollection.add(find3);
+        }
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find3.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find3.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find3);
+        }
+        if (p.getPrivilegeName().equals("ALTER_RESERVATION_TYPES")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find3)) {
+        priviligeLevelsCollection.add(find3);
+        }
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find3.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find3.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find3);
+        }
+        if (p.getPrivilegeName().equals("CREATE_RESERVATION_TYPES")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find3)) {
+        priviligeLevelsCollection.add(find3);
+        }
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find3.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find3.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find3);
+        }
+        if (p.getPrivilegeName().equals("INSERT_RESERVATION_TYPES")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find3)) {
+        priviligeLevelsCollection.add(find3);
+        }
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find3.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find3.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find3);
+        }
+        if (p.getPrivilegeName().equals("SELECT_RESERVATION_TYPES")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find3)) {
+        priviligeLevelsCollection.add(find3);
+        }
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find3.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find3.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find3);
+        }
+        if (p.getPrivilegeName().equals("UPDATE_RESERVATION_TYPES")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find3)) {
+        priviligeLevelsCollection.add(find3);
+        }
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find3.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find3.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find3);
+        }
+        }
         //Technical Chief
         PriviligeLevels find4 = priviligeLevelsFacadeRemote.find(new Long(4));
         for (Priviliges p : findAll) {
-            if (p.getPrivilegeName().startsWith("SELECT")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find4)) {
-                    priviligeLevelsCollection.add(find4);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find4.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find4.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find4);
-            }
-            if (p.getPrivilegeName().endsWith("USERS")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find4)) {
-                    priviligeLevelsCollection.add(find4);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find4.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find4.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find4);
-            }
-
-            if (p.getPrivilegeName().endsWith("EQUIPMENT")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find4)) {
-                    priviligeLevelsCollection.add(find4);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find4.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find4.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find4);
-            }
-
-            if (p.getPrivilegeName().endsWith("EQUIPMENT_STATE") && !p.getPrivilegeName().startsWith("DELETE") && !p.getPrivilegeName().startsWith("DROP")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find4)) {
-                    priviligeLevelsCollection.add(find4);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find4.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find4.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find4);
-            }
-
-            if (p.getPrivilegeName().endsWith("EQUIPMENT_TYPE") && !p.getPrivilegeName().startsWith("DELETE") && !p.getPrivilegeName().startsWith("DROP")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find4)) {
-                    priviligeLevelsCollection.add(find4);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find4.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find4.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find4);
-            }
-
-            if (p.getPrivilegeName().endsWith("PRIVILIGES") && (p.getPrivilegeName().startsWith("SELECT") || p.getPrivilegeName().startsWith("UPDATE") || p.getPrivilegeName().startsWith("ALTER"))) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find4)) {
-                    priviligeLevelsCollection.add(find4);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find4.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find4.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find4);
-            }
-
-            if (p.getPrivilegeName().equals("ALTER_RESERVATIONS")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find4)) {
-                    priviligeLevelsCollection.add(find4);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find4.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find4.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find4);
-            }
-
-            if (p.getPrivilegeName().equals("CREATE_RESERVATIONS")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find4)) {
-                    priviligeLevelsCollection.add(find4);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find4.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find4.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find4);
-            }
-
-            if (p.getPrivilegeName().equals("INSERT_RESERVATIONS")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find4)) {
-                    priviligeLevelsCollection.add(find4);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find4.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find4.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find4);
-            }
-
-            if (p.getPrivilegeName().equals("SELECT_RESERVATIONS")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find4)) {
-                    priviligeLevelsCollection.add(find4);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find4.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find4.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find4);
-            }
-
-            if (p.getPrivilegeName().equals("UPDATE_RESERVATIONS")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find4)) {
-                    priviligeLevelsCollection.add(find4);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find4.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find4.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find4);
-            }
-
-            if (p.getPrivilegeName().equals("DELETE_RESERVATIONS")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find4)) {
-                    priviligeLevelsCollection.add(find4);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find4.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find4.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find4);
-            }
-
-            if (p.getPrivilegeName().equals("ALTER_RESERVATION_TYPES")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find4)) {
-                    priviligeLevelsCollection.add(find4);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find4.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find4.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find4);
-            }
-
-            if (p.getPrivilegeName().equals("CREATE_RESERVATION_TYPES")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find4)) {
-                    priviligeLevelsCollection.add(find4);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find4.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find4.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find4);
-            }
-
-            if (p.getPrivilegeName().equals("INSERT_RESERVATION_TYPES")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find4)) {
-                    priviligeLevelsCollection.add(find4);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find4.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find4.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find4);
-            }
-
-            if (p.getPrivilegeName().equals("SELECT_RESERVATION_TYPES")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find4)) {
-                    priviligeLevelsCollection.add(find4);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find4.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find4.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find4);
-            }
-
-            if (p.getPrivilegeName().equals("UPDATE_RESERVATION_TYPES")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find4)) {
-                    priviligeLevelsCollection.add(find4);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find4.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find4.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find4);
-            }
+        if (p.getPrivilegeName().startsWith("SELECT")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find4)) {
+        priviligeLevelsCollection.add(find4);
         }
-
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find4.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find4.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find4);
+        }
+        if (p.getPrivilegeName().endsWith("USERS")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find4)) {
+        priviligeLevelsCollection.add(find4);
+        }
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find4.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find4.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find4);
+        }
+        if (p.getPrivilegeName().endsWith("EQUIPMENT")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find4)) {
+        priviligeLevelsCollection.add(find4);
+        }
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find4.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find4.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find4);
+        }
+        if (p.getPrivilegeName().endsWith("EQUIPMENT_STATE") && !p.getPrivilegeName().startsWith("DELETE") && !p.getPrivilegeName().startsWith("DROP")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find4)) {
+        priviligeLevelsCollection.add(find4);
+        }
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find4.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find4.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find4);
+        }
+        if (p.getPrivilegeName().endsWith("EQUIPMENT_TYPE") && !p.getPrivilegeName().startsWith("DELETE") && !p.getPrivilegeName().startsWith("DROP")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find4)) {
+        priviligeLevelsCollection.add(find4);
+        }
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find4.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find4.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find4);
+        }
+        if (p.getPrivilegeName().endsWith("PRIVILIGES") && (p.getPrivilegeName().startsWith("SELECT") || p.getPrivilegeName().startsWith("UPDATE") || p.getPrivilegeName().startsWith("ALTER"))) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find4)) {
+        priviligeLevelsCollection.add(find4);
+        }
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find4.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find4.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find4);
+        }
+        if (p.getPrivilegeName().equals("ALTER_RESERVATIONS")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find4)) {
+        priviligeLevelsCollection.add(find4);
+        }
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find4.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find4.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find4);
+        }
+        if (p.getPrivilegeName().equals("CREATE_RESERVATIONS")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find4)) {
+        priviligeLevelsCollection.add(find4);
+        }
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find4.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find4.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find4);
+        }
+        if (p.getPrivilegeName().equals("INSERT_RESERVATIONS")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find4)) {
+        priviligeLevelsCollection.add(find4);
+        }
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find4.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find4.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find4);
+        }
+        if (p.getPrivilegeName().equals("SELECT_RESERVATIONS")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find4)) {
+        priviligeLevelsCollection.add(find4);
+        }
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find4.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find4.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find4);
+        }
+        if (p.getPrivilegeName().equals("UPDATE_RESERVATIONS")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find4)) {
+        priviligeLevelsCollection.add(find4);
+        }
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find4.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find4.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find4);
+        }
+        if (p.getPrivilegeName().equals("DELETE_RESERVATIONS")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find4)) {
+        priviligeLevelsCollection.add(find4);
+        }
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find4.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find4.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find4);
+        }
+        if (p.getPrivilegeName().equals("ALTER_RESERVATION_TYPES")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find4)) {
+        priviligeLevelsCollection.add(find4);
+        }
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find4.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find4.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find4);
+        }
+        if (p.getPrivilegeName().equals("CREATE_RESERVATION_TYPES")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find4)) {
+        priviligeLevelsCollection.add(find4);
+        }
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find4.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find4.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find4);
+        }
+        if (p.getPrivilegeName().equals("INSERT_RESERVATION_TYPES")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find4)) {
+        priviligeLevelsCollection.add(find4);
+        }
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find4.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find4.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find4);
+        }
+        if (p.getPrivilegeName().equals("SELECT_RESERVATION_TYPES")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find4)) {
+        priviligeLevelsCollection.add(find4);
+        }
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find4.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find4.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find4);
+        }
+        if (p.getPrivilegeName().equals("UPDATE_RESERVATION_TYPES")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find4)) {
+        priviligeLevelsCollection.add(find4);
+        }
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find4.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find4.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find4);
+        }
+        }
         //departament chief
         PriviligeLevels find5 = priviligeLevelsFacadeRemote.find(new Long(3));
         List<Priviliges> priviligesCollection1 = find4.getPriviligesCollection();
         find5.setPriviligesCollection(priviligesCollection1);
         priviligeLevelsFacadeRemote.merge(find5);
         for (Priviliges p : findAll) {
-            if (p.getPrivilegeName().equals("DELETE_EQUIPMENT_TYPE")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find5)) {
-                    priviligeLevelsCollection.add(find5);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find5.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find5.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find5);
-            }
-            if (p.getPrivilegeName().endsWith("ROOM")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find5)) {
-                    priviligeLevelsCollection.add(find5);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find5.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find5.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find5);
-            }
-
-            if (p.getPrivilegeName().endsWith("ROOM_SCHEDULE")) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                priviligeLevelsCollection.add(find5);
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find5.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find5.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find5);
-            }
-
-            if ((p.getPrivilegeName().endsWith("DEPARTAMENTS") || p.getPrivilegeName().endsWith("PRIVILIGES")) && (p.getPrivilegeName().startsWith("SELECT") || p.getPrivilegeName().startsWith("UPDATE") || p.getPrivilegeName().startsWith("ALTER"))) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find5)) {
-                    priviligeLevelsCollection.add(find5);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find5.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find5.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find5);
-            }
+        if (p.getPrivilegeName().equals("DELETE_EQUIPMENT_TYPE")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find5)) {
+        priviligeLevelsCollection.add(find5);
         }
-
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find5.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find5.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find5);
+        }
+        if (p.getPrivilegeName().endsWith("ROOM")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find5)) {
+        priviligeLevelsCollection.add(find5);
+        }
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find5.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find5.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find5);
+        }
+        if (p.getPrivilegeName().endsWith("ROOM_SCHEDULE")) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        priviligeLevelsCollection.add(find5);
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find5.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find5.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find5);
+        }
+        if ((p.getPrivilegeName().endsWith("DEPARTAMENTS") || p.getPrivilegeName().endsWith("PRIVILIGES")) && (p.getPrivilegeName().startsWith("SELECT") || p.getPrivilegeName().startsWith("UPDATE") || p.getPrivilegeName().startsWith("ALTER"))) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find5)) {
+        priviligeLevelsCollection.add(find5);
+        }
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find5.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find5.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find5);
+        }
+        }
         //institute chief
         PriviligeLevels find6 = priviligeLevelsFacadeRemote.find(new Long(2));
         List<Priviliges> priviligesCollection2 = find5.getPriviligesCollection();
         find6.setPriviligesCollection(priviligesCollection2);
         priviligeLevelsFacadeRemote.merge(find6);
         for (Priviliges p : findAll) {
-            if ((p.getPrivilegeName().endsWith("DEPARTAMENTS") || p.getPrivilegeName().endsWith("PRIVILIGES")) && (!p.getPrivilegeName().startsWith("CREATE") && !p.getPrivilegeName().startsWith("DROP"))) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find6)) {
-                    priviligeLevelsCollection.add(find6);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find6.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find6.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find5);
-            }
-            if (p.getPrivilegeName().endsWith("INSTITUTES") && (p.getPrivilegeName().startsWith("SELECT") || p.getPrivilegeName().startsWith("UPDATE"))) {
-                List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
-                if (!priviligeLevelsCollection.contains(find6)) {
-                    priviligeLevelsCollection.add(find6);
-                }
-                p.setPriviligeLevelsCollection(priviligeLevelsCollection);
-                List<Priviliges> priviligesCollection = find6.getPriviligesCollection();
-                if (!priviligesCollection.contains(p)) {
-                    priviligesCollection.add(p);
-                }
-                find6.setPriviligesCollection(priviligesCollection);
-                priviligesFacadeRemote.merge(p);
-                priviligeLevelsFacadeRemote.merge(find5);
-            }
+        if ((p.getPrivilegeName().endsWith("DEPARTAMENTS") || p.getPrivilegeName().endsWith("PRIVILIGES")) && (!p.getPrivilegeName().startsWith("CREATE") && !p.getPrivilegeName().startsWith("DROP"))) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find6)) {
+        priviligeLevelsCollection.add(find6);
         }
-
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find6.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find6.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find5);
+        }
+        if (p.getPrivilegeName().endsWith("INSTITUTES") && (p.getPrivilegeName().startsWith("SELECT") || p.getPrivilegeName().startsWith("UPDATE"))) {
+        List<PriviligeLevels> priviligeLevelsCollection = p.getPriviligeLevelsCollection();
+        if (!priviligeLevelsCollection.contains(find6)) {
+        priviligeLevelsCollection.add(find6);
+        }
+        p.setPriviligeLevelsCollection(priviligeLevelsCollection);
+        List<Priviliges> priviligesCollection = find6.getPriviligesCollection();
+        if (!priviligesCollection.contains(p)) {
+        priviligesCollection.add(p);
+        }
+        find6.setPriviligesCollection(priviligesCollection);
+        priviligesFacadeRemote.merge(p);
+        priviligeLevelsFacadeRemote.merge(find5);
+        }
+        }
         Departaments dep = new Departaments();
         dep.setDepratamentName("Zak\u0142ad mikrokontroler\u00F3w");
         departamentsFacadeRemote.create(dep);
@@ -1209,14 +1157,12 @@ public class Main {
         dep = new Departaments();
         dep.setDepratamentName("Zak\u0142ad teorii informatyki");
         departamentsFacadeRemote.create(dep);
-
         dep = new Departaments();
         dep.setDepratamentName("Zak\u0142ad pomiar\u00F3w");
         departamentsFacadeRemote.create(dep);
         dep = new Departaments();
         dep.setDepratamentName("Zak\u0142ad system\u00F3w sterowania");
         departamentsFacadeRemote.create(dep);
-
         Workers w = new Workers();
         w.setAdress("Adres");
         w.setGrade("dr");
@@ -1252,7 +1198,6 @@ public class Main {
         w.setChiefId(workersFacadeRemote.find(new Long(1)));
         w.setDepartamentId(departamentsFacadeRemote.getReference(new Long(1)));
         workersFacadeRemote.create(w);
-
         w = new Workers();
         w.setAdress("Adres");
         w.setGrade("dr");
@@ -1288,7 +1233,6 @@ public class Main {
         w.setChiefId(workersFacadeRemote.find(new Long(5)));
         w.setDepartamentId(departamentsFacadeRemote.find(new Long(2)));
         workersFacadeRemote.create(w);
-
         w = new Workers();
         w.setAdress("Adres");
         w.setGrade("dr");
@@ -1324,7 +1268,6 @@ public class Main {
         w.setChiefId(workersFacadeRemote.find(new Long(9)));
         w.setDepartamentId(departamentsFacadeRemote.find(new Long(3)));
         workersFacadeRemote.create(w);
-
         w = new Workers();
         w.setAdress("Adres");
         w.setGrade("dr");
@@ -1360,7 +1303,6 @@ public class Main {
         w.setChiefId(workersFacadeRemote.find(new Long(13)));
         w.setDepartamentId(departamentsFacadeRemote.find(new Long(4)));
         workersFacadeRemote.create(w);
-
         w = new Workers();
         w.setAdress("Adres");
         w.setGrade("dr");

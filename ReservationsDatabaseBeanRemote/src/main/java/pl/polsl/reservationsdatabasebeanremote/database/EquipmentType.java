@@ -1,8 +1,8 @@
 package pl.polsl.reservationsdatabasebeanremote.database;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.*;
 
 /**
  * @author matis

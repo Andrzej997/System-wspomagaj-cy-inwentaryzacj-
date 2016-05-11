@@ -2,18 +2,17 @@ package pl.polsl.reservations.client;
 
 import java.net.URL;
 import java.util.Properties;
-
 import javax.ejb.EJBHome;
 import javax.ejb.EJBLocalHome;
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
+import javax.mail.Session;
 import javax.naming.InitialContext;
+import javax.naming.NameClassPair;
+import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.rmi.PortableRemoteObject;
 import javax.sql.DataSource;
-import javax.mail.Session;
-import javax.naming.NameClassPair;
-import javax.naming.NamingEnumeration;
 
 /**
  *
@@ -142,7 +141,7 @@ public class Lookup {
      */
     public boolean getBoolean(String envName) throws NamingException {
         Boolean bool = (Boolean) lookup(envName);
-        return bool.booleanValue();
+        return bool;
     }
 
     /**

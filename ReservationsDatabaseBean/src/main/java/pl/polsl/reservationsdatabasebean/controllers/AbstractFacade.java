@@ -1,21 +1,19 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
-import pl.polsl.reservationsdatabasebean.context.PriviligeContext;
-import pl.polsl.reservationsdatabasebeanremote.database.Reservations;
-
+import java.io.Serializable;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.Id;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.io.Serializable;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.Id;
+import pl.polsl.reservationsdatabasebean.context.PriviligeContext;
 
 /**
  * @author matis
@@ -60,32 +58,12 @@ public abstract class AbstractFacade<T> implements Serializable {
     }
 
     public T find(Object id) {
-        Long idValue = getLongValue(id);
-        Field[] fields = this.entityClass.getDeclaredFields();
-        for(Field field : fields){
-            Annotation[] annotations = field.getAnnotations();
-            for(Annotation annotation : annotations){
-                if(annotation instanceof Id){
-                    Class<?> type = field.getType();
-                    if(Byte.class == type){
-                        id = idValue.byteValue();
-                    } else if (Integer.class == type){
-                        id = idValue.intValue();
-                    } else if (Short.class == type){
-                        id = idValue.shortValue();
-                    } else if (Long.class == type){
-                        id = idValue;
-                    } else {
-                        return null;
-                    }
-                }
-            }
-        }
-        T object = getEntityManager().find(entityClass, id);
-        return object;
+        id = getAppropriateIdValue(id);
+        return getEntityManager().find(entityClass, id);
     }
 
     public T getReference(Object id) {
+        id = getAppropriateIdValue(id);
         return getEntityManager().getReference(entityClass, id);
     }
 
@@ -127,22 +105,47 @@ public abstract class AbstractFacade<T> implements Serializable {
         List<T> resultList = query.getResultList();
         return resultList;
     }
-    
-    private Long getLongValue(Object o){
-        if(o instanceof Long){
-            return (Long)o;
-        } else if (o instanceof Integer){
+
+    private Long getLongValue(Object o) {
+        if (o instanceof Long) {
+            return (Long) o;
+        } else if (o instanceof Integer) {
             Integer value = (Integer) o;
             return value.longValue();
-        } else if (o instanceof Short){
+        } else if (o instanceof Short) {
             Short value = (Short) o;
             return value.longValue();
-        } else if(o instanceof Byte){
+        } else if (o instanceof Byte) {
             Byte value = (Byte) o;
             return value.longValue();
         } else {
             return null;
         }
     }
-    
+
+    private Object getAppropriateIdValue(Object value) {
+        Long idValue = getLongValue(value);
+        Field[] fields = this.entityClass.getDeclaredFields();
+        for (Field field : fields) {
+            Annotation[] annotations = field.getAnnotations();
+            for (Annotation annotation : annotations) {
+                if (annotation instanceof Id) {
+                    Class<?> type = field.getType();
+                    if (Byte.class == type) {
+                        value = idValue.byteValue();
+                    } else if (Integer.class == type) {
+                        value = idValue.intValue();
+                    } else if (Short.class == type) {
+                        value = idValue.shortValue();
+                    } else if (Long.class == type) {
+                        value = idValue;
+                    } else {
+                        return null;
+                    }
+                }
+            }
+        }
+        return value;
+    }
+
 }

@@ -2,13 +2,11 @@ package pl.polsl.reservations.user;
 
 import java.util.HashMap;
 import java.util.Map;
-import pl.polsl.reservationsdatabasebeanremote.database.Users;
-import pl.polsl.reservationsdatabasebeanremote.database.Room;
-import pl.polsl.reservationsdatabasebeanremote.database.controllers.ReservationsFacadeRemote;
-
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
 import pl.polsl.reservationsdatabasebeanremote.database.Departaments;
+import pl.polsl.reservationsdatabasebeanremote.database.Room;
+import pl.polsl.reservationsdatabasebeanremote.database.Users;
 import pl.polsl.reservationsdatabasebeanremote.database.Workers;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.DepartamentsFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomFacadeRemote;

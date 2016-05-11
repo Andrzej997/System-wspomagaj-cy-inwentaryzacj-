@@ -1,25 +1,20 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
+import java.util.List;
+import javax.ejb.Stateful;
+import javax.interceptor.Interceptors;
+import javax.naming.NamingException;
+import javax.persistence.Query;
 import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
 import pl.polsl.reservationsdatabasebeanremote.database.PriviligeLevels;
 import pl.polsl.reservationsdatabasebeanremote.database.Users;
 import pl.polsl.reservationsdatabasebeanremote.database.Workers;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.UsersFacadeRemote;
 
-import javax.ejb.Remote;
-import javax.ejb.Stateful;
-import javax.ejb.Stateless;
-import javax.interceptor.Interceptors;
-import javax.jws.WebMethod;
-import javax.jws.WebService;
-import javax.naming.NamingException;
-import javax.persistence.Query;
-import java.util.List;
-
 /**
  * @author matis
  */
-//@Interceptors({LoggerImpl.class})
+@Interceptors({LoggerImpl.class})
 @Stateful
 public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeRemote {
 

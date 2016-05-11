@@ -1,10 +1,9 @@
 package pl.polsl.reservationsdatabasebeanremote.database;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
+import javax.persistence.*;
 
 @NamedQueries({@NamedQuery(name = "getAllSchedulesByYearAndSemester", query = "select rs from RoomSchedule rs where rs.semester = :semester and rs._year = :year "),
                 @NamedQuery(name = "getAllSchedulesAtSession", query = "select rs from RoomSchedule rs where rs.semester = :semester and rs._year = :year and rs.examinationSession = true "),

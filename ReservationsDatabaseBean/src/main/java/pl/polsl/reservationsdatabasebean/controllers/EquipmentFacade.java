@@ -1,19 +1,18 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
-import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
-import pl.polsl.reservationsdatabasebeanremote.database.Equipment;
-import pl.polsl.reservationsdatabasebeanremote.database.controllers.EquipmentFacadeRemote;
-
+import java.util.List;
 import javax.ejb.Stateful;
 import javax.interceptor.Interceptors;
 import javax.naming.NamingException;
 import javax.persistence.Query;
-import java.util.List;
+import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
+import pl.polsl.reservationsdatabasebeanremote.database.Equipment;
+import pl.polsl.reservationsdatabasebeanremote.database.controllers.EquipmentFacadeRemote;
 
 /**
  * @author matis
  */
-//@Interceptors({LoggerImpl.class})
+@Interceptors({LoggerImpl.class})
 @Stateful
 public class EquipmentFacade extends AbstractFacade<Equipment> implements EquipmentFacadeRemote {
 

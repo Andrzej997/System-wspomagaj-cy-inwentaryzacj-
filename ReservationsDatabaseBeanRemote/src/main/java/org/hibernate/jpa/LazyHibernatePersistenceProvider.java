@@ -1,11 +1,11 @@
 package org.hibernate.jpa;
 
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.spi.PersistenceUnitInfo;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Map;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.spi.PersistenceUnitInfo;
 
 public class LazyHibernatePersistenceProvider extends HibernatePersistenceProvider {
 

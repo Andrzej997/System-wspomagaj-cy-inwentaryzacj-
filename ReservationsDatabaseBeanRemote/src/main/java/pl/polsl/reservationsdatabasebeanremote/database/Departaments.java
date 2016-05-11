@@ -1,9 +1,8 @@
 package pl.polsl.reservationsdatabasebeanremote.database;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Objects;
+import javax.persistence.*;
 
 @NamedQueries({
         @NamedQuery(name = "getDepartamentByName", query = "select d from Departaments d where d.depratamentName like :name"),
@@ -13,7 +12,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "DEPARTAMENTS")
-public class Departaments implements Serializable {
+public class Departaments implements Serializable{
 
     private static final long serialVersionUID = 61654414912214227L;
 

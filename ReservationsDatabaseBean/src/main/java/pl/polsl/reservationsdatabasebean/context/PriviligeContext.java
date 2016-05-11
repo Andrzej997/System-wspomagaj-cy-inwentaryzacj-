@@ -1,9 +1,8 @@
 package pl.polsl.reservationsdatabasebean.context;
 
-import pl.polsl.reservationsdatabasebeanremote.database.context.IPrivilige;
-
-import javax.persistence.EntityManager;
 import java.util.Objects;
+import javax.persistence.EntityManager;
+import pl.polsl.reservationsdatabasebeanremote.database.context.IPrivilige;
 
 /**
  * @author matis

@@ -1,21 +1,20 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
+import java.util.List;
+import javax.ejb.Stateful;
+import javax.interceptor.Interceptors;
+import javax.naming.NamingException;
+import javax.persistence.Query;
 import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
 import pl.polsl.reservationsdatabasebeanremote.database.Departaments;
 import pl.polsl.reservationsdatabasebeanremote.database.Room;
 import pl.polsl.reservationsdatabasebeanremote.database.Workers;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.WorkersFacadeRemote;
 
-import javax.ejb.Stateful;
-import javax.interceptor.Interceptors;
-import javax.naming.NamingException;
-import javax.persistence.Query;
-import java.util.List;
-
 /**
  * @author matis
  */
-//@Interceptors({LoggerImpl.class})
+@Interceptors({LoggerImpl.class})
 @Stateful
 public class WorkersFacade extends AbstractFacade<Workers> implements WorkersFacadeRemote {
 

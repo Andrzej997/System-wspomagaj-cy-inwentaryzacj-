@@ -1,10 +1,9 @@
 package pl.polsl.reservationsdatabasebeanremote.database.controllers;
 
+import java.util.List;
+import javax.ejb.Remote;
 import pl.polsl.reservationsdatabasebeanremote.database.Users;
 import pl.polsl.reservationsdatabasebeanremote.database.Workers;
-
-import javax.ejb.Remote;
-import java.util.List;
 
 /**
  * @author matis

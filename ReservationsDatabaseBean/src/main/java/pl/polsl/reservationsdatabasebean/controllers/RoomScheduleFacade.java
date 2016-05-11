@@ -1,21 +1,20 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
-import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
-import pl.polsl.reservationsdatabasebeanremote.database.RoomSchedule;
-import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomScheduleFacadeRemote;
-
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import javax.ejb.Stateful;
 import javax.interceptor.Interceptors;
 import javax.naming.NamingException;
 import javax.persistence.Query;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
+import pl.polsl.reservationsdatabasebeanremote.database.RoomSchedule;
+import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomScheduleFacadeRemote;
 
 /**
  * @author matis
  */
-//@Interceptors({LoggerImpl.class})
+@Interceptors({LoggerImpl.class})
 @Stateful
 public class RoomScheduleFacade extends AbstractFacade<RoomSchedule> implements RoomScheduleFacadeRemote {
 
