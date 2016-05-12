@@ -7,5 +7,6 @@ import javax.ejb.Stateful;
  */
 @Stateful(mappedName = "ScheduleFacade")
 public class ScheduleFacade implements ScheduleFacadeRemote {
-
+    public ScheduleFacade() {
+    }
 }

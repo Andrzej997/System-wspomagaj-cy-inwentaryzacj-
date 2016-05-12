@@ -16,6 +16,9 @@ public class UserManagementFacade implements UserManagementFacadeRemote {
     @EJB
     ReservationsFacadeRemote reservation;
 
+    public UserManagementFacade() {
+    }
+
     @Override
     public int testMethod() {
         return 789987;

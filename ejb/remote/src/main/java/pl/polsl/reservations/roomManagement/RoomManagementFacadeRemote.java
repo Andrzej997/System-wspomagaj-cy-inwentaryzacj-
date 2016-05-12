@@ -10,17 +10,21 @@ import javax.ejb.Remote;
 @Remote
 public interface RoomManagementFacadeRemote {
 
-    void addEquipment(int roomNumber, String name, int quantity, short stateId, short typeId);
-    default void removeEquipment() {};
+    void addEquipment(int roomId, String name, int quantity, short stateId, short typeId);
+    void removeEquipment(int equipmentId);
+    void moveEquipment(int equipmentId, int roomToId);
     List<Map<String, String>> getRoomsList();
-    List<Map<String, String>> getRoomEquipment(int number);
+    List<Map<String, String>> getRoomEquipment(int roomId);
     List<Map<String, String>> getEquipmentStates();
     List<Map<String, String>> getEquipmentTypes();
-    default void assignUserToRoom() {};
-    default void assignKeeperToRoom() {};
-    default void addEquipmentType() {};
-    default void removeEquipmentType() {};
-    default void addEquipmentState() {};
-    default void removeEquipmentState() {};
+    void assignUserToRoom(int roomId, int workerId);
+    void assignKeeperToRoom(int roomId, int workerId);
+    Map<String, String> getRoomKeeper(int roomId);
+    void addEquipmentType(String shortDescription, String longDescription);
+    void removeEquipmentType(int typeId);
+    void addEquipmentState(String definition);
+    void removeEquipmentState(int stateId);
+
+    //TODO implementacja jak będzie wiadomo jak ma działać
     default void findRoom() {};
 }
