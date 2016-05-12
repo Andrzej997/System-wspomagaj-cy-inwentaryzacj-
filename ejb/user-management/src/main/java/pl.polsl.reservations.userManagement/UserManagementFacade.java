@@ -1,6 +1,8 @@
 package pl.polsl.reservations.userManagement;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.UsersFacadeRemote;
 
@@ -10,12 +12,14 @@ import pl.polsl.reservationsdatabasebeanremote.database.Departaments;
 import pl.polsl.reservationsdatabasebeanremote.database.Room;
 import pl.polsl.reservationsdatabasebeanremote.database.Workers;
 import pl.polsl.reservationsdatabasebeanremote.database.Users;
+import pl.polsl.reservationsdatabasebeanremote.database.PriviligeLevels;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.DepartamentsFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.WorkersFacadeRemote;
+import pl.polsl.reservationsdatabasebeanremote.database.controllers.PriviligeLevelsFacadeRemote;
 
 /**
- * Created by Krzysztof Stręk on 2016-05-09.
+ * Created by Krzysztof Strek on 2016-05-09.
  */
 @Stateful(mappedName = "UserManagementFacade")
 public class UserManagementFacade implements UserManagementFacadeRemote {
@@ -28,6 +32,8 @@ public class UserManagementFacade implements UserManagementFacadeRemote {
     DepartamentsFacadeRemote departamentsFacade;
     @EJB
     WorkersFacadeRemote workersFacade;
+    @EJB
+    PriviligeLevelsFacadeRemote priviligeLevelsFacade;
 
     public UserManagementFacade() {
     }
@@ -113,4 +119,84 @@ public class UserManagementFacade implements UserManagementFacadeRemote {
         return true;
     }
 
+    /**
+     * Dostepne pola mapy: privilegeLevel i description.
+     * @return
+     */
+    @Override
+    public List<Map<String, String>> getAllPrivilegeLevels() {
+        List<PriviligeLevels> levels = priviligeLevelsFacade.findAll();
+
+        if (levels == null) {
+            return null;
+        }
+        
+        List<Map<String, String>> list = new ArrayList<>();
+        for(PriviligeLevels level : levels) {
+            Map<String, String> map = new HashMap<>();
+            map.put("privilegeLevel", level.getPriviligeLevel().toString());
+            map.put("description", level.getDescription());
+            list.add(map);
+        }
+        return list;
+    }
+
+    @Override
+    public boolean changePrivilegeLevel(String userName, Long privilegeLevel) {
+        Users user = usersFacade.getUserByUsername(userName);
+        List<PriviligeLevels> levels = priviligeLevelsFacade.findAll();
+
+        if (user == null || levels == null) {
+            return false;
+        }
+
+        PriviligeLevels found = null;
+        for (PriviligeLevels level : levels) {
+            if (level.getPriviligeLevel().equals(privilegeLevel)) {
+                found = level;
+                break;
+            }
+        }
+        if (found == null) {
+            return false;
+        }
+
+        user.setPriviligeLevel(found);
+        usersFacade.edit(user);
+
+        return true;
+    }
+    
+    @Override
+    public Long getUsersPrivilegeLevel(String userName) {
+        Users user = usersFacade.getUserByUsername(userName);
+        
+        if(user == null)
+            return null;
+        
+        return user.getPriviligeLevel().getPriviligeLevel();
+    }
+    
+    /**
+     *
+     * @param chiefName
+     * @return
+     */
+    @Override
+    public List<Map<String, String>> getUnderlings(String chiefName) {
+        Workers chief = usersFacade.getWorkerByUsername(chiefName);
+        List<Workers> workers = workersFacade.findAll();
+        
+        if(chief == null || workers == null)
+            return null;
+        
+        List<Map<String, String>> list = new ArrayList<>();
+        for(Workers worker : workers) {
+            if(worker.getChiefId().getId().equals(chief.getId())) {
+                Map<String, String> map = getUserDetails(usersFacade.getReference(worker.getId()).getUsername());
+                list.add(map);
+            }      
+        }
+        return list;
+    }
 }

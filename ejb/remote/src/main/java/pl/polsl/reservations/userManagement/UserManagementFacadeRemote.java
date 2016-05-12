@@ -1,5 +1,6 @@
 package pl.polsl.reservations.userManagement;
 
+import java.util.List;
 import java.util.Map;
 import javax.ejb.Remote;
 
@@ -13,4 +14,12 @@ public interface UserManagementFacadeRemote {
     boolean assignUserToChief(String userName, String chiefName);
     
     boolean assignUserToRoom(String userName, int roomNumber);
+    
+    boolean changePrivilegeLevel(String userName, Long privilegeLevel);
+    
+    List<Map<String, String>> getAllPrivilegeLevels();
+    
+    Long getUsersPrivilegeLevel(String userName);
+    
+    List<Map<String, String>> getUnderlings(String userName);
 }
