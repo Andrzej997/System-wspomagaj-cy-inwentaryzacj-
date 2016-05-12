@@ -4,8 +4,11 @@ import javax.ejb.Stateful;
 import javax.interceptor.Interceptors;
 import javax.naming.NamingException;
 import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
+import pl.polsl.reservationsdatabasebeanremote.database.PriviligeLevels;
 import pl.polsl.reservationsdatabasebeanremote.database.Priviliges;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.PriviligesFacadeRemote;
+
+import java.util.List;
 
 /**
  * @author matis
@@ -20,4 +23,9 @@ public class PriviligesFacade extends AbstractFacade<Priviliges> implements Priv
         super(Priviliges.class);
     }
 
+    @Override
+    public List<PriviligeLevels> getPriviligeLevelsCollectionById(Number id){
+        Priviliges priviliges = this.find(id);
+        return priviliges.getPriviligeLevelsCollection();
+    }
 }

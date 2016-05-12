@@ -5,8 +5,11 @@ import javax.interceptor.Interceptors;
 import javax.naming.NamingException;
 import javax.persistence.Query;
 import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
+import pl.polsl.reservationsdatabasebeanremote.database.Departaments;
 import pl.polsl.reservationsdatabasebeanremote.database.Institutes;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.InstitutesFacadeRemote;
+
+import java.util.List;
 
 /**
  * @author matis
@@ -35,4 +38,9 @@ public class InstitutesFacade extends AbstractFacade<Institutes> implements Inst
         return (Institutes) query.getSingleResult();
     }
 
+    @Override
+    public List<Departaments> getDepartamentsCollectionById(Number id){
+        Institutes institutes = this.find(id);
+        return institutes.getDepartamentsCollection();
+    }
 }

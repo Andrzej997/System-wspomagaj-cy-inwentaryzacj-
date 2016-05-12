@@ -5,7 +5,11 @@ import javax.interceptor.Interceptors;
 import javax.naming.NamingException;
 import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
 import pl.polsl.reservationsdatabasebeanremote.database.PriviligeLevels;
+import pl.polsl.reservationsdatabasebeanremote.database.Priviliges;
+import pl.polsl.reservationsdatabasebeanremote.database.Users;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.PriviligeLevelsFacadeRemote;
+
+import java.util.List;
 
 /**
  * @author matis
@@ -20,4 +24,15 @@ public class PriviligeLevelsFacade extends AbstractFacade<PriviligeLevels> imple
         super(PriviligeLevels.class);
     }
 
+    @Override
+    public List<Priviliges> getPriviligesCollectionById(Number id){
+        PriviligeLevels priviligeLevels = this.find(id);
+        return priviligeLevels.getPriviligesCollection();
+    }
+
+    @Override
+    public List<Users> getUsersCollectionById(Number id){
+        PriviligeLevels priviligeLevels = this.find(id);
+        return priviligeLevels.getUsersCollection();
+    }
 }

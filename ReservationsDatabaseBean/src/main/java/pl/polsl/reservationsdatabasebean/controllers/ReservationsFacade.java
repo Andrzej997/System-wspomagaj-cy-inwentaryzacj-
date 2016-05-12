@@ -63,5 +63,4 @@ public class ReservationsFacade extends AbstractFacade<Reservations> implements 
         query.setParameter("userId", userId);
         return query.getResultList();
     }
-
 }

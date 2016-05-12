@@ -84,4 +84,10 @@ public class WorkersFacade extends AbstractFacade<Workers> implements WorkersFac
         Query query = this.getEntityManager().createNamedQuery("getWorkersWhichHaveChief", Workers.class);
         return query.getResultList();
     }
+
+    @Override
+    public List<Room> getRoomCollectionById(Number id){
+        Workers workers = this.find(id);
+        return workers.getRoomCollection();
+    }
 }

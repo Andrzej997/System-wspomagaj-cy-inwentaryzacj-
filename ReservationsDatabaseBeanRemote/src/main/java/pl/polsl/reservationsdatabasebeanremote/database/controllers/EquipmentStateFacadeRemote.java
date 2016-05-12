@@ -2,6 +2,8 @@ package pl.polsl.reservationsdatabasebeanremote.database.controllers;
 
 import java.util.List;
 import javax.ejb.Remote;
+
+import pl.polsl.reservationsdatabasebeanremote.database.Equipment;
 import pl.polsl.reservationsdatabasebeanremote.database.EqupmentState;
 
 /**
@@ -16,7 +18,7 @@ public interface EquipmentStateFacadeRemote {
 
     void edit(EqupmentState equpmentState);
 
-    void remove(EqupmentState equpmentState);
+    void remove(Object id);
 
     void merge(EqupmentState equpmentState);
 
@@ -32,4 +34,5 @@ public interface EquipmentStateFacadeRemote {
 
     public List<EqupmentState> findEntity(List<String> columnNames, List<Object> values);
 
+    List<Equipment> getEquipmentCollectionById(Number id);
 }

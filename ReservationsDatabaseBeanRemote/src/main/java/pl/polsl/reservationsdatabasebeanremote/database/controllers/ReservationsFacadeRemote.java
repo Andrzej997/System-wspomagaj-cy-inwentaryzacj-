@@ -17,7 +17,7 @@ public interface ReservationsFacadeRemote {
 
     void edit(Reservations reservations);
 
-    void remove(Reservations reservations);
+    void remove(Object id);
 
     void merge(Reservations reservations);
 

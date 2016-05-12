@@ -16,7 +16,7 @@ import javax.persistence.*;
                 @NamedQuery(name = "getAllChiefs", query = "select w from Workers w where w.chiefId is null"),
                 @NamedQuery(name = "getWorkersWhichHaveChief", query = "select w from Workers w where w.chiefId is not null")
             })
-@Proxy(lazy = false)
+
 @Entity
 @Table(name = "WORKERS")
 public class Workers implements Serializable {

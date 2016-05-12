@@ -2,6 +2,8 @@ package pl.polsl.reservationsdatabasebeanremote.database.controllers;
 
 import java.util.List;
 import javax.ejb.Remote;
+
+import pl.polsl.reservationsdatabasebeanremote.database.Departaments;
 import pl.polsl.reservationsdatabasebeanremote.database.Institutes;
 
 /**
@@ -16,7 +18,7 @@ public interface InstitutesFacadeRemote {
 
     void edit(Institutes institutes);
 
-    void remove(Institutes institutes);
+    void remove(Object id);
 
     void merge(Institutes institutes);
 
@@ -35,4 +37,6 @@ public interface InstitutesFacadeRemote {
     Institutes getInstituteByName(String name);
 
     Institutes getInstituteByChiefId(Long chiefId);
+
+    List<Departaments> getDepartamentsCollectionById(Number id);
 }

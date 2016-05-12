@@ -4,8 +4,11 @@ import javax.ejb.Stateful;
 import javax.interceptor.Interceptors;
 import javax.naming.NamingException;
 import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
+import pl.polsl.reservationsdatabasebeanremote.database.Equipment;
 import pl.polsl.reservationsdatabasebeanremote.database.EqupmentState;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.EquipmentStateFacadeRemote;
+
+import java.util.List;
 
 /**
  * @author matis
@@ -20,4 +23,9 @@ public class EquipmentStateFacade extends AbstractFacade<EqupmentState> implemen
         super(EqupmentState.class);
     }
 
+    @Override
+    public List<Equipment> getEquipmentCollectionById(Number id){
+        EqupmentState equipmentType = this.find(id);
+        return equipmentType.getEquipmentCollection();
+    }
 }

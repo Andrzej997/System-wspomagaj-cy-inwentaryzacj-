@@ -2,6 +2,8 @@ package pl.polsl.reservationsdatabasebeanremote.database.controllers;
 
 import java.util.List;
 import javax.ejb.Remote;
+
+import pl.polsl.reservationsdatabasebeanremote.database.Reservations;
 import pl.polsl.reservationsdatabasebeanremote.database.RoomSchedule;
 
 /**
@@ -16,7 +18,7 @@ public interface RoomScheduleFacadeRemote {
 
     void edit(RoomSchedule roomSchedule);
 
-    void remove(RoomSchedule roomSchedule);
+    void remove(Object id);
 
     void merge(RoomSchedule roomSchedule);
 
@@ -39,4 +41,6 @@ public interface RoomScheduleFacadeRemote {
     RoomSchedule getCurrentDateSchedule(int year, int week);
 
     RoomSchedule getCurrentScheduleForRoom(int roomNumber);
+
+    List<Reservations> getReservationsCollectionById(Number id);
 }

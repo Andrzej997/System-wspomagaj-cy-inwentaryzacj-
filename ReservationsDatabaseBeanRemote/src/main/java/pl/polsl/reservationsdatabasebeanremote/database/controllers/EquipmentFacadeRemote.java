@@ -16,7 +16,7 @@ public interface EquipmentFacadeRemote {
 
     void edit(Equipment equipment);
 
-    void remove(Equipment equipment);
+    void remove(Object id);
 
     void merge(Equipment equipment);
 

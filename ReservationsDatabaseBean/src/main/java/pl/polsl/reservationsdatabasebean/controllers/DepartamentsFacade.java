@@ -7,6 +7,8 @@ import javax.naming.NamingException;
 import javax.persistence.Query;
 import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
 import pl.polsl.reservationsdatabasebeanremote.database.Departaments;
+import pl.polsl.reservationsdatabasebeanremote.database.Room;
+import pl.polsl.reservationsdatabasebeanremote.database.Workers;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.DepartamentsFacadeRemote;
 
 /**
@@ -40,5 +42,17 @@ public class DepartamentsFacade extends AbstractFacade<Departaments> implements 
         Query query = getEntityManager().createNamedQuery("getDepartamentByChiefId", Departaments.class);
         query.setParameter("id", chiefId);
         return (Departaments) query.getSingleResult();
+    }
+
+    @Override
+    public List<Room> getRoomCollectionById(Long id){
+        Departaments departament = this.find(id);
+        return departament.getRoomCollection();
+    }
+
+    @Override
+    public List<Workers> getWorkersCollectionById(Long id){
+        Departaments departament = this.find(id);
+        return departament.getWorkersCollection();
     }
 }

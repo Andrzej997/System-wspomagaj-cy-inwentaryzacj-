@@ -6,7 +6,6 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.*;
 
-@Proxy(lazy = false)
 @Entity
 @Table(name = "PRIVILIGE_LEVELS")
 public class PriviligeLevels implements Serializable {

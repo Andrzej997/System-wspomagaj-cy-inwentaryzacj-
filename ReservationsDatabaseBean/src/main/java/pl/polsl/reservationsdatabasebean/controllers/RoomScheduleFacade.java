@@ -8,6 +8,7 @@ import javax.interceptor.Interceptors;
 import javax.naming.NamingException;
 import javax.persistence.Query;
 import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
+import pl.polsl.reservationsdatabasebeanremote.database.Reservations;
 import pl.polsl.reservationsdatabasebeanremote.database.RoomSchedule;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomScheduleFacadeRemote;
 
@@ -65,5 +66,11 @@ public class RoomScheduleFacade extends AbstractFacade<RoomSchedule> implements 
         query.setParameter("roomNumber", roomNumber);
         query.setParameter("RoomSchedule", currentDateSchedule);
         return (RoomSchedule) query.getSingleResult();
+    }
+
+    @Override
+    public List<Reservations> getReservationsCollectionById(Number id){
+        RoomSchedule roomSchedule = this.find(id);
+        return roomSchedule.getReservationsCollection();
     }
 }

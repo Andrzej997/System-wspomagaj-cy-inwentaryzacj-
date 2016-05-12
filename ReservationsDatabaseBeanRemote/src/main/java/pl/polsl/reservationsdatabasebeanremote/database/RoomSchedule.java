@@ -14,7 +14,6 @@ import javax.persistence.*;
 
 })
 
-@Proxy(lazy = false)
 @Entity
 @Table(name = "ROOM_SCHEDULE")
 public class RoomSchedule implements Serializable {

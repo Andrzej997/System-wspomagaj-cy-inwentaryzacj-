@@ -4,8 +4,11 @@ import javax.ejb.Stateful;
 import javax.interceptor.Interceptors;
 import javax.naming.NamingException;
 import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
+import pl.polsl.reservationsdatabasebeanremote.database.Equipment;
 import pl.polsl.reservationsdatabasebeanremote.database.EquipmentType;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.EquipmentTypeFacadeRemote;
+
+import java.util.List;
 
 /**
  * @author matis
@@ -18,6 +21,12 @@ public class EquipmentTypeFacade extends AbstractFacade<EquipmentType> implement
 
     public EquipmentTypeFacade() throws NamingException {
         super(EquipmentType.class);
+    }
+
+    @Override
+    public List<Equipment> getEquipmentCollectionById(Number id){
+        EquipmentType equipmentType = this.find(id);
+        return equipmentType.getEquipmentCollection();
     }
 
 }

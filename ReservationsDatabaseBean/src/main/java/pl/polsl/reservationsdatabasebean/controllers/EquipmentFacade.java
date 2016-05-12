@@ -28,4 +28,6 @@ public class EquipmentFacade extends AbstractFacade<Equipment> implements Equipm
         query.setParameter("roomNumber", roomNumber);
         return query.getResultList();
     }
+
+
 }
