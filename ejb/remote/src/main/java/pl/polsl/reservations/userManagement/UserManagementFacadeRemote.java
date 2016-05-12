@@ -1,5 +1,6 @@
 package pl.polsl.reservations.userManagement;
 
+import java.util.Map;
 import javax.ejb.Remote;
 
 /**
@@ -7,5 +8,9 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface UserManagementFacadeRemote {
-    int testMethod();
+    Map<String, String> getUserDetails(String userName);
+    
+    boolean assignUserToChief(String userName, String chiefName);
+    
+    boolean assignUserToRoom(String userName, int roomNumber);
 }
