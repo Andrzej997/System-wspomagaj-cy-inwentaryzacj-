@@ -130,6 +130,7 @@ public class RoomManagementFacade implements RoomManagementFacadeRemote {
     public List<Map<String, String>> getRoomEquipment(int roomId) {
 
         List<Equipment> equpment = equipmentDAO.getEquipmentByRoomNumber(roomsDAO.find(roomId).getRoomNumber());
+//        List<Equipment> equpment = roomsDAO.find(roomId).getEquipmentCollection();
         List<Map<String, String>> result = new ArrayList<>();
 
         for(Equipment e: equpment) {
@@ -190,6 +191,6 @@ public class RoomManagementFacade implements RoomManagementFacadeRemote {
     @Override
     public void removeEquipment(int equipmentId) {
         Equipment eq = equipmentDAO.find(equipmentId);
-        equipmentDAO.remove(equipmentDAO.find(equipmentId));
+        equipmentDAO.remove(equipmentId);
     }
 }

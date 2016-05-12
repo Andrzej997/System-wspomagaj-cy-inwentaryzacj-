@@ -7,7 +7,7 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface ScheduleFacadeRemote {
-    default void getRoomSchedule() {};
+    void getRoomSchedule(int roomId);
     default void getReservationsByUser() {};
     default void createReservation() {};
     default void removeReservation() {};

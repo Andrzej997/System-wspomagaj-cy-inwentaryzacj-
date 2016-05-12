@@ -9,4 +9,11 @@ import javax.ejb.Stateful;
 public class ScheduleFacade implements ScheduleFacadeRemote {
     public ScheduleFacade() {
     }
+
+    @Override
+    public void getRoomSchedule(int roomId) {
+        ScheduleFactory sf = new ScheduleFactory();
+
+        sf.createSchedule(new RoomScheduleStrategy(), roomId);
+    }
 }

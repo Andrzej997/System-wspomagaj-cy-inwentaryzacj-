@@ -32,9 +32,11 @@ public class Main {
 
 //        test2.addEquipment(roomId, "Projektor", 4, (short)1, (short)1);
 
-        List<Map<String, String>> afterUpdate = test2.getRoomEquipment(roomId);
+        List<Map<String, String>> u1 = test2.getRoomEquipment(roomId);
 
-//        test2.removeEquipment(Integer.valueOf(afterUpdate.get(0).get("id")));
+        test2.removeEquipment(Integer.valueOf(u1.get(0).get("id")));
+
+        List<Map<String, String>> u2 = test2.getRoomEquipment(roomId);
 
 //        int roomId2 = Integer.valueOf(s.get(1).get("number"));
 //
@@ -51,5 +53,7 @@ public class Main {
 //        test2.assignKeeperToRoom(roomId, 3);
 //
 //        Map<String, String> resultAfter = test2.getRoomKeeper(roomId);
+
+        schedule.getRoomSchedule(roomId);
     }
 }
