@@ -2,6 +2,8 @@ package pl.polsl.reservationsdatabasebeanremote.database.controllers;
 
 import java.util.List;
 import javax.ejb.Remote;
+
+import pl.polsl.reservationsdatabasebeanremote.database.Reservations;
 import pl.polsl.reservationsdatabasebeanremote.database.Users;
 import pl.polsl.reservationsdatabasebeanremote.database.Workers;
 
@@ -17,7 +19,7 @@ public interface UsersFacadeRemote {
 
     void edit(Users users);
 
-    void remove(Users users);
+    void remove(Object id);
 
     void merge(Users users);
 
@@ -44,4 +46,6 @@ public interface UsersFacadeRemote {
     Users getUserByUsername(String username);
 
     Users getUserByEmail(String email);
+
+    List<Reservations> getReservationsCollectionById(Number id);
 }

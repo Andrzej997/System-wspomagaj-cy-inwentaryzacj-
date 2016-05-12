@@ -7,6 +7,7 @@ import javax.naming.NamingException;
 import javax.persistence.Query;
 import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
 import pl.polsl.reservationsdatabasebeanremote.database.PriviligeLevels;
+import pl.polsl.reservationsdatabasebeanremote.database.Reservations;
 import pl.polsl.reservationsdatabasebeanremote.database.Users;
 import pl.polsl.reservationsdatabasebeanremote.database.Workers;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.UsersFacadeRemote;
@@ -69,5 +70,11 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeRem
         Query query = this.getEntityManager().createNamedQuery("getUserByEmail", Users.class);
         query.setParameter("email", email);
         return (Users) query.getSingleResult();
+    }
+
+    @Override
+    public List<Reservations> getReservationsCollectionById(Number id){
+        Users users = this.find(id);
+        return users.getReservationsCollection();
     }
 }

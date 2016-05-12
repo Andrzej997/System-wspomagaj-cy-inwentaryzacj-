@@ -11,7 +11,6 @@ import javax.persistence.*;
         @NamedQuery(name = "getInstituteByChiefId", query = "select i from Institutes i where i.chiefId.id = :id")
 })
 
-@Proxy(lazy = false)
 @Entity
 @Table(name = "INSTITUTES")
 public class Institutes implements Serializable {

@@ -8,7 +8,6 @@ import javax.persistence.*;
         @NamedQuery(name = "getEquipmentByRoomNumber", query = "select e from Equipment e where e.roomId.roomNumber = :roomNumber")
 })
 
-@Proxy(lazy = false)
 @Entity
 @Table(name = "EQUIPMENT")
 public class Equipment implements Serializable {

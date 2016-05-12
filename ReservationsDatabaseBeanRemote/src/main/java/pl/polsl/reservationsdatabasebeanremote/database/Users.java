@@ -13,7 +13,7 @@ import javax.persistence.*;
                 @NamedQuery(name = "getUserByUsername", query = "select u from Users u where u.username = :username"),
                 @NamedQuery(name = "getUserByEmail", query = "select u from Users u where u.email = :email")
                 })
-@Proxy(lazy = false)
+
 @Entity
 @Table(name = "USERS")
 public class Users implements Serializable {

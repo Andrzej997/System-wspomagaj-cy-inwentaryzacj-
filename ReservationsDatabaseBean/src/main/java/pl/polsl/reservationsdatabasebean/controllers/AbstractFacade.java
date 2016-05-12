@@ -22,6 +22,8 @@ public abstract class AbstractFacade<T> implements Serializable {
 
     private static final long serialVersionUID = -13071878948980250L;
 
+    private EntityManager em;
+
     private final Class<T> entityClass;
 
     private final PriviligeContext priviligeContext;
@@ -30,68 +32,71 @@ public abstract class AbstractFacade<T> implements Serializable {
         this.entityClass = entityClass;
         priviligeContext = new PriviligeContext();
         priviligeContext.setPriviligeLevel(1);
-
+        em = priviligeContext.getEntityManager();
     }
 
     public void setPriviligeLevel(Integer level) {
         priviligeContext.setPriviligeLevel(level);
+        em = priviligeContext.getEntityManager();
     }
 
     protected EntityManager getEntityManager() {
-        return priviligeContext.getEntityManager();
+        return em;
     }
 
     public void create(T entity) {
-        getEntityManager().persist(entity);
+        em.persist(entity);
     }
 
     public void edit(T entity) {
-        getEntityManager().merge(entity);
+        em.merge(entity);
     }
 
-    public void remove(T entity) {
-        getEntityManager().remove(getEntityManager().merge(entity));
+    public void remove(Object id) {
+        id = getAppropriateIdValue(id);
+        T deletedObject = em.find(entityClass, id);
+        em.remove(em.merge(deletedObject));
     }
 
     public void merge(T entity) {
-        getEntityManager().merge(entity);
+        em.merge(entity);
     }
 
     public T find(Object id) {
         id = getAppropriateIdValue(id);
-        return getEntityManager().find(entityClass, id);
+        return em.find(entityClass, id);
     }
 
     public T getReference(Object id) {
         id = getAppropriateIdValue(id);
-        return getEntityManager().getReference(entityClass, id);
+        return em.getReference(entityClass, id);
     }
 
     public List<T> findAll() {
-        CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
-        return getEntityManager().createQuery(cq).getResultList();
+        return em.createQuery(cq).getResultList();
     }
 
     public List<T> findRange(int[] range) {
-        CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
-        Query q = getEntityManager().createQuery(cq);
+        Query q = em.createQuery(cq);
         q.setMaxResults(range[1] - range[0] + 1);
         q.setFirstResult(range[0]);
         return q.getResultList();
     }
 
     public int count() {
-        CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
         Root<T> rt = cq.from(entityClass);
-        cq.select(getEntityManager().getCriteriaBuilder().count(rt));
-        Query q = getEntityManager().createQuery(cq);
+        cq.select(em.getCriteriaBuilder().count(rt));
+        Query q = em.createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
     }
 
     public List<T> findEntity(List<String> columnNames, List<Object> values) {
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery criteriaQuery = cb.createQuery();
         Root<T> rt = criteriaQuery.from(entityClass);
         List<Predicate> predicates = new ArrayList<>();
@@ -101,7 +106,7 @@ public abstract class AbstractFacade<T> implements Serializable {
             i++;
         }
         criteriaQuery.select(rt).where(predicates.toArray(new Predicate[predicates.size()]));
-        TypedQuery<T> query = getEntityManager().createQuery(criteriaQuery);
+        TypedQuery<T> query = em.createQuery(criteriaQuery);
         List<T> resultList = query.getResultList();
         return resultList;
     }

@@ -12,7 +12,6 @@ import javax.persistence.*;
         @NamedQuery(name = "getDepartamentByChiefId", query = "select d from Departaments d where d.chiefId.id = :id")
 })
 
-@Proxy(lazy = false)
 @Entity
 @Table(name = "DEPARTAMENTS")
 public class Departaments implements Serializable{

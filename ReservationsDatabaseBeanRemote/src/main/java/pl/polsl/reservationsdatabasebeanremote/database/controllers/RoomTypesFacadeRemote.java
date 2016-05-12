@@ -2,6 +2,8 @@ package pl.polsl.reservationsdatabasebeanremote.database.controllers;
 
 import java.util.List;
 import javax.ejb.Remote;
+
+import pl.polsl.reservationsdatabasebeanremote.database.Room;
 import pl.polsl.reservationsdatabasebeanremote.database.RoomTypes;
 
 /**
@@ -16,7 +18,7 @@ public interface RoomTypesFacadeRemote {
 
     void edit(RoomTypes roomTypes);
 
-    void remove(RoomTypes roomTypes);
+    void remove(Object id);
 
     void merge(RoomTypes roomTypes);
 
@@ -32,4 +34,5 @@ public interface RoomTypesFacadeRemote {
 
     public List<RoomTypes> findEntity(List<String> columnNames, List<Object> values);
 
+    List<Room> getRoomCollectionById(Number id);
 }

@@ -4,8 +4,11 @@ import javax.ejb.Stateful;
 import javax.interceptor.Interceptors;
 import javax.naming.NamingException;
 import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
+import pl.polsl.reservationsdatabasebeanremote.database.Room;
 import pl.polsl.reservationsdatabasebeanremote.database.RoomTypes;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomTypesFacadeRemote;
+
+import java.util.List;
 
 /**
  * @author matis
@@ -18,6 +21,12 @@ public class RoomTypesFacade extends AbstractFacade<RoomTypes> implements RoomTy
 
     public RoomTypesFacade() throws NamingException {
         super(RoomTypes.class);
+    }
+
+    @Override
+    public List<Room> getRoomCollectionById(Number id){
+        RoomTypes roomTypes = this.find(id);
+        return roomTypes.getRoomCollection();
     }
 
 }

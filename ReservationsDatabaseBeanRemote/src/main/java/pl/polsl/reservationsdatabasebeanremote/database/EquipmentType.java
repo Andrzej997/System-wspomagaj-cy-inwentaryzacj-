@@ -9,7 +9,6 @@ import javax.persistence.*;
 /**
  * @author matis
  */
-@Proxy(lazy = false)
 @Entity
 @Table(name = "EQUPMENT_TYPE")
 public class EquipmentType implements Serializable {

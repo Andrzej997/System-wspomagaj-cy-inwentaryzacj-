@@ -5,7 +5,10 @@ import javax.interceptor.Interceptors;
 import javax.naming.NamingException;
 import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
 import pl.polsl.reservationsdatabasebeanremote.database.ReservationTypes;
+import pl.polsl.reservationsdatabasebeanremote.database.Reservations;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.ReservationTypesFacadeRemote;
+
+import java.util.List;
 
 /**
  * @author matis
@@ -18,6 +21,12 @@ public class ReservationTypesFacade extends AbstractFacade<ReservationTypes> imp
 
     public ReservationTypesFacade() throws NamingException{
         super(ReservationTypes.class);
+    }
+
+    @Override
+    public List<Reservations> getReservationsCollectionById(Number id){
+        ReservationTypes reservationTypes = this.find(id);
+        return reservationTypes.getReservationsCollection();
     }
 
 }

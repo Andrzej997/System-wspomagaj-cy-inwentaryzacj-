@@ -3,6 +3,8 @@ package pl.polsl.reservationsdatabasebeanremote.database.controllers;
 import java.util.List;
 import javax.ejb.Remote;
 import pl.polsl.reservationsdatabasebeanremote.database.Departaments;
+import pl.polsl.reservationsdatabasebeanremote.database.Room;
+import pl.polsl.reservationsdatabasebeanremote.database.Workers;
 
 /**
  * @author matis
@@ -16,7 +18,7 @@ public interface DepartamentsFacadeRemote {
 
     void edit(Departaments departaments);
 
-    void remove(Departaments departaments);
+    void remove(Object id);
 
     void merge(Departaments departaments);
 
@@ -37,4 +39,8 @@ public interface DepartamentsFacadeRemote {
     List<Departaments> findDepartametsHavingWorkers();
 
     Departaments getDepartamentByChiefId(Long chiefId);
+
+    List<Room> getRoomCollectionById(Long id);
+
+    List<Workers> getWorkersCollectionById(Long id);
 }

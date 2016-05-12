@@ -8,7 +8,6 @@ import javax.persistence.*;
 @NamedQueries({@NamedQuery(name = "getRoomByNumber", query = "select r from Room  r where r.roomNumber = :roomNumber")
                 })
 
-@Proxy(lazy = false)
 @Entity
 @Table(name = "ROOM", uniqueConstraints = @UniqueConstraint(columnNames = {"ROOM_NUMBER"}))
 public class Room implements Serializable {

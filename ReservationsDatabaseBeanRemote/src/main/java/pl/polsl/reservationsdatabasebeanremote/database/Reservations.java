@@ -12,7 +12,6 @@ import javax.persistence.*;
         @NamedQuery(name = "getAllReservationsByUser", query = "select r from Reservations r where r.userId.id = :userId")
 })
 
-@Proxy(lazy = false)
 @Entity
 @Table(name = "RESERVATIONS")
 public class Reservations implements Serializable {

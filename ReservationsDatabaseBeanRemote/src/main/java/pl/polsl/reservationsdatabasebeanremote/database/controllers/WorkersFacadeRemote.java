@@ -18,7 +18,7 @@ public interface WorkersFacadeRemote {
 
     void edit(Workers workers);
 
-    void remove(Workers workers);
+    void remove(Object id);
 
     void merge(Workers workers);
 
@@ -51,4 +51,6 @@ public interface WorkersFacadeRemote {
     List<Workers> getAllChiefs();
 
     List<Workers> getWorkersWhichHaveChief();
+
+    List<Room> getRoomCollectionById(Number id);
 }
