@@ -1,3 +1,31 @@
+<<<<<<< HEAD
+package pl.polsl.reservations.userManagement;
+
+
+import pl.polsl.reservationsdatabasebeanremote.database.controllers.ReservationsFacadeRemote;
+import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomFacadeRemote;
+
+import javax.ejb.EJB;
+import javax.ejb.Stateful;
+
+/**
+ * Created by Krzysztof Stręk on 2016-05-09.
+ */
+@Stateful(mappedName = "UserManagementFacade")
+public class UserManagementFacade implements UserManagementFacadeRemote {
+
+    @EJB
+    ReservationsFacadeRemote reservation;
+
+    public UserManagementFacade() {
+    }
+
+    @Override
+    public int testMethod() {
+        return 789987;
+    }
+}
+=======
 package pl.polsl.reservations.userManagement;
 
 import java.util.HashMap;
@@ -28,9 +56,6 @@ public class UserManagementFacade implements UserManagementFacadeRemote {
     DepartamentsFacadeRemote departamentsFacade;
     @EJB
     WorkersFacadeRemote workersFacade;
-
-    public UserManagementFacade() {
-    }
 
     @Override
     public Map<String, String> getUserDetails(String userName) {
@@ -114,3 +139,4 @@ public class UserManagementFacade implements UserManagementFacadeRemote {
     }
 
 }
+>>>>>>> 8504b71fce4680de634b946306e5c21149e85ce7

@@ -14,5 +14,7 @@ public interface ScheduleFacadeRemote {
     default void getReservationDetails() {};
     default void getWeeklySceduleView() {};
     default void getSemesterScheduleView() {};
+
+    //TODO implementacja jak będzie wiadomo jak ma działać
     default void findReservation() {};
 }

@@ -31,24 +31,78 @@ public class RoomManagementFacade implements RoomManagementFacadeRemote {
     @EJB
     EquipmentTypeFacadeRemote equipmentTypeDAO;
 
+    @Override
+    public void removeEquipmentType(int typeId) {
+        EquipmentType type = equipmentTypeDAO.find(typeId);
+        equipmentTypeDAO.remove(type);
+    }
+
+    @Override
+    public void addEquipmentState(String definition) {
+        EqupmentState state = new EqupmentState();
+        state.setStateDefinition(definition);
+        equipmentStateDAO.create(state);
+    }
+
+    @Override
+    public void removeEquipmentState(int stateId) {
+        EqupmentState state = equipmentStateDAO.find(stateId);
+        equipmentStateDAO.remove(state);
+    }
+
     @EJB
     EquipmentFacadeRemote equipmentDAO;
 
     @Override
-    public void addEquipment(int roomNumber, String name, int quantity, short stateId, short typeId) {
+    public void addEquipmentType(String shortDescription, String longDescription) {
+        EquipmentType type = new EquipmentType();
+        type.setShortDescription(shortDescription);
+        type.setLongDescription(longDescription);
+        equipmentTypeDAO.create(type);
+    }
+
+    @EJB
+    WorkersFacadeRemote workersDAO;
+
+    public RoomManagementFacade() {
+    }
+
+    @Override
+    public void assignKeeperToRoom(int roomId, int workerId) {
+        Room room = roomsDAO.find(roomId);
+        room.setKeeperId(workersDAO.find(workerId));
+        roomsDAO.edit(room);
+    }
+
+    @Override
+    public Map<String, String> getRoomKeeper(int roomId) {
+        Room room = roomsDAO.find(roomId);
+        Workers w = room.getKeeperId();
+
+        Map<String, String> result = new HashMap<>();
+        result.put("id", String.valueOf(w.getId()));
+        result.put("address", w.getAdress());
+        result.put("department", w.getDepartamentId().getDepratamentName());
+        result.put("grade", w.getGrade());
+        result.put("pesel", w.getPesel());
+        result.put("name", w.getWorkerName());
+        result.put("surname", w.getSurname());
+
+        return result;
+    }
+
+    @Override
+    public void addEquipment(int roomId, String name, int quantity, short stateId, short typeId) {
         Equipment newEquipment = new Equipment();
         newEquipment.setEquipmentName(name);
         newEquipment.setQuantity(quantity);
-        newEquipment.setEquipmentState(equipmentStateDAO.find(Short.valueOf(stateId)));
-        newEquipment.setEquipmentType(equipmentTypeDAO.find(Short.valueOf(typeId)));
+        newEquipment.setEquipmentState(equipmentStateDAO.find(stateId));
+        newEquipment.setEquipmentType(equipmentTypeDAO.find(typeId));
 
-        Room room = roomsDAO.getRoomByNumber(roomNumber);
+        Room room = roomsDAO.find(roomId);
 
         newEquipment.setRoomId(room);
         equipmentDAO.create(newEquipment);
-
-        room.getEquipmentCollection().add(newEquipment);
-        roomsDAO.edit(room);
     }
 
     @Override
@@ -59,6 +113,7 @@ public class RoomManagementFacade implements RoomManagementFacadeRemote {
         for(Room r: rooms) {
             Map<String, String> roomData = new HashMap<>();
 
+            roomData.put("id", String.valueOf(r.getId()));
             roomData.put("number", String.valueOf(r.getRoomNumber()));
             roomData.put("department", r.getDepartamentId().getDepratamentName());
             Workers w = r.getKeeperId();
@@ -72,8 +127,9 @@ public class RoomManagementFacade implements RoomManagementFacadeRemote {
     }
 
     @Override
-    public List<Map<String, String>> getRoomEquipment(int number) {
-        List<Equipment> equpment = roomsDAO.getRoomByNumber(number).getEquipmentCollection();
+    public List<Map<String, String>> getRoomEquipment(int roomId) {
+
+        List<Equipment> equpment = equipmentDAO.getEquipmentByRoomNumber(roomsDAO.find(roomId).getRoomNumber());
         List<Map<String, String>> result = new ArrayList<>();
 
         for(Equipment e: equpment) {
@@ -89,6 +145,13 @@ public class RoomManagementFacade implements RoomManagementFacadeRemote {
         }
 
         return result;
+    }
+
+    @Override
+    public void moveEquipment(int equipmentId, int roomToId) {
+        Equipment e = equipmentDAO.find(equipmentId);
+        e.setRoomId(roomsDAO.find(roomToId));
+        equipmentDAO.edit(e);
     }
 
     @Override
@@ -111,5 +174,22 @@ public class RoomManagementFacade implements RoomManagementFacadeRemote {
             type.put("description", et.getShortDescription());
         }
         return result;
+    }
+
+    @Override
+    public void assignUserToRoom(int roomId, int workerId) {
+        Room room = roomsDAO.find(roomId);
+
+        Workers worker = workersDAO.find(workerId);
+
+        worker.setRoom(room);
+
+        workersDAO.edit(worker);
+    }
+
+    @Override
+    public void removeEquipment(int equipmentId) {
+        Equipment eq = equipmentDAO.find(equipmentId);
+        equipmentDAO.remove(equipmentDAO.find(equipmentId));
     }
 }

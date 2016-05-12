@@ -35,6 +35,8 @@ public class UserFacade implements UserFacadeRemote {
 
     private Users user = null;
 
+    public UserFacade() {
+    }
 
     @Override
     public boolean login(String nameOrEmail, String password) {
