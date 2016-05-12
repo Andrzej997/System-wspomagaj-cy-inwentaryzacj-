@@ -26,7 +26,6 @@
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-            <property name="hibernate.max_fetch_depth" value="2"/>
         </properties>
     </persistence-unit>
     <persistence-unit name="ReservationIstitutePU" transaction-type="JTA">
@@ -53,8 +52,6 @@
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-            <property name="hibernate.max_fetch_depth" value="2"/>
-            <property name="hibernate.connection.provider_class" value="org.hibernate.jpa.LazyHibernatePersistenceProvider"/>
         </properties>
     </persistence-unit>
     <persistence-unit name="ReservationDepartamentPU" transaction-type="JTA">
@@ -81,8 +78,6 @@
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-            <property name="hibernate.max_fetch_depth" value="2"/>
-            <property name="hibernate.connection.provider_class" value="org.hibernate.jpa.LazyHibernatePersistenceProvider"/>
         </properties>
     </persistence-unit>
     <persistence-unit name="ReservationTechnicalChiefPU" transaction-type="JTA">
@@ -109,8 +104,6 @@
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-            <property name="hibernate.max_fetch_depth" value="2"/>
-            <property name="hibernate.connection.provider_class" value="org.hibernate.jpa.LazyHibernatePersistenceProvider"/>
         </properties>
     </persistence-unit>
     <persistence-unit name="ReservationTechnicalWorkerPU" transaction-type="JTA">
@@ -137,8 +130,6 @@
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-            <property name="hibernate.max_fetch_depth" value="2"/>
-            <property name="hibernate.connection.provider_class" value="org.hibernate.jpa.LazyHibernatePersistenceProvider"/>
         </properties>
     </persistence-unit>
     <persistence-unit name="ReservationStandardUserPU" transaction-type="JTA">
@@ -165,8 +156,6 @@
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-            <property name="hibernate.max_fetch_depth" value="2"/>
-            <property name="hibernate.connection.provider_class" value="org.hibernate.jpa.LazyHibernatePersistenceProvider"/>
         </properties>
     </persistence-unit>
     <persistence-unit name="ReservationTestsPU" transaction-type="JTA">
@@ -193,8 +182,6 @@
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-            <property name="hibernate.max_fetch_depth" value="2"/>
-            <property name="hibernate.connection.provider_class" value="org.hibernate.jpa.LazyHibernatePersistenceProvider"/>
         </properties>
     </persistence-unit>
 </persistence>
