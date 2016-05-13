@@ -1,6 +1,7 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateful;
 import javax.interceptor.Interceptors;
 import javax.naming.NamingException;
@@ -9,6 +10,8 @@ import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
 import pl.polsl.reservationsdatabasebeanremote.database.Departaments;
 import pl.polsl.reservationsdatabasebeanremote.database.Room;
 import pl.polsl.reservationsdatabasebeanremote.database.Workers;
+import pl.polsl.reservationsdatabasebeanremote.database.controllers.DepartamentsFacadeRemote;
+import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.WorkersFacadeRemote;
 
 /**
@@ -19,6 +22,10 @@ import pl.polsl.reservationsdatabasebeanremote.database.controllers.WorkersFacad
 public class WorkersFacade extends AbstractFacade<Workers> implements WorkersFacadeRemote {
 
     private static final long serialVersionUID = -509559572309358716L;
+
+    private RoomFacadeRemote roomFacadeRemote;
+
+    private DepartamentsFacadeRemote departamentsFacadeRemote;
 
     public WorkersFacade() throws NamingException {
         super(Workers.class);
@@ -89,5 +96,43 @@ public class WorkersFacade extends AbstractFacade<Workers> implements WorkersFac
     public List<Room> getRoomCollectionById(Number id){
         Workers workers = this.find(id);
         return workers.getRoomCollection();
+    }
+
+    @Override
+    public void remove(Object id){
+        getDependencies();
+
+        Workers worker = this.find(id);
+        worker.setChiefId(null);
+        List<Room> roomCollection = worker.getRoomCollection();
+        for(Room room : roomCollection){
+            room.setKeeperId(null);
+            roomFacadeRemote.merge(room);
+        }
+
+        Room room = worker.getRoom();
+        List<Workers> workers = room.getWorkerses();
+        workers.remove(worker);
+        room.setWorkerses(workers);
+        roomFacadeRemote.merge(room);
+
+        Departaments departament = worker.getDepartamentId();
+        List<Workers> workersCollection = departament.getWorkersCollection();
+        workersCollection.remove(worker);
+        departament.setWorkersCollection(workersCollection);
+
+        super.remove(worker.getId());
+    }
+
+    protected void getDependencies(){
+        try {
+            roomFacadeRemote = new RoomFacade();
+            departamentsFacadeRemote = new DepartamentsFacade();
+        } catch (NamingException e) {
+            e.printStackTrace();
+        }
+        Integer priviligeLevel = this.getPriviligeContext().getPriviligeLevel();
+        roomFacadeRemote.setPriviligeLevel(priviligeLevel);
+        departamentsFacadeRemote.setPriviligeLevel(priviligeLevel);
     }
 }

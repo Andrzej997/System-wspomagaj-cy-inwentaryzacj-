@@ -35,6 +35,10 @@ public abstract class AbstractFacade<T> implements Serializable {
         em = priviligeContext.getEntityManager();
     }
 
+    protected PriviligeContext getPriviligeContext(){
+        return priviligeContext;
+    }
+
     public void setPriviligeLevel(Integer level) {
         priviligeContext.setPriviligeLevel(level);
         em = priviligeContext.getEntityManager();
@@ -55,7 +59,8 @@ public abstract class AbstractFacade<T> implements Serializable {
     public void remove(Object id) {
         id = getAppropriateIdValue(id);
         T deletedObject = em.find(entityClass, id);
-        em.remove(em.merge(deletedObject));
+        //em.remove(em.merge(deletedObject));
+        em.remove(deletedObject);
     }
 
     public void merge(T entity) {

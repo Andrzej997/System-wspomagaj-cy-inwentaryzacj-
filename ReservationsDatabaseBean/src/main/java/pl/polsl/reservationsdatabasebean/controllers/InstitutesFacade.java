@@ -1,5 +1,6 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateful;
 import javax.interceptor.Interceptors;
 import javax.naming.NamingException;
@@ -7,7 +8,10 @@ import javax.persistence.Query;
 import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
 import pl.polsl.reservationsdatabasebeanremote.database.Departaments;
 import pl.polsl.reservationsdatabasebeanremote.database.Institutes;
+import pl.polsl.reservationsdatabasebeanremote.database.Workers;
+import pl.polsl.reservationsdatabasebeanremote.database.controllers.DepartamentsFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.InstitutesFacadeRemote;
+import pl.polsl.reservationsdatabasebeanremote.database.controllers.WorkersFacadeRemote;
 
 import java.util.List;
 
@@ -19,6 +23,8 @@ import java.util.List;
 public class InstitutesFacade extends AbstractFacade<Institutes> implements InstitutesFacadeRemote {
 
     private static final long serialVersionUID = 6300433953924621009L;
+
+    private DepartamentsFacadeRemote departamentsFacadeRemote;
 
     public InstitutesFacade() throws NamingException {
         super(Institutes.class);
@@ -42,5 +48,28 @@ public class InstitutesFacade extends AbstractFacade<Institutes> implements Inst
     public List<Departaments> getDepartamentsCollectionById(Number id){
         Institutes institutes = this.find(id);
         return institutes.getDepartamentsCollection();
+    }
+
+    @Override
+    public void remove(Object id){
+        getDependencies();
+
+        Institutes institute = this.find(id);
+        List<Departaments> departamentsCollection = institute.getDepartamentsCollection();
+        for(Departaments departament : departamentsCollection){
+            departamentsFacadeRemote.remove(departament.getId());
+        }
+
+        super.remove(institute.getId());
+    }
+
+    protected void getDependencies(){
+        try {
+            departamentsFacadeRemote = new DepartamentsFacade();
+        } catch (NamingException e) {
+            e.printStackTrace();
+        }
+        Integer priviligeLevel = this.getPriviligeContext().getPriviligeLevel();
+        departamentsFacadeRemote.setPriviligeLevel(priviligeLevel);
     }
 }

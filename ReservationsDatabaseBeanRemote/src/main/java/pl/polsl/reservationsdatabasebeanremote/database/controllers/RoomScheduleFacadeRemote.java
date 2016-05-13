@@ -4,6 +4,7 @@ import java.util.List;
 import javax.ejb.Remote;
 
 import pl.polsl.reservationsdatabasebeanremote.database.Reservations;
+import pl.polsl.reservationsdatabasebeanremote.database.Room;
 import pl.polsl.reservationsdatabasebeanremote.database.RoomSchedule;
 
 /**
@@ -38,7 +39,7 @@ public interface RoomScheduleFacadeRemote {
 
     List<RoomSchedule> getAllSchedulesAtSession(int year, boolean semester);
 
-    RoomSchedule getCurrentDateSchedule(int year, int week);
+    RoomSchedule getCurrentDateSchedule(int year, int week,boolean semester, Room room);
 
     RoomSchedule getCurrentScheduleForRoom(int roomNumber);
 

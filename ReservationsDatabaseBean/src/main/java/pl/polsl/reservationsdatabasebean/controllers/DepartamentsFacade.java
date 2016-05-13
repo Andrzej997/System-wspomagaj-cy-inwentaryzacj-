@@ -1,15 +1,17 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateful;
 import javax.interceptor.Interceptors;
 import javax.naming.NamingException;
 import javax.persistence.Query;
 import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
-import pl.polsl.reservationsdatabasebeanremote.database.Departaments;
-import pl.polsl.reservationsdatabasebeanremote.database.Room;
-import pl.polsl.reservationsdatabasebeanremote.database.Workers;
+import pl.polsl.reservationsdatabasebeanremote.database.*;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.DepartamentsFacadeRemote;
+import pl.polsl.reservationsdatabasebeanremote.database.controllers.InstitutesFacadeRemote;
+import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomFacadeRemote;
+import pl.polsl.reservationsdatabasebeanremote.database.controllers.WorkersFacadeRemote;
 
 /**
  * @author matis
@@ -17,6 +19,12 @@ import pl.polsl.reservationsdatabasebeanremote.database.controllers.Departaments
 @Interceptors({LoggerImpl.class})
 @Stateful
 public class DepartamentsFacade extends AbstractFacade<Departaments> implements DepartamentsFacadeRemote {
+
+    private RoomFacadeRemote roomFacadeRemote;
+
+    private WorkersFacadeRemote workersFacadeRemote;
+
+    private InstitutesFacadeRemote institutesFacadeRemote;
 
     private static final long serialVersionUID = 1982444506455129579L;
 
@@ -54,5 +62,45 @@ public class DepartamentsFacade extends AbstractFacade<Departaments> implements 
     public List<Workers> getWorkersCollectionById(Long id){
         Departaments departament = this.find(id);
         return departament.getWorkersCollection();
+    }
+
+    @Override
+    public void remove(Object id){
+        getDependencies();
+
+        Departaments departament = this.find(id);
+        List<Room> roomCollection = departament.getRoomCollection();
+        for(Room room : roomCollection){
+            room.setDepartamentId(null);
+            roomFacadeRemote.merge(room);
+        }
+
+        List<Workers> workersCollection = departament.getWorkersCollection();
+        for(Workers worker : workersCollection){
+            workersFacadeRemote.remove(worker.getId());
+        }
+
+        Institutes institute = departament.getInstituteId();
+        List<Departaments> departamentsCollection = institute.getDepartamentsCollection();
+        departamentsCollection.remove(departament);
+        institute.setDepartamentsCollection(departamentsCollection);
+        institutesFacadeRemote.merge(institute);
+
+        super.remove(departament.getId());
+    }
+
+    protected void getDependencies(){
+        try {
+            roomFacadeRemote = new RoomFacade();
+            workersFacadeRemote = new WorkersFacade();
+            institutesFacadeRemote = new InstitutesFacade();
+
+        } catch (NamingException e) {
+            e.printStackTrace();
+        }
+        Integer priviligeLevel = this.getPriviligeContext().getPriviligeLevel();
+        roomFacadeRemote.setPriviligeLevel(priviligeLevel);
+        workersFacadeRemote.setPriviligeLevel(priviligeLevel);
+        institutesFacadeRemote.setPriviligeLevel(priviligeLevel);
     }
 }

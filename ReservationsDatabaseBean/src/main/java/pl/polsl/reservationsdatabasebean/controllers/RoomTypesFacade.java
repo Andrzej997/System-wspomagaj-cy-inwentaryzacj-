@@ -1,11 +1,13 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateful;
 import javax.interceptor.Interceptors;
 import javax.naming.NamingException;
 import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
 import pl.polsl.reservationsdatabasebeanremote.database.Room;
 import pl.polsl.reservationsdatabasebeanremote.database.RoomTypes;
+import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomTypesFacadeRemote;
 
 import java.util.List;
@@ -19,6 +21,8 @@ public class RoomTypesFacade extends AbstractFacade<RoomTypes> implements RoomTy
 
     private static final long serialVersionUID = 3614381092644979715L;
 
+    private RoomFacadeRemote roomFacadeRemote;
+
     public RoomTypesFacade() throws NamingException {
         super(RoomTypes.class);
     }
@@ -29,4 +33,27 @@ public class RoomTypesFacade extends AbstractFacade<RoomTypes> implements RoomTy
         return roomTypes.getRoomCollection();
     }
 
+    @Override
+    public void remove(Object id){
+        getDependencies();
+
+        RoomTypes roomTypes = this.find(id);
+        List<Room> roomCollection = roomTypes.getRoomCollection();
+        for(Room room : roomCollection){
+            roomFacadeRemote.remove(room.getId());
+        }
+
+        super.remove(roomTypes.getRoomType());
+    }
+
+
+    protected void getDependencies(){
+        try {
+            roomFacadeRemote = new RoomFacade();
+        } catch (NamingException e) {
+            e.printStackTrace();
+        }
+        Integer priviligeLevel = this.getPriviligeContext().getPriviligeLevel();
+        roomFacadeRemote.remove(priviligeLevel);
+    }
 }
