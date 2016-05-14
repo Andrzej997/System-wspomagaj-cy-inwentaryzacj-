@@ -1,5 +1,6 @@
 package pl.polsl.reservations.roomManagement;
 
+import pl.polsl.reservations.dto.*;
 import pl.polsl.reservationsdatabasebeanremote.database.*;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.*;
 
@@ -75,20 +76,11 @@ public class RoomManagementFacade implements RoomManagementFacadeRemote {
     }
 
     @Override
-    public Map<String, String> getRoomKeeper(int roomId) {
+    public UserDTO getRoomKeeper(int roomId) {
         Room room = roomsDAO.find(roomId);
         Workers w = room.getKeeperId();
 
-        Map<String, String> result = new HashMap<>();
-        result.put("id", String.valueOf(w.getId()));
-        result.put("address", w.getAdress());
-        result.put("department", w.getDepartamentId().getDepratamentName());
-        result.put("grade", w.getGrade());
-        result.put("pesel", w.getPesel());
-        result.put("name", w.getWorkerName());
-        result.put("surname", w.getSurname());
-
-        return result;
+        return new UserDTO(w);
     }
 
     @Override
@@ -106,43 +98,26 @@ public class RoomManagementFacade implements RoomManagementFacadeRemote {
     }
 
     @Override
-    public List<Map<String, String>> getRoomsList() {
+    public List<RoomDTO> getRoomsList() {
         List<Room> rooms = roomsDAO.findAll();
-        List<Map<String, String>> result = new ArrayList<>();
+        List<RoomDTO> result = new ArrayList<>();
 
         for(Room r: rooms) {
-            Map<String, String> roomData = new HashMap<>();
-
-            roomData.put("id", String.valueOf(r.getId()));
-            roomData.put("number", String.valueOf(r.getRoomNumber()));
-            roomData.put("department", r.getDepartamentId().getDepratamentName());
-            Workers w = r.getKeeperId();
-            roomData.put("keeper", w.getWorkerName() + " " + w.getSurname());
-            roomData.put("type", r.getRoomType().getShortDescription());
-
-            result.add(roomData);
+            result.add(new RoomDTO(r));
         }
 
         return result;
     }
 
     @Override
-    public List<Map<String, String>> getRoomEquipment(int roomId) {
+    public List<EquipmentDTO> getRoomEquipment(int roomId) {
 
         List<Equipment> equpment = equipmentDAO.getEquipmentByRoomNumber(roomsDAO.find(roomId).getRoomNumber());
 //        List<Equipment> equpment = roomsDAO.find(roomId).getEquipmentCollection();
-        List<Map<String, String>> result = new ArrayList<>();
+        List<EquipmentDTO> result = new ArrayList<>();
 
         for(Equipment e: equpment) {
-            Map<String, String> roomData = new HashMap<>();
-
-            roomData.put("id", String.valueOf(e.getId()));
-            roomData.put("name", e.getEquipmentName());
-            roomData.put("quantity", String.valueOf(e.getQuantity()));
-            roomData.put("state", e.getEquipmentState().getStateDefinition());
-            roomData.put("type", e.getEquipmentType().getShortDescription());
-
-            result.add(roomData);
+            result.add(new EquipmentDTO(e));
         }
 
         return result;
@@ -156,23 +131,19 @@ public class RoomManagementFacade implements RoomManagementFacadeRemote {
     }
 
     @Override
-    public List<Map<String, String>> getEquipmentStates() {
-        List<Map<String, String>> result = new ArrayList<>();
+    public List<EquipmentStateDTO> getEquipmentStates() {
+        List<EquipmentStateDTO> result = new ArrayList<>();
         for(EqupmentState es: equipmentStateDAO.findAll()) {
-            Map<String, String> type = new HashMap<>();
-            type.put("id", String.valueOf(es.getStateId()));
-            type.put("description", es.getStateDefinition());
+            result.add(new EquipmentStateDTO(es));
         }
         return result;
     }
 
     @Override
-    public List<Map<String, String>> getEquipmentTypes() {
-        List<Map<String, String>> result = new ArrayList<>();
+    public List<EquipmentTypeDTO> getEquipmentTypes() {
+        List<EquipmentTypeDTO> result = new ArrayList<>();
         for(EquipmentType et: equipmentTypeDAO.findAll()) {
-            Map<String, String> type = new HashMap<>();
-            type.put("id", String.valueOf(et.getId()));
-            type.put("description", et.getShortDescription());
+            result.add(new EquipmentTypeDTO(et));
         }
         return result;
     }

@@ -22,7 +22,7 @@ import java.util.List;
  * @author matis
  */
 @Interceptors({LoggerImpl.class})
-@Stateful(mappedName = "ReservationsFacade")
+@Stateful
 @TransactionManagement(value = TransactionManagementType.BEAN)
 public class ReservationsFacade extends AbstractFacade<Reservations> implements ReservationsFacadeRemote {
 
