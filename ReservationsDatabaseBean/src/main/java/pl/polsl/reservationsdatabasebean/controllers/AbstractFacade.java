@@ -68,6 +68,7 @@ public abstract class AbstractFacade<T> implements Serializable {
 
     public void merge(T entity) {
         em.merge(entity);
+        em.flush();
     }
 
     public T find(Object id) {
