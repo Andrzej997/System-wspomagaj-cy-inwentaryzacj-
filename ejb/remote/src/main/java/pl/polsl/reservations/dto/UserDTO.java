@@ -1,6 +1,7 @@
 package pl.polsl.reservations.dto;
 
 import pl.polsl.reservationsdatabasebeanremote.database.Workers;
+import pl.polsl.reservationsdatabasebeanremote.database.Users;
 
 import java.io.Serializable;
 
@@ -22,11 +23,19 @@ public class UserDTO implements Serializable {
     private String name;
 
     private String surname;
+    
+    private String userName;
+    
+    private String phoneNumber;
+    
+    private String email;
+    
+    private Long privilegeLevel;
 
     public UserDTO() {}
 
 
-    public UserDTO(long id, String address, String department, String grade, String pesel, String name, String surname) {
+    public UserDTO(long id, String address, String department, String grade, String pesel, String name, String surname, String userName, String phoneNumber, String email, Long privilegeLevel) {
         this.id = id;
         this.address = address;
         this.department = department;
@@ -34,6 +43,10 @@ public class UserDTO implements Serializable {
         this.pesel = pesel;
         this.name = name;
         this.surname = surname;
+        this.userName = userName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.privilegeLevel = privilegeLevel;
     }
     public UserDTO(Workers w) {
         this.id = w.getId();
@@ -43,6 +56,20 @@ public class UserDTO implements Serializable {
         this.pesel = w.getPesel();
         this.name = w.getWorkerName();
         this.surname = w.getSurname();
+    }
+    public UserDTO(Users u) {
+        Workers w = u.getWorkers();
+        this.id = u.getUserId();
+        this.address = w.getAdress();
+        this.department = w.getDepartamentId().getDepratamentName();
+        this.grade = w.getGrade();
+        this.pesel = w.getPesel();
+        this.name = w.getWorkerName();
+        this.surname = w.getSurname();
+        this.userName = u.getUsername();
+        this.phoneNumber = u.getPhoneNumber().toString();
+        this.email = u.getEmail();
+        this.privilegeLevel = u.getPriviligeLevel().getPriviligeLevel();
     }
 
     public long getId() {
@@ -99,5 +126,37 @@ public class UserDTO implements Serializable {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+    
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Long getPrivilegeLevel() {
+        return privilegeLevel;
+    }
+
+    public void setPrivilegeLevel(Long privilegeLevel) {
+        this.privilegeLevel = privilegeLevel;
     }
 }
