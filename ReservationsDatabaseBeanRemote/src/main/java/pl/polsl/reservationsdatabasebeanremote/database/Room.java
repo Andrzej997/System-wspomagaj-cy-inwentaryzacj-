@@ -1,15 +1,16 @@
 package pl.polsl.reservationsdatabasebeanremote.database;
 
-import org.hibernate.annotations.Proxy;
+import pl.polsl.reservationsdatabasebeanremote.database.logger.LoggerImpl;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.*;
 @NamedQueries({@NamedQuery(name = "getRoomByNumber", query = "select r from Room  r where r.roomNumber = :roomNumber")
                 })
 
 @Entity
 @Table(name = "ROOM", uniqueConstraints = @UniqueConstraint(columnNames = {"ROOM_NUMBER"}))
+@EntityListeners(LoggerImpl.class)
 public class Room implements Serializable {
 
     private static final long serialVersionUID = -4970767790381180082L;

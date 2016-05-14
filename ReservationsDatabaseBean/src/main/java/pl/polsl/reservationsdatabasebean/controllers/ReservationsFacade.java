@@ -1,12 +1,12 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
-import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
 import pl.polsl.reservationsdatabasebeanremote.database.ReservationTypes;
 import pl.polsl.reservationsdatabasebeanremote.database.Reservations;
 import pl.polsl.reservationsdatabasebeanremote.database.RoomSchedule;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.ReservationTypesFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.ReservationsFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomScheduleFacadeRemote;
+import pl.polsl.reservationsdatabasebeanremote.database.logger.LoggerImpl;
 
 import javax.ejb.Stateful;
 import javax.ejb.TransactionManagement;
@@ -85,7 +85,7 @@ public class ReservationsFacade extends AbstractFacade<Reservations> implements 
         reservationType.setReservationsCollection(reservationsCollection);
         reservationTypesFacadeRemote.merge(reservationType);
 
-        RoomSchedule roomSchedule = reservation.getRoomNumber();
+        RoomSchedule roomSchedule = reservation.getRoomSchedule();
         reservationsCollection = roomSchedule.getReservationsCollection();
         reservationsCollection.remove(reservation);
         roomSchedule.setReservationsCollection(reservationsCollection);

@@ -1,15 +1,16 @@
 package pl.polsl.reservationsdatabasebeanremote.database;
 
-import org.hibernate.annotations.Proxy;
+import pl.polsl.reservationsdatabasebeanremote.database.logger.LoggerImpl;
 
-import java.io.Serializable;
 import javax.persistence.*;
+import java.io.Serializable;
 @NamedQueries({
         @NamedQuery(name = "getEquipmentByRoomNumber", query = "select e from Equipment e where e.roomId.roomNumber = :roomNumber")
 })
 
 @Entity
 @Table(name = "EQUIPMENT")
+@EntityListeners(LoggerImpl.class)
 public class Equipment implements Serializable {
 
     private static final long serialVersionUID = 5276213664855009030L;

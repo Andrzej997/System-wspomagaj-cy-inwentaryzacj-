@@ -57,7 +57,7 @@ public enum PriviligesEnum {
     private final Integer value;
     private final String name;
 
-    private PriviligesEnum(Integer value, String name) {
+    PriviligesEnum(Integer value, String name) {
         this.value = value;
         this.name = name;
     }

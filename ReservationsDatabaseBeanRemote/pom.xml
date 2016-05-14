@@ -9,4 +9,12 @@
     </parent>
     <artifactId>ReservationsDatabaseBeanRemote</artifactId>
     <packaging>jar</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.38</version>
+        </dependency>
+    </dependencies>
 </project>

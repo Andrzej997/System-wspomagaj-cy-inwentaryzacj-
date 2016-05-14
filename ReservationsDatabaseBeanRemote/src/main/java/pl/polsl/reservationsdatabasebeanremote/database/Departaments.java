@@ -1,10 +1,10 @@
 package pl.polsl.reservationsdatabasebeanremote.database;
 
-import org.hibernate.annotations.Proxy;
+import pl.polsl.reservationsdatabasebeanremote.database.logger.LoggerImpl;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.*;
 
 @NamedQueries({
         @NamedQuery(name = "getDepartamentByName", query = "select d from Departaments d where d.depratamentName like :name"),
@@ -14,6 +14,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "DEPARTAMENTS")
+@EntityListeners(LoggerImpl.class)
 public class Departaments implements Serializable{
 
     private static final long serialVersionUID = 61654414912214227L;

@@ -1,19 +1,20 @@
 package pl.polsl.reservationsdatabasebeanremote.database;
 
-import org.hibernate.annotations.Proxy;
+import pl.polsl.reservationsdatabasebeanremote.database.logger.LoggerImpl;
 
-import java.io.Serializable;
 import javax.persistence.*;
+import java.io.Serializable;
 
 @NamedQueries({
-        @NamedQuery(name = "getAllReservationsByRoomSchedule", query = "select r from Reservations  r where r.roomNumber = :roomSchedule"),
-        @NamedQuery(name = "getAllWeekReservations", query = "select r from Reservations  r where r.roomNumber.week = :week and r.roomNumber._year = :year"),
-        @NamedQuery(name = "getAllReservationsByType", query = "select r from Reservations r where r.reservationType.id = :typeId"),
-        @NamedQuery(name = "getAllReservationsByUser", query = "select r from Reservations r where r.userId.id = :userId")
+        @NamedQuery(name = "getAllReservationsByRoomSchedule", query = "select r from Reservations  r where r.roomSchedule = :roomSchedule"),
+        @NamedQuery(name = "getAllWeekReservations", query = "select r from Reservations  r where r.roomSchedule.week = :week and r.roomSchedule._year = :year"),
+        @NamedQuery(name = "getAllReservationsByType", query = "select r from Reservations r where r.reservationType.typeId = :typeId"),
+        @NamedQuery(name = "getAllReservationsByUser", query = "select r from Reservations r where r.userId.userId = :userId")
 })
 
 @Entity
 @Table(name = "RESERVATIONS")
+@EntityListeners(LoggerImpl.class)
 public class Reservations implements Serializable {
 
     private static final long serialVersionUID = 1110572173097587524L;
@@ -25,7 +26,7 @@ public class Reservations implements Serializable {
 
     @ManyToOne(optional = false, targetEntity = RoomSchedule.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "ROOM_NUMBER", insertable = true, nullable = true, updatable = true)
-    private RoomSchedule roomNumber;
+    private RoomSchedule roomSchedule;
 
     @ManyToOne(optional = false, targetEntity = ReservationTypes.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "RESERVATION_TYPE", insertable = true, nullable = true, updatable = true)
@@ -45,12 +46,12 @@ public class Reservations implements Serializable {
 
     }
 
-    public RoomSchedule getRoomNumber() {
-        return this.roomNumber;
+    public RoomSchedule getRoomSchedule() {
+        return this.roomSchedule;
     }
 
-    public void setRoomNumber(RoomSchedule roomNumber) {
-        this.roomNumber = roomNumber;
+    public void setRoomSchedule(RoomSchedule roomNumber) {
+        this.roomSchedule = roomNumber;
     }
 
     public ReservationTypes getReservationType() {

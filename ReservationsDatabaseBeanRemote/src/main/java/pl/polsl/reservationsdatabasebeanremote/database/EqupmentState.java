@@ -1,13 +1,14 @@
 package pl.polsl.reservationsdatabasebeanremote.database;
 
-import org.hibernate.annotations.Proxy;
+import pl.polsl.reservationsdatabasebeanremote.database.logger.LoggerImpl;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.*;
 
 @Entity
 @Table(name = "EQUPMENT_STATE")
+@EntityListeners(LoggerImpl.class)
 public class EqupmentState  implements Serializable {
 
     private static final long serialVersionUID = 2504464193763388953L;

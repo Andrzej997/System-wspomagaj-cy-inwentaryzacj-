@@ -1,21 +1,22 @@
 package pl.polsl.reservationsdatabasebeanremote.database;
 
-import org.hibernate.annotations.Proxy;
+import pl.polsl.reservationsdatabasebeanremote.database.logger.LoggerImpl;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.*;
 
 @NamedQueries({@NamedQuery(name = "validateUser", query = "select u from Users u where u.username = :username and u.password = :password"),
-                @NamedQuery(name = "validateUserByEmail", query = "select u from Users u where u.email = :email and u.password = :password"),
-                @NamedQuery(name = "getUserPrivligeLevelByUsername", query = "select u.priviligeLevel from Users u where u.username = :username"),
-                @NamedQuery(name = "getWorkerByUsername", query = "select u.workers from Users u where u.username = :username"),
-                @NamedQuery(name = "getUserByUsername", query = "select u from Users u where u.username = :username"),
-                @NamedQuery(name = "getUserByEmail", query = "select u from Users u where u.email = :email")
-                })
+        @NamedQuery(name = "validateUserByEmail", query = "select u from Users u where u.email = :email and u.password = :password"),
+        @NamedQuery(name = "getUserPrivligeLevelByUsername", query = "select u.priviligeLevel from Users u where u.username = :username"),
+        @NamedQuery(name = "getWorkerByUsername", query = "select u.workers from Users u where u.username = :username"),
+        @NamedQuery(name = "getUserByUsername", query = "select u from Users u where u.username = :username"),
+        @NamedQuery(name = "getUserByEmail", query = "select u from Users u where u.email = :email")
+})
 
 @Entity
 @Table(name = "USERS")
+@EntityListeners(LoggerImpl.class)
 public class Users implements Serializable {
 
     private static final long serialVersionUID = 6427096331927019081L;

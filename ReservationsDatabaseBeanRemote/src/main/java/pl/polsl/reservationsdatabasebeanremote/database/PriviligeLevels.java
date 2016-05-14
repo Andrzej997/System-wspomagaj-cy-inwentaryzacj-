@@ -1,10 +1,10 @@
 package pl.polsl.reservationsdatabasebeanremote.database;
 
-import org.hibernate.annotations.Proxy;
+import pl.polsl.reservationsdatabasebeanremote.database.logger.LoggerImpl;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.*;
 @NamedQueries({
         @NamedQuery(name = "getPrivligeLevelsEntityByLevelValue", query = "select pl from PriviligeLevels pl where pl.priviligeLevel = :levelValue")
 })
@@ -12,6 +12,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "PRIVILIGE_LEVELS")
+@EntityListeners(LoggerImpl.class)
 public class PriviligeLevels implements Serializable {
 
     private static final long serialVersionUID = 7642276419680143633L;

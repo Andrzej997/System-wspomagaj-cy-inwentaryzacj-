@@ -1,10 +1,10 @@
 package pl.polsl.reservationsdatabasebeanremote.database;
 
-import org.hibernate.annotations.Proxy;
+import pl.polsl.reservationsdatabasebeanremote.database.logger.LoggerImpl;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.*;
 
 @NamedQueries({@NamedQuery(name = "getWorkersByName", query = "select w from Workers w where w.workerName = :workerName"),
                 @NamedQuery(name = "getWorkersBySurname", query = "select w from Workers w where w.surname = :surname"),
@@ -19,6 +19,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "WORKERS")
+@EntityListeners(LoggerImpl.class)
 public class Workers implements Serializable {
 
     private static final long serialVersionUID = 2838010209475855091L;

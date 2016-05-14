@@ -1,11 +1,11 @@
 package pl.polsl.reservationsdatabasebeanremote.database;
 
-import org.hibernate.annotations.Proxy;
+import pl.polsl.reservationsdatabasebeanremote.database.logger.LoggerImpl;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.*;
 
 @NamedQueries({@NamedQuery(name = "getAllSchedulesByYearAndSemester", query = "select rs from RoomSchedule rs where rs.semester = :semester and rs._year = :year "),
                 @NamedQuery(name = "getAllSchedulesAtSession", query = "select rs from RoomSchedule rs where rs.semester = :semester and rs._year = :year and rs.examinationSession = true "),
@@ -16,6 +16,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "ROOM_SCHEDULE")
+@EntityListeners(LoggerImpl.class)
 public class RoomSchedule implements Serializable {
 
     private static final long serialVersionUID = -4139906567566932774L;
@@ -28,7 +29,7 @@ public class RoomSchedule implements Serializable {
     @Column(name = "WEEK", updatable = true, insertable = true, nullable = true)
     private Integer week;
 
-    @OneToMany(targetEntity = Reservations.class, mappedBy = "roomNumber", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = Reservations.class, mappedBy = "roomSchedule", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Reservations> reservationsCollection;
 
     @Column(name = "SEMESTER", updatable = true, insertable = true, nullable = false)
