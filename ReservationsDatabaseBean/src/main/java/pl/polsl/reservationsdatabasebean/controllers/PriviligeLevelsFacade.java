@@ -46,6 +46,7 @@ public class PriviligeLevelsFacade extends AbstractFacade<PriviligeLevels> imple
         return priviligeLevels.getUsersCollection();
     }
 
+    @Override
     public PriviligeLevels getPrivligeLevelsEntityByLevelValue(Long levelValue){
         Query query = getEntityManager().createNamedQuery("getPrivligeLevelsEntityByLevelValue", PriviligeLevels.class);
         query.setParameter("levelValue",levelValue);

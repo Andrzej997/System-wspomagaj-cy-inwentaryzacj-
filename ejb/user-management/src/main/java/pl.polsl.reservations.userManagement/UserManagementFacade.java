@@ -6,6 +6,7 @@ import pl.polsl.reservationsdatabasebeanremote.database.PriviligeLevels;
 import pl.polsl.reservationsdatabasebeanremote.database.Room;
 import pl.polsl.reservationsdatabasebeanremote.database.Users;
 import pl.polsl.reservationsdatabasebeanremote.database.Workers;
+import pl.polsl.reservationsdatabasebeanremote.database.Departaments;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.*;
 import pl.polsl.reservationsdatabasebeanremote.database.logger.LoggerImpl;
 
@@ -160,7 +161,7 @@ public class UserManagementFacade implements UserManagementFacadeRemote {
 
         return new PrivilegeLevelDTO(user.getPriviligeLevel());
     }
-    
+
     @Override
     public PrivilegeLevelDTO getUsersPrivilegeLevel(int userId) {
         Users user = usersFacade.getReference(userId);
@@ -195,7 +196,7 @@ public class UserManagementFacade implements UserManagementFacadeRemote {
         }
         return list;
     }
-    
+
     @Override
     public List<UserDTO> getUnderlings(int chiefId) {
         Workers chief = workersFacade.getReference(chiefId);
@@ -213,5 +214,65 @@ public class UserManagementFacade implements UserManagementFacadeRemote {
             }
         }
         return list;
+    }
+
+    /**
+     *
+     * @param user
+     * @return true jesli istnieje
+     */
+    @Override
+    public boolean checkUserExistence(UserDTO user) {
+        Users userDB;
+        userDB = usersFacade.getReference(user.getId());
+        if (userDB != null) {
+            return true;
+        }
+        userDB = usersFacade.getUserByEmail(user.getEmail());
+        if (userDB != null) {
+            return true;
+        }
+        userDB = usersFacade.getUserByUsername(user.getUserName());
+        if (userDB != null) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean registerUser(UserDTO user, String password) {
+        if (checkUserExistence(user)) {
+            return false;
+        }
+
+        Users userDB = new Users();
+
+        userDB.setPassword(password);
+
+        userDB.setEmail(user.getEmail());
+        userDB.setPhoneNumber(Long.parseLong(user.getPhoneNumber()));
+        userDB.setUsername(user.getUserName());
+
+        PriviligeLevels level = priviligeLevelsFacade.getPrivligeLevelsEntityByLevelValue(user.getPrivilegeLevel());
+        userDB.setPriviligeLevel(level);
+
+        usersFacade.create(userDB);
+
+        Workers workerDB = new Workers();
+
+        workerDB.setAdress(user.getAddress());
+        workerDB.setGrade(user.getGrade());
+        workerDB.setPesel(user.getPesel());
+        workerDB.setSurname(user.getSurname());
+        workerDB.setWorkerName(user.getName());
+
+        Departaments departaments = departamentsFacade.getDepartamentByName(user.getDepartment());
+        if (departaments != null) {
+            workerDB.setDepartamentId(departaments);
+        }
+        
+        workersFacade.create(workerDB);
+
+        return true;
     }
 }

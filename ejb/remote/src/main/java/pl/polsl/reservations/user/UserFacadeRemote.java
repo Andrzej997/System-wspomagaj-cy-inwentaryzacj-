@@ -18,4 +18,6 @@ public interface UserFacadeRemote {
     public boolean changePassword(String oldPassword, String newPassword);
     
     public UserDTO getUserDetails();
+    
+    public boolean changeUserDetails(UserDTO user);
 }
