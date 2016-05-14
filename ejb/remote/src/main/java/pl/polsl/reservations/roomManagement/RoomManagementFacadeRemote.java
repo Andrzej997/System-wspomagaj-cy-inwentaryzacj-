@@ -1,5 +1,7 @@
 package pl.polsl.reservations.roomManagement;
 
+import pl.polsl.reservations.dto.*;
+
 import java.util.List;
 import java.util.Map;
 import javax.ejb.Remote;
@@ -13,13 +15,13 @@ public interface RoomManagementFacadeRemote {
     void addEquipment(int roomId, String name, int quantity, short stateId, short typeId);
     void removeEquipment(int equipmentId);
     void moveEquipment(int equipmentId, int roomToId);
-    List<Map<String, String>> getRoomsList();
-    List<Map<String, String>> getRoomEquipment(int roomId);
-    List<Map<String, String>> getEquipmentStates();
-    List<Map<String, String>> getEquipmentTypes();
+    List<RoomDTO> getRoomsList();
+    List<EquipmentDTO> getRoomEquipment(int roomId);
+    List<EquipmentStateDTO> getEquipmentStates();
+    List<EquipmentTypeDTO> getEquipmentTypes();
     void assignUserToRoom(int roomId, int workerId);
     void assignKeeperToRoom(int roomId, int workerId);
-    Map<String, String> getRoomKeeper(int roomId);
+    UserDTO getRoomKeeper(int roomId);
     void addEquipmentType(String shortDescription, String longDescription);
     void removeEquipmentType(int typeId);
     void addEquipmentState(String definition);

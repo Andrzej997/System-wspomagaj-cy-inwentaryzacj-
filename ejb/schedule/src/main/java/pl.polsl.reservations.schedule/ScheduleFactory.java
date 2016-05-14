@@ -1,14 +1,12 @@
 package pl.polsl.reservations.schedule;
 
+import pl.polsl.reservations.dto.ReservationDTO;
+
+import java.util.List;
+
 /**
- * Created by Krzysztof Stręk on 2016-05-12.
+ * Created by Krzysztof Stręk on 2016-05-13.
  */
-public class ScheduleFactory {
-
-
-    void createSchedule(ScheduleStrategy strategy, int roomId) {
-        strategy.createSchedule(roomId);
-    }
-
-
+public interface ScheduleFactory {
+    List<ReservationDTO> createSchedule(ScheduleStrategy strategy, int roomId, int year, boolean semester);
 }

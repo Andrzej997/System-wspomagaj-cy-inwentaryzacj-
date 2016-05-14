@@ -1,8 +1,8 @@
 package pl.polsl.reservations.client;
 
+import pl.polsl.reservations.dto.ReservationDTO;
 import pl.polsl.reservations.roomManagement.RoomManagementFacadeRemote;
-import pl.polsl.reservations.schedule.ScheduleFacadeRemote;
-import pl.polsl.reservations.userManagement.UserManagementFacadeRemote;
+import pl.polsl.reservations.schedule.ScheduleFacade;
 
 import java.util.List;
 import java.util.Map;
@@ -19,7 +19,7 @@ public class Main {
     public static void main(String[] args) {
         Lookup l = new Lookup();
 
-        ScheduleFacadeRemote schedule = (ScheduleFacadeRemote) l.getRemote("ScheduleFacade");
+        ScheduleFacade schedule = (ScheduleFacade) l.getRemote("ScheduleFacade");
 
         RoomManagementFacadeRemote test2 = (RoomManagementFacadeRemote) l.getRemote("RoomManagementFacade");
         List<Map<String, String>> s = test2.getRoomsList();
@@ -28,9 +28,9 @@ public class Main {
 
 //        test2.assignUserToRoom(roomId, 1);
 
-//        List<Map<String, String>> beforeUpdate = test2.getRoomEquipment(roomId);
+        List<Map<String, String>> beforeUpdate = test2.getRoomEquipment(roomId);
 
-//        test2.addEquipment(roomId, "Projektor", 4, (short)1, (short)1);
+        test2.addEquipment(roomId, "Projektor", 4, (short)1, (short)1);
 
         List<Map<String, String>> u1 = test2.getRoomEquipment(roomId);
 
@@ -54,6 +54,10 @@ public class Main {
 //
 //        Map<String, String> resultAfter = test2.getRoomKeeper(roomId);
 
-        schedule.getRoomSchedule(roomId);
+        List<ReservationDTO> reservationsByRoom = schedule.getRoomSchedule(1, 2016, true);
+        List<ReservationDTO> reservationsByUser = schedule.getReservationsByUser(1);
+        List<ReservationDTO> detailedReservationsByRoom = schedule.getDetailedRoomSchedule(1, 2016, 1, true);
+        schedule.createReservation(1, 12, 18, 0, 2016, true, 1, 1);
+        List<ReservationDTO> reservationsByRoomUpdated = schedule.getRoomSchedule(1, 2016, true);
     }
 }

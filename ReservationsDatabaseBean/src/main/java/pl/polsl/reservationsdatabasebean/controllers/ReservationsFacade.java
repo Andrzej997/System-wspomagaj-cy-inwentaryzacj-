@@ -20,7 +20,7 @@ import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomSchedule
  * @author matis
  */
 @Interceptors({LoggerImpl.class})
-@Stateful(mappedName = "ReservationsFacade")
+@Stateful
 public class ReservationsFacade extends AbstractFacade<Reservations> implements ReservationsFacadeRemote {
 
     private RoomScheduleFacadeRemote roomScheduleFacadeRemote;
