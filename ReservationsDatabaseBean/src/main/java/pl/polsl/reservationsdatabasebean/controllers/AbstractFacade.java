@@ -69,7 +69,6 @@ public abstract class AbstractFacade<T> implements Serializable {
             getUserTransaction().begin();
             em.joinTransaction();
             em.persist(entity);
-            em.flush();
             getUserTransaction().commit();
         } catch (Exception e) {
             try {
@@ -87,7 +86,6 @@ public abstract class AbstractFacade<T> implements Serializable {
             getUserTransaction().begin();
             em.joinTransaction();
             em.merge(entity);
-            em.flush();
             getUserTransaction().commit();
         } catch (Exception e) {
             try {
