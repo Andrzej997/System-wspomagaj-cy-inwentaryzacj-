@@ -50,10 +50,12 @@ public abstract class AbstractFacade<T> implements Serializable {
 
     public void create(T entity) {
         em.persist(entity);
+        em.flush();
     }
 
     public void edit(T entity) {
         em.merge(entity);
+        em.flush();
     }
 
     public void remove(Object id) {
@@ -61,6 +63,7 @@ public abstract class AbstractFacade<T> implements Serializable {
         T deletedObject = em.find(entityClass, id);
         //em.remove(em.merge(deletedObject));
         em.remove(deletedObject);
+        em.flush();
     }
 
     public void merge(T entity) {
