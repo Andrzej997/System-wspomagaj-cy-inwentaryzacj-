@@ -31,4 +31,8 @@ public interface UserManagementFacadeRemote {
     List<UserDTO> getUnderlings(String userName);
     
     List<UserDTO> getUnderlings(int userId);
+    
+    boolean checkUserExistence(UserDTO user);
+    
+    boolean registerUser(UserDTO user, String password);
 }

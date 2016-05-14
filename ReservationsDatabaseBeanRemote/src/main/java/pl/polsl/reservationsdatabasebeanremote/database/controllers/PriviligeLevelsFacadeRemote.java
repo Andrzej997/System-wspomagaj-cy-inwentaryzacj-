@@ -38,4 +38,6 @@ public interface PriviligeLevelsFacadeRemote {
     List<Priviliges> getPriviligesCollectionById(Number id);
 
     List<Users> getUsersCollectionById(Number id);
+    
+    PriviligeLevels getPrivligeLevelsEntityByLevelValue(Long levelValue);
 }
