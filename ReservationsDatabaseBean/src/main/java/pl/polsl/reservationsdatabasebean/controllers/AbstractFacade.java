@@ -1,6 +1,9 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.Nullable;
 import pl.polsl.reservationsdatabasebean.context.PriviligeContext;
+import pl.polsl.reservationsdatabasebeanremote.database.controllers.AbstractFacadeRemote;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -9,7 +12,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.transaction.SystemException;
 import javax.transaction.Transactional;
 import javax.transaction.UserTransaction;
 import java.io.Serializable;
@@ -21,7 +23,7 @@ import java.util.List;
 /**
  * @author matis
  */
-public abstract class AbstractFacade<T> implements Serializable {
+public abstract class AbstractFacade<T> implements Serializable, AbstractFacadeRemote<T> {
 
     private static final long serialVersionUID = -13071878948980250L;
     private final Class<T> entityClass;
@@ -45,105 +47,75 @@ public abstract class AbstractFacade<T> implements Serializable {
         userTransaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
     }
 
+    protected abstract void getDependencies();
+
     protected PriviligeContext getPriviligeContext() {
         return priviligeContext;
     }
 
-    protected UserTransaction getUserTransaction() {
+    public UserTransaction getUserTransaction() {
         return this.userTransaction;
-    }
-
-    public void setPriviligeLevel(Integer level) {
-        priviligeContext.setPriviligeLevel(level);
-        em = priviligeContext.getEntityManager();
-        em.setFlushMode(FlushModeType.COMMIT);
     }
 
     protected EntityManager getEntityManager() {
         return em;
     }
 
-    @Transactional(Transactional.TxType.MANDATORY)
+    @Override
+    public void setPriviligeLevel(Integer level) {
+        priviligeContext.setPriviligeLevel(level);
+        em = priviligeContext.getEntityManager();
+        em.setFlushMode(FlushModeType.COMMIT);
+    }
+
+    @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public void create(T entity) {
-        try {
-            getUserTransaction().begin();
             em.joinTransaction();
             em.persist(entity);
-            getUserTransaction().commit();
-        } catch (Exception e) {
-            try {
-                getUserTransaction().rollback();
-            } catch (SystemException e1) {
-                e1.printStackTrace();
-            }
-        }
-
     }
 
-    @Transactional(Transactional.TxType.MANDATORY)
+    @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public void edit(T entity) {
-        try {
-            getUserTransaction().begin();
             em.joinTransaction();
             em.merge(entity);
-            getUserTransaction().commit();
-        } catch (Exception e) {
-            try {
-                getUserTransaction().rollback();
-            } catch (SystemException e1) {
-                e1.printStackTrace();
-            }
-        }
     }
 
-    @Transactional(Transactional.TxType.MANDATORY)
+    @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public void remove(T entity) {
-        try {
-            getUserTransaction().begin();
             em.joinTransaction();
             em.remove(entity);
-            getUserTransaction().commit();
-        } catch (Exception e) {
-            try {
-                getUserTransaction().rollback();
-            } catch (SystemException e1) {
-                e1.printStackTrace();
-            }
-        }
     }
 
-    @Transactional(Transactional.TxType.MANDATORY)
+    @Override
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
     public void merge(T entity) {
-        try {
-            getUserTransaction().begin();
             em.joinTransaction();
             em.merge(entity);
-            getUserTransaction().commit();
-        } catch (Exception e) {
-            try {
-                getUserTransaction().rollback();
-            } catch (SystemException e1) {
-                e1.printStackTrace();
-            }
-        }
     }
 
+    @Override
     public T find(Object id) {
         id = getAppropriateIdValue(id);
         return em.find(entityClass, id);
     }
 
+    @Override
     public T getReference(Object id) {
         id = getAppropriateIdValue(id);
         return em.getReference(entityClass, id);
     }
 
+    @Override
     public List<T> findAll() {
         CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
         return em.createQuery(cq).getResultList();
     }
 
+    @Override
     public List<T> findRange(int[] range) {
         CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
@@ -153,6 +125,7 @@ public abstract class AbstractFacade<T> implements Serializable {
         return q.getResultList();
     }
 
+    @Override
     public int count() {
         CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
         Root<T> rt = cq.from(entityClass);
@@ -161,6 +134,7 @@ public abstract class AbstractFacade<T> implements Serializable {
         return ((Long) q.getSingleResult()).intValue();
     }
 
+    @Override
     public List<T> findEntity(List<String> columnNames, List<Object> values) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery criteriaQuery = cb.createQuery();
@@ -177,6 +151,7 @@ public abstract class AbstractFacade<T> implements Serializable {
         return resultList;
     }
 
+    @Contract("null -> null")
     private Long getLongValue(Object o) {
         if (o instanceof Long) {
             return (Long) o;
@@ -194,6 +169,7 @@ public abstract class AbstractFacade<T> implements Serializable {
         }
     }
 
+    @Nullable
     private Object getAppropriateIdValue(Object value) {
         Long idValue = getLongValue(value);
         Field[] fields = this.entityClass.getDeclaredFields();
@@ -219,4 +195,10 @@ public abstract class AbstractFacade<T> implements Serializable {
         return value;
     }
 
+    @Override
+    public void closeEntityMenager() {
+        if (em != null && em.isOpen()) {
+            this.em.close();
+        }
+    }
 }

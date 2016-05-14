@@ -4,6 +4,7 @@ import pl.polsl.reservationsdatabasebeanremote.database.Equipment;
 import pl.polsl.reservationsdatabasebeanremote.database.EquipmentType;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.EquipmentFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.EquipmentTypeFacadeRemote;
+import pl.polsl.reservationsdatabasebeanremote.database.interceptors.TransactionalInterceptor;
 import pl.polsl.reservationsdatabasebeanremote.database.logger.LoggerImpl;
 
 import javax.ejb.Stateful;
@@ -16,7 +17,7 @@ import java.util.List;
 /**
  * @author matis
  */
-@Interceptors({LoggerImpl.class})
+@Interceptors({LoggerImpl.class, TransactionalInterceptor.class})
 @Stateful
 @TransactionManagement(value = TransactionManagementType.BEAN)
 public class EquipmentTypeFacade extends AbstractFacade<EquipmentType> implements EquipmentTypeFacadeRemote {
@@ -37,7 +38,7 @@ public class EquipmentTypeFacade extends AbstractFacade<EquipmentType> implement
 
     @Override
     public void remove(EquipmentType entity) {
-        getDepenedencies();
+        getDependencies();
 
         EquipmentType equipmentType = this.find(entity.getId());
         List<Equipment> equipmentCollection = equipmentType.getEquipmentCollection();
@@ -49,7 +50,8 @@ public class EquipmentTypeFacade extends AbstractFacade<EquipmentType> implement
         super.remove(equipmentType);
     }
 
-    protected void getDepenedencies(){
+    @Override
+    protected void getDependencies() {
         try {
             equipmentFacadeRemote = new EquipmentFacade();
         } catch (NamingException e) {

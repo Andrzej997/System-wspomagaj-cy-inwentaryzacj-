@@ -1,10 +1,14 @@
 package pl.polsl.reservationsdatabasebeanremote.database.logger;
 
+import pl.polsl.reservationsdatabasebeanremote.database.controllers.AbstractFacadeRemote;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.interceptor.AroundInvoke;
+import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.lang.reflect.Parameter;
 import java.util.Arrays;
@@ -16,15 +20,16 @@ import java.util.logging.*;
  * Log zapisuje się z reguły na glassfishu w takiej scieżce
  * \glassfish4\glassfish\domains\domain1\config
  */
+@Transactional
+@Interceptor
 public class LoggerImpl {
 
     private static final String LOGFILEPATH = "\\log.log";
 
     private static final Logger log = Logger.getLogger(LoggerImpl.class.getName());
 
-
     //static logger configuration
-    {
+    static {
         try {
             String currentProjetPath = System.getProperty("user.dir") + LOGFILEPATH;
             FileHandler fileHandler = new FileHandler(currentProjetPath);
@@ -53,6 +58,7 @@ public class LoggerImpl {
                             new String[]{parameter.toString(), parameter.getType().getName()})
             );
         }
+
         try {
             result = ctx.proceed();
             if (result != null) {
@@ -63,6 +69,7 @@ public class LoggerImpl {
             log.throwing(ctx.getTarget().getClass().getName(), ctx.getMethod().getName(), e);
             throw e;
         }
+
         return result;
     }
 
@@ -73,6 +80,9 @@ public class LoggerImpl {
 
     @PreDestroy
     public void preDestroy(InvocationContext ctx) {
+        if (ctx.getTarget() instanceof AbstractFacadeRemote) {
+            ((AbstractFacadeRemote) ctx.getTarget()).closeEntityMenager();
+        }
         log.log(Level.CONFIG, "*** Object: {0} will be destroyed\n", ctx.getTarget().getClass().getName());
     }
 
@@ -120,4 +130,5 @@ public class LoggerImpl {
         log.log(Level.CONFIG, "*** Entity: {0} was loaded\n", object.getClass().getName());
         log.log(Level.FINE, object.toString());
     }
+
 }

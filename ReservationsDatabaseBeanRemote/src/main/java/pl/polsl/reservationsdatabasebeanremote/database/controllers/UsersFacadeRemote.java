@@ -11,29 +11,7 @@ import java.util.List;
  * @author matis
  */
 @Remote
-public interface UsersFacadeRemote {
-
-    void setPriviligeLevel(Integer level);
-
-    void create(Users users);
-
-    void edit(Users users);
-
-    void remove(Users entity);
-
-    void merge(Users users);
-
-    Users find(Object id);
-
-    Users getReference(Object id);
-
-    List<Users> findAll();
-
-    List<Users> findRange(int[] range);
-
-    int count();
-
-    List<Users> findEntity(List<String> columnNames, List<Object> values);
+public interface UsersFacadeRemote extends AbstractFacadeRemote<Users> {
 
     Boolean validateUser(String username, String password);
 

@@ -8,6 +8,7 @@ import pl.polsl.reservationsdatabasebeanremote.database.controllers.EquipmentFac
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.EquipmentStateFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.EquipmentTypeFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomFacadeRemote;
+import pl.polsl.reservationsdatabasebeanremote.database.interceptors.TransactionalInterceptor;
 import pl.polsl.reservationsdatabasebeanremote.database.logger.LoggerImpl;
 
 import javax.ejb.Stateful;
@@ -21,7 +22,7 @@ import java.util.List;
 /**
  * @author matis
  */
-@Interceptors({LoggerImpl.class})
+@Interceptors({LoggerImpl.class, TransactionalInterceptor.class})
 @Stateful
 @TransactionManagement(value = TransactionManagementType.BEAN)
 public class EquipmentFacade extends AbstractFacade<Equipment> implements EquipmentFacadeRemote {
@@ -68,6 +69,7 @@ public class EquipmentFacade extends AbstractFacade<Equipment> implements Equipm
         super.remove(equipment);
     }
 
+    @Override
     protected void getDependencies() {
         try {
             equipmentStateFacadeRemote = new EquipmentStateFacade();

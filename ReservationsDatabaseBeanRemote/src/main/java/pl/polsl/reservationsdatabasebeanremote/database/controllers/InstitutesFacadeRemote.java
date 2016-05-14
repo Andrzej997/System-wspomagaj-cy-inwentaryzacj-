@@ -10,29 +10,7 @@ import java.util.List;
  * @author matis
  */
 @Remote
-public interface InstitutesFacadeRemote {
-
-    void setPriviligeLevel(Integer level);
-
-    void create(Institutes institutes);
-
-    void edit(Institutes institutes);
-
-    void remove(Institutes entity);
-
-    void merge(Institutes institutes);
-
-    Institutes find(Object id);
-
-    Institutes getReference(Object id);
-
-    List<Institutes> findAll();
-
-    List<Institutes> findRange(int[] range);
-
-    int count();
-
-    List<Institutes> findEntity(List<String> columnNames, List<Object> values);
+public interface InstitutesFacadeRemote extends AbstractFacadeRemote<Institutes> {
 
     Institutes getInstituteByName(String name);
 

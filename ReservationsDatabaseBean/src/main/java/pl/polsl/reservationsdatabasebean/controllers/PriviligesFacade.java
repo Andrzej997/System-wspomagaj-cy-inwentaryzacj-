@@ -4,6 +4,7 @@ import pl.polsl.reservationsdatabasebeanremote.database.PriviligeLevels;
 import pl.polsl.reservationsdatabasebeanremote.database.Priviliges;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.PriviligeLevelsFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.PriviligesFacadeRemote;
+import pl.polsl.reservationsdatabasebeanremote.database.interceptors.TransactionalInterceptor;
 import pl.polsl.reservationsdatabasebeanremote.database.logger.LoggerImpl;
 
 import javax.ejb.Stateful;
@@ -16,7 +17,7 @@ import java.util.List;
 /**
  * @author matis
  */
-@Interceptors({LoggerImpl.class})
+@Interceptors({LoggerImpl.class, TransactionalInterceptor.class})
 @Stateful
 @TransactionManagement(value = TransactionManagementType.BEAN)
 public class PriviligesFacade extends AbstractFacade<Priviliges> implements PriviligesFacadeRemote {
@@ -51,6 +52,7 @@ public class PriviligesFacade extends AbstractFacade<Priviliges> implements Priv
         super.remove(privilige);
     }
 
+    @Override
     protected void getDependencies(){
         try {
             priviligeLevelsFacadeRemote = new PriviligeLevelsFacade();

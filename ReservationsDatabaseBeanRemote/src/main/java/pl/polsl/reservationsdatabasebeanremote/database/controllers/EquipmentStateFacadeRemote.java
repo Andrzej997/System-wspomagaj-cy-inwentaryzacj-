@@ -10,29 +10,7 @@ import java.util.List;
  * @author matis
  */
 @Remote
-public interface EquipmentStateFacadeRemote {
-
-    void setPriviligeLevel(Integer level);
-
-    void create(EqupmentState equpmentState);
-
-    void edit(EqupmentState equpmentState);
-
-    void remove(EqupmentState entity);
-
-    void merge(EqupmentState equpmentState);
-
-    EqupmentState find(Object id);
-
-    EqupmentState getReference(Object id);
-
-    List<EqupmentState> findAll();
-
-    List<EqupmentState> findRange(int[] range);
-
-    int count();
-
-    List<EqupmentState> findEntity(List<String> columnNames, List<Object> values);
+public interface EquipmentStateFacadeRemote extends AbstractFacadeRemote<EqupmentState> {
 
     List<Equipment> getEquipmentCollectionById(Number id);
 }

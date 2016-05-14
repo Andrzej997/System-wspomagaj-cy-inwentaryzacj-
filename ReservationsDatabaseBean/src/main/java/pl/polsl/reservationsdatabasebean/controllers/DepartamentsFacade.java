@@ -8,6 +8,7 @@ import pl.polsl.reservationsdatabasebeanremote.database.controllers.Departaments
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.InstitutesFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.WorkersFacadeRemote;
+import pl.polsl.reservationsdatabasebeanremote.database.interceptors.TransactionalInterceptor;
 import pl.polsl.reservationsdatabasebeanremote.database.logger.LoggerImpl;
 
 import javax.ejb.Stateful;
@@ -21,7 +22,7 @@ import java.util.List;
 /**
  * @author matis
  */
-@Interceptors({LoggerImpl.class})
+@Interceptors({LoggerImpl.class, TransactionalInterceptor.class})
 @Stateful
 @TransactionManagement(value = TransactionManagementType.BEAN)
 public class DepartamentsFacade extends AbstractFacade<Departaments> implements DepartamentsFacadeRemote {
@@ -92,6 +93,7 @@ public class DepartamentsFacade extends AbstractFacade<Departaments> implements 
         super.remove(departament);
     }
 
+    @Override
     protected void getDependencies(){
         try {
             roomFacadeRemote = new RoomFacade();

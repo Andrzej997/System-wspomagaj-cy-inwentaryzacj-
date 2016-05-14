@@ -7,6 +7,7 @@ import pl.polsl.reservationsdatabasebeanremote.database.Workers;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.PriviligeLevelsFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.ReservationsFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.UsersFacadeRemote;
+import pl.polsl.reservationsdatabasebeanremote.database.interceptors.TransactionalInterceptor;
 import pl.polsl.reservationsdatabasebeanremote.database.logger.LoggerImpl;
 
 import javax.ejb.Stateful;
@@ -20,7 +21,7 @@ import java.util.List;
 /**
  * @author matis
  */
-@Interceptors({LoggerImpl.class})
+@Interceptors({LoggerImpl.class, TransactionalInterceptor.class})
 @Stateful
 @TransactionManagement(value = TransactionManagementType.BEAN)
 public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeRemote {
@@ -107,6 +108,7 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeRem
 
     }
 
+    @Override
     protected void getDependencies(){
         try {
             reservationsFacadeRemote = new ReservationsFacade();

@@ -4,6 +4,7 @@ import pl.polsl.reservationsdatabasebeanremote.database.Equipment;
 import pl.polsl.reservationsdatabasebeanremote.database.EqupmentState;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.EquipmentFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.EquipmentStateFacadeRemote;
+import pl.polsl.reservationsdatabasebeanremote.database.interceptors.TransactionalInterceptor;
 import pl.polsl.reservationsdatabasebeanremote.database.logger.LoggerImpl;
 
 import javax.ejb.Stateful;
@@ -16,7 +17,7 @@ import java.util.List;
 /**
  * @author matis
  */
-@Interceptors({LoggerImpl.class})
+@Interceptors({LoggerImpl.class, TransactionalInterceptor.class})
 @Stateful
 @TransactionManagement(value = TransactionManagementType.BEAN)
 public class EquipmentStateFacade extends AbstractFacade<EqupmentState> implements EquipmentStateFacadeRemote {
@@ -37,7 +38,7 @@ public class EquipmentStateFacade extends AbstractFacade<EqupmentState> implemen
 
     @Override
     public void remove(EqupmentState entity) {
-        getDepenedencies();
+        getDependencies();
 
         EqupmentState equpmentState = this.find(entity.getStateId());
         List<Equipment> equipmentCollection = equpmentState.getEquipmentCollection();
@@ -49,7 +50,8 @@ public class EquipmentStateFacade extends AbstractFacade<EqupmentState> implemen
         super.remove(equpmentState);
     }
 
-    protected void getDepenedencies(){
+    @Override
+    protected void getDependencies() {
         try {
             equipmentFacadeRemote = new EquipmentFacade();
         } catch (NamingException e) {
