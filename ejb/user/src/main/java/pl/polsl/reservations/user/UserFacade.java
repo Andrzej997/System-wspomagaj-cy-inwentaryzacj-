@@ -11,21 +11,14 @@ import pl.polsl.reservationsdatabasebeanremote.database.Workers;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.DepartamentsFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.UsersFacadeRemote;
+import pl.polsl.reservations.dto.UserDTO;
 
 /**
  * Created by Krzysztof Stręk on 2016-05-07.
  */
 @Stateful(mappedName = "UserFacade")
 public class UserFacade implements UserFacadeRemote {
-
-    /*@EJB
-     ReservationsFacadeRemote reservation;
-
-     @Override
-     public int getUser() {
-     List<Reservations> list =  reservation.findAll();
-     return list.size();
-     }*/
+    
     @EJB
     private UsersFacadeRemote usersFacade;
     @EJB
@@ -89,35 +82,12 @@ public class UserFacade implements UserFacadeRemote {
     }
 
     @Override
-    public Map<String, String> getUserDetails() {
+    public UserDTO getUserDetails() {
         if (user == null) {
             return null;
         }
-        Map<String, String> map = new HashMap<>();
-        map.put("userName", user.getUsername());
-        map.put("email", user.getEmail());
-        map.put("phoneNumber", user.getPhoneNumber().toString());
 
-        Workers worker = usersFacade.getWorkerByUsername(user.getUsername());
-        if (worker != null) {
-            map.put("name", worker.getWorkerName());
-            map.put("surname", worker.getSurname());
-            map.put("address", worker.getAdress());
-            map.put("pesel", worker.getPesel());
-            map.put("grade", worker.getGrade());
-        }
-
-        Room room = roomFacade.getReference(worker.getId());
-        if (room != null) {
-            map.put("roomNumber", room.getRoomNumber() + "");
-        }
-
-        Departaments departament = departamentsFacade.find(worker.getId());
-        if (departament != null) {
-            map.put("departamentName", departament.getDepratamentName());
-        }
-
-        return map;
+        return new UserDTO(user);
     }
 
 }

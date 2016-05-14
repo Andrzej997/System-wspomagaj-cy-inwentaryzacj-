@@ -23,19 +23,21 @@ public class UserDTO implements Serializable {
     private String name;
 
     private String surname;
-    
+
     private String userName;
-    
+
     private String phoneNumber;
-    
+
     private String email;
-    
+
     private Long privilegeLevel;
 
-    public UserDTO() {}
+    private int roomNumber;
 
+    public UserDTO() {
+    }
 
-    public UserDTO(long id, String address, String department, String grade, String pesel, String name, String surname, String userName, String phoneNumber, String email, Long privilegeLevel) {
+    public UserDTO(long id, String address, String department, String grade, String pesel, String name, String surname, String userName, String phoneNumber, String email, Long privilegeLevel, int roomNumber) {
         this.id = id;
         this.address = address;
         this.department = department;
@@ -47,7 +49,9 @@ public class UserDTO implements Serializable {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.privilegeLevel = privilegeLevel;
+        this.roomNumber = roomNumber;
     }
+
     public UserDTO(Workers w) {
         this.id = w.getId();
         this.address = w.getAdress();
@@ -56,7 +60,9 @@ public class UserDTO implements Serializable {
         this.pesel = w.getPesel();
         this.name = w.getWorkerName();
         this.surname = w.getSurname();
+        this.roomNumber = w.getRoom().getRoomNumber();
     }
+
     public UserDTO(Users u) {
         Workers w = u.getWorkers();
         this.id = u.getUserId();
@@ -66,6 +72,7 @@ public class UserDTO implements Serializable {
         this.pesel = w.getPesel();
         this.name = w.getWorkerName();
         this.surname = w.getSurname();
+        this.roomNumber = w.getRoom().getRoomNumber();
         this.userName = u.getUsername();
         this.phoneNumber = u.getPhoneNumber().toString();
         this.email = u.getEmail();
@@ -127,7 +134,7 @@ public class UserDTO implements Serializable {
     public void setSurname(String surname) {
         this.surname = surname;
     }
-    
+
     public String getUserName() {
         return userName;
     }
@@ -158,5 +165,13 @@ public class UserDTO implements Serializable {
 
     public void setPrivilegeLevel(Long privilegeLevel) {
         this.privilegeLevel = privilegeLevel;
+    }
+
+    public int getRoomNumber() {
+        return roomNumber;
+    }
+
+    public void setRoomNumber(int roomNumber) {
+        this.roomNumber = roomNumber;
     }
 }

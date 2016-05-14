@@ -8,6 +8,8 @@ import pl.polsl.reservationsdatabasebeanremote.database.controllers.UsersFacadeR
 
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
+import pl.polsl.reservations.dto.PrivilegeLevelDTO;
+import pl.polsl.reservations.dto.UserDTO;
 import pl.polsl.reservationsdatabasebeanremote.database.Departaments;
 import pl.polsl.reservationsdatabasebeanremote.database.Room;
 import pl.polsl.reservationsdatabasebeanremote.database.Workers;
@@ -39,38 +41,25 @@ public class UserManagementFacade implements UserManagementFacadeRemote {
     }
 
     @Override
-    public Map<String, String> getUserDetails(String userName) {
+    public UserDTO getUserDetails(String userName) {
         Users user = usersFacade.getUserByUsername(userName);
 
         if (user == null) {
             return null;
         }
 
-        Map<String, String> map = new HashMap<>();
-        map.put("userName", user.getUsername());
-        map.put("email", user.getEmail());
-        map.put("phoneNumber", user.getPhoneNumber().toString());
+        return new UserDTO(user);
+    }
 
-        Workers worker = usersFacade.getWorkerByUsername(user.getUsername());
-        if (worker != null) {
-            map.put("name", worker.getWorkerName());
-            map.put("surname", worker.getSurname());
-            map.put("address", worker.getAdress());
-            map.put("pesel", worker.getPesel());
-            map.put("grade", worker.getGrade());
+    @Override
+    public UserDTO getUserDetails(int userId) {
+        Users user = usersFacade.getReference(userId);
+
+        if (user == null) {
+            return null;
         }
 
-        Room room = roomFacade.getReference(worker.getId());
-        if (room != null) {
-            map.put("roomNumber", room.getRoomNumber() + "");
-        }
-
-        Departaments departament = departamentsFacade.find(worker.getId());
-        if (departament != null) {
-            map.put("departamentName", departament.getDepratamentName());
-        }
-
-        return map;
+        return new UserDTO(user);
     }
 
     /**
@@ -121,22 +110,20 @@ public class UserManagementFacade implements UserManagementFacadeRemote {
 
     /**
      * Dostepne pola mapy: privilegeLevel i description.
+     *
      * @return
      */
     @Override
-    public List<Map<String, String>> getAllPrivilegeLevels() {
+    public List<PrivilegeLevelDTO> getAllPrivilegeLevels() {
         List<PriviligeLevels> levels = priviligeLevelsFacade.findAll();
 
         if (levels == null) {
             return null;
         }
-        
-        List<Map<String, String>> list = new ArrayList<>();
-        for(PriviligeLevels level : levels) {
-            Map<String, String> map = new HashMap<>();
-            map.put("privilegeLevel", level.getPriviligeLevel().toString());
-            map.put("description", level.getDescription());
-            list.add(map);
+
+        List<PrivilegeLevelDTO> list = new ArrayList<>();
+        for (PriviligeLevels level : levels) {
+            list.add(new PrivilegeLevelDTO(level));
         }
         return list;
     }
@@ -166,36 +153,68 @@ public class UserManagementFacade implements UserManagementFacadeRemote {
 
         return true;
     }
-    
+
     @Override
-    public Long getUsersPrivilegeLevel(String userName) {
+    public PrivilegeLevelDTO getUsersPrivilegeLevel(String userName) {
         Users user = usersFacade.getUserByUsername(userName);
-        
-        if(user == null)
+
+        if (user == null) {
             return null;
-        
-        return user.getPriviligeLevel().getPriviligeLevel();
+        }
+
+        return new PrivilegeLevelDTO(user.getPriviligeLevel());
     }
     
+    @Override
+    public PrivilegeLevelDTO getUsersPrivilegeLevel(int userId) {
+        Users user = usersFacade.getReference(userId);
+
+        if (user == null) {
+            return null;
+        }
+
+        return new PrivilegeLevelDTO(user.getPriviligeLevel());
+    }
+
     /**
      *
      * @param chiefName
      * @return
      */
     @Override
-    public List<Map<String, String>> getUnderlings(String chiefName) {
+    public List<UserDTO> getUnderlings(String chiefName) {
         Workers chief = usersFacade.getWorkerByUsername(chiefName);
         List<Workers> workers = workersFacade.findAll();
-        
-        if(chief == null || workers == null)
+
+        if (chief == null || workers == null) {
             return null;
-        
-        List<Map<String, String>> list = new ArrayList<>();
-        for(Workers worker : workers) {
-            if(worker.getChiefId().getId().equals(chief.getId())) {
-                Map<String, String> map = getUserDetails(usersFacade.getReference(worker.getId()).getUsername());
-                list.add(map);
-            }      
+        }
+
+        List<UserDTO> list = new ArrayList<>();
+        for (Workers worker : workers) {
+            if (worker.getChiefId().getId().equals(chief.getId())) {
+                UserDTO user = getUserDetails(worker.getId().intValue());
+                list.add(user);
+            }
+        }
+        return list;
+    }
+    
+    @Override
+    public List<UserDTO> getUnderlings(int chiefId) {
+        Workers chief = workersFacade.getReference(chiefId);
+        List<Workers> workers = workersFacade.findAll();
+
+        if (chief == null || workers == null) {
+            return null;
+        }
+
+        List<UserDTO> list = new ArrayList<>();
+        for (Workers worker : workers) {
+            if (worker.getChiefId().getId().equals(chief.getId())) {
+                UserDTO user = getUserDetails(worker.getId().intValue());
+                list.add(user);
+            }
         }
         return list;
     }
