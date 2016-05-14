@@ -162,6 +162,6 @@ public class RoomManagementFacade implements RoomManagementFacadeRemote {
     @Override
     public void removeEquipment(int equipmentId) {
         Equipment eq = equipmentDAO.find(equipmentId);
-        equipmentDAO.remove(equipmentId);
+        equipmentDAO.remove(eq);
     }
 }
