@@ -1,6 +1,8 @@
 package pl.polsl.reservations.client;
 
+import pl.polsl.reservations.dto.EquipmentDTO;
 import pl.polsl.reservations.dto.ReservationDTO;
+import pl.polsl.reservations.dto.RoomDTO;
 import pl.polsl.reservations.roomManagement.RoomManagementFacadeRemote;
 import pl.polsl.reservations.schedule.ScheduleFacade;
 
@@ -22,21 +24,21 @@ public class Main {
         ScheduleFacade schedule = (ScheduleFacade) l.getRemote("ScheduleFacade");
 
         RoomManagementFacadeRemote test2 = (RoomManagementFacadeRemote) l.getRemote("RoomManagementFacade");
-        List<Map<String, String>> s = test2.getRoomsList();
+        List<RoomDTO> s = test2.getRoomsList();
 
-        int roomId = Integer.valueOf(s.get(0).get("id"));
+        int roomId = (int)s.get(0).getId();
 
 //        test2.assignUserToRoom(roomId, 1);
 
-        List<Map<String, String>> beforeUpdate = test2.getRoomEquipment(roomId);
+        List<EquipmentDTO> beforeUpdate = test2.getRoomEquipment(roomId);
 
         test2.addEquipment(roomId, "Projektor", 4, (short)1, (short)1);
 
-        List<Map<String, String>> u1 = test2.getRoomEquipment(roomId);
+        List<EquipmentDTO> u1 = test2.getRoomEquipment(roomId);
 
-        test2.removeEquipment(Integer.valueOf(u1.get(0).get("id")));
+        test2.removeEquipment((int)u1.get(0).getId());
 
-        List<Map<String, String>> u2 = test2.getRoomEquipment(roomId);
+        List<EquipmentDTO> u2 = test2.getRoomEquipment(roomId);
 
 //        int roomId2 = Integer.valueOf(s.get(1).get("number"));
 //

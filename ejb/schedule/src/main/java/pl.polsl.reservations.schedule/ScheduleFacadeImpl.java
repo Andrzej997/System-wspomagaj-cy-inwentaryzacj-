@@ -92,7 +92,7 @@ public class ScheduleFacadeImpl implements ScheduleFacade {
 
     @Override
     public void removeReservation(int reservationId) {
-        reservationsDAO.remove(reservationId);
+        reservationsDAO.remove(reservationsDAO.find(reservationId));
     }
 
     @Override
