@@ -1,32 +1,35 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
-import java.util.List;
-import javax.ejb.EJB;
-import javax.ejb.Stateful;
-import javax.interceptor.Interceptors;
-import javax.naming.NamingException;
-import javax.persistence.Query;
 import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
-import pl.polsl.reservationsdatabasebeanremote.database.*;
+import pl.polsl.reservationsdatabasebeanremote.database.Departaments;
+import pl.polsl.reservationsdatabasebeanremote.database.Institutes;
+import pl.polsl.reservationsdatabasebeanremote.database.Room;
+import pl.polsl.reservationsdatabasebeanremote.database.Workers;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.DepartamentsFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.InstitutesFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.WorkersFacadeRemote;
+
+import javax.ejb.Stateful;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
+import javax.interceptor.Interceptors;
+import javax.naming.NamingException;
+import javax.persistence.Query;
+import java.util.List;
 
 /**
  * @author matis
  */
 @Interceptors({LoggerImpl.class})
 @Stateful
+@TransactionManagement(value = TransactionManagementType.BEAN)
 public class DepartamentsFacade extends AbstractFacade<Departaments> implements DepartamentsFacadeRemote {
 
-    private RoomFacadeRemote roomFacadeRemote;
-
-    private WorkersFacadeRemote workersFacadeRemote;
-
-    private InstitutesFacadeRemote institutesFacadeRemote;
-
     private static final long serialVersionUID = 1982444506455129579L;
+    private RoomFacadeRemote roomFacadeRemote;
+    private WorkersFacadeRemote workersFacadeRemote;
+    private InstitutesFacadeRemote institutesFacadeRemote;
 
     public DepartamentsFacade() throws NamingException {
         super(Departaments.class);
@@ -65,10 +68,10 @@ public class DepartamentsFacade extends AbstractFacade<Departaments> implements 
     }
 
     @Override
-    public void remove(Object id){
+    public void remove(Departaments entity) {
         getDependencies();
 
-        Departaments departament = this.find(id);
+        Departaments departament = this.find(entity.getId());
         List<Room> roomCollection = departament.getRoomCollection();
         for(Room room : roomCollection){
             room.setDepartamentId(null);
@@ -77,7 +80,7 @@ public class DepartamentsFacade extends AbstractFacade<Departaments> implements 
 
         List<Workers> workersCollection = departament.getWorkersCollection();
         for(Workers worker : workersCollection){
-            workersFacadeRemote.remove(worker.getId());
+            workersFacadeRemote.remove(worker);
         }
 
         Institutes institute = departament.getInstituteId();
@@ -86,7 +89,7 @@ public class DepartamentsFacade extends AbstractFacade<Departaments> implements 
         institute.setDepartamentsCollection(departamentsCollection);
         institutesFacadeRemote.merge(institute);
 
-        super.remove(departament.getId());
+        super.remove(departament);
     }
 
     protected void getDependencies(){

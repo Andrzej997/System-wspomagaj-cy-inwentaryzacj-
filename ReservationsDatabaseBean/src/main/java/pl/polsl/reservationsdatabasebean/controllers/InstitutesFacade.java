@@ -1,18 +1,17 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
-import javax.ejb.EJB;
-import javax.ejb.Stateful;
-import javax.interceptor.Interceptors;
-import javax.naming.NamingException;
-import javax.persistence.Query;
 import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
 import pl.polsl.reservationsdatabasebeanremote.database.Departaments;
 import pl.polsl.reservationsdatabasebeanremote.database.Institutes;
-import pl.polsl.reservationsdatabasebeanremote.database.Workers;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.DepartamentsFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.InstitutesFacadeRemote;
-import pl.polsl.reservationsdatabasebeanremote.database.controllers.WorkersFacadeRemote;
 
+import javax.ejb.Stateful;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
+import javax.interceptor.Interceptors;
+import javax.naming.NamingException;
+import javax.persistence.Query;
 import java.util.List;
 
 /**
@@ -20,6 +19,7 @@ import java.util.List;
  */
 @Interceptors({LoggerImpl.class})
 @Stateful
+@TransactionManagement(value = TransactionManagementType.BEAN)
 public class InstitutesFacade extends AbstractFacade<Institutes> implements InstitutesFacadeRemote {
 
     private static final long serialVersionUID = 6300433953924621009L;
@@ -51,16 +51,16 @@ public class InstitutesFacade extends AbstractFacade<Institutes> implements Inst
     }
 
     @Override
-    public void remove(Object id){
+    public void remove(Institutes entity) {
         getDependencies();
 
-        Institutes institute = this.find(id);
+        Institutes institute = this.find(entity.getId());
         List<Departaments> departamentsCollection = institute.getDepartamentsCollection();
         for(Departaments departament : departamentsCollection){
-            departamentsFacadeRemote.remove(departament.getId());
+            departamentsFacadeRemote.remove(departament);
         }
 
-        super.remove(institute.getId());
+        super.remove(institute);
     }
 
     protected void getDependencies(){

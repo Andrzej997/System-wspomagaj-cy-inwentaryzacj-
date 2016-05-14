@@ -1,11 +1,5 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
-import java.util.List;
-import javax.ejb.EJB;
-import javax.ejb.Stateful;
-import javax.interceptor.Interceptors;
-import javax.naming.NamingException;
-import javax.persistence.Query;
 import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
 import pl.polsl.reservationsdatabasebeanremote.database.Equipment;
 import pl.polsl.reservationsdatabasebeanremote.database.EquipmentType;
@@ -16,20 +10,26 @@ import pl.polsl.reservationsdatabasebeanremote.database.controllers.EquipmentSta
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.EquipmentTypeFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomFacadeRemote;
 
+import javax.ejb.Stateful;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
+import javax.interceptor.Interceptors;
+import javax.naming.NamingException;
+import javax.persistence.Query;
+import java.util.List;
+
 /**
  * @author matis
  */
 @Interceptors({LoggerImpl.class})
 @Stateful
+@TransactionManagement(value = TransactionManagementType.BEAN)
 public class EquipmentFacade extends AbstractFacade<Equipment> implements EquipmentFacadeRemote {
 
-    private EquipmentStateFacadeRemote equipmentStateFacadeRemote;
-
-    private EquipmentTypeFacadeRemote equipmentTypeFacadeRemote;
-
-    private RoomFacadeRemote roomFacadeRemote;
-
     private static final long serialVersionUID = 4691619751998264500L;
+    private EquipmentStateFacadeRemote equipmentStateFacadeRemote;
+    private EquipmentTypeFacadeRemote equipmentTypeFacadeRemote;
+    private RoomFacadeRemote roomFacadeRemote;
 
     public EquipmentFacade() throws NamingException {
         super(Equipment.class);
@@ -43,10 +43,10 @@ public class EquipmentFacade extends AbstractFacade<Equipment> implements Equipm
     }
 
     @Override
-    public void remove(Object id){
+    public void remove(Equipment entity) {
         getDependencies();
 
-        Equipment equipment = this.find(id);
+        Equipment equipment = this.find(entity.getId());
         EqupmentState equipmentState = equipment.getEquipmentState();
         List<Equipment> equipmentCollection = equipmentState.getEquipmentCollection();
         equipmentCollection.remove(equipment);
@@ -65,7 +65,7 @@ public class EquipmentFacade extends AbstractFacade<Equipment> implements Equipm
         room.setEquipmentCollection(equipmentCollection);
         roomFacadeRemote.merge(room);
 
-        super.remove(equipment.getId());
+        super.remove(equipment);
     }
 
     protected void getDependencies() {

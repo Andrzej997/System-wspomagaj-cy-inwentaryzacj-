@@ -1,15 +1,16 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
-import javax.ejb.EJB;
-import javax.ejb.Stateful;
-import javax.interceptor.Interceptors;
-import javax.naming.NamingException;
 import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
 import pl.polsl.reservationsdatabasebeanremote.database.PriviligeLevels;
 import pl.polsl.reservationsdatabasebeanremote.database.Priviliges;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.PriviligeLevelsFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.PriviligesFacadeRemote;
 
+import javax.ejb.Stateful;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
+import javax.interceptor.Interceptors;
+import javax.naming.NamingException;
 import java.util.List;
 
 /**
@@ -17,6 +18,7 @@ import java.util.List;
  */
 @Interceptors({LoggerImpl.class})
 @Stateful
+@TransactionManagement(value = TransactionManagementType.BEAN)
 public class PriviligesFacade extends AbstractFacade<Priviliges> implements PriviligesFacadeRemote {
 
     private static final long serialVersionUID = -2451267310651460812L;
@@ -34,10 +36,10 @@ public class PriviligesFacade extends AbstractFacade<Priviliges> implements Priv
     }
 
     @Override
-    public void remove(Object id){
+    public void remove(Priviliges entity) {
         getDependencies();
 
-        Priviliges privilige = this.find(id);
+        Priviliges privilige = this.find(entity.getPriviligeId());
         List<PriviligeLevels> priviligeLevelsCollection = privilige.getPriviligeLevelsCollection();
         for(PriviligeLevels priviligeLevels : priviligeLevelsCollection){
             List<Priviliges> priviligesCollection = priviligeLevels.getPriviligesCollection();
@@ -46,7 +48,7 @@ public class PriviligesFacade extends AbstractFacade<Priviliges> implements Priv
             priviligeLevelsFacadeRemote.merge(priviligeLevels);
         }
 
-        super.remove(privilige.getPriviligeId());
+        super.remove(privilige);
     }
 
     protected void getDependencies(){

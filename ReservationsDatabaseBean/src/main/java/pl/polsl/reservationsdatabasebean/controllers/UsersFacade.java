@@ -1,11 +1,5 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
-import java.util.List;
-import javax.ejb.EJB;
-import javax.ejb.Stateful;
-import javax.interceptor.Interceptors;
-import javax.naming.NamingException;
-import javax.persistence.Query;
 import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
 import pl.polsl.reservationsdatabasebeanremote.database.PriviligeLevels;
 import pl.polsl.reservationsdatabasebeanremote.database.Reservations;
@@ -15,11 +9,20 @@ import pl.polsl.reservationsdatabasebeanremote.database.controllers.PriviligeLev
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.ReservationsFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.UsersFacadeRemote;
 
+import javax.ejb.Stateful;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
+import javax.interceptor.Interceptors;
+import javax.naming.NamingException;
+import javax.persistence.Query;
+import java.util.List;
+
 /**
  * @author matis
  */
 @Interceptors({LoggerImpl.class})
 @Stateful
+@TransactionManagement(value = TransactionManagementType.BEAN)
 public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeRemote {
 
     private static final long serialVersionUID = -8931746196880043035L;
@@ -85,13 +88,13 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeRem
         return users.getReservationsCollection();
     }
 
-    public void remove (Object id){
+    public void remove(Users entity) {
         getDependencies();
 
-        Users user = this.find(id);
+        Users user = this.find(entity.getUserId());
         List<Reservations> reservationsCollection = user.getReservationsCollection();
         for(Reservations reservation : reservationsCollection){
-            reservationsFacadeRemote.remove(reservation.getId());
+            reservationsFacadeRemote.remove(reservation);
         }
 
         PriviligeLevels priviligeLevel = user.getPriviligeLevel();
@@ -100,7 +103,7 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeRem
         priviligeLevel.setUsersCollection(usersCollection);
         priviligeLevelsFacadeRemote.merge(priviligeLevel);
 
-        super.remove(user.getUserId());
+        super.remove(user);
 
     }
 

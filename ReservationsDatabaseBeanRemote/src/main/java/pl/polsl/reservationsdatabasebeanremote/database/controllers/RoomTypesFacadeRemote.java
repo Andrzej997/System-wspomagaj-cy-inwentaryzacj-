@@ -1,10 +1,10 @@
 package pl.polsl.reservationsdatabasebeanremote.database.controllers;
 
-import java.util.List;
-import javax.ejb.Remote;
-
 import pl.polsl.reservationsdatabasebeanremote.database.Room;
 import pl.polsl.reservationsdatabasebeanremote.database.RoomTypes;
+
+import javax.ejb.Remote;
+import java.util.List;
 
 /**
  * @author matis
@@ -18,7 +18,7 @@ public interface RoomTypesFacadeRemote {
 
     void edit(RoomTypes roomTypes);
 
-    void remove(Object id);
+    void remove(RoomTypes entity);
 
     void merge(RoomTypes roomTypes);
 
@@ -32,7 +32,7 @@ public interface RoomTypesFacadeRemote {
 
     int count();
 
-    public List<RoomTypes> findEntity(List<String> columnNames, List<Object> values);
+    List<RoomTypes> findEntity(List<String> columnNames, List<Object> values);
 
     List<Room> getRoomCollectionById(Number id);
 }

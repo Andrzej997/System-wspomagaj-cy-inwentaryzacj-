@@ -1,15 +1,16 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
-import javax.ejb.EJB;
-import javax.ejb.Stateful;
-import javax.interceptor.Interceptors;
-import javax.naming.NamingException;
 import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
 import pl.polsl.reservationsdatabasebeanremote.database.Equipment;
 import pl.polsl.reservationsdatabasebeanremote.database.EquipmentType;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.EquipmentFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.EquipmentTypeFacadeRemote;
 
+import javax.ejb.Stateful;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
+import javax.interceptor.Interceptors;
+import javax.naming.NamingException;
 import java.util.List;
 
 /**
@@ -17,6 +18,7 @@ import java.util.List;
  */
 @Interceptors({LoggerImpl.class})
 @Stateful
+@TransactionManagement(value = TransactionManagementType.BEAN)
 public class EquipmentTypeFacade extends AbstractFacade<EquipmentType> implements EquipmentTypeFacadeRemote {
 
     private static final long serialVersionUID = -3795169270292695011L;
@@ -34,17 +36,17 @@ public class EquipmentTypeFacade extends AbstractFacade<EquipmentType> implement
     }
 
     @Override
-    public void remove(Object id){
+    public void remove(EquipmentType entity) {
         getDepenedencies();
 
-        EquipmentType equipmentType = this.find(id);
+        EquipmentType equipmentType = this.find(entity.getId());
         List<Equipment> equipmentCollection = equipmentType.getEquipmentCollection();
         for(Equipment equipment : equipmentCollection){
-            equipmentFacadeRemote.remove(equipment.getId());
+            equipmentFacadeRemote.remove(equipment);
         }
         equipmentType.setEquipmentCollection(equipmentCollection);
 
-        super.remove(equipmentType.getId());
+        super.remove(equipmentType);
     }
 
     protected void getDepenedencies(){

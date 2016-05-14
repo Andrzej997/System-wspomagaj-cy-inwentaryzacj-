@@ -1,11 +1,5 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
-import javax.ejb.EJB;
-import javax.ejb.Stateful;
-import javax.interceptor.Interceptors;
-import javax.naming.NamingException;
-import javax.persistence.Query;
-
 import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
 import pl.polsl.reservationsdatabasebeanremote.database.PriviligeLevels;
 import pl.polsl.reservationsdatabasebeanremote.database.Priviliges;
@@ -14,6 +8,12 @@ import pl.polsl.reservationsdatabasebeanremote.database.controllers.PriviligeLev
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.PriviligesFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.UsersFacadeRemote;
 
+import javax.ejb.Stateful;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
+import javax.interceptor.Interceptors;
+import javax.naming.NamingException;
+import javax.persistence.Query;
 import java.util.List;
 
 /**
@@ -21,6 +21,7 @@ import java.util.List;
  */
 @Interceptors({LoggerImpl.class})
 @Stateful
+@TransactionManagement(value = TransactionManagementType.BEAN)
 public class PriviligeLevelsFacade extends AbstractFacade<PriviligeLevels> implements PriviligeLevelsFacadeRemote {
 
     private static final long serialVersionUID = 940693942951656679L;
@@ -52,10 +53,10 @@ public class PriviligeLevelsFacade extends AbstractFacade<PriviligeLevels> imple
     }
 
     @Override
-    public void remove(Object id){
+    public void remove(PriviligeLevels entity) {
         getDependencies();
 
-        PriviligeLevels priviligeLevel = this.find(id);
+        PriviligeLevels priviligeLevel = this.find(entity.getPriviligeLevel());
         List<Priviliges> priviligesCollection = priviligeLevel.getPriviligesCollection();
         for(Priviliges priviliges : priviligesCollection){
             List<PriviligeLevels> priviligeLevelsCollection = priviliges.getPriviligeLevelsCollection();
@@ -72,10 +73,10 @@ public class PriviligeLevelsFacade extends AbstractFacade<PriviligeLevels> imple
                 user.setPriviligeLevel(newPriviligeLevel);
                 usersFacadeRemote.merge(user);
             } else {
-                usersFacadeRemote.remove(user.getUserId());
+                usersFacadeRemote.remove(user);
             }
         }
-        super.remove(priviligeLevel.getPriviligeLevel());
+        super.remove(priviligeLevel);
     }
 
     protected void getDependencies(){

@@ -1,14 +1,15 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
-import javax.ejb.EJB;
-import javax.ejb.Stateful;
-import javax.interceptor.Interceptors;
-import javax.naming.NamingException;
-import javax.persistence.Query;
 import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
 import pl.polsl.reservationsdatabasebeanremote.database.*;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.*;
 
+import javax.ejb.Stateful;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
+import javax.interceptor.Interceptors;
+import javax.naming.NamingException;
+import javax.persistence.Query;
 import java.util.List;
 
 /**
@@ -16,6 +17,7 @@ import java.util.List;
  */
 @Interceptors({LoggerImpl.class})
 @Stateful
+@TransactionManagement(value = TransactionManagementType.BEAN)
 public class RoomFacade extends AbstractFacade<Room> implements RoomFacadeRemote {
 
     private static final long serialVersionUID = 3846358829048447657L;
@@ -60,13 +62,13 @@ public class RoomFacade extends AbstractFacade<Room> implements RoomFacadeRemote
     }
 
     @Override
-    public void remove(Object id){
+    public void remove(Room entity) {
         getDependencies();
 
-        Room room = this.find(id);
+        Room room = this.find(entity.getId());
         List<Equipment> equipmentCollection = room.getEquipmentCollection();
         for(Equipment equipment : equipmentCollection){
-            equipmentFacadeRemote.remove(equipment.getId());
+            equipmentFacadeRemote.remove(equipment);
         }
 
         Workers keeper = room.getKeeperId();
@@ -90,7 +92,7 @@ public class RoomFacade extends AbstractFacade<Room> implements RoomFacadeRemote
 
         List<RoomSchedule> roomScheduleCollection = room.getRoomScheduleCollection();
         for(RoomSchedule roomSchedule : roomScheduleCollection){
-            roomScheduleFacadeRemote.remove(roomSchedule.getId());
+            roomScheduleFacadeRemote.remove(roomSchedule);
         }
 
         RoomTypes roomType = room.getRoomType();
@@ -99,7 +101,7 @@ public class RoomFacade extends AbstractFacade<Room> implements RoomFacadeRemote
         roomType.setRoomCollection(roomCollection);
         roomTypesFacadeRemote.merge(roomType);
 
-        super.remove(room.getId());
+        super.remove(room);
     }
 
     protected void getDependencies(){

@@ -1,10 +1,11 @@
 package pl.polsl.reservationsdatabasebeanremote.database.controllers;
 
-import java.util.List;
-import javax.ejb.Remote;
 import pl.polsl.reservationsdatabasebeanremote.database.PriviligeLevels;
 import pl.polsl.reservationsdatabasebeanremote.database.Priviliges;
 import pl.polsl.reservationsdatabasebeanremote.database.Users;
+
+import javax.ejb.Remote;
+import java.util.List;
 
 /**
  * @author matis
@@ -18,7 +19,7 @@ public interface PriviligeLevelsFacadeRemote {
 
     void edit(PriviligeLevels priviligeLevels);
 
-    void remove(Object id);
+    void remove(PriviligeLevels entity);
 
     void merge(PriviligeLevels priviligeLevels);
 
@@ -32,7 +33,7 @@ public interface PriviligeLevelsFacadeRemote {
 
     int count();
 
-    public List<PriviligeLevels> findEntity(List<String> columnNames, List<Object> values);
+    List<PriviligeLevels> findEntity(List<String> columnNames, List<Object> values);
 
     List<Priviliges> getPriviligesCollectionById(Number id);
 

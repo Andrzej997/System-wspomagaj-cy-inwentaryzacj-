@@ -1,13 +1,5 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import javax.ejb.EJB;
-import javax.ejb.Stateful;
-import javax.interceptor.Interceptors;
-import javax.naming.NamingException;
-import javax.persistence.Query;
 import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
 import pl.polsl.reservationsdatabasebeanremote.database.Reservations;
 import pl.polsl.reservationsdatabasebeanremote.database.Room;
@@ -16,11 +8,21 @@ import pl.polsl.reservationsdatabasebeanremote.database.controllers.Reservations
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomScheduleFacadeRemote;
 
+import javax.ejb.Stateful;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
+import javax.interceptor.Interceptors;
+import javax.naming.NamingException;
+import javax.persistence.Query;
+import java.util.Date;
+import java.util.List;
+
 /**
  * @author matis
  */
 @Interceptors({LoggerImpl.class})
 @Stateful
+@TransactionManagement(value = TransactionManagementType.BEAN)
 public class RoomScheduleFacade extends AbstractFacade<RoomSchedule> implements RoomScheduleFacadeRemote {
 
     private static final long serialVersionUID = -8439468008559137683L;
@@ -68,11 +70,7 @@ public class RoomScheduleFacade extends AbstractFacade<RoomSchedule> implements 
         Query query = this.getEntityManager().createNamedQuery("getCurrentScheduleForRoom", RoomSchedule.class);
         Date date = new Date();
         Boolean semester;
-        if(date.getMonth() > 1 && date.getMonth() < 9){
-            semester = true;
-        } else {
-            semester = false;
-        }
+        semester = date.getMonth() > 1 && date.getMonth() < 9;
         RoomSchedule currentDateSchedule = getCurrentDateSchedule(date.getYear(), 0,semester ,roomFacadeRemote.getRoomByNumber(roomNumber));
         query.setParameter("roomNumber", roomNumber);
         query.setParameter("RoomSchedule", currentDateSchedule);
@@ -86,13 +84,13 @@ public class RoomScheduleFacade extends AbstractFacade<RoomSchedule> implements 
     }
 
     @Override
-    public void remove(Object id){
+    public void remove(RoomSchedule entity) {
         getDependencies();
 
-        RoomSchedule roomSchedule = this.find(id);
+        RoomSchedule roomSchedule = this.find(entity.getId());
         List<Reservations> reservationsCollection = roomSchedule.getReservationsCollection();
         for(Reservations reservation : reservationsCollection){
-            reservationsFacadeRemote.remove(reservation.getId());
+            reservationsFacadeRemote.remove(reservation);
         }
 
         Room room = roomSchedule.getRoom();
@@ -101,7 +99,7 @@ public class RoomScheduleFacade extends AbstractFacade<RoomSchedule> implements 
         room.setRoomScheduleCollection(roomScheduleCollection);
         roomFacadeRemote.merge(room);
 
-        super.remove(roomSchedule.getId());
+        super.remove(roomSchedule);
     }
 
     protected void getDependencies(){

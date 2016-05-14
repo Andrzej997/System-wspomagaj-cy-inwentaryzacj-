@@ -1,11 +1,5 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
-import java.util.List;
-import javax.ejb.EJB;
-import javax.ejb.Stateful;
-import javax.interceptor.Interceptors;
-import javax.naming.NamingException;
-import javax.persistence.Query;
 import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
 import pl.polsl.reservationsdatabasebeanremote.database.Departaments;
 import pl.polsl.reservationsdatabasebeanremote.database.Room;
@@ -14,11 +8,20 @@ import pl.polsl.reservationsdatabasebeanremote.database.controllers.Departaments
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.WorkersFacadeRemote;
 
+import javax.ejb.Stateful;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
+import javax.interceptor.Interceptors;
+import javax.naming.NamingException;
+import javax.persistence.Query;
+import java.util.List;
+
 /**
  * @author matis
  */
 @Interceptors({LoggerImpl.class})
 @Stateful
+@TransactionManagement(value = TransactionManagementType.BEAN)
 public class WorkersFacade extends AbstractFacade<Workers> implements WorkersFacadeRemote {
 
     private static final long serialVersionUID = -509559572309358716L;
@@ -99,10 +102,10 @@ public class WorkersFacade extends AbstractFacade<Workers> implements WorkersFac
     }
 
     @Override
-    public void remove(Object id){
+    public void remove(Workers entity) {
         getDependencies();
 
-        Workers worker = this.find(id);
+        Workers worker = this.find(entity.getId());
         worker.setChiefId(null);
         List<Room> roomCollection = worker.getRoomCollection();
         for(Room room : roomCollection){
@@ -121,7 +124,7 @@ public class WorkersFacade extends AbstractFacade<Workers> implements WorkersFac
         workersCollection.remove(worker);
         departament.setWorkersCollection(workersCollection);
 
-        super.remove(worker.getId());
+        super.remove(worker);
     }
 
     protected void getDependencies(){

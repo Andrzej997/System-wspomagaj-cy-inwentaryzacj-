@@ -1,15 +1,16 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
-import javax.ejb.EJB;
-import javax.ejb.Stateful;
-import javax.interceptor.Interceptors;
-import javax.naming.NamingException;
 import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
 import pl.polsl.reservationsdatabasebeanremote.database.Equipment;
 import pl.polsl.reservationsdatabasebeanremote.database.EqupmentState;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.EquipmentFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.EquipmentStateFacadeRemote;
 
+import javax.ejb.Stateful;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
+import javax.interceptor.Interceptors;
+import javax.naming.NamingException;
 import java.util.List;
 
 /**
@@ -17,6 +18,7 @@ import java.util.List;
  */
 @Interceptors({LoggerImpl.class})
 @Stateful
+@TransactionManagement(value = TransactionManagementType.BEAN)
 public class EquipmentStateFacade extends AbstractFacade<EqupmentState> implements EquipmentStateFacadeRemote {
 
     private static final long serialVersionUID = -2753370797145954647L;
@@ -34,17 +36,17 @@ public class EquipmentStateFacade extends AbstractFacade<EqupmentState> implemen
     }
 
     @Override
-    public void remove(Object id){
+    public void remove(EqupmentState entity) {
         getDepenedencies();
 
-        EqupmentState equpmentState = this.find(id);
+        EqupmentState equpmentState = this.find(entity.getStateId());
         List<Equipment> equipmentCollection = equpmentState.getEquipmentCollection();
         for(Equipment equipment : equipmentCollection){
-            equipmentFacadeRemote.remove(equipment.getId());
+            equipmentFacadeRemote.remove(equipment);
         }
         equpmentState.setEquipmentCollection(equipmentCollection);
 
-        super.remove(equpmentState.getStateId());
+        super.remove(equpmentState);
     }
 
     protected void getDepenedencies(){

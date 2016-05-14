@@ -1,19 +1,22 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
+import pl.polsl.reservationsdatabasebean.context.PriviligeContext;
+
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import javax.transaction.SystemException;
+import javax.transaction.Transactional;
+import javax.transaction.UserTransaction;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.Id;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import pl.polsl.reservationsdatabasebean.context.PriviligeContext;
 
 /**
  * @author matis
@@ -21,54 +24,110 @@ import pl.polsl.reservationsdatabasebean.context.PriviligeContext;
 public abstract class AbstractFacade<T> implements Serializable {
 
     private static final long serialVersionUID = -13071878948980250L;
-
-    private EntityManager em;
-
     private final Class<T> entityClass;
-
     private final PriviligeContext priviligeContext;
+    private EntityManager em;
+    private final UserTransaction userTransaction;
 
-    public AbstractFacade(Class<T> entityClass) {
+    public AbstractFacade() throws NamingException {
+        entityClass = null;
+        priviligeContext = new PriviligeContext();
+        priviligeContext.setPriviligeLevel(1);
+        em = priviligeContext.getEntityManager();
+        userTransaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
+    }
+
+    protected AbstractFacade(Class<T> entityClass) throws NamingException {
         this.entityClass = entityClass;
         priviligeContext = new PriviligeContext();
         priviligeContext.setPriviligeLevel(1);
         em = priviligeContext.getEntityManager();
+        userTransaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
     }
 
-    protected PriviligeContext getPriviligeContext(){
+    protected PriviligeContext getPriviligeContext() {
         return priviligeContext;
+    }
+
+    protected UserTransaction getUserTransaction() {
+        return this.userTransaction;
     }
 
     public void setPriviligeLevel(Integer level) {
         priviligeContext.setPriviligeLevel(level);
         em = priviligeContext.getEntityManager();
+        em.setFlushMode(FlushModeType.COMMIT);
     }
 
     protected EntityManager getEntityManager() {
         return em;
     }
 
+    @Transactional(Transactional.TxType.MANDATORY)
     public void create(T entity) {
-        em.persist(entity);
-        em.flush();
+        try {
+            getUserTransaction().begin();
+            em.joinTransaction();
+            em.persist(entity);
+            em.flush();
+            getUserTransaction().commit();
+        } catch (Exception e) {
+            try {
+                getUserTransaction().rollback();
+            } catch (SystemException e1) {
+                e1.printStackTrace();
+            }
+        }
+
     }
 
+    @Transactional(Transactional.TxType.MANDATORY)
     public void edit(T entity) {
-        em.merge(entity);
-        em.flush();
+        try {
+            getUserTransaction().begin();
+            em.joinTransaction();
+            em.merge(entity);
+            em.flush();
+            getUserTransaction().commit();
+        } catch (Exception e) {
+            try {
+                getUserTransaction().rollback();
+            } catch (SystemException e1) {
+                e1.printStackTrace();
+            }
+        }
     }
 
-    public void remove(Object id) {
-        id = getAppropriateIdValue(id);
-        T deletedObject = em.find(entityClass, id);
-        //em.remove(em.merge(deletedObject));
-        em.remove(deletedObject);
-        em.flush();
+    @Transactional(Transactional.TxType.MANDATORY)
+    public void remove(T entity) {
+        try {
+            getUserTransaction().begin();
+            em.joinTransaction();
+            em.remove(entity);
+            getUserTransaction().commit();
+        } catch (Exception e) {
+            try {
+                getUserTransaction().rollback();
+            } catch (SystemException e1) {
+                e1.printStackTrace();
+            }
+        }
     }
 
+    @Transactional(Transactional.TxType.MANDATORY)
     public void merge(T entity) {
-        em.merge(entity);
-        em.flush();
+        try {
+            getUserTransaction().begin();
+            em.joinTransaction();
+            em.merge(entity);
+            getUserTransaction().commit();
+        } catch (Exception e) {
+            try {
+                getUserTransaction().rollback();
+            } catch (SystemException e1) {
+                e1.printStackTrace();
+            }
+        }
     }
 
     public T find(Object id) {

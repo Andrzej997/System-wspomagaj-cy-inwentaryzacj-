@@ -1,13 +1,5 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import javax.ejb.EJB;
-import javax.ejb.Stateful;
-import javax.interceptor.Interceptors;
-import javax.naming.NamingException;
-import javax.persistence.Query;
 import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
 import pl.polsl.reservationsdatabasebeanremote.database.ReservationTypes;
 import pl.polsl.reservationsdatabasebeanremote.database.Reservations;
@@ -16,18 +8,27 @@ import pl.polsl.reservationsdatabasebeanremote.database.controllers.ReservationT
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.ReservationsFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomScheduleFacadeRemote;
 
+import javax.ejb.Stateful;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
+import javax.interceptor.Interceptors;
+import javax.naming.NamingException;
+import javax.persistence.Query;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
 /**
  * @author matis
  */
 @Interceptors({LoggerImpl.class})
 @Stateful(mappedName = "ReservationsFacade")
+@TransactionManagement(value = TransactionManagementType.BEAN)
 public class ReservationsFacade extends AbstractFacade<Reservations> implements ReservationsFacadeRemote {
 
-    private RoomScheduleFacadeRemote roomScheduleFacadeRemote;
-
-    private ReservationTypesFacadeRemote reservationTypesFacadeRemote;
-
     private static final long serialVersionUID = 8947630232538216657L;
+    private RoomScheduleFacadeRemote roomScheduleFacadeRemote;
+    private ReservationTypesFacadeRemote reservationTypesFacadeRemote;
 
     public ReservationsFacade() throws NamingException {
         super(Reservations.class);
@@ -74,10 +75,10 @@ public class ReservationsFacade extends AbstractFacade<Reservations> implements 
     }
 
     @Override
-    public void remove(Object id){
+    public void remove(Reservations entity) {
         getDependencies();
 
-        Reservations reservation = this.find(id);
+        Reservations reservation = this.find(entity.getId());
         ReservationTypes reservationType = reservation.getReservationType();
         List<Reservations> reservationsCollection = reservationType.getReservationsCollection();
         reservationsCollection.remove(reservation);
@@ -90,7 +91,7 @@ public class ReservationsFacade extends AbstractFacade<Reservations> implements 
         roomSchedule.setReservationsCollection(reservationsCollection);
         roomScheduleFacadeRemote.merge(roomSchedule);
 
-        super.remove(reservation.getId());
+        super.remove(reservation);
     }
 
     protected void getDependencies(){

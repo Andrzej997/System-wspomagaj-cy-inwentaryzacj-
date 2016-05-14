@@ -1,15 +1,16 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
-import javax.ejb.EJB;
-import javax.ejb.Stateful;
-import javax.interceptor.Interceptors;
-import javax.naming.NamingException;
 import pl.polsl.reservationsdatabasebean.logger.LoggerImpl;
 import pl.polsl.reservationsdatabasebeanremote.database.ReservationTypes;
 import pl.polsl.reservationsdatabasebeanremote.database.Reservations;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.ReservationTypesFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.ReservationsFacadeRemote;
 
+import javax.ejb.Stateful;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
+import javax.interceptor.Interceptors;
+import javax.naming.NamingException;
 import java.util.List;
 
 /**
@@ -17,11 +18,11 @@ import java.util.List;
  */
 @Interceptors({LoggerImpl.class})
 @Stateful
+@TransactionManagement(value = TransactionManagementType.BEAN)
 public class ReservationTypesFacade extends AbstractFacade<ReservationTypes> implements ReservationTypesFacadeRemote {
 
-    private ReservationsFacadeRemote reservationsFacadeRemote;
-
     private static final long serialVersionUID = -3961133009017351835L;
+    private ReservationsFacadeRemote reservationsFacadeRemote;
 
     public ReservationTypesFacade() throws NamingException{
         super(ReservationTypes.class);
@@ -34,16 +35,16 @@ public class ReservationTypesFacade extends AbstractFacade<ReservationTypes> imp
     }
 
     @Override
-    public void remove(Object id){
+    public void remove(ReservationTypes entity) {
         getDependencies();
 
-        ReservationTypes reservationType = this.find(id);
+        ReservationTypes reservationType = this.find(entity.getTypeId());
         List<Reservations> reservationsCollection = reservationType.getReservationsCollection();
         for(Reservations reservation : reservationsCollection){
-            reservationsFacadeRemote.remove(reservation.getId());
+            reservationsFacadeRemote.remove(reservation);
         }
 
-        super.remove(reservationType.getTypeId());
+        super.remove(reservationType);
     }
 
     protected void getDependencies(){
