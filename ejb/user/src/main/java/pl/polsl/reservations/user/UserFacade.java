@@ -1,22 +1,21 @@
 package pl.polsl.reservations.user;
 
-import java.util.HashMap;
-import java.util.Map;
-import javax.ejb.EJB;
-import javax.ejb.Stateful;
-import pl.polsl.reservationsdatabasebeanremote.database.Departaments;
-import pl.polsl.reservationsdatabasebeanremote.database.Room;
+import pl.polsl.reservations.dto.UserDTO;
 import pl.polsl.reservationsdatabasebeanremote.database.Users;
-import pl.polsl.reservationsdatabasebeanremote.database.Workers;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.DepartamentsFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.UsersFacadeRemote;
-import pl.polsl.reservations.dto.UserDTO;
+import pl.polsl.reservationsdatabasebeanremote.database.logger.LoggerImpl;
+
+import javax.ejb.EJB;
+import javax.ejb.Stateful;
+import javax.interceptor.Interceptors;
 
 /**
  * Created by Krzysztof Stręk on 2016-05-07.
  */
 @Stateful(mappedName = "UserFacade")
+@Interceptors({LoggerImpl.class})
 public class UserFacade implements UserFacadeRemote {
     
     @EJB

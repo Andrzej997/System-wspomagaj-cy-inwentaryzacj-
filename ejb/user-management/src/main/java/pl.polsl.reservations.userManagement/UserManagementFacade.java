@@ -1,29 +1,25 @@
 package pl.polsl.reservations.userManagement;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import pl.polsl.reservationsdatabasebeanremote.database.controllers.UsersFacadeRemote;
+import pl.polsl.reservations.dto.PrivilegeLevelDTO;
+import pl.polsl.reservations.dto.UserDTO;
+import pl.polsl.reservationsdatabasebeanremote.database.PriviligeLevels;
+import pl.polsl.reservationsdatabasebeanremote.database.Room;
+import pl.polsl.reservationsdatabasebeanremote.database.Users;
+import pl.polsl.reservationsdatabasebeanremote.database.Workers;
+import pl.polsl.reservationsdatabasebeanremote.database.controllers.*;
+import pl.polsl.reservationsdatabasebeanremote.database.logger.LoggerImpl;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
-import pl.polsl.reservations.dto.PrivilegeLevelDTO;
-import pl.polsl.reservations.dto.UserDTO;
-import pl.polsl.reservationsdatabasebeanremote.database.Departaments;
-import pl.polsl.reservationsdatabasebeanremote.database.Room;
-import pl.polsl.reservationsdatabasebeanremote.database.Workers;
-import pl.polsl.reservationsdatabasebeanremote.database.Users;
-import pl.polsl.reservationsdatabasebeanremote.database.PriviligeLevels;
-import pl.polsl.reservationsdatabasebeanremote.database.controllers.DepartamentsFacadeRemote;
-import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomFacadeRemote;
-import pl.polsl.reservationsdatabasebeanremote.database.controllers.WorkersFacadeRemote;
-import pl.polsl.reservationsdatabasebeanremote.database.controllers.PriviligeLevelsFacadeRemote;
+import javax.interceptor.Interceptors;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Krzysztof Strek on 2016-05-09.
  */
 @Stateful(mappedName = "UserManagementFacade")
+@Interceptors({LoggerImpl.class})
 public class UserManagementFacade implements UserManagementFacadeRemote {
 
     @EJB

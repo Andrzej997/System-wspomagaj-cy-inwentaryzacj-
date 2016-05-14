@@ -17,5 +17,6 @@ public interface ScheduleFacade {
     void removeReservation(int reservationId);
 
     //TODO implementacja jak będzie wiadomo jak ma działać
-    default void findReservation() {};
+    default void findReservation() {
+    }
 }

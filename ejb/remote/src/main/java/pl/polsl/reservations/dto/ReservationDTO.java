@@ -35,7 +35,7 @@ public class ReservationDTO implements Serializable {
 
     public ReservationDTO(Reservations entity) {
         this.id = entity.getId();
-        this.roomNumber = entity.getRoomNumber().getRoom().getRoomNumber();
+        this.roomNumber = entity.getRoomSchedule().getRoom().getRoomNumber();
         this.startTime = entity.getStartTime();
         this.endTime = entity.getEndTime();
         this.type = entity.getReservationType().getTypeShortDescription();

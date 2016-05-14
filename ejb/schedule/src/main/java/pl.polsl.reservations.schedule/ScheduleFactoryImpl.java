@@ -4,9 +4,11 @@ import pl.polsl.reservations.dto.ReservationDTO;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.ReservationsFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomFacadeRemote;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomScheduleFacadeRemote;
+import pl.polsl.reservationsdatabasebeanremote.database.logger.LoggerImpl;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
+import javax.interceptor.Interceptors;
 import java.util.List;
 
 /**
@@ -14,6 +16,7 @@ import java.util.List;
  */
 
 @Stateful
+@Interceptors({LoggerImpl.class})
 public class ScheduleFactoryImpl implements ScheduleFactory {
 
     @EJB

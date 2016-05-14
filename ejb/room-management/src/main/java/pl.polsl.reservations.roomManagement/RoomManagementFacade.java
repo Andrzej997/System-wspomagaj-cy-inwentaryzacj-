@@ -3,18 +3,19 @@ package pl.polsl.reservations.roomManagement;
 import pl.polsl.reservations.dto.*;
 import pl.polsl.reservationsdatabasebeanremote.database.*;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.*;
+import pl.polsl.reservationsdatabasebeanremote.database.logger.LoggerImpl;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
+import javax.interceptor.Interceptors;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Krzysztof Stręk on 2016-05-09.
  */
 @Stateful(mappedName = "RoomManagementFacade")
+@Interceptors({LoggerImpl.class})
 public class RoomManagementFacade implements RoomManagementFacadeRemote {
 
     @EJB

@@ -1,14 +1,15 @@
 package pl.polsl.reservations.schedule;
 
 import pl.polsl.reservations.dto.ReservationDTO;
-import pl.polsl.reservationsdatabasebeanremote.database.ReservationTypes;
 import pl.polsl.reservationsdatabasebeanremote.database.Reservations;
 import pl.polsl.reservationsdatabasebeanremote.database.Room;
 import pl.polsl.reservationsdatabasebeanremote.database.RoomSchedule;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.*;
+import pl.polsl.reservationsdatabasebeanremote.database.logger.LoggerImpl;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
+import javax.interceptor.Interceptors;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import java.util.List;
  * Created by Krzysztof Stręk on 2016-05-11.
  */
 @Stateful(mappedName = "ScheduleFacade")
+@Interceptors({LoggerImpl.class})
 public class ScheduleFacadeImpl implements ScheduleFacade {
 
     @EJB
@@ -81,7 +83,7 @@ public class ScheduleFacadeImpl implements ScheduleFacade {
             schedule.set_year(new java.sql.Date(year-1900, 0, 1));
         }
 
-        newReservaton.setRoomNumber(schedule);
+        newReservaton.setRoomSchedule(schedule);
         newReservaton.setStartTime(startTime);
         newReservaton.setEndTime(endTime);
         newReservaton.setReservationType(reservationTypeDAO.find(typeId));

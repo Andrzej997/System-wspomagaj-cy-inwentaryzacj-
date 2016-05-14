@@ -2,9 +2,8 @@ package pl.polsl.reservations.roomManagement;
 
 import pl.polsl.reservations.dto.*;
 
-import java.util.List;
-import java.util.Map;
 import javax.ejb.Remote;
+import java.util.List;
 
 /**
  * Created by Krzysztof Stręk on 2016-05-09.
@@ -28,5 +27,6 @@ public interface RoomManagementFacadeRemote {
     void removeEquipmentState(int stateId);
 
     //TODO implementacja jak będzie wiadomo jak ma działać
-    default void findRoom() {};
+    default void findRoom() {
+    }
 }
