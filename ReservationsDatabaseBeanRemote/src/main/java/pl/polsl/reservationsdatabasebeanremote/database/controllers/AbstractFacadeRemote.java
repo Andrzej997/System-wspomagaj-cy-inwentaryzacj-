@@ -31,5 +31,5 @@ public interface AbstractFacadeRemote<T> {
 
     List<T> findEntity(List<String> columnNames, List<Object> values);
 
-    void closeEntityMenager();
+    void closeEntityManager();
 }

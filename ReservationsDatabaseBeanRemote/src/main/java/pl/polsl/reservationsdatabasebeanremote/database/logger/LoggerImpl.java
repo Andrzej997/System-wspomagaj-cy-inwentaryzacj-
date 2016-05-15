@@ -81,7 +81,7 @@ public class LoggerImpl {
     @PreDestroy
     public void preDestroy(InvocationContext ctx) {
         if (ctx.getTarget() instanceof AbstractFacadeRemote) {
-            ((AbstractFacadeRemote) ctx.getTarget()).closeEntityMenager();
+            ((AbstractFacadeRemote) ctx.getTarget()).closeEntityManager();
         }
         log.log(Level.CONFIG, "*** Object: {0} will be destroyed\n", ctx.getTarget().getClass().getName());
     }

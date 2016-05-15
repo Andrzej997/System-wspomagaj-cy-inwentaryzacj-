@@ -28,14 +28,13 @@ public abstract class AbstractFacade<T> implements Serializable, AbstractFacadeR
     private static final long serialVersionUID = -13071878948980250L;
     private final Class<T> entityClass;
     private final PriviligeContext priviligeContext;
-    private EntityManager em;
     private final UserTransaction userTransaction;
+    private EntityManager em;
 
     public AbstractFacade() throws NamingException {
         entityClass = null;
         priviligeContext = new PriviligeContext();
         priviligeContext.setPriviligeLevel(1);
-        em = priviligeContext.getEntityManager();
         userTransaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
     }
 
@@ -43,7 +42,6 @@ public abstract class AbstractFacade<T> implements Serializable, AbstractFacadeR
         this.entityClass = entityClass;
         priviligeContext = new PriviligeContext();
         priviligeContext.setPriviligeLevel(1);
-        em = priviligeContext.getEntityManager();
         userTransaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
     }
 
@@ -69,21 +67,21 @@ public abstract class AbstractFacade<T> implements Serializable, AbstractFacadeR
     }
 
     @Override
-    @Transactional(Transactional.TxType.REQUIRED)
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
     public void create(T entity) {
             em.joinTransaction();
             em.persist(entity);
     }
 
     @Override
-    @Transactional(Transactional.TxType.REQUIRED)
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
     public void edit(T entity) {
             em.joinTransaction();
             em.merge(entity);
     }
 
     @Override
-    @Transactional(Transactional.TxType.REQUIRED)
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
     public void remove(T entity) {
             em.joinTransaction();
             em.remove(entity);
@@ -196,7 +194,7 @@ public abstract class AbstractFacade<T> implements Serializable, AbstractFacadeR
     }
 
     @Override
-    public void closeEntityMenager() {
+    public void closeEntityManager() {
         if (em != null && em.isOpen()) {
             this.em.close();
         }

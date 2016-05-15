@@ -187,4 +187,28 @@
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
         </properties>
     </persistence-unit>
+    <persistence-unit name="ReservationTests2PU" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <jta-data-source>jdbc/reservationstests</jta-data-source>
+        <class>pl.polsl.reservationsdatabasebeanremote.database.RoomTypes</class>
+        <class>pl.polsl.reservationsdatabasebeanremote.database.Users</class>
+        <class>pl.polsl.reservationsdatabasebeanremote.database.Institutes</class>
+        <class>pl.polsl.reservationsdatabasebeanremote.database.EqupmentState</class>
+        <class>pl.polsl.reservationsdatabasebeanremote.database.EquipmentType</class>
+        <class>pl.polsl.reservationsdatabasebeanremote.database.RoomSchedule</class>
+        <class>pl.polsl.reservationsdatabasebeanremote.database.Room</class>
+        <class>pl.polsl.reservationsdatabasebeanremote.database.Departaments</class>
+        <class>pl.polsl.reservationsdatabasebeanremote.database.Equipment</class>
+        <class>pl.polsl.reservationsdatabasebeanremote.database.ReservationTypes</class>
+        <class>pl.polsl.reservationsdatabasebeanremote.database.Priviliges</class>
+        <class>pl.polsl.reservationsdatabasebeanremote.database.PriviligeLevels</class>
+        <class>pl.polsl.reservationsdatabasebeanremote.database.Workers</class>
+        <class>pl.polsl.reservationsdatabasebeanremote.database.Reservations</class>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <properties>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+        </properties>
+    </persistence-unit>
 </persistence>
