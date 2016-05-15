@@ -7,6 +7,7 @@ import pl.polsl.reservationsdatabasebeanremote.database.Room;
 import pl.polsl.reservationsdatabasebeanremote.database.Users;
 import pl.polsl.reservationsdatabasebeanremote.database.Workers;
 import pl.polsl.reservationsdatabasebeanremote.database.Departaments;
+import pl.polsl.reservationsdatabasebeanremote.database.Institutes;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.*;
 import pl.polsl.reservationsdatabasebeanremote.database.logger.LoggerImpl;
 
@@ -15,6 +16,8 @@ import javax.ejb.Stateful;
 import javax.interceptor.Interceptors;
 import java.util.ArrayList;
 import java.util.List;
+import pl.polsl.reservations.dto.DepartamentDTO;
+import pl.polsl.reservations.dto.InstituteDTO;
 
 /**
  * Created by Krzysztof Strek on 2016-05-09.
@@ -33,6 +36,8 @@ public class UserManagementFacade implements UserManagementFacadeRemote {
     WorkersFacadeRemote workersFacade;
     @EJB
     PriviligeLevelsFacadeRemote priviligeLevelsFacade;
+    @EJB
+    InstitutesFacadeRemote institutesFacade;
 
     public UserManagementFacade() {
     }
@@ -105,6 +110,19 @@ public class UserManagementFacade implements UserManagementFacadeRemote {
         return true;
     }
 
+    @Override
+    public boolean assignUserToDepartament(String userName, Long departamentId) {
+        Workers worker = usersFacade.getWorkerByUsername(userName);
+        Departaments departament = departamentsFacade.find(departamentId);
+        
+        if(worker == null || departament == null)
+            return false;
+        
+        worker.setDepartamentId(departament);
+        workersFacade.edit(worker);
+        return true;
+    }
+
     /**
      * Dostepne pola mapy: privilegeLevel i description.
      *
@@ -149,6 +167,32 @@ public class UserManagementFacade implements UserManagementFacadeRemote {
         usersFacade.edit(user);
 
         return true;
+    }
+
+    @Override
+    public List<DepartamentDTO> getAllDepartaments() {
+        List<Departaments> departamentsList = departamentsFacade.findAll();
+        if(departamentsList == null)
+            return null;
+        
+        List<DepartamentDTO> list = new ArrayList<>();
+        for(Departaments d : departamentsList) {
+            list.add(new DepartamentDTO(d));
+        }
+        return list;
+    }
+
+    @Override
+    public List<InstituteDTO> getAllInstitutes() {
+        List<Institutes> institutesList = institutesFacade.findAll();
+        if(institutesList == null)
+            return null;
+        
+        List<InstituteDTO> list = new ArrayList<>();
+        for(Institutes i : institutesList) {
+            list.add(new InstituteDTO(i));
+        }
+        return list;
     }
 
     @Override

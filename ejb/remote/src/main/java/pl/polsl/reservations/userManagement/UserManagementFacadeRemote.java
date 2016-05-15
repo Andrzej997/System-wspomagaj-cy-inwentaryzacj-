@@ -3,6 +3,8 @@ package pl.polsl.reservations.userManagement;
 import java.util.List;
 import java.util.Map;
 import javax.ejb.Remote;
+import pl.polsl.reservations.dto.DepartamentDTO;
+import pl.polsl.reservations.dto.InstituteDTO;
 import pl.polsl.reservations.dto.PrivilegeLevelDTO;
 import pl.polsl.reservations.dto.UserDTO;
 
@@ -19,10 +21,16 @@ public interface UserManagementFacadeRemote {
     boolean assignUserToChief(String userName, String chiefName);
 
     boolean assignUserToRoom(String userName, int roomNumber);
+    
+    boolean assignUserToDepartament(String userName, Long departamentId);
 
     boolean changePrivilegeLevel(String userName, Long privilegeLevel);
 
     List<PrivilegeLevelDTO> getAllPrivilegeLevels();
+    
+    List<DepartamentDTO> getAllDepartaments();
+    
+    List<InstituteDTO> getAllInstitutes();
 
     PrivilegeLevelDTO getUsersPrivilegeLevel(String userName);
     

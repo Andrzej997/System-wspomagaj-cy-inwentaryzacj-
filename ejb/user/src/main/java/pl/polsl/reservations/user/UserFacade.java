@@ -30,7 +30,7 @@ public class UserFacade implements UserFacadeRemote {
     private DepartamentsFacadeRemote departamentsFacade;
     @EJB
     WorkersFacadeRemote workersFacade;
-    
+
     private Users user = null;
 
     public UserFacade() {
@@ -92,35 +92,35 @@ public class UserFacade implements UserFacadeRemote {
         return new UserDTO(user);
     }
 
+    /**
+     * Zmienia email, numer telefonu, adres, stopien naukowy, pesel, nazwisko i
+     * imie.
+     *
+     * @param userDTO
+     * @return
+     */
     @Override
-    public boolean changeUserDetails(UserDTO user) {
+    public boolean changeUserDetails(UserDTO userDTO) {
 
-        Users userDB = usersFacade.find(user.getId());
-        if (userDB == null) {
-            userDB = usersFacade.getUserByEmail(user.getEmail());
-        }
-        if (userDB == null) {
-            userDB = usersFacade.getUserByUsername(user.getUserName());
-        }
-        if (userDB == null) {
+        if (user == null || user.getUserId() != userDTO.getId()) {
             return false;
         }
 
-        userDB.setEmail(user.getEmail());
-        userDB.setPhoneNumber(Long.parseLong(user.getPhoneNumber()));
+        user.setEmail(userDTO.getEmail());
+        user.setPhoneNumber(Long.parseLong(userDTO.getPhoneNumber()));
 
-        usersFacade.edit(userDB);
+        usersFacade.edit(user);
 
-        Workers workerDB = workersFacade.getReference(userDB.getUserId());
-        
-        workerDB.setAdress(user.getAddress());
-        workerDB.setGrade(user.getGrade());
-        workerDB.setPesel(user.getPesel());
-        workerDB.setSurname(user.getSurname());
-        workerDB.setWorkerName(user.getName());
+        Workers workerDB = workersFacade.getReference(user.getUserId());
+
+        workerDB.setAdress(userDTO.getAddress());
+        workerDB.setGrade(userDTO.getGrade());
+        workerDB.setPesel(userDTO.getPesel());
+        workerDB.setSurname(userDTO.getSurname());
+        workerDB.setWorkerName(userDTO.getName());
 
         workersFacade.edit(workerDB);
-        
+
         return true;
     }
 }
