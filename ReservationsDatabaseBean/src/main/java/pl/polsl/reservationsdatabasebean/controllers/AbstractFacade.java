@@ -34,15 +34,19 @@ public abstract class AbstractFacade<T> implements Serializable, AbstractFacadeR
     public AbstractFacade() throws NamingException {
         entityClass = null;
         priviligeContext = new PriviligeContext();
-        priviligeContext.setPriviligeLevel(1);
+        priviligeContext.setPriviligeLevel(6);
+        em = priviligeContext.getEntityManager();
         userTransaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
+        em.setFlushMode(FlushModeType.COMMIT);
     }
 
     protected AbstractFacade(Class<T> entityClass) throws NamingException {
         this.entityClass = entityClass;
         priviligeContext = new PriviligeContext();
-        priviligeContext.setPriviligeLevel(1);
+        priviligeContext.setPriviligeLevel(6);
+        em = priviligeContext.getEntityManager();
         userTransaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
+        em.setFlushMode(FlushModeType.COMMIT);
     }
 
     protected abstract void getDependencies();
