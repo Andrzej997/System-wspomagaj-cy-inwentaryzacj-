@@ -1,9 +1,9 @@
 package pl.polsl.reservations.schedule;
 
 import pl.polsl.reservations.dto.ReservationDTO;
-import pl.polsl.reservationsdatabasebeanremote.database.controllers.ReservationsFacadeRemote;
-import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomFacadeRemote;
-import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomScheduleFacadeRemote;
+import pl.polsl.reservationsdatabasebeanremote.database.controllers.ReservationsDao;
+import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomDao;
+import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomScheduleDao;
 import pl.polsl.reservationsdatabasebeanremote.database.logger.LoggerImpl;
 
 import javax.ejb.EJB;
@@ -20,13 +20,13 @@ import java.util.List;
 public class ScheduleFactoryImpl implements ScheduleFactory {
 
     @EJB
-    ReservationsFacadeRemote reservationsDAO;
+    ReservationsDao reservationsDAO;
 
     @EJB
-    RoomScheduleFacadeRemote roomScheduleDAO;
+    RoomScheduleDao roomScheduleDAO;
 
     @EJB
-    RoomFacadeRemote roomDAO;
+    RoomDao roomDAO;
 
     public ScheduleFactoryImpl() {
     }

@@ -24,19 +24,19 @@ public class ScheduleFacadeImpl implements ScheduleFacade {
     ScheduleFactory scheduleFactory;
 
     @EJB
-    ReservationsFacadeRemote reservationsDAO;
+    ReservationsDao reservationsDAO;
 
     @EJB
-    RoomFacadeRemote roomDAO;
+    RoomDao roomDAO;
 
     @EJB
-    RoomScheduleFacadeRemote roomScheduleDAO;
+    RoomScheduleDao roomScheduleDAO;
 
     @EJB
-    ReservationTypesFacadeRemote reservationTypeDAO;
+    ReservationTypesDao reservationTypeDAO;
 
     @EJB
-    UsersFacadeRemote usersDAO;
+    UsersDao usersDAO;
 
     public ScheduleFacadeImpl() {
     }

@@ -1,6 +1,6 @@
 package pl.polsl.reservationsdatabasebeanremote.database.interceptors;
 
-import pl.polsl.reservationsdatabasebeanremote.database.controllers.AbstractFacadeRemote;
+import pl.polsl.reservationsdatabasebeanremote.database.controllers.AbstractDao;
 
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
@@ -36,8 +36,8 @@ public class TransactionalInterceptor {
     }
 
     public UserTransaction getUserTransaction(InvocationContext ctx) {
-        if (ctx.getTarget() instanceof AbstractFacadeRemote) {
-            return ((AbstractFacadeRemote) ctx.getTarget()).getUserTransaction();
+        if (ctx.getTarget() instanceof AbstractDao) {
+            return ((AbstractDao) ctx.getTarget()).getUserTransaction();
         } else {
             return null;
         }

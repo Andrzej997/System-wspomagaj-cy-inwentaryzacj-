@@ -3,11 +3,10 @@ package pl.polsl.reservations.client;
 import pl.polsl.reservations.dto.EquipmentDTO;
 import pl.polsl.reservations.dto.ReservationDTO;
 import pl.polsl.reservations.dto.RoomDTO;
-import pl.polsl.reservations.roomManagement.RoomManagementFacadeRemote;
+import pl.polsl.reservations.roomManagement.RoomManagementFacade;
 import pl.polsl.reservations.schedule.ScheduleFacade;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -23,7 +22,7 @@ public class Main {
 
         ScheduleFacade schedule = (ScheduleFacade) l.getRemote("ScheduleFacade");
 
-        RoomManagementFacadeRemote test2 = (RoomManagementFacadeRemote) l.getRemote("RoomManagementFacade");
+        RoomManagementFacade test2 = (RoomManagementFacade) l.getRemote("RoomManagementFacade");
         List<RoomDTO> s = test2.getRoomsList();
 
         int roomId = (int)s.get(0).getId();

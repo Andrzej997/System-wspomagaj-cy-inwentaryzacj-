@@ -1,6 +1,6 @@
 package pl.polsl.reservationsdatabasebeanremote.database.logger;
 
-import pl.polsl.reservationsdatabasebeanremote.database.controllers.AbstractFacadeRemote;
+import pl.polsl.reservationsdatabasebeanremote.database.controllers.AbstractDao;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -80,8 +80,8 @@ public class LoggerImpl {
 
     @PreDestroy
     public void preDestroy(InvocationContext ctx) {
-        if (ctx.getTarget() instanceof AbstractFacadeRemote) {
-            ((AbstractFacadeRemote) ctx.getTarget()).closeEntityManager();
+        if (ctx.getTarget() instanceof AbstractDao) {
+            ((AbstractDao) ctx.getTarget()).closeEntityManager();
         }
         log.log(Level.CONFIG, "*** Object: {0} will be destroyed\n", ctx.getTarget().getClass().getName());
     }

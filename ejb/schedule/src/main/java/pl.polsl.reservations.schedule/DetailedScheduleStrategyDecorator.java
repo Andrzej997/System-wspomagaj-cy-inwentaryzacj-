@@ -4,9 +4,9 @@ import pl.polsl.reservations.dto.ReservationDTO;
 import pl.polsl.reservationsdatabasebeanremote.database.Reservations;
 import pl.polsl.reservationsdatabasebeanremote.database.Room;
 import pl.polsl.reservationsdatabasebeanremote.database.RoomSchedule;
-import pl.polsl.reservationsdatabasebeanremote.database.controllers.ReservationsFacadeRemote;
-import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomFacadeRemote;
-import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomScheduleFacadeRemote;
+import pl.polsl.reservationsdatabasebeanremote.database.controllers.ReservationsDao;
+import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomDao;
+import pl.polsl.reservationsdatabasebeanremote.database.controllers.RoomScheduleDao;
 
 import java.util.List;
 
@@ -26,9 +26,9 @@ public class DetailedScheduleStrategyDecorator implements ScheduleStrategy {
 
     @Override
     public List<ReservationDTO> createSchedule(int roomId, int year, boolean semester,
-                                               ReservationsFacadeRemote reservationsDAO,
-                                               RoomScheduleFacadeRemote roomScheduleDAO,
-                                               RoomFacadeRemote roomDAO) {
+                                               ReservationsDao reservationsDAO,
+                                               RoomScheduleDao roomScheduleDAO,
+                                               RoomDao roomDAO) {
 
         List<ReservationDTO> result = decoratedStrategy.createSchedule(
                 roomId,
