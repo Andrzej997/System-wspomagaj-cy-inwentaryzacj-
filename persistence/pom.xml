@@ -9,24 +9,13 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>ejb</artifactId>
+    <artifactId>persistence</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>remote</module>
-        <module>user</module>
-        <module>room-management</module>
-        <module>reservations-root</module>
-        <module>user-management</module>
-        <module>schedule</module>
+        <module>persistence-ear</module>
+        <module>persistence-ejb</module>
+        <module>persistence-impl</module>
     </modules>
-
-    <dependencies>
-        <dependency>
-            <groupId>pl.polsl</groupId>
-            <artifactId>persistence-ejb</artifactId>
-            <version>0.7</version>
-        </dependency>
-    </dependencies>
 
 
 </project>

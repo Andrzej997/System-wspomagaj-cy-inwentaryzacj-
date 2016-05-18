@@ -34,7 +34,7 @@ public abstract class AbstractDaoImpl<T> implements Serializable, AbstractDao<T>
     public AbstractDaoImpl() throws NamingException {
         entityClass = null;
         priviligeContext = new PriviligeContext();
-        priviligeContext.setPriviligeLevel(6);
+        priviligeContext.setPriviligeLevel(1);
         em = priviligeContext.getEntityManager();
         userTransaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
         em.setFlushMode(FlushModeType.COMMIT);
@@ -43,7 +43,7 @@ public abstract class AbstractDaoImpl<T> implements Serializable, AbstractDao<T>
     protected AbstractDaoImpl(Class<T> entityClass) throws NamingException {
         this.entityClass = entityClass;
         priviligeContext = new PriviligeContext();
-        priviligeContext.setPriviligeLevel(6);
+        priviligeContext.setPriviligeLevel(1);
         em = priviligeContext.getEntityManager();
         userTransaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
         em.setFlushMode(FlushModeType.COMMIT);

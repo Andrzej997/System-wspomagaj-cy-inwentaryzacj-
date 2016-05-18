@@ -15,3 +15,6 @@ ejb/user/target/
 ejb/room-management/target/
 ejb/user-management/target/
 ejb/schedule/target/
+persistence/persistence-ear/target/
+persistence/persistence-ejb/target/
+persistence/persistence-impl/target/
