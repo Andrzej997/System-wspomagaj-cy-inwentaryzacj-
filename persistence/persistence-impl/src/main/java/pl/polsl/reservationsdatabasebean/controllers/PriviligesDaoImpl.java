@@ -1,5 +1,6 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
+import pl.polsl.reservationsdatabasebeanremote.database.PrivilegeLevelEnum;
 import pl.polsl.reservationsdatabasebeanremote.database.PriviligeLevels;
 import pl.polsl.reservationsdatabasebeanremote.database.Priviliges;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.PriviligeLevelsDao;
@@ -59,7 +60,7 @@ public class PriviligesDaoImpl extends AbstractDaoImpl<Priviliges> implements Pr
         } catch (NamingException e) {
             e.printStackTrace();
         }
-        Integer priviligeLevel = this.getPriviligeContext().getPriviligeLevel();
-        priviligeLevelsFacadeRemote.setPriviligeLevel(priviligeLevel);
+        PrivilegeLevelEnum privilegeLevel = this.getPriviligeLevel();
+        priviligeLevelsFacadeRemote.setPriviligeLevel(privilegeLevel);
     }
 }

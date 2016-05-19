@@ -1,9 +1,6 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
-import pl.polsl.reservationsdatabasebeanremote.database.Equipment;
-import pl.polsl.reservationsdatabasebeanremote.database.EquipmentType;
-import pl.polsl.reservationsdatabasebeanremote.database.EqupmentState;
-import pl.polsl.reservationsdatabasebeanremote.database.Room;
+import pl.polsl.reservationsdatabasebeanremote.database.*;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.*;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.EquipmentDao;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.EquipmentTypeDao;
@@ -77,9 +74,9 @@ public class EquipmentDaoImpl extends AbstractDaoImpl<Equipment> implements Equi
         } catch (NamingException e) {
             e.printStackTrace();
         }
-        Integer priviligeLevel = this.getPriviligeContext().getPriviligeLevel();
-        equipmentStateFacadeRemote.setPriviligeLevel(priviligeLevel);
-        equipmentTypeFacadeRemote.setPriviligeLevel(priviligeLevel);
-        roomFacadeRemote.setPriviligeLevel(priviligeLevel);
+        PrivilegeLevelEnum privilegeLevel = this.getPriviligeLevel();
+        equipmentStateFacadeRemote.setPriviligeLevel(privilegeLevel);
+        equipmentTypeFacadeRemote.setPriviligeLevel(privilegeLevel);
+        roomFacadeRemote.setPriviligeLevel(privilegeLevel);
     }
 }

@@ -107,6 +107,8 @@ public class RoomManagementFacadeImpl implements RoomManagementFacade {
             result.add(new RoomDTO(r));
         }
 
+        roomsDAO.setPriviligeLevel(PrivilegeLevelEnum.STANDARD_USER);
+
         return result;
     }
 

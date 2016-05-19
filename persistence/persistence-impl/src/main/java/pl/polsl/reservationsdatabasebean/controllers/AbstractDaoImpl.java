@@ -2,7 +2,7 @@ package pl.polsl.reservationsdatabasebean.controllers;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
-import pl.polsl.reservationsdatabasebean.context.PriviligeContext;
+import pl.polsl.reservationsdatabasebeanremote.database.PrivilegeLevelEnum;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.AbstractDao;
 
 import javax.naming.InitialContext;
@@ -27,32 +27,22 @@ public abstract class AbstractDaoImpl<T> implements Serializable, AbstractDao<T>
 
     private static final long serialVersionUID = -13071878948980250L;
     private final Class<T> entityClass;
-    private final PriviligeContext priviligeContext;
+    private PrivilegeLevelEnum privilegeLevel;
     private final UserTransaction userTransaction;
     private EntityManager em;
 
-    public AbstractDaoImpl() throws NamingException {
-        entityClass = null;
-        priviligeContext = new PriviligeContext();
-        priviligeContext.setPriviligeLevel(1);
-        em = priviligeContext.getEntityManager();
-        userTransaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
-        em.setFlushMode(FlushModeType.COMMIT);
-    }
-
     protected AbstractDaoImpl(Class<T> entityClass) throws NamingException {
         this.entityClass = entityClass;
-        priviligeContext = new PriviligeContext();
-        priviligeContext.setPriviligeLevel(1);
-        em = priviligeContext.getEntityManager();
+        privilegeLevel = PrivilegeLevelEnum.ADMIN;
+        em = privilegeLevel.getEntityManager();
         userTransaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
         em.setFlushMode(FlushModeType.COMMIT);
     }
 
     protected abstract void getDependencies();
 
-    protected PriviligeContext getPriviligeContext() {
-        return priviligeContext;
+    protected PrivilegeLevelEnum getPriviligeLevel() {
+        return privilegeLevel;
     }
 
     public UserTransaction getUserTransaction() {
@@ -64,9 +54,9 @@ public abstract class AbstractDaoImpl<T> implements Serializable, AbstractDao<T>
     }
 
     @Override
-    public void setPriviligeLevel(Integer level) {
-        priviligeContext.setPriviligeLevel(level);
-        em = priviligeContext.getEntityManager();
+    public void setPriviligeLevel(PrivilegeLevelEnum level) {
+        privilegeLevel = level;
+        em = privilegeLevel.getEntityManager();
         em.setFlushMode(FlushModeType.COMMIT);
     }
 

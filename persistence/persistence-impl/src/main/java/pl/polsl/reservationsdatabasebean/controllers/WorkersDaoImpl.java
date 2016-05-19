@@ -1,6 +1,7 @@
 package pl.polsl.reservationsdatabasebean.controllers;
 
 import pl.polsl.reservationsdatabasebeanremote.database.Departaments;
+import pl.polsl.reservationsdatabasebeanremote.database.PrivilegeLevelEnum;
 import pl.polsl.reservationsdatabasebeanremote.database.Room;
 import pl.polsl.reservationsdatabasebeanremote.database.Workers;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.DepartamentsDao;
@@ -136,8 +137,8 @@ public class WorkersDaoImpl extends AbstractDaoImpl<Workers> implements WorkersD
         } catch (NamingException e) {
             e.printStackTrace();
         }
-        Integer priviligeLevel = this.getPriviligeContext().getPriviligeLevel();
-        roomFacadeRemote.setPriviligeLevel(priviligeLevel);
-        departamentsFacadeRemote.setPriviligeLevel(priviligeLevel);
+        PrivilegeLevelEnum privilegeLevel = this.getPriviligeLevel();
+        roomFacadeRemote.setPriviligeLevel(privilegeLevel);
+        departamentsFacadeRemote.setPriviligeLevel(privilegeLevel);
     }
 }

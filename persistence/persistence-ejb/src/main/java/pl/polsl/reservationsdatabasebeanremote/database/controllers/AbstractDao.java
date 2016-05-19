@@ -1,5 +1,7 @@
 package pl.polsl.reservationsdatabasebeanremote.database.controllers;
 
+import pl.polsl.reservationsdatabasebeanremote.database.PrivilegeLevelEnum;
+
 import javax.transaction.UserTransaction;
 import java.util.List;
 
@@ -9,7 +11,7 @@ import java.util.List;
 public interface AbstractDao<T> {
     UserTransaction getUserTransaction();
 
-    void setPriviligeLevel(Integer level);
+    void setPriviligeLevel(PrivilegeLevelEnum level);
 
     void create(T entity);
 

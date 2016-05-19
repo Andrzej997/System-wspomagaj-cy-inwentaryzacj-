@@ -2,6 +2,7 @@ package pl.polsl.reservationsdatabasebean.controllers;
 
 import pl.polsl.reservationsdatabasebeanremote.database.Equipment;
 import pl.polsl.reservationsdatabasebeanremote.database.EquipmentType;
+import pl.polsl.reservationsdatabasebeanremote.database.PrivilegeLevelEnum;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.EquipmentDao;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.EquipmentTypeDao;
 import pl.polsl.reservationsdatabasebeanremote.database.interceptors.TransactionalInterceptor;
@@ -57,7 +58,7 @@ public class EquipmentTypeDaoImpl extends AbstractDaoImpl<EquipmentType> impleme
         } catch (NamingException e) {
             e.printStackTrace();
         }
-        Integer priviligeLevel = this.getPriviligeContext().getPriviligeLevel();
-        equipmentFacadeRemote.setPriviligeLevel(priviligeLevel);
+        PrivilegeLevelEnum privilegeLevel = this.getPriviligeLevel();
+        equipmentFacadeRemote.setPriviligeLevel(privilegeLevel);
     }
 }

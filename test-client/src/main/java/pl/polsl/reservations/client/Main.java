@@ -26,7 +26,7 @@ public class Main {
         List<RoomDTO> s = test2.getRoomsList();
 
         int roomId = (int)s.get(0).getId();
-
+        s = test2.getRoomsList();
 //        test2.assignUserToRoom(roomId, 1);
 
         List<EquipmentDTO> beforeUpdate = test2.getRoomEquipment(roomId);

@@ -2,6 +2,7 @@ package pl.polsl.reservationsdatabasebean.controllers;
 
 import pl.polsl.reservationsdatabasebeanremote.database.Departaments;
 import pl.polsl.reservationsdatabasebeanremote.database.Institutes;
+import pl.polsl.reservationsdatabasebeanremote.database.PrivilegeLevelEnum;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.DepartamentsDao;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.InstitutesDao;
 import pl.polsl.reservationsdatabasebeanremote.database.interceptors.TransactionalInterceptor;
@@ -71,7 +72,7 @@ public class InstitutesDaoImpl extends AbstractDaoImpl<Institutes> implements In
         } catch (NamingException e) {
             e.printStackTrace();
         }
-        Integer priviligeLevel = this.getPriviligeContext().getPriviligeLevel();
-        departamentsFacadeRemote.setPriviligeLevel(priviligeLevel);
+        PrivilegeLevelEnum privilegeLevel = this.getPriviligeLevel();
+        departamentsFacadeRemote.setPriviligeLevel(privilegeLevel);
     }
 }

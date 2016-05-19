@@ -116,11 +116,11 @@ public class RoomDaoImpl extends AbstractDaoImpl<Room> implements RoomDao {
         } catch (NamingException e) {
             e.printStackTrace();
         }
-        Integer priviligeLevel = this.getPriviligeContext().getPriviligeLevel();
-        equipmentFacadeRemote.setPriviligeLevel(priviligeLevel);
-        workersFacadeRemote.setPriviligeLevel(priviligeLevel);
-        departamentsFacadeRemote.setPriviligeLevel(priviligeLevel);
-        roomScheduleFacadeRemote.setPriviligeLevel(priviligeLevel);
-        roomTypesFacadeRemote.setPriviligeLevel(priviligeLevel);
+        PrivilegeLevelEnum privilegeLevel = this.getPriviligeLevel();
+        equipmentFacadeRemote.setPriviligeLevel(privilegeLevel);
+        workersFacadeRemote.setPriviligeLevel(privilegeLevel);
+        departamentsFacadeRemote.setPriviligeLevel(privilegeLevel);
+        roomScheduleFacadeRemote.setPriviligeLevel(privilegeLevel);
+        roomTypesFacadeRemote.setPriviligeLevel(privilegeLevel);
     }
 }
