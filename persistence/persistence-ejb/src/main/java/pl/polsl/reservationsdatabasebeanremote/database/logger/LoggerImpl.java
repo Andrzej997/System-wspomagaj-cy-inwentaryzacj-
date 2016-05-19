@@ -20,7 +20,6 @@ import java.util.logging.*;
  * Log zapisuje się z reguły na glassfishu w takiej scieżce
  * \glassfish4\glassfish\domains\domain1\config
  */
-@Transactional
 @Interceptor
 public class LoggerImpl {
 
