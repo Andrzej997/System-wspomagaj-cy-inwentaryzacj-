@@ -45,6 +45,7 @@ public abstract class AbstractDaoImpl<T> implements Serializable, AbstractDao<T>
         return privilegeLevel;
     }
 
+    @Override
     public UserTransaction getUserTransaction() {
         return this.userTransaction;
     }

@@ -1,8 +1,8 @@
 package pl.polsl.reservations.client;
 
-import pl.polsl.reservations.roomManagement.RoomManagementFacadeRemote;
-import pl.polsl.reservations.user.UserFacadeRemote;
-import pl.polsl.reservations.userManagement.UserManagementFacadeRemote;
+import pl.polsl.reservations.roomManagement.RoomManagementFacade;
+import pl.polsl.reservations.user.UserFacade;
+import pl.polsl.reservations.userManagement.UserManagementFacade;
 import pl.polsl.reservations.schedule.ScheduleFacade;
 
 /**
@@ -19,16 +19,15 @@ public class Main {
         
         //pobranie lookupem dostępnych dla klienta fasad
         //generalnie pobierajcie wedle potrzeb tu macie przykład jak pobrać wszystkie
-        UserManagementFacadeRemote userManagementFacadeRemote = 
-                (UserManagementFacadeRemote)l.getRemote("UserManagementFacade");
-        UserFacadeRemote userFacadeRemote = (UserFacadeRemote) l.getRemote("UserFacade");
-        RoomManagementFacadeRemote roomManagementFacadeRemote = 
-                (RoomManagementFacadeRemote) l.getRemote("RoomManagementFacade");
+        UserManagementFacade userManagementFacadeRemote = 
+                (UserManagementFacade)l.getRemote("UserManagementFacade");
+        UserFacade userFacadeRemote = (UserFacade) l.getRemote("UserFacade");
+        RoomManagementFacade roomManagementFacade = 
+                (RoomManagementFacade) l.getRemote("RoomManagementFacade");
         ScheduleFacade scheduleFacadeRemote = (ScheduleFacade) l.getRemote("ScheduleFacade");
         
         //uzycie dowolnej metody zdalnej:
         Long privilige = userFacadeRemote.getUserPrivilege();
         System.out.println("Privilige level: " + privilige);
-        
     }
 }
