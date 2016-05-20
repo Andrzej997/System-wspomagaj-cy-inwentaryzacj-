@@ -79,7 +79,6 @@ public class AccountView extends JPanel {
     }
 
     private void initRoomDropdown() {
-       // accountViewMediator.getRoomData();
         chooseRoomDropdown.setToolTipText("Choose room");
     }
 

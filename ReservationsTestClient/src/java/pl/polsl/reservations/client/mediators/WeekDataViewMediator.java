@@ -55,11 +55,11 @@ public class WeekDataViewMediator {
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         int weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
 
-        List<ReservationDTO> detailedRoomSchedule = scheduleFacade.getDetailedRoomSchedule(Integer.parseInt((String)weekDataView.getChooseRoomDropdown().getSelectedItem()) , date.getYear(), weekOfYear, true);
+        List<ReservationDTO> roomSchedule = scheduleFacade.getRoomSchedule(Integer.parseInt((String)weekDataView.getChooseRoomDropdown().getSelectedItem()), 2016, true);
 
         DefaultTableModel defaultTableModel = new DefaultTableModel(32, 7);
 
-        for (ReservationDTO reservation : detailedRoomSchedule) {
+        for (ReservationDTO reservation : roomSchedule) {
             int startDay = reservation.getStartTime() / 96;
             int endDay = reservation.getEndTime() / 96;
             int numberOfStartQuarter = reservation.getStartTime() % 96 - 32; //róznica miêdzy godzinami w bazie i tabeli

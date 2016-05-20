@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pl.polsl.reservations.client.views;
 
 import java.awt.BorderLayout;
@@ -21,9 +16,9 @@ import javax.swing.table.TableModel;
  *
  * @author Ola
  */
-class WeekDataView extends JPanel {
+public class WeekDataView extends JPanel {
 
-    MainWindow window;
+    MainView window;
     private JComboBox chooseRoomDropdown;
     private JButton chooseButton;
     private JButton nextWeek;
@@ -32,7 +27,7 @@ class WeekDataView extends JPanel {
     private JPanel buttonPanel;
     private JLabel weekTv;
 
-    WeekDataView(MainWindow window, Object selectedItem) {
+    public WeekDataView(MainView window, Object selectedItem) {
         this.window = window;
         initComponents();
     }
