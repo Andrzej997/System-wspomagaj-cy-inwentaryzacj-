@@ -5,17 +5,21 @@
  */
 package pl.polsl.reservations.client.mediators;
 
+import com.google.common.collect.Table;
 import java.awt.Color;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
 import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.views.MainView;
 import pl.polsl.reservations.client.views.WeekDataView;
 import pl.polsl.reservations.dto.ReservationDTO;
 import pl.polsl.reservations.roomManagement.RoomManagementFacade;
 import pl.polsl.reservations.schedule.ScheduleFacade;
+import pl.polsl.reservations.client.views.renderers.CustomRenderer;
 
 /**
  *
@@ -59,7 +63,7 @@ public class WeekDataViewMediator {
 
         DefaultTableModel defaultTableModel = new DefaultTableModel(32, 7);
 
-        for (ReservationDTO reservation : roomSchedule) {
+        roomSchedule.stream().forEach((reservation) -> {
             int endDay = reservation.getStartTime() / 96;
             int startDay = reservation.getEndTime() / 96;
             int numberOfEndQuarter = reservation.getStartTime() % 96 - 32; //róznica miêdzy godzinami w bazie i tabeli
@@ -85,12 +89,18 @@ public class WeekDataViewMediator {
             for (int i = startDay; i <= endDay; i++) {
                 for (int j = numberOfStartQuarter; j <= numberOfEndQuarter; j++) {
                     defaultTableModel.setValueAt("T", j, i);
+                    
                 }
             }
-
-        }
-
+        });
         weekDataView.getPlanView().setModel(defaultTableModel);
+        weekDataView.getPlanView().setDefaultRenderer(Object.class, new CustomRenderer());
+    /*    
+        DefaultTableModel model = (DefaultTableModel)weekDataView.getPlanView().getModel();
+        TableColumnModel columnModel = weekDataView.getPlanView().getColumnModel();
+        for(int i = 0; i< columnModel.getColumnCount(); i++){
+            columnModel.getColumn(i).setCellRenderer(new CustomRenderer());
+        }*/
     }
 
 }
