@@ -20,9 +20,9 @@ import javax.sql.DataSource;
  */
 public class Lookup {
 
-    private InitialContext ic;
+    private static InitialContext ic;
 
-    public Lookup() {
+    static {
         try {
             Properties p = new Properties();
             p.put("java.rmi.server.useCodebaseOnly", "false");
@@ -37,14 +37,14 @@ public class Lookup {
         }
     }
 
-    private Object lookup(String jndiName) throws NamingException {
+    private static Object lookup(String jndiName) throws NamingException {
         return ic.lookup(jndiName);
     }
 
-    public Object getRemote(String jndiName) {
+    public static Object getRemote(String jndiName) {
         Object o = null;
         try {
-            o = this.lookup(jndiName);
+            o = Lookup.lookup(jndiName);
         } catch (NamingException ex) {
             System.out.println("Remote object doesn't exists!");
         }
@@ -59,7 +59,7 @@ public class Lookup {
      * @return the Local EJB Home corresponding to the homeName
      * @throws NamingException if the lookup fails
      */
-    public EJBLocalHome getLocalHome(String jndiHomeName) throws NamingException {
+    public static EJBLocalHome getLocalHome(String jndiHomeName) throws NamingException {
         return (EJBLocalHome) lookup(jndiHomeName);
     }
 
@@ -72,7 +72,7 @@ public class Lookup {
      * @return the EJB Home corresponding to the homeName
      * @throws NamingException if the lookup fails
      */
-    public EJBHome getRemoteHome(String jndiHomeName, Class className) throws NamingException {
+    public static EJBHome getRemoteHome(String jndiHomeName, Class className) throws NamingException {
         Object objref = lookup(jndiHomeName);
         return (EJBHome) PortableRemoteObject.narrow(objref, className);
     }
@@ -84,7 +84,7 @@ public class Lookup {
      * @return the factory for obtaining JMS connection
      * @throws NamingException if the lookup fails
      */
-    public ConnectionFactory getConnectionFactory(String connFactoryName) throws NamingException {
+    public static ConnectionFactory getConnectionFactory(String connFactoryName) throws NamingException {
         return (ConnectionFactory) lookup(connFactoryName);
     }
 
@@ -95,7 +95,7 @@ public class Lookup {
      * @return the Topic Destination to send messages to
      * @throws NamingException if the lookup fails
      */
-    public Destination getDestination(String destName) throws NamingException {
+    public static Destination getDestination(String destName) throws NamingException {
         return (Destination) lookup(destName);
     }
 
@@ -106,7 +106,7 @@ public class Lookup {
      * @return the DataSource corresponding to the name parameter
      * @throws NamingException if the lookup fails
      */
-    public DataSource getDataSource(String dataSourceName) throws NamingException {
+    public static DataSource getDataSource(String dataSourceName) throws NamingException {
         return (DataSource) lookup(dataSourceName);
     }
 
@@ -117,7 +117,7 @@ public class Lookup {
      * @return the Session corresponding to the name parameter
      * @throws NamingException if the lookup fails
      */
-    public Session getSession(String sessionName) throws NamingException {
+    public static Session getSession(String sessionName) throws NamingException {
         return (Session) lookup(sessionName);
     }
 
@@ -128,7 +128,7 @@ public class Lookup {
      * @return the URL value corresponding to the environment entry name
      * @throws NamingException if the lookup fails
      */
-    public URL getUrl(String envName) throws NamingException {
+    public static URL getUrl(String envName) throws NamingException {
         return (URL) lookup(envName);
     }
 
@@ -139,7 +139,7 @@ public class Lookup {
      * @return the boolean value corresponding to the environment entry
      * @throws NamingException if the lookup fails
      */
-    public boolean getBoolean(String envName) throws NamingException {
+    public static boolean getBoolean(String envName) throws NamingException {
         Boolean bool = (Boolean) lookup(envName);
         return bool;
     }
@@ -151,7 +151,7 @@ public class Lookup {
      * @return the String value corresponding to the environment entry name
      * @throws NamingException if the lookup fails
      */
-    public String getString(String envName) throws NamingException {
+    public static String getString(String envName) throws NamingException {
         return (String) lookup(envName);
     }
 }
