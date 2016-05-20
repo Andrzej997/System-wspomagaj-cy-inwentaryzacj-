@@ -5,8 +5,9 @@ import java.awt.event.ActionEvent;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import pl.polsl.reservations.client.mediators.AccountViewMediator;
+import pl.polsl.reservations.client.mediators.LoginMediator;
 
-class LoginView extends JPanel {
+public class LoginView extends JPanel {
 
     private static final long serialVersionUID = 7390610748297788567L;
 
@@ -20,10 +21,13 @@ class LoginView extends JPanel {
     private JLabel passwordLabel;
     private JPasswordField passwordEditText;
 
-    public LoginView(MainWindow window) {
+    private LoginMediator loginMediator;
+
+    public LoginView(MainWindow window, LoginMediator loginMediator) {
         super(new BorderLayout());
         initComponents();
         this.window = window;
+        this.loginMediator = loginMediator;
     }
 
     private void initComponents() {
@@ -70,11 +74,13 @@ class LoginView extends JPanel {
     }
 
     private void onClickRegister(ActionEvent evt) {
-        JOptionPane.showMessageDialog(this, "Not supported yet");
+
     }
 
     private void onClickGuest(ActionEvent evt) {
-        JOptionPane.showMessageDialog(this, "Not supported yet");
+        window.setOptionsAvailable(Color.black);
+        window.setView(new AccountViewMediator().createView(window));
+        window.setLogged(true);
     }
 
     private void initialize() {
@@ -122,6 +128,38 @@ class LoginView extends JPanel {
                 onClickGuest(evt);
             }
         });
+    }
+
+    public MainWindow getWindow() {
+        return window;
+    }
+
+    public JButton getLoginButton() {
+        return loginButton;
+    }
+
+    public JButton getRegisterButton() {
+        return registerButton;
+    }
+
+    public JButton getGuestButton() {
+        return guestButton;
+    }
+
+    public JFormattedTextField getLoginEditText() {
+        return loginEditText;
+    }
+
+    public JLabel getLoginLabel() {
+        return loginLabel;
+    }
+
+    public JLabel getPasswordLabel() {
+        return passwordLabel;
+    }
+
+    public JPasswordField getPasswordEditText() {
+        return passwordEditText;
     }
 
 }

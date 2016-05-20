@@ -23,9 +23,8 @@ public class AccountViewMediator {
     
     public AccountView createView(MainWindow parent){
         accountView = new AccountView(parent, this);
-        if(userFacade.getUserPrivilege() != 1){
            accountView.getAddButton().setVisible(false);
-        }
+
         return accountView;
     }
     

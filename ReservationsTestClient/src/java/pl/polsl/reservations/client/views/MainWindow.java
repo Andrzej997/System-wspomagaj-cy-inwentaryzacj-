@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import pl.polsl.reservations.client.mediators.LoginMediator;
 import pl.polsl.reservations.client.mediators.AccountViewMediator;
 
 public class MainWindow extends JFrame {
@@ -112,7 +113,7 @@ public class MainWindow extends JFrame {
         if (isLoggedIn) {
             setOptionsAvailable(Color.gray);
             isLoggedIn = false;
-            setView(new LoginView(this));
+            setView(new LoginMediator().createView(this));
             JOptionPane.showMessageDialog(this, "You are logged out.");
         }
         //PERFORM LOGOUT
@@ -143,7 +144,7 @@ public class MainWindow extends JFrame {
     }
 
     public void create() {
-        setView(new LoginView(this));
+        setView(new LoginMediator().createView(this));
         setResizable(false);
 
     }
