@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pl.polsl.reservations.client.views;
 
 import java.awt.BorderLayout;
@@ -73,10 +68,8 @@ public class SearchView extends JPanel {
         responseTf = new JLabel();
         responseBtn = new JButton();
         responseBtn.setText("SEARCH");
-        responseBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onOkClick(evt);
-            }
+        responseBtn.addActionListener((java.awt.event.ActionEvent evt) -> {
+            onOkClick(evt);
         });
     }
 

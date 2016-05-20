@@ -20,8 +20,8 @@ import pl.polsl.reservations.schedule.ScheduleFacade;
  */
 public class AddEditViewMediator {
 
-    private ScheduleFacade scheduleFacade;
-    private RoomManagementFacade roomManagementFacade;
+    private final ScheduleFacade scheduleFacade;
+    private final RoomManagementFacade roomManagementFacade;
     private AddEditView addEditWindow;
     
     public AddEditViewMediator() {
@@ -32,15 +32,15 @@ public class AddEditViewMediator {
     
     public AddEditView createView(MainView parent) {
         addEditWindow = new AddEditView(parent, this);
-        
+        getRooms();
         return addEditWindow;
     }
     
     public void getRooms() {
-    //    List<RoomDTO> roomsList = roomManagementFacade.getRoomsList();
-     //   for (RoomDTO room : roomsList) {
-      //      addEditWindow.getRoomCb().addItem(room.getNumber());
-      //  }    
+        List<RoomDTO> roomsList = roomManagementFacade.getRoomsList();
+        roomsList.stream().forEach((room) -> {
+            addEditWindow.getRoomCb().addItem(room.getNumber());
+        });    
     }
     
 }

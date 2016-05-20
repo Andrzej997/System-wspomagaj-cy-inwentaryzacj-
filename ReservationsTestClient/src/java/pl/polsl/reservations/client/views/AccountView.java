@@ -32,7 +32,6 @@ public class AccountView extends JPanel {
         initRoomDropdown();
         initButtons();
 
-        //TODO - rzeczywiste sale
         JPanel planLayout = new JPanel(new BorderLayout());
         planLayout.add(chooseRoomDropdown, BorderLayout.WEST);
         planLayout.add(chooseButton, BorderLayout.EAST);
@@ -51,7 +50,6 @@ public class AccountView extends JPanel {
 
     private void onRoomClick(ActionEvent evt) {
         accountViewMediator.dispatchRoomClickEvent(evt);
-        //TODO - get data about room
     }
 
     private void onChangePasswordClick(java.awt.event.ActionEvent evt) {
@@ -60,7 +58,6 @@ public class AccountView extends JPanel {
 
     private void onAddUser(java.awt.event.ActionEvent evt) {
         JOptionPane.showMessageDialog(this, "Not supported yet");
-        //TODO - add user
     }
 
     private void initFields() {
@@ -72,7 +69,6 @@ public class AccountView extends JPanel {
     }
 
     private void setSize() {
-
         setMaximumSize(new java.awt.Dimension(800, 600));
         setMinimumSize(new java.awt.Dimension(800, 600));
         setPreferredSize(new java.awt.Dimension(800, 600));

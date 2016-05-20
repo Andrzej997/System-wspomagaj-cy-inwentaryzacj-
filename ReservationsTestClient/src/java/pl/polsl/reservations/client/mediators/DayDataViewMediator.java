@@ -13,7 +13,9 @@ import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.views.DayDataView;
 import pl.polsl.reservations.client.views.MainView;
 import pl.polsl.reservations.dto.ReservationDTO;
+import pl.polsl.reservations.dto.RoomDTO;
 import pl.polsl.reservations.schedule.ScheduleFacade;
+import pl.polsl.reservations.roomManagement.RoomManagementFacade;
 
 /**
  *
@@ -22,11 +24,13 @@ import pl.polsl.reservations.schedule.ScheduleFacade;
 public class DayDataViewMediator {
 
     private ScheduleFacade scheduleFacade;
+    private RoomManagementFacade roomManagementFacade;
     private Object date;
     private DayDataView dayDataView;
 
     public DayDataViewMediator() {
         scheduleFacade = (ScheduleFacade) Lookup.getRemote("ScheduleFacade");
+        roomManagementFacade = (RoomManagementFacade) Lookup.getRemote("RoomManagementFacade");
     }
 
     public DayDataView createView(MainView parent, Object date) {
@@ -34,6 +38,7 @@ public class DayDataViewMediator {
 
         this.date =  date;
 
+        getRooms();
         getReservations();
 
         return dayDataView;
@@ -45,7 +50,7 @@ public class DayDataViewMediator {
        // int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
        // int weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
 
-        List<ReservationDTO> roomSchedule = scheduleFacade.getRoomSchedule(Integer.parseInt((String) dayDataView.getChooseRoomDropdown().getSelectedItem()), 2016, true);
+        List<ReservationDTO> roomSchedule = scheduleFacade.getRoomSchedule( (Integer)dayDataView.getChooseRoomDropdown().getSelectedItem(), 2016, true);
 
         DefaultTableModel defaultTableModel = new DefaultTableModel(96, 1);
 
@@ -65,6 +70,13 @@ public class DayDataViewMediator {
         }
 
         dayDataView.getPlanView().setModel(defaultTableModel);
+    }
+    
+    public void getRooms(){
+        List<RoomDTO> roomsList = roomManagementFacade.getRoomsList();
+        roomsList.stream().forEach((room) -> {
+            dayDataView.getChooseRoomDropdown().addItem(room.getNumber());
+        });    
     }
 
 }

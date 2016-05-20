@@ -31,7 +31,7 @@ public class DayDataView extends javax.swing.JPanel {
     
     private DayDataViewMediator dayDataViewMediator;
 
-    public DayDataView(MainView window, Object i,DayDataViewMediator dayDataViewMediator) {
+    public DayDataView(MainView window, Object i ,DayDataViewMediator dayDataViewMediator) {
         this.window = window;
         this.date = i;
         this.dayDataViewMediator = dayDataViewMediator;
@@ -79,8 +79,6 @@ public class DayDataView extends javax.swing.JPanel {
     }
 
     private void initRoomDropdown() {
-        chooseRoomDropdown.addItem("1");
-        chooseRoomDropdown.addItem("2");
     }
 
     private void fillTable() {
@@ -181,6 +179,8 @@ public class DayDataView extends javax.swing.JPanel {
     }
 
     private void onOkClick(ActionEvent evt) {
-        JOptionPane.showMessageDialog(this, "Not supported yet"); //To change body of generated methods, choose Tools | Templates.
+        if(chooseRoomDropdown.getSelectedItem() != null){
+            dayDataViewMediator.getReservations();
+        }
     }
 }

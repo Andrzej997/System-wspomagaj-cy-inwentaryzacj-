@@ -66,8 +66,12 @@ public class LoginView extends JPanel {
     private void onClickLogin(java.awt.event.ActionEvent evt) {
         if (passwordEditText.getText().length() > 0 && loginEditText.getText().length() > 0) {
             window.setOptionsAvailable(Color.black);
-            window.setView(new AccountViewMediator().createView(window));
-            window.setLogged(true);
+            if(loginMediator.getUserData(loginEditText.getText(), passwordEditText.getText())){
+                window.setView(new AccountViewMediator().createView(window));
+                window.setLogged(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "Wrong login or password!!.");
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Login and password required.");
         }
@@ -108,25 +112,19 @@ public class LoginView extends JPanel {
         loginLabel.setText("Login: ");
         passwordLabel.setText("Password: ");
         loginButton.setText("Login");
-        loginButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickLogin(evt);
-            }
+        loginButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+            onClickLogin(evt);
         });
     }
 
     private void initButtons() {
         registerButton.setText("Register");
-        registerButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickRegister(evt);
-            }
+        registerButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+            onClickRegister(evt);
         });
         guestButton.setText("Guest login");
-        guestButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickGuest(evt);
-            }
+        guestButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+            onClickGuest(evt);
         });
     }
 

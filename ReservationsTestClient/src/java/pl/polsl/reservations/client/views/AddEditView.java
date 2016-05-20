@@ -144,7 +144,6 @@ public class AddEditView extends JPanel {
     }
 
     private void setDataRoomCb() {
-        addEditViewMediator.getRooms();
     }
 
     private void setDataDateCb() {

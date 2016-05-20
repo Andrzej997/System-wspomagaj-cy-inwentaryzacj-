@@ -71,9 +71,9 @@ public class AccountViewMediator {
 
     public void getRoomData() {
         List<RoomDTO> roomsList = roomManagementFacade.getRoomsList();
-        for(RoomDTO roomDTO : roomsList){
+        roomsList.stream().forEach((roomDTO) -> {
             accountView.getChooseRoomDropdown().addItem(roomDTO.getNumber());
-        }
+        });
     }
     
 }

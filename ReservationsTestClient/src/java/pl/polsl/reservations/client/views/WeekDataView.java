@@ -34,35 +34,33 @@ public class WeekDataView extends JPanel {
     private JTable planView;
     private JPanel buttonPanel;
     private JLabel weekTv;
-    
+
+    private Object selectedItem;
+
     private WeekDataViewMediator weekDataViewMediator;
 
-    public WeekDataView(MainView window, Object selectedItem,WeekDataViewMediator weekDataViewMediator) {
-        this.window = window;   
+    public WeekDataView(MainView window, Object selectedItem, WeekDataViewMediator weekDataViewMediator) {
+        this.window = window;
         this.weekDataViewMediator = weekDataViewMediator;
         initComponents();
-        chooseRoomDropdown.setSelectedItem(selectedItem);
+        this.selectedItem = selectedItem;
     }
 
     private void initComponents() {
         chooseRoomDropdown = new JComboBox();
         chooseButton = new JButton();
-        //TODO - dodaj logikę pobierania numerów pokoi
-        chooseRoomDropdown.addItem("1");
-        chooseRoomDropdown.addItem("2");
         nextWeek = new JButton();
         prevWeek = new JButton();
         planView = new JTable();
-        buttonPanel = new JPanel(new GridLayout(1,8));
+        buttonPanel = new JPanel(new GridLayout(1, 8));
         weekTv = new JLabel();
-        
-        
-         //TODO - logika zmiany tygodnia
+
+        //TODO - logika zmiany tygodnia
         nextWeek.setText("NEXT WEEK");
         prevWeek.setText("PREV WEEK");
         weekTv.setText("POCZATEK DATA - KONIEC DATA");
         chooseButton.setText("OK");
-        chooseButton.setPreferredSize(new Dimension(200,30));
+        chooseButton.setPreferredSize(new Dimension(200, 30));
         initTable();
         initHeaders();
 
@@ -86,6 +84,17 @@ public class WeekDataView extends JPanel {
         GridBagConstraints position = new GridBagConstraints();
         mainLayout.add(dataLayout, position);
         add(mainLayout, BorderLayout.CENTER);
+
+        chooseRoomDropdown.addActionListener((ActionEvent e) -> {
+            if (chooseRoomDropdown.getSelectedItem() != null) {
+                weekDataViewMediator.getReservations();
+            }
+        });
+        chooseButton.addActionListener((ActionEvent e) -> {
+            if (chooseRoomDropdown.getSelectedItem() != null) {
+                weekDataViewMediator.getReservations();
+            }
+        });
 
     }
 
@@ -112,7 +121,7 @@ public class WeekDataView extends JPanel {
 
     private void initHeaders() {
         for (int i = 0; i < 7; i++) {
-           
+
             JButton temp = new JButton(String.valueOf(i + 1));
             temp.addActionListener(new ButtonColumnListener(i));
             temp.setPreferredSize(new Dimension(40, 40));
@@ -170,5 +179,9 @@ public class WeekDataView extends JPanel {
     public JLabel getWeekTv() {
         return weekTv;
     }
-    
+
+    public Object getSelectedItem() {
+        return selectedItem;
+    }
+
 }
