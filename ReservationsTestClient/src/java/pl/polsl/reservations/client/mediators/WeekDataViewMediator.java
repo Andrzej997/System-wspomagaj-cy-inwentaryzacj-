@@ -60,13 +60,30 @@ public class WeekDataViewMediator {
         DefaultTableModel defaultTableModel = new DefaultTableModel(32, 7);
 
         for (ReservationDTO reservation : roomSchedule) {
-            int startDay = reservation.getStartTime() / 96;
-            int endDay = reservation.getEndTime() / 96;
-            int numberOfStartQuarter = reservation.getStartTime() % 96 - 32; //róznica miêdzy godzinami w bazie i tabeli
-            int numberOfEndQuarter = reservation.getStartTime() % 96 - 32;
+            int endDay = reservation.getStartTime() / 96;
+            int startDay = reservation.getEndTime() / 96;
+            int numberOfEndQuarter = reservation.getStartTime() % 96 - 32; //róznica miêdzy godzinami w bazie i tabeli
+            int numberOfStartQuarter = reservation.getEndTime() % 96 - 32;
+            
+            if(numberOfEndQuarter>31){
+                numberOfEndQuarter=31;
+            }
+            
+            if(numberOfEndQuarter<0){
+                numberOfEndQuarter=0;
+            }
+            
+            if(numberOfStartQuarter>31){
+                numberOfStartQuarter=31;
+            }
+            
+            if(numberOfStartQuarter<0){
+                numberOfStartQuarter=0;
+            }
+            
 
-            for (int i = startDay; i < endDay; i++) {
-                for (int j = numberOfStartQuarter; j < numberOfEndQuarter; j++) {
+            for (int i = startDay; i <= endDay; i++) {
+                for (int j = numberOfStartQuarter; j <= numberOfEndQuarter; j++) {
                     defaultTableModel.setValueAt("T", j, i);
                 }
             }
