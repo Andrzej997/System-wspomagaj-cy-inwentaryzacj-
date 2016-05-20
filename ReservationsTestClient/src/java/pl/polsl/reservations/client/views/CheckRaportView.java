@@ -13,8 +13,10 @@ import javax.swing.JPanel;
  * @author abienioszek
  */
 class CheckRaportView extends JPanel {
+
+    private static final long serialVersionUID = -8486774124937326659L;
     
-    private MainWindow window;
+    private final MainWindow window;
 
     public CheckRaportView(MainWindow window) {
         this.window = window;

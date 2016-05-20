@@ -1,15 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pl.polsl.reservations.client.views;
 
-import java.util.Date;
-import javax.swing.JTable;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableModel;
 
 /**
  *
@@ -18,7 +9,7 @@ import javax.swing.table.TableModel;
 public class DayTableModel extends AbstractTableModel {
 
     //WYPELNIANIE DANYMI!!!
-    @Override
+            @Override
             public int getColumnCount() {
                 return 3;
             }
