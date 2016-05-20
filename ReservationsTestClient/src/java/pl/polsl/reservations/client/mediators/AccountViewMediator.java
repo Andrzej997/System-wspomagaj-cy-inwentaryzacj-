@@ -2,11 +2,14 @@
 package pl.polsl.reservations.client.mediators;
 
 import java.awt.event.ActionEvent;
+import java.util.List;
 import javax.swing.JOptionPane;
 import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.views.AccountView;
 import pl.polsl.reservations.client.views.MainView;
 import pl.polsl.reservations.client.views.WeekDataView;
+import pl.polsl.reservations.dto.RoomDTO;
+import pl.polsl.reservations.roomManagement.RoomManagementFacade;
 import pl.polsl.reservations.user.UserFacade;
 
 /**
@@ -17,9 +20,11 @@ public class AccountViewMediator {
     
     private AccountView accountView;
     private final UserFacade userFacade;
+    private final RoomManagementFacade roomManagementFacade;
        
     public AccountViewMediator(){
         userFacade = (UserFacade) Lookup.getRemote("UserFacade");
+        roomManagementFacade = (RoomManagementFacade) Lookup.getRemote("RoomManagementFacade");
     }
     
     public AccountView createView(MainView parent){
@@ -27,6 +32,7 @@ public class AccountViewMediator {
         if(userFacade.getUserPrivilege() != 1){
            accountView.getAddButton().setVisible(false);
         }
+        getRoomData();
         return accountView;
     }
     
@@ -60,6 +66,13 @@ public class AccountViewMediator {
     public void dispatchAddUserEvent(ActionEvent evt){
         if(userFacade.getUserPrivilege() == 1){
             
+        }
+    }
+
+    public void getRoomData() {
+        List<RoomDTO> roomsList = roomManagementFacade.getRoomsList();
+        for(RoomDTO roomDTO : roomsList){
+            accountView.getChooseRoomDropdown().addItem(roomDTO.getNumber());
         }
     }
     

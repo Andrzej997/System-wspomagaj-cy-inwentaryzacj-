@@ -43,7 +43,7 @@ public class WeekDataViewMediator {
        // }
         //weekDataView.getPlanView().setModel(defaultTableModel);
         
-        //getReservations();
+        getReservations();
         
         return weekDataView;
     }
@@ -55,20 +55,35 @@ public class WeekDataViewMediator {
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         int weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
 
-      //  List<ReservationDTO> detailedRoomSchedule = scheduleFacade.getDetailedRoomSchedule(Integer.parseInt((String)weekDataView.getChooseRoomDropdown().getSelectedItem()) , date.getYear(), weekOfYear, true);
-List<ReservationDTO> detailedRoomSchedule = scheduleFacade.getDetailedRoomSchedule(101 , 2016, 0, true);
-        
-        
+        List<ReservationDTO> roomSchedule = scheduleFacade.getRoomSchedule(Integer.parseInt((String)weekDataView.getChooseRoomDropdown().getSelectedItem()), 2016, true);
+
         DefaultTableModel defaultTableModel = new DefaultTableModel(32, 7);
 
-        for (ReservationDTO reservation : detailedRoomSchedule) {
-            int startDay = reservation.getStartTime() / 96;
-            int endDay = reservation.getEndTime() / 96;
-            int numberOfStartQuarter = reservation.getStartTime() % 96 - 32; //róznica miêdzy godzinami w bazie i tabeli
-            int numberOfEndQuarter = reservation.getStartTime() % 96 - 32;
+        for (ReservationDTO reservation : roomSchedule) {
+            int endDay = reservation.getStartTime() / 96;
+            int startDay = reservation.getEndTime() / 96;
+            int numberOfEndQuarter = reservation.getStartTime() % 96 - 32; //róznica miêdzy godzinami w bazie i tabeli
+            int numberOfStartQuarter = reservation.getEndTime() % 96 - 32;
+            
+            if(numberOfEndQuarter>31){
+                numberOfEndQuarter=31;
+            }
+            
+            if(numberOfEndQuarter<0){
+                numberOfEndQuarter=0;
+            }
+            
+            if(numberOfStartQuarter>31){
+                numberOfStartQuarter=31;
+            }
+            
+            if(numberOfStartQuarter<0){
+                numberOfStartQuarter=0;
+            }
+            
 
-            for (int i = startDay; i < endDay; i++) {
-                for (int j = numberOfStartQuarter; j < numberOfEndQuarter; j++) {
+            for (int i = startDay; i <= endDay; i++) {
+                for (int j = numberOfStartQuarter; j <= numberOfEndQuarter; j++) {
                     defaultTableModel.setValueAt("T", j, i);
                 }
             }
