@@ -43,7 +43,7 @@ public class WeekDataViewMediator {
        // }
         //weekDataView.getPlanView().setModel(defaultTableModel);
         
-        getReservations();
+        //getReservations();
         
         return weekDataView;
     }
@@ -55,8 +55,10 @@ public class WeekDataViewMediator {
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         int weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
 
-        List<ReservationDTO> detailedRoomSchedule = scheduleFacade.getDetailedRoomSchedule(Integer.parseInt((String)weekDataView.getChooseRoomDropdown().getSelectedItem()) , date.getYear(), weekOfYear, true);
-
+      //  List<ReservationDTO> detailedRoomSchedule = scheduleFacade.getDetailedRoomSchedule(Integer.parseInt((String)weekDataView.getChooseRoomDropdown().getSelectedItem()) , date.getYear(), weekOfYear, true);
+List<ReservationDTO> detailedRoomSchedule = scheduleFacade.getDetailedRoomSchedule(101 , 2016, 0, true);
+        
+        
         DefaultTableModel defaultTableModel = new DefaultTableModel(32, 7);
 
         for (ReservationDTO reservation : detailedRoomSchedule) {
