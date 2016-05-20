@@ -15,7 +15,9 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.JPanel;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import pl.polsl.reservations.client.mediators.WeekDataViewMediator;
 
 /**
  *
@@ -31,10 +33,14 @@ public class WeekDataView extends JPanel {
     private JTable planView;
     private JPanel buttonPanel;
     private JLabel weekTv;
+    
+    private WeekDataViewMediator weekDataViewMediator;
 
-    public WeekDataView(MainWindow window, Object selectedItem) {
-        this.window = window;
+    public WeekDataView(MainWindow window, Object selectedItem,WeekDataViewMediator weekDataViewMediator) {
+        this.window = window;   
+        this.weekDataViewMediator = weekDataViewMediator;
         initComponents();
+        chooseRoomDropdown.setSelectedItem(selectedItem);
     }
 
     private void initComponents() {
@@ -83,7 +89,7 @@ public class WeekDataView extends JPanel {
     }
 
     private void initTable() {
-        TableModel dataModel = new AbstractTableModel() {
+        TableModel dataModel = new DefaultTableModel() {
             @Override
             public int getColumnCount() {
                 return 7;
@@ -127,4 +133,41 @@ public class WeekDataView extends JPanel {
             window.setView(new DayDataView(window, index));
         }
     }
+
+    public void setPlanView(JTable planView) {
+        this.planView = planView;
+    }
+
+    public MainWindow getWindow() {
+        return window;
+    }
+
+    public JComboBox getChooseRoomDropdown() {
+        return chooseRoomDropdown;
+    }
+
+    public JButton getChooseButton() {
+        return chooseButton;
+    }
+
+    public JButton getNextWeek() {
+        return nextWeek;
+    }
+
+    public JButton getPrevWeek() {
+        return prevWeek;
+    }
+
+    public JTable getPlanView() {
+        return planView;
+    }
+
+    public JPanel getButtonPanel() {
+        return buttonPanel;
+    }
+
+    public JLabel getWeekTv() {
+        return weekTv;
+    }
+    
 }

@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import pl.polsl.reservations.client.mediators.WeekDataViewMediator;
 
 /**
  *
@@ -126,7 +127,7 @@ public class DayDataView extends javax.swing.JPanel {
     }
 
     private void onBackClick(ActionEvent evt) {
-        window.setView(new WeekDataView(window, chooseRoomDropdown.getSelectedItem()));
+        window.setView(new WeekDataViewMediator().createView(window, chooseRoomDropdown.getSelectedItem()));
     }
 
     private void onNextClick(ActionEvent evt) {

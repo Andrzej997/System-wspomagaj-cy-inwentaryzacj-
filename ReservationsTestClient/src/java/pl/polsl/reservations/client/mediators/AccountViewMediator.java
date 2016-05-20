@@ -23,8 +23,9 @@ public class AccountViewMediator {
     
     public AccountView createView(MainWindow parent){
         accountView = new AccountView(parent, this);
+        if(userFacade.getUserPrivilege() != 1){
            accountView.getAddButton().setVisible(false);
-
+        }
         return accountView;
     }
     
@@ -34,7 +35,7 @@ public class AccountViewMediator {
     
     public void dispatchRoomClickEvent(ActionEvent evt){
         accountView.getWindow()
-                .setView(new WeekDataView(accountView.getWindow(), 
+                .setView(new WeekDataViewMediator().createView(accountView.getWindow(), 
                         accountView.getChooseRoomDropdown().getSelectedItem()));
     }
     

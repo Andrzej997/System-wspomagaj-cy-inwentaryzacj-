@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import pl.polsl.reservations.client.mediators.LoginMediator;
 import pl.polsl.reservations.client.mediators.AccountViewMediator;
+import pl.polsl.reservations.client.mediators.AddEditViewMediator;
 
 public class MainWindow extends JFrame {
 
@@ -85,7 +86,7 @@ public class MainWindow extends JFrame {
 
     private void addMenuItemActionPerformed(ActionEvent evt) {
         if (isLoggedIn) {
-            setView(new AddEditView(this));
+            setView(new AddEditViewMediator().createView(this));
         }
     }
 

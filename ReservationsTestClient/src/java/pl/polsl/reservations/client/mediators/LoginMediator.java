@@ -29,12 +29,12 @@ public class LoginMediator {
         return userFacade.login(userName, password);
     }
 
-    public LoginView createView(MainWindow parent){
-         loginWindow = new LoginView(parent,this);
- 
-             loginWindow.getRegisterButton().setVisible(false);
-
-         return loginWindow;
+    public LoginView createView(MainWindow parent) {
+        loginWindow = new LoginView(parent, this);
+        if (userFacade.getUserPrivilege() != 1) {
+            loginWindow.getRegisterButton().setVisible(false);
+        }
+        return loginWindow;
     }
-    
+
 }

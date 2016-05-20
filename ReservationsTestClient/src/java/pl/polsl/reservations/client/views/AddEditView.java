@@ -9,12 +9,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.Date;
 import javax.swing.*;
+import pl.polsl.reservations.client.mediators.AddEditViewMediator;
 
 /**
  *
  * @author Ola
  */
-class AddEditView extends JPanel {
+public class AddEditView extends JPanel {
 
     private static final long serialVersionUID = -6676295764328716585L;
 
@@ -35,10 +36,13 @@ class AddEditView extends JPanel {
     private JComboBox hourStopCb;
     private JTextField titleTf;
     private JComboBox teacherCb;
+    
+    private AddEditViewMediator addEditViewMediator;
 
-    public AddEditView(MainWindow window) {
+    public AddEditView(MainWindow window,AddEditViewMediator addEditViewMediator) {
         super(new BorderLayout());
         this.window = window;
+        this.addEditViewMediator = addEditViewMediator;
         initComponents();
     }
 
@@ -139,11 +143,7 @@ class AddEditView extends JPanel {
     }
 
     private void setDataRoomCb() {
-        //TODO: rzeczywiste dane
-        roomCb.addItem("111");
-        roomCb.addItem("111");
-        roomCb.addItem("111");
-        roomCb.addItem("111");
+        addEditViewMediator.getRooms();
     }
 
     private void setDataDateCb() {
@@ -176,6 +176,74 @@ class AddEditView extends JPanel {
         teacherCb.addItem("111");
         teacherCb.addItem("111");
         teacherCb.addItem("111");
+    }
+
+    public MainWindow getWindow() {
+        return window;
+    }
+
+    public JPanel getMainPanel() {
+        return mainPanel;
+    }
+
+    public JPanel getAddPanel() {
+        return addPanel;
+    }
+
+    public JPanel getSearchPanel() {
+        return searchPanel;
+    }
+
+    public JPanel getDayTablePanel() {
+        return dayTablePanel;
+    }
+
+    public JButton getOkButton() {
+        return okButton;
+    }
+
+    public JTable getDayTable() {
+        return dayTable;
+    }
+
+    public JPanel getAddLabelPanel() {
+        return addLabelPanel;
+    }
+
+    public JPanel getAddDataPanel() {
+        return addDataPanel;
+    }
+
+    public JPanel getHourPanel() {
+        return hourPanel;
+    }
+
+    public JComboBox getRoomCb() {
+        return roomCb;
+    }
+
+    public JComboBox getDateCb() {
+        return dateCb;
+    }
+
+    public JComboBox getGroupCb() {
+        return groupCb;
+    }
+
+    public JComboBox getHourStartCb() {
+        return hourStartCb;
+    }
+
+    public JComboBox getHourStopCb() {
+        return hourStopCb;
+    }
+
+    public JTextField getTitleTf() {
+        return titleTf;
+    }
+
+    public JComboBox getTeacherCb() {
+        return teacherCb;
     }
 
 }
