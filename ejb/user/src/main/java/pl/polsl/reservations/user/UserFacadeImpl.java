@@ -126,4 +126,10 @@ public class UserFacadeImpl implements UserFacade {
 
         return true;
     }
+
+    @Override
+    public boolean loginAsGuest() {
+        //zaœlepka
+        return true;
+    }
 }

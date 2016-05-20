@@ -20,4 +20,6 @@ public interface UserFacade {
     public UserDTO getUserDetails();
     
     public boolean changeUserDetails(UserDTO user);
+    
+    public boolean loginAsGuest();
 }
