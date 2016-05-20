@@ -1,4 +1,3 @@
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -14,7 +13,7 @@ import pl.polsl.reservations.client.views.MainView;
 
 /**
  *
- * @author Pawe³
+ * @author Paweï¿½
  */
 public class LoginMediator {
 
@@ -30,12 +29,12 @@ public class LoginMediator {
         return userFacade.login(userName, password);
     }
 
-    public LoginView createView(MainView parent) {
-        loginWindow = new LoginView(parent, this);
-        if (userFacade.getUserPrivilege() != 1) {
-            loginWindow.getRegisterButton().setVisible(false);
-        }
-        return loginWindow;
-    }
+    public LoginView createView(MainView parent){
+         loginWindow = new LoginView(parent,this);
+ 
+             loginWindow.getRegisterButton().setVisible(false);
 
+         return loginWindow;
+    }
+    
 }

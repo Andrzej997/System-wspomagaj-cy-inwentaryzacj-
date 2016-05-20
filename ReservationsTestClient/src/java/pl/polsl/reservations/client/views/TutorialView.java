@@ -13,7 +13,7 @@ import javax.swing.JPanel;
  */
 class TutorialView extends JPanel {
 
-    public TutorialView(MainWindow window) {
+    public TutorialView(MainView window) {
     }
     
 }

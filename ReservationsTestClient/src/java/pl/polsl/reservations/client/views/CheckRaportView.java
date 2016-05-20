@@ -16,9 +16,9 @@ class CheckRaportView extends JPanel {
 
     private static final long serialVersionUID = -8486774124937326659L;
     
-    private final MainWindow window;
+    private final MainView window;
 
-    public CheckRaportView(MainWindow window) {
+    public CheckRaportView(MainView window) {
         this.window = window;
            JOptionPane.showMessageDialog(this, "Not supported yet");
     }

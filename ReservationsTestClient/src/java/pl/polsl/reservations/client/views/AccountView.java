@@ -11,7 +11,7 @@ public class AccountView extends JPanel {
 
     private static final long serialVersionUID = -5623275624620386899L;
 
-    private final MainWindow window;
+    private final MainView window;
     private JComboBox chooseRoomDropdown;
     private JButton passwordButton;
     private JButton addButton;
@@ -19,11 +19,11 @@ public class AccountView extends JPanel {
     
     private final AccountViewMediator accountViewMediator;
 
-    public AccountView(MainWindow window, AccountViewMediator accountViewMediator) {
+    public AccountView(MainView window, AccountViewMediator accountViewMediator) {
         super(new BorderLayout());
+        this.accountViewMediator = accountViewMediator;
         initComponents();
         this.window = window;
-        this.accountViewMediator = accountViewMediator;
     }
 
     private void initComponents() {
@@ -79,8 +79,7 @@ public class AccountView extends JPanel {
     }
 
     private void initRoomDropdown() {
-        chooseRoomDropdown.addItem("1");
-        chooseRoomDropdown.addItem("2");
+       // accountViewMediator.getRoomData();
         chooseRoomDropdown.setToolTipText("Choose room");
     }
 
@@ -117,7 +116,7 @@ public class AccountView extends JPanel {
         return chooseButton;
     }
     
-    public MainWindow getWindow() {
+    public MainView getWindow() {
         return window;
     }
 }

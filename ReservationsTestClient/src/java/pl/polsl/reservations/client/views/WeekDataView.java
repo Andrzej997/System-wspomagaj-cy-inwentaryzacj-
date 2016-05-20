@@ -25,7 +25,7 @@ import pl.polsl.reservations.client.mediators.WeekDataViewMediator;
  */
 public class WeekDataView extends JPanel {
 
-    MainWindow window;
+    MainView window;
     private JComboBox chooseRoomDropdown;
     private JButton chooseButton;
     private JButton nextWeek;
@@ -36,7 +36,7 @@ public class WeekDataView extends JPanel {
     
     private WeekDataViewMediator weekDataViewMediator;
 
-    public WeekDataView(MainWindow window, Object selectedItem,WeekDataViewMediator weekDataViewMediator) {
+    public WeekDataView(MainView window, Object selectedItem,WeekDataViewMediator weekDataViewMediator) {
         this.window = window;   
         this.weekDataViewMediator = weekDataViewMediator;
         initComponents();
@@ -138,7 +138,7 @@ public class WeekDataView extends JPanel {
         this.planView = planView;
     }
 
-    public MainWindow getWindow() {
+    public MainView getWindow() {
         return window;
     }
 

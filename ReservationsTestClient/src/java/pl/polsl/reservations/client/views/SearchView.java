@@ -18,7 +18,7 @@ import javax.swing.*;
  */
 public class SearchView extends JPanel {
 
-    private MainWindow window;
+    private MainView window;
     private JPanel mainLayout;
     private JPanel dataLayout;
     private JPanel navPanel;
@@ -33,7 +33,7 @@ public class SearchView extends JPanel {
     private JLabel responseTf;
     private JButton responseBtn;
 
-    SearchView(MainWindow window) {
+    SearchView(MainView window) {
         super(new BorderLayout());
         this.window = window;
         initComponents();

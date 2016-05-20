@@ -8,7 +8,7 @@ package pl.polsl.reservations.client.mediators;
 import java.util.List;
 import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.views.AddEditView;
-import pl.polsl.reservations.client.views.MainWindow;
+import pl.polsl.reservations.client.views.MainView;
 import pl.polsl.reservations.dto.ReservationDTO;
 import pl.polsl.reservations.dto.RoomDTO;
 import pl.polsl.reservations.roomManagement.RoomManagementFacade;
@@ -30,7 +30,7 @@ public class AddEditViewMediator {
         
     }
     
-    public AddEditView createView(MainWindow parent) {
+    public AddEditView createView(MainView parent) {
         addEditWindow = new AddEditView(parent, this);
         
         return addEditWindow;

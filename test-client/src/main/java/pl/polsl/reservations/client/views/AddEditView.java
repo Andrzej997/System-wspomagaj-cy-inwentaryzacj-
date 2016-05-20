@@ -16,7 +16,9 @@ import javax.swing.*;
  */
 class AddEditView extends JPanel {
 
-    MainWindow window;
+    private static final long serialVersionUID = -6676295764328716585L;
+
+    MainView window;
     private JPanel mainPanel;
     private JPanel addPanel;
     private JPanel searchPanel;
@@ -34,7 +36,7 @@ class AddEditView extends JPanel {
     private JTextField titleTf;
     private JComboBox teacherCb;
 
-    public AddEditView(MainWindow window) {
+    public AddEditView(MainView window) {
         super(new BorderLayout());
         this.window = window;
         initComponents();
@@ -72,10 +74,8 @@ class AddEditView extends JPanel {
         dayTablePanel = new JPanel();
         searchPanel = new SearchView(window);
         okButton = new JButton();
-        okButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onOkClick(evt);
-            }
+        okButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+            onOkClick(evt);
         });
         dayTable = new JTable(new DayTableModel());
         dayTablePanel.add(dayTable);

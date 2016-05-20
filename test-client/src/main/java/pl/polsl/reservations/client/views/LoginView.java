@@ -4,10 +4,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import pl.polsl.reservations.client.mediators.AccountViewMediator;
+import pl.polsl.reservations.client.mediators.LoginMediator;
 
-class LoginView extends JPanel {
+public class LoginView extends JPanel {
 
-    private final MainWindow window;
+    private static final long serialVersionUID = 7390610748297788567L;
+
+    private final MainView window;
 
     private JButton loginButton;
     private JButton registerButton;
@@ -17,10 +21,13 @@ class LoginView extends JPanel {
     private JLabel passwordLabel;
     private JPasswordField passwordEditText;
 
-    public LoginView(MainWindow window) {
+    private LoginMediator loginMediator;
+
+    public LoginView(MainView window, LoginMediator loginMediator) {
         super(new BorderLayout());
         initComponents();
         this.window = window;
+        this.loginMediator = loginMediator;
     }
 
     private void initComponents() {
@@ -59,7 +66,7 @@ class LoginView extends JPanel {
     private void onClickLogin(java.awt.event.ActionEvent evt) {
         if (passwordEditText.getText().length() > 0 && loginEditText.getText().length() > 0) {
             window.setOptionsAvailable(Color.black);
-            window.setView(new AccountView(window));
+            window.setView(new AccountViewMediator().createView(window));
             window.setLogged(true);
         } else {
             JOptionPane.showMessageDialog(this, "Login and password required.");
@@ -67,11 +74,13 @@ class LoginView extends JPanel {
     }
 
     private void onClickRegister(ActionEvent evt) {
-        JOptionPane.showMessageDialog(this, "Not supported yet");
+
     }
 
     private void onClickGuest(ActionEvent evt) {
-        JOptionPane.showMessageDialog(this, "Not supported yet");
+        window.setOptionsAvailable(Color.black);
+        window.setView(new AccountViewMediator().createView(window));
+        window.setLogged(true);
     }
 
     private void initialize() {
@@ -119,6 +128,38 @@ class LoginView extends JPanel {
                 onClickGuest(evt);
             }
         });
+    }
+
+    public MainView getWindow() {
+        return window;
+    }
+
+    public JButton getLoginButton() {
+        return loginButton;
+    }
+
+    public JButton getRegisterButton() {
+        return registerButton;
+    }
+
+    public JButton getGuestButton() {
+        return guestButton;
+    }
+
+    public JFormattedTextField getLoginEditText() {
+        return loginEditText;
+    }
+
+    public JLabel getLoginLabel() {
+        return loginLabel;
+    }
+
+    public JLabel getPasswordLabel() {
+        return passwordLabel;
+    }
+
+    public JPasswordField getPasswordEditText() {
+        return passwordEditText;
     }
 
 }

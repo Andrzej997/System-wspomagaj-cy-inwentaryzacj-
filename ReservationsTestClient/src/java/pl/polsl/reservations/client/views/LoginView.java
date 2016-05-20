@@ -11,7 +11,7 @@ public class LoginView extends JPanel {
 
     private static final long serialVersionUID = 7390610748297788567L;
 
-    private final MainWindow window;
+    private final MainView window;
 
     private JButton loginButton;
     private JButton registerButton;
@@ -23,7 +23,7 @@ public class LoginView extends JPanel {
 
     private LoginMediator loginMediator;
 
-    public LoginView(MainWindow window, LoginMediator loginMediator) {
+    public LoginView(MainView window, LoginMediator loginMediator) {
         super(new BorderLayout());
         initComponents();
         this.window = window;
@@ -130,7 +130,7 @@ public class LoginView extends JPanel {
         });
     }
 
-    public MainWindow getWindow() {
+    public MainView getWindow() {
         return window;
     }
 

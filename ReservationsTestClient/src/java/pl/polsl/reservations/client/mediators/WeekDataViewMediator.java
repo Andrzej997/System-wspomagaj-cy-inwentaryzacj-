@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import pl.polsl.reservations.client.Lookup;
-import pl.polsl.reservations.client.views.MainWindow;
+import pl.polsl.reservations.client.views.MainView;
 import pl.polsl.reservations.client.views.WeekDataView;
 import pl.polsl.reservations.dto.ReservationDTO;
 import pl.polsl.reservations.roomManagement.RoomManagementFacade;
@@ -32,7 +32,7 @@ public class WeekDataViewMediator {
         roomManagementFacade = (RoomManagementFacade) Lookup.getRemote("RoomManagementFacade");
     }
 
-    public WeekDataView createView(MainWindow parent, Object selectedItem) {
+    public WeekDataView createView(MainView parent, Object selectedItem) {
         weekDataView = new WeekDataView(parent, selectedItem, this);
 
         //DefaultTableModel defaultTableModel = new DefaultTableModel(32, 7);

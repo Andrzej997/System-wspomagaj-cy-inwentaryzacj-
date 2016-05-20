@@ -13,10 +13,12 @@ import javax.swing.JPanel;
  * @author abienioszek
  */
 class CheckRaportView extends JPanel {
-    
-    private MainWindow window;
 
-    public CheckRaportView(MainWindow window) {
+    private static final long serialVersionUID = -8486774124937326659L;
+    
+    private final MainView window;
+
+    public CheckRaportView(MainView window) {
         this.window = window;
            JOptionPane.showMessageDialog(this, "Not supported yet");
     }

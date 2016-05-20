@@ -1,20 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pl.polsl.reservations.client.views;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableModel;
 
 /**
  *
@@ -22,7 +14,9 @@ import javax.swing.table.TableModel;
  */
 public class DayDataView extends javax.swing.JPanel {
 
-    MainWindow window;
+    private static final long serialVersionUID = 649020928680112340L;
+
+    MainView window;
     Object date;
 
     private JComboBox chooseRoomDropdown;
@@ -33,7 +27,7 @@ public class DayDataView extends javax.swing.JPanel {
     private JTable planView;
     private JLabel weekTv;
 
-    public DayDataView(MainWindow window, Object i) {
+    public DayDataView(MainView window, Object i) {
         initComponents();
         this.window = window;
         this.date = i;
@@ -88,33 +82,25 @@ public class DayDataView extends javax.swing.JPanel {
     }
 
     private void initButtons() {
-        backButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onBackClick(evt);
-            }
+        backButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+            onBackClick(evt);
         });
 
         //TODO - logika zmiany dnia 
         nextWeek.setText("NEXT DAY");
         prevWeek.setText("PREV DAY");
-        prevWeek.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onPrevClick(evt);
-            }
+        prevWeek.addActionListener((java.awt.event.ActionEvent evt) -> {
+            onPrevClick(evt);
         });
-        nextWeek.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onNextClick(evt);
-            }
+        nextWeek.addActionListener((java.awt.event.ActionEvent evt) -> {
+            onNextClick(evt);
         });
         backButton.setText("BACK");
         weekTv.setText("DATA");
 
         chooseButton.setText("OK");
-        chooseButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onOkClick(evt);
-            }
+        chooseButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+            onOkClick(evt);
         });
         chooseButton.setPreferredSize(new Dimension(200, 30));
     }
@@ -127,7 +113,7 @@ public class DayDataView extends javax.swing.JPanel {
 
     private class ButtonColumnListener implements ActionListener {
 
-        private int index;
+        private final int index;
 
         public ButtonColumnListener(int i) {
             index = i + 1;

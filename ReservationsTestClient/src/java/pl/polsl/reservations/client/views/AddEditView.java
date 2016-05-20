@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -19,7 +20,7 @@ public class AddEditView extends JPanel {
 
     private static final long serialVersionUID = -6676295764328716585L;
 
-    MainWindow window;
+    MainView window;
     private JPanel mainPanel;
     private JPanel addPanel;
     private JPanel searchPanel;
@@ -39,7 +40,7 @@ public class AddEditView extends JPanel {
     
     private AddEditViewMediator addEditViewMediator;
 
-    public AddEditView(MainWindow window,AddEditViewMediator addEditViewMediator) {
+    public AddEditView(MainView window,AddEditViewMediator addEditViewMediator) {
         super(new BorderLayout());
         this.window = window;
         this.addEditViewMediator = addEditViewMediator;
@@ -178,7 +179,7 @@ public class AddEditView extends JPanel {
         teacherCb.addItem("111");
     }
 
-    public MainWindow getWindow() {
+    public MainView getWindow() {
         return window;
     }
 

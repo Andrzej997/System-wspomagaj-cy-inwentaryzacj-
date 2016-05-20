@@ -17,7 +17,7 @@ public class DayDataView extends javax.swing.JPanel {
 
     private static final long serialVersionUID = 649020928680112340L;
 
-    MainWindow window;
+    MainView window;
     Object date;
 
     private JComboBox chooseRoomDropdown;
@@ -28,7 +28,7 @@ public class DayDataView extends javax.swing.JPanel {
     private JTable planView;
     private JLabel weekTv;
 
-    public DayDataView(MainWindow window, Object i) {
+    public DayDataView(MainView window, Object i) {
         initComponents();
         this.window = window;
         this.date = i;
