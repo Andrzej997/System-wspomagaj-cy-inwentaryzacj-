@@ -1,5 +1,6 @@
 package pl.polsl.reservations.user;
 
+import pl.polsl.reservationsdatabasebeanremote.database.common.UserContext;
 import pl.polsl.reservations.dto.UserDTO;
 import pl.polsl.reservationsdatabasebeanremote.database.Users;
 import pl.polsl.reservationsdatabasebeanremote.database.controllers.*;
@@ -27,7 +28,9 @@ public class UserFacadeImpl implements UserFacade {
     @EJB
     private DepartamentsDao departamentsFacade;
     @EJB
-    WorkersDao workersFacade;
+    private WorkersDao workersFacade;
+    @EJB
+    private UserContext userContext;
 
     private Users user = null;
 
@@ -39,11 +42,13 @@ public class UserFacadeImpl implements UserFacade {
         if (nameOrEmail.contains("@") && nameOrEmail.contains(".")) {
             if (usersFacade.validateUserByEmail(nameOrEmail, password)) {
                 user = usersFacade.getUserByEmail(nameOrEmail);
+                userContext.initialize(user.getPriviligeLevel().getPriviligesCollection());
                 return true;
             }
         } else {
             if (usersFacade.validateUser(nameOrEmail, password)) {
                 user = usersFacade.getUserByUsername(nameOrEmail);
+                userContext.initialize(user.getPriviligeLevel().getPriviligesCollection());
                 return true;
             }
         }
@@ -62,7 +67,7 @@ public class UserFacadeImpl implements UserFacade {
     @Override
     public Long getUserPrivilege() {
         if (user == null) {
-            return null;
+            return 6l;
         } else {
             return usersFacade.getUserPrivligeLevelByUsername(user.getUsername());
         }
@@ -119,6 +124,14 @@ public class UserFacadeImpl implements UserFacade {
 
         workersFacade.edit(workerDB);
 
+        return true;
+    }
+
+    @Override
+    public boolean loginAsGuest() {
+        
+        //zaœlepka
+        user = new Users();
         return true;
     }
 }

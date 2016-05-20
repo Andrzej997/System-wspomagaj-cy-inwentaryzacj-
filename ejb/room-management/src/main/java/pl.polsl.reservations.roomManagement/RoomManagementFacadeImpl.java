@@ -107,7 +107,7 @@ public class RoomManagementFacadeImpl implements RoomManagementFacade {
             result.add(new RoomDTO(r));
         }
 
-        roomsDAO.setPriviligeLevel(PrivilegeLevelEnum.STANDARD_USER);
+//        roomsDAO.setPriviligeLevel(PrivilegeLevelEnum.STANDARD_USER);
 
         return result;
     }
@@ -116,7 +116,6 @@ public class RoomManagementFacadeImpl implements RoomManagementFacade {
     public List<EquipmentDTO> getRoomEquipment(int roomId) {
 
         List<Equipment> equpment = equipmentDAO.getEquipmentByRoomNumber(roomsDAO.find(roomId).getRoomNumber());
-//        List<Equipment> equpment = roomsDAO.find(roomId).getEquipmentCollection();
         List<EquipmentDTO> result = new ArrayList<>();
 
         for(Equipment e: equpment) {

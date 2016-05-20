@@ -88,7 +88,6 @@ public class PriviligeLevelsDaoImpl extends AbstractDaoImpl<PriviligeLevels> imp
             usersFacadeRemote = new UsersDaoImpl();
             priviligesFacadeRemote = new PriviligesDaoImpl();
         } catch (NamingException e) {
-            e.printStackTrace();
         }
         PrivilegeLevelEnum privilegeLevel = this.getPriviligeLevel();
         priviligesFacadeRemote.setPriviligeLevel(privilegeLevel);

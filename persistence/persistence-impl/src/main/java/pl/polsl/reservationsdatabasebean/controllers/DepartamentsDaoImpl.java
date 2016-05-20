@@ -98,7 +98,6 @@ public class DepartamentsDaoImpl extends AbstractDaoImpl<Departaments> implement
             institutesFacadeRemote = new InstitutesDaoImpl();
 
         } catch (NamingException e) {
-            e.printStackTrace();
         }
         PrivilegeLevelEnum privilegeLevel = this.getPriviligeLevel();
         roomFacadeRemote.setPriviligeLevel(privilegeLevel);

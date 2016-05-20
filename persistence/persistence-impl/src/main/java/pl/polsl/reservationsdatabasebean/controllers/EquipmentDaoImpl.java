@@ -72,7 +72,6 @@ public class EquipmentDaoImpl extends AbstractDaoImpl<Equipment> implements Equi
             roomFacadeRemote = new RoomDaoImpl();
             equipmentTypeFacadeRemote = new EquipmentTypeDaoImpl();
         } catch (NamingException e) {
-            e.printStackTrace();
         }
         PrivilegeLevelEnum privilegeLevel = this.getPriviligeLevel();
         equipmentStateFacadeRemote.setPriviligeLevel(privilegeLevel);

@@ -13,7 +13,7 @@ import javax.swing.JPanel;
  */
 class GenerateRaportView extends JPanel {
 
-    public GenerateRaportView(MainView window) {
+    public GenerateRaportView(MainWindow window) {
     }
     
 }

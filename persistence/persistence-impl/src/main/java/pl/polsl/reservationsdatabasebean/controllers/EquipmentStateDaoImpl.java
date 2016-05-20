@@ -56,7 +56,6 @@ public class EquipmentStateDaoImpl extends AbstractDaoImpl<EqupmentState> implem
         try {
             equipmentFacadeRemote = new EquipmentDaoImpl();
         } catch (NamingException e) {
-            e.printStackTrace();
         }
         PrivilegeLevelEnum privilegeLevel = this.getPriviligeLevel();
         equipmentFacadeRemote.setPriviligeLevel(privilegeLevel);
