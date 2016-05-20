@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import pl.polsl.reservations.client.mediators.DayDataViewMediator;
 import pl.polsl.reservations.client.mediators.WeekDataViewMediator;
 
 /**
@@ -27,11 +28,15 @@ public class DayDataView extends javax.swing.JPanel {
     private JButton backButton;
     private JTable planView;
     private JLabel weekTv;
+    
+    private DayDataViewMediator dayDataViewMediator;
 
-    public DayDataView(MainView window, Object i) {
-        initComponents();
+    public DayDataView(MainView window, Object i,DayDataViewMediator dayDataViewMediator) {
         this.window = window;
         this.date = i;
+        this.dayDataViewMediator = dayDataViewMediator;
+        initComponents();
+        
     }
 
     private void initComponents() {
@@ -122,8 +127,45 @@ public class DayDataView extends javax.swing.JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            window.setView(new DayDataView(window, index));
+          //  window.setView(new DayDataView(window, index));
+          window.setView(new DayDataViewMediator().createView(window, index));
         }
+    }
+
+    public MainView getWindow() {
+        return window;
+    }
+
+    public Object getDate() {
+        return date;
+    }
+
+    public JComboBox getChooseRoomDropdown() {
+        return chooseRoomDropdown;
+    }
+
+    public JButton getChooseButton() {
+        return chooseButton;
+    }
+
+    public JButton getNextWeek() {
+        return nextWeek;
+    }
+
+    public JButton getPrevWeek() {
+        return prevWeek;
+    }
+
+    public JButton getBackButton() {
+        return backButton;
+    }
+
+    public JTable getPlanView() {
+        return planView;
+    }
+
+    public JLabel getWeekTv() {
+        return weekTv;
     }
 
     private void onBackClick(ActionEvent evt) {

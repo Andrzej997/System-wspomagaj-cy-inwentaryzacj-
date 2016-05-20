@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import pl.polsl.reservations.client.mediators.DayDataViewMediator;
 import pl.polsl.reservations.client.mediators.WeekDataViewMediator;
 
 /**
@@ -130,7 +131,7 @@ public class WeekDataView extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            window.setView(new DayDataView(window, index));
+            window.setView(new DayDataViewMediator().createView(window, index));
         }
     }
 
