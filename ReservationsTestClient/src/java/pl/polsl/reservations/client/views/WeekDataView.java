@@ -21,7 +21,7 @@ import javax.swing.table.TableModel;
  *
  * @author Ola
  */
-class WeekDataView extends JPanel {
+public class WeekDataView extends JPanel {
 
     MainWindow window;
     private JComboBox chooseRoomDropdown;
@@ -32,7 +32,7 @@ class WeekDataView extends JPanel {
     private JPanel buttonPanel;
     private JLabel weekTv;
 
-    WeekDataView(MainWindow window, Object selectedItem) {
+    public WeekDataView(MainWindow window, Object selectedItem) {
         this.window = window;
         initComponents();
     }

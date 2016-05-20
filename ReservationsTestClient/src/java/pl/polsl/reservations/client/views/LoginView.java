@@ -4,8 +4,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import pl.polsl.reservations.client.mediators.AccountViewMediator;
 
 class LoginView extends JPanel {
+
+    private static final long serialVersionUID = 7390610748297788567L;
 
     private final MainWindow window;
 
@@ -59,7 +62,7 @@ class LoginView extends JPanel {
     private void onClickLogin(java.awt.event.ActionEvent evt) {
         if (passwordEditText.getText().length() > 0 && loginEditText.getText().length() > 0) {
             window.setOptionsAvailable(Color.black);
-            window.setView(new AccountView(window));
+            window.setView(new AccountViewMediator().createView(window));
             window.setLogged(true);
         } else {
             JOptionPane.showMessageDialog(this, "Login and password required.");

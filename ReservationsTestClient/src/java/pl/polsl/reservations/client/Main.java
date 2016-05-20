@@ -15,16 +15,15 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Lookup l = new Lookup();
         
         //pobranie lookupem dostępnych dla klienta fasad
         //generalnie pobierajcie wedle potrzeb tu macie przykład jak pobrać wszystkie
         UserManagementFacade userManagementFacadeRemote = 
-                (UserManagementFacade)l.getRemote("UserManagementFacade");
-        UserFacade userFacadeRemote = (UserFacade) l.getRemote("UserFacade");
+                (UserManagementFacade)Lookup.getRemote("UserManagementFacade");
+        UserFacade userFacadeRemote = (UserFacade) Lookup.getRemote("UserFacade");
         RoomManagementFacade roomManagementFacade = 
-                (RoomManagementFacade) l.getRemote("RoomManagementFacade");
-        ScheduleFacade scheduleFacadeRemote = (ScheduleFacade) l.getRemote("ScheduleFacade");
+                (RoomManagementFacade) Lookup.getRemote("RoomManagementFacade");
+        ScheduleFacade scheduleFacadeRemote = (ScheduleFacade) Lookup.getRemote("ScheduleFacade");
         
         //uzycie dowolnej metody zdalnej:
         Long privilige = userFacadeRemote.getUserPrivilege();

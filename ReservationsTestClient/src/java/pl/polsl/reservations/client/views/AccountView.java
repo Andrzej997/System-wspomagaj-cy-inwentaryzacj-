@@ -1,28 +1,29 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pl.polsl.reservations.client.views;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.util.ArrayList;
+import java.awt.event.ActionEvent;
 import javax.swing.*;
+import pl.polsl.reservations.client.mediators.AccountViewMediator;
 
 public class AccountView extends JPanel {
 
-    private MainWindow window;
+    private static final long serialVersionUID = -5623275624620386899L;
+
+    private final MainWindow window;
     private JComboBox chooseRoomDropdown;
     private JButton passwordButton;
     private JButton addButton;
     private JButton chooseButton;
+    
+    private final AccountViewMediator accountViewMediator;
 
-    public AccountView(MainWindow window) {
+    public AccountView(MainWindow window, AccountViewMediator accountViewMediator) {
         super(new BorderLayout());
         initComponents();
         this.window = window;
+        this.accountViewMediator = accountViewMediator;
     }
 
     private void initComponents() {
@@ -48,18 +49,13 @@ public class AccountView extends JPanel {
 
     }
 
-    private void onRoomClick(java.awt.event.ActionEvent evt) {
-        window.setView(new WeekDataView(window, chooseRoomDropdown.getSelectedItem()));
+    private void onRoomClick(ActionEvent evt) {
+        accountViewMediator.dispatchRoomClickEvent(evt);
         //TODO - get data about room
     }
 
     private void onChangePasswordClick(java.awt.event.ActionEvent evt) {
-        String password = JOptionPane.showInputDialog("Type new password");
-        String passwordConfirm = JOptionPane.showInputDialog("Confirm password");
-        if (!password.equals(passwordConfirm)) {
-            JOptionPane.showMessageDialog(this, "Passwords do not match.");
-        }
-        //TODO - change password
+        accountViewMediator.dispatchChangePasswordClickEvent(evt);
     }
 
     private void onAddUser(java.awt.event.ActionEvent evt) {
@@ -90,24 +86,38 @@ public class AccountView extends JPanel {
 
     private void initButtons() {
         chooseButton.setText("Show plan");
-        chooseButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onRoomClick(evt);
-            }
+        chooseButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+            onRoomClick(evt);
         });
 
         passwordButton.setText("Change password");
-        passwordButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onChangePasswordClick(evt);
-            }
+        passwordButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+            onChangePasswordClick(evt);
         });
 
         addButton.setText("Add new user");
-        addButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onAddUser(evt);
-            }
+        addButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+            onAddUser(evt);
         });
+    }
+
+    public JComboBox getChooseRoomDropdown() {
+        return chooseRoomDropdown;
+    }
+
+    public JButton getPasswordButton() {
+        return passwordButton;
+    }
+
+    public JButton getAddButton() {
+        return addButton;
+    }
+
+    public JButton getChooseButton() {
+        return chooseButton;
+    }
+    
+    public MainWindow getWindow() {
+        return window;
     }
 }

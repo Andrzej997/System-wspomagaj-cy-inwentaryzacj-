@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import pl.polsl.reservations.client.mediators.AccountViewMediator;
 
 public class MainWindow extends JFrame {
 
@@ -103,7 +104,7 @@ public class MainWindow extends JFrame {
 
     private void accountMenuItemActionPerformed(ActionEvent evt) {
         if (isLoggedIn) {
-            setView(new AccountView(this));
+            setView(new AccountViewMediator().createView(window));
         }
     }
 
@@ -151,56 +152,40 @@ public class MainWindow extends JFrame {
         fileMenu.setText("File");
         addMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         addMenuItem.setText("Add");
-        addMenuItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                addMenuItemActionPerformed(evt);
-            }
+        addMenuItem.addActionListener((ActionEvent evt) -> {
+            addMenuItemActionPerformed(evt);
         });
         fileMenu.add(addMenuItem);
         generateMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         generateMenuItem.setText("Generate");
-        generateMenuItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                generateMenuItemActionPerformed(evt);
-            }
+        generateMenuItem.addActionListener((ActionEvent evt) -> {
+            generateMenuItemActionPerformed(evt);
         });
         fileMenu.add(generateMenuItem);
 
         checkRaportMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         checkRaportMenuItem.setText("Check raport");
-        checkRaportMenuItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                checkRaportMenuItemActionPerformed(evt);
-            }
+        checkRaportMenuItem.addActionListener((ActionEvent evt) -> {
+            checkRaportMenuItemActionPerformed(evt);
         });
         fileMenu.add(checkRaportMenuItem);
 
         accountMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         accountMenuItem.setText("My account");
-        accountMenuItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                accountMenuItemActionPerformed(evt);
-            }
+        accountMenuItem.addActionListener((ActionEvent evt) -> {
+            accountMenuItemActionPerformed(evt);
         });
         fileMenu.add(accountMenuItem);
         logoutMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         logoutMenuItem.setMnemonic('a');
         logoutMenuItem.setText("Logout");
-        logoutMenuItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                logoutMenuItemActionPerformed(evt);
-            }
+        logoutMenuItem.addActionListener((ActionEvent evt) -> {
+            logoutMenuItemActionPerformed(evt);
         });
         fileMenu.add(logoutMenuItem);
         exitMenuItem.setText("Exit");
-        exitMenuItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                exitMenuItemActionPerformed(evt);
-            }
+        exitMenuItem.addActionListener((ActionEvent evt) -> {
+            exitMenuItemActionPerformed(evt);
         });
         fileMenu.add(exitMenuItem);
     }
@@ -208,18 +193,14 @@ public class MainWindow extends JFrame {
     private void generateHelpMenu() {
         helpMenu.setText("Help");
         tutorialMenuItem.setText("Tutorial");
-        tutorialMenuItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                tutorialMenuItemActionPerformed(evt);
-            }
+        tutorialMenuItem.addActionListener((ActionEvent evt) -> {
+            tutorialMenuItemActionPerformed(evt);
         });
         helpMenu.add(tutorialMenuItem);
 
         aboutMenuItem.setText("About");
-        aboutMenuItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                aboutMenuItemActionPerformed(evt);
-            }
+        aboutMenuItem.addActionListener((ActionEvent evt) -> {
+            aboutMenuItemActionPerformed(evt);
         });
         helpMenu.add(aboutMenuItem);
 
