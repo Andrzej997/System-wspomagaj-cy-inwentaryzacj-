@@ -67,7 +67,7 @@ public class UserFacadeImpl implements UserFacade {
     @Override
     public Long getUserPrivilege() {
         if (user == null) {
-            return null;
+            return 6l;
         } else {
             return usersFacade.getUserPrivligeLevelByUsername(user.getUsername());
         }
@@ -129,7 +129,9 @@ public class UserFacadeImpl implements UserFacade {
 
     @Override
     public boolean loginAsGuest() {
+        
         //zaœlepka
+        user = new Users();
         return true;
     }
 }
