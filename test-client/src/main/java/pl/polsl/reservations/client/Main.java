@@ -34,7 +34,7 @@ public class Main {
 //        System.out.println("Privilige level: " + privilige);
 
 //        List<RoomDTO> roomsList = roomManagementFacade.getRoomsList();
-        userFacadeRemote.login("olx.data@olx.pl", "lipa");
+        userFacadeRemote.login("m1@onet.pl", "123");
         List<RoomDTO> roomsList2 = roomManagementFacade.getRoomsList();
 
     }

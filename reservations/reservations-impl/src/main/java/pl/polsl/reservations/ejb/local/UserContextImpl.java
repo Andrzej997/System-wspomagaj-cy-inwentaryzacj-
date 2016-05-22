@@ -5,7 +5,7 @@ import pl.polsl.reservations.entities.Priviliges;
 import pl.polsl.reservations.privileges.PrivilegeEnum;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.Stateful;
+import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.FlushModeType;
 import java.util.EnumSet;
@@ -14,7 +14,8 @@ import java.util.List;
 /**
  * Created by Krzysztof Stręk on 2016-05-19.
  */
-@Stateful
+
+@Singleton
 public class UserContextImpl implements UserContext {
 
     private EnumSet<PrivilegeEnum> privileges;

@@ -32,7 +32,7 @@ public abstract class AbstractDaoImpl<T> implements Serializable, AbstractDao<T>
     private final Class<T> entityClass;
     private final UserTransaction userTransaction;
 
-    @Inject
+    @EJB
     protected UserContext userContext;
 
     protected AbstractDaoImpl(Class<T> entityClass) throws NamingException {

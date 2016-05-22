@@ -30,7 +30,7 @@ public class UserFacadeImpl implements UserFacade {
     private WorkersDao workersFacade;
     @EJB
     private PriviligeLevelsDao privilegeLevelsDao;
-    @Inject
+    @EJB
     private UserContext userContext;
 
     private Users user = null;
@@ -47,7 +47,8 @@ public class UserFacadeImpl implements UserFacade {
                 PriviligeLevels pl = user.getPriviligeLevel();
                 List<Priviliges> list = privilegeLevelsDao.getPriviligesCollectionById(pl.getPriviligeLevel());
                 userContext.initialize(list);
-                userContext.setPrivilegeLevel(PrivilegeLevelEnum.getPrivilegeLevel(pl.getPriviligeLevel().intValue()));
+                PrivilegeLevelEnum level = PrivilegeLevelEnum.getPrivilegeLevel(pl.getPriviligeLevel().intValue());
+                userContext.setPrivilegeLevel(level);
                 return true;
             }
         } else {
