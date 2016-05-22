@@ -1,4 +1,3 @@
-
 package pl.polsl.reservations.client.mediators;
 
 import java.awt.event.ActionEvent;
@@ -7,10 +6,10 @@ import javax.swing.JOptionPane;
 import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.views.AccountView;
 import pl.polsl.reservations.client.views.MainView;
-import pl.polsl.reservations.client.views.WeekDataView;
 import pl.polsl.reservations.dto.RoomDTO;
-import pl.polsl.reservations.roomManagement.RoomManagementFacade;
-import pl.polsl.reservations.user.UserFacade;
+import pl.polsl.reservations.ejb.remote.RoomManagementFacade;
+import pl.polsl.reservations.ejb.remote.UserFacade;
+
 
 /**
  *

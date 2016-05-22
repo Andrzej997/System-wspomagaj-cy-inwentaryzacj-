@@ -20,7 +20,7 @@ import javax.sql.DataSource;
  */
 public class Lookup {
 
-    private static InitialContext ic;
+    private static final InitialContext ic;
 
     static {
         try {

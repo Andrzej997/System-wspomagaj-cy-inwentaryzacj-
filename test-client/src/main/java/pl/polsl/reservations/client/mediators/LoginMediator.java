@@ -2,17 +2,17 @@ package pl.polsl.reservations.client.mediators;
 
 import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.dto.UserDTO;
-import pl.polsl.reservations.ejb.remote.UserFacade;
 import pl.polsl.reservations.client.views.LoginView;
 import pl.polsl.reservations.client.views.MainView;
+import pl.polsl.reservations.ejb.remote.UserFacade;
 
 /**
  *
- * @author Paweï¿½
+ * @author Pawe³
  */
 public class LoginMediator {
 
-    private UserFacade userFacade;
+    private final UserFacade userFacade;
     private LoginView loginWindow;
     private UserDTO userDTO;
 
@@ -24,12 +24,12 @@ public class LoginMediator {
         return userFacade.login(userName, password);
     }
 
-    public LoginView createView(MainView parent){
-         loginWindow = new LoginView(parent,this);
- 
-             loginWindow.getRegisterButton().setVisible(false);
-
-         return loginWindow;
+    public LoginView createView(MainView parent) {
+        loginWindow = new LoginView(parent, this);
+        if (userFacade.getUserPrivilege() != 1) {
+            loginWindow.getRegisterButton().setVisible(false);
+        }
+        return loginWindow;
     }
-    
+
 }

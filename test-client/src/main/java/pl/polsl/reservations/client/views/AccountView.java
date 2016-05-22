@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pl.polsl.reservations.client.views;
 
 import java.awt.BorderLayout;
@@ -21,7 +16,7 @@ public class AccountView extends JPanel {
     private JButton passwordButton;
     private JButton addButton;
     private JButton chooseButton;
-
+    
     private final AccountViewMediator accountViewMediator;
 
     public AccountView(MainView window, AccountViewMediator accountViewMediator) {
@@ -37,7 +32,6 @@ public class AccountView extends JPanel {
         initRoomDropdown();
         initButtons();
 
-        //TODO - rzeczywiste sale
         JPanel planLayout = new JPanel(new BorderLayout());
         planLayout.add(chooseRoomDropdown, BorderLayout.WEST);
         planLayout.add(chooseButton, BorderLayout.EAST);
@@ -56,16 +50,14 @@ public class AccountView extends JPanel {
 
     private void onRoomClick(ActionEvent evt) {
         accountViewMediator.dispatchRoomClickEvent(evt);
-        //TODO - get data about room
     }
 
     private void onChangePasswordClick(java.awt.event.ActionEvent evt) {
         accountViewMediator.dispatchChangePasswordClickEvent(evt);
-        }
+    }
 
     private void onAddUser(java.awt.event.ActionEvent evt) {
         JOptionPane.showMessageDialog(this, "Not supported yet");
-        //TODO - add user
     }
 
     private void initFields() {
@@ -77,37 +69,35 @@ public class AccountView extends JPanel {
     }
 
     private void setSize() {
-
         setMaximumSize(new java.awt.Dimension(800, 600));
         setMinimumSize(new java.awt.Dimension(800, 600));
         setPreferredSize(new java.awt.Dimension(800, 600));
     }
 
     private void initRoomDropdown() {
-        accountViewMediator.getRoomData();
         chooseRoomDropdown.setToolTipText("Choose room");
     }
 
     private void initButtons() {
         chooseButton.setText("Show plan");
         chooseButton.addActionListener((java.awt.event.ActionEvent evt) -> {
-                onRoomClick(evt);
+            onRoomClick(evt);
         });
 
         passwordButton.setText("Change password");
         passwordButton.addActionListener((java.awt.event.ActionEvent evt) -> {
-                onChangePasswordClick(evt);
+            onChangePasswordClick(evt);
         });
 
         addButton.setText("Add new user");
         addButton.addActionListener((java.awt.event.ActionEvent evt) -> {
-                onAddUser(evt);
+            onAddUser(evt);
         });
     }
 
     public JComboBox getChooseRoomDropdown() {
         return chooseRoomDropdown;
-}
+    }
 
     public JButton getPasswordButton() {
         return passwordButton;

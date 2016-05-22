@@ -806,21 +806,18 @@ exists or setup the property manually. For example like this:
     </target>
     <target depends="compile" if="is.server.weblogic" name="library-inclusion-in-archive">
         <basename file="${libs.hibernate4-persistence.classpath}" property="manifest.libs.hibernate4-persistence.classpath"/>
-        <basename file="${file.reference.persistence-ejb-0.7.jar}" property="manifest.file.reference.persistence-ejb-0.7.jar"/>
         <basename file="${file.reference.remote-0.7.jar}" property="manifest.file.reference.remote-0.7.jar"/>
         <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update">
-            <attribute name="Extension-List" value="jar-1 jar-2 jar-3 "/>
+            <attribute name="Extension-List" value="jar-1 jar-2 "/>
             <attribute name="jar-1-Extension-Name" value="${manifest.libs.hibernate4-persistence.classpath}"/>
-            <attribute name="jar-2-Extension-Name" value="${manifest.file.reference.persistence-ejb-0.7.jar}"/>
-            <attribute name="jar-3-Extension-Name" value="${manifest.file.reference.remote-0.7.jar}"/>
+            <attribute name="jar-2-Extension-Name" value="${manifest.file.reference.remote-0.7.jar}"/>
         </manifest>
     </target>
     <target depends="compile" if="dist.ear.dir" name="library-inclusion-in-manifest">
         <copyfiles files="${libs.hibernate4-persistence.classpath}" manifestproperty="manifest.libs.hibernate4-persistence.classpath" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.persistence-ejb-0.7.jar}" manifestproperty="manifest.file.reference.persistence-ejb-0.7.jar" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.remote-0.7.jar}" manifestproperty="manifest.file.reference.remote-0.7.jar" todir="${dist.ear.dir}/lib"/>
         <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update">
-            <attribute name="Class-Path" value="${manifest.libs.hibernate4-persistence.classpath} lib/${manifest.libs.hibernate4-persistence.classpath} ${manifest.file.reference.persistence-ejb-0.7.jar} lib/${manifest.file.reference.persistence-ejb-0.7.jar} ${manifest.file.reference.remote-0.7.jar} lib/${manifest.file.reference.remote-0.7.jar} "/>
+            <attribute name="Class-Path" value="${manifest.libs.hibernate4-persistence.classpath} lib/${manifest.libs.hibernate4-persistence.classpath} ${manifest.file.reference.remote-0.7.jar} lib/${manifest.file.reference.remote-0.7.jar} "/>
         </manifest>
     </target>
     <target name="-copy-meta-inf">

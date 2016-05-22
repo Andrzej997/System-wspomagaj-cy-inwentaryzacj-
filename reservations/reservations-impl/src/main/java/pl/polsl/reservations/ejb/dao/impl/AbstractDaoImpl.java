@@ -7,7 +7,6 @@ import pl.polsl.reservations.ejb.local.UserContext;
 import pl.polsl.reservations.entities.PrivilegeLevelEnum;
 
 import javax.ejb.EJB;
-import javax.inject.Inject;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.persistence.*;

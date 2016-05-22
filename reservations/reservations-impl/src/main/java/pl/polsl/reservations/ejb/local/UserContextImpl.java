@@ -26,7 +26,7 @@ public class UserContextImpl implements UserContext {
 
     @PostConstruct
     private void init() {
-        setPrivilegeLevel(PrivilegeLevelEnum.STANDARD_USER);
+        setPrivilegeLevel(PrivilegeLevelEnum.ADMIN);
     }
 
     @Override

@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package pl.polsl.reservations.client.views;
 
 import java.awt.BorderLayout;
@@ -10,7 +15,10 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.JPanel;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import pl.polsl.reservations.client.mediators.DayDataViewMediator;
+import pl.polsl.reservations.client.mediators.WeekDataViewMediator;
 
 /**
  *
@@ -27,30 +35,32 @@ public class WeekDataView extends JPanel {
     private JPanel buttonPanel;
     private JLabel weekTv;
 
-    public WeekDataView(MainView window, Object selectedItem) {
+    private Object selectedItem;
+
+    private WeekDataViewMediator weekDataViewMediator;
+
+    public WeekDataView(MainView window, Object selectedItem, WeekDataViewMediator weekDataViewMediator) {
         this.window = window;
+        this.weekDataViewMediator = weekDataViewMediator;
         initComponents();
+        this.selectedItem = selectedItem;
     }
 
     private void initComponents() {
         chooseRoomDropdown = new JComboBox();
         chooseButton = new JButton();
-        //TODO - dodaj logikę pobierania numerów pokoi
-        chooseRoomDropdown.addItem("1");
-        chooseRoomDropdown.addItem("2");
         nextWeek = new JButton();
         prevWeek = new JButton();
         planView = new JTable();
-        buttonPanel = new JPanel(new GridLayout(1,8));
+        buttonPanel = new JPanel(new GridLayout(1, 8));
         weekTv = new JLabel();
-        
-        
-         //TODO - logika zmiany tygodnia
+
+        //TODO - logika zmiany tygodnia
         nextWeek.setText("NEXT WEEK");
         prevWeek.setText("PREV WEEK");
         weekTv.setText("POCZATEK DATA - KONIEC DATA");
         chooseButton.setText("OK");
-        chooseButton.setPreferredSize(new Dimension(200,30));
+        chooseButton.setPreferredSize(new Dimension(200, 30));
         initTable();
         initHeaders();
 
@@ -75,10 +85,21 @@ public class WeekDataView extends JPanel {
         mainLayout.add(dataLayout, position);
         add(mainLayout, BorderLayout.CENTER);
 
+        chooseRoomDropdown.addActionListener((ActionEvent e) -> {
+            if (chooseRoomDropdown.getSelectedItem() != null) {
+                weekDataViewMediator.getReservations();
+            }
+        });
+        chooseButton.addActionListener((ActionEvent e) -> {
+            if (chooseRoomDropdown.getSelectedItem() != null) {
+                weekDataViewMediator.getReservations();
+            }
+        });
+
     }
 
     private void initTable() {
-        TableModel dataModel = new AbstractTableModel() {
+        TableModel dataModel = new DefaultTableModel() {
             @Override
             public int getColumnCount() {
                 return 7;
@@ -100,7 +121,7 @@ public class WeekDataView extends JPanel {
 
     private void initHeaders() {
         for (int i = 0; i < 7; i++) {
-           
+
             JButton temp = new JButton(String.valueOf(i + 1));
             temp.addActionListener(new ButtonColumnListener(i));
             temp.setPreferredSize(new Dimension(40, 40));
@@ -119,7 +140,48 @@ public class WeekDataView extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            window.setView(new DayDataView(window, index));
+            window.setView(new DayDataViewMediator().createView(window, index));
         }
     }
+
+    public void setPlanView(JTable planView) {
+        this.planView = planView;
+    }
+
+    public MainView getWindow() {
+        return window;
+    }
+
+    public JComboBox getChooseRoomDropdown() {
+        return chooseRoomDropdown;
+    }
+
+    public JButton getChooseButton() {
+        return chooseButton;
+    }
+
+    public JButton getNextWeek() {
+        return nextWeek;
+    }
+
+    public JButton getPrevWeek() {
+        return prevWeek;
+    }
+
+    public JTable getPlanView() {
+        return planView;
+    }
+
+    public JPanel getButtonPanel() {
+        return buttonPanel;
+    }
+
+    public JLabel getWeekTv() {
+        return weekTv;
+    }
+
+    public Object getSelectedItem() {
+        return selectedItem;
+    }
+
 }

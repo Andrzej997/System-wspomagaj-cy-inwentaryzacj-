@@ -11,7 +11,7 @@ import java.util.List;
  * Created by Krzysztof Stręk on 2016-05-12.
  */
 public interface ScheduleStrategy {
-    List<ReservationDTO> createSchedule(int roomId, int year, boolean semester,
+    List<ReservationDTO> createSchedule(int roomNumber, int year, boolean semester,
                                         ReservationsDao reservationsDAO,
                                         RoomScheduleDao roomScheduleDAO,
                                         RoomDao roomDAO);

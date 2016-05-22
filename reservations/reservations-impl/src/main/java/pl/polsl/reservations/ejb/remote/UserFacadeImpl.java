@@ -8,7 +8,6 @@ import pl.polsl.reservations.logger.LoggerImpl;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
-import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 
 import java.util.List;
@@ -51,15 +50,21 @@ public class UserFacadeImpl implements UserFacade {
                 userContext.setPrivilegeLevel(level);
                 return true;
             }
-        } else {
-            if (usersFacade.validateUser(nameOrEmail, password)) {
-                user = usersFacade.getUserByUsername(nameOrEmail);
-                userContext.initialize(user.getPriviligeLevel().getPriviligesCollection());
-                return true;
-            }
+        } else if (usersFacade.validateUser(nameOrEmail, password)) {
+            user = usersFacade.getUserByUsername(nameOrEmail);
+            userContext.initialize(user.getPriviligeLevel().getPriviligesCollection());
+            return true;
         }
         userContext.setPrivilegeLevel(PrivilegeLevelEnum.STANDARD_USER);
         return false;
+    }
+
+    @Override
+    public boolean loginAsGuest() {
+        //zaslepka
+        userContext.setPrivilegeLevel(PrivilegeLevelEnum.STANDARD_USER);
+        user = new Users();
+        return true;
     }
 
     @Override
@@ -134,11 +139,4 @@ public class UserFacadeImpl implements UserFacade {
         return true;
     }
 
-    @Override
-    public boolean loginAsGuest() {
-        
-        //za�lepka
-        user = new Users();
-        return true;
-    }
 }

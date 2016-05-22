@@ -4,14 +4,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
-import pl.polsl.reservations.client.mediators.AccountViewMediator;
 import pl.polsl.reservations.client.mediators.LoginMediator;
+import pl.polsl.reservations.client.mediators.AccountViewMediator;
+import pl.polsl.reservations.client.mediators.AddEditViewMediator;
 import pl.polsl.reservations.client.mediators.MainViewMediator;
 
 public class MainView extends JFrame {
 
-    private static final long serialVersionUID = -8428540120679069505L;
-
+    private MainView window;
     private boolean isLoggedIn = false;
 
     private JMenuItem aboutMenuItem;
@@ -26,7 +26,8 @@ public class MainView extends JFrame {
     private JMenuItem logoutMenuItem;
     private JMenuBar menuBar;
     private JMenuItem tutorialMenuItem;
-    private MainViewMediator mainViewMediator;
+    
+    private final MainViewMediator mainViewMediator;
 
     public MainView(MainViewMediator mainViewMediator) {
         this.mainViewMediator = mainViewMediator;
@@ -89,7 +90,7 @@ public class MainView extends JFrame {
 
     private void addMenuItemActionPerformed(ActionEvent evt) {
         if (isLoggedIn) {
-            setView(new AddEditView(this));
+            setView(new AddEditViewMediator().createView(this));
         }
     }
 
@@ -109,7 +110,7 @@ public class MainView extends JFrame {
 
     private void accountMenuItemActionPerformed(ActionEvent evt) {
         if (isLoggedIn) {
-            setView(new AccountViewMediator().createView(this));
+            setView(new AccountViewMediator().createView(window));
         }
     }
 
@@ -119,8 +120,8 @@ public class MainView extends JFrame {
             isLoggedIn = false;
             setView(new LoginMediator().createView(this));
             JOptionPane.showMessageDialog(this, "You are logged out.");
+            mainViewMediator.dispatchLogoutMenuItemActionPerformed(evt);
         }
-        //PERFORM LOGOUT
     }
 
     private void aboutMenuItemActionPerformed(ActionEvent evt) {
@@ -147,7 +148,7 @@ public class MainView extends JFrame {
         generateMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         generateMenuItem.setText("Generate");
         generateMenuItem.addActionListener((ActionEvent evt) -> {
-                generateMenuItemActionPerformed(evt);
+            generateMenuItemActionPerformed(evt);
         });
         fileMenu.add(generateMenuItem);
 
@@ -193,4 +194,61 @@ public class MainView extends JFrame {
         helpMenu.add(aboutMenuItem);
 
     }
+
+    public MainView getWindow() {
+        return window;
+    }
+
+    public boolean isIsLoggedIn() {
+        return isLoggedIn;
+    }
+
+    public JMenuItem getAboutMenuItem() {
+        return aboutMenuItem;
+    }
+
+    public JMenuItem getAccountMenuItem() {
+        return accountMenuItem;
+    }
+
+    public JMenuItem getAddMenuItem() {
+        return addMenuItem;
+    }
+
+    public JMenuItem getCheckRaportMenuItem() {
+        return checkRaportMenuItem;
+    }
+
+    public JMenuItem getExitMenuItem() {
+        return exitMenuItem;
+    }
+
+    public JMenu getFileMenu() {
+        return fileMenu;
+    }
+
+    public JMenuItem getGenerateMenuItem() {
+        return generateMenuItem;
+    }
+
+    public JMenu getHelpMenu() {
+        return helpMenu;
+    }
+
+    public JPanel getContentView() {
+        return contentView;
+    }
+
+    public JMenuItem getLogoutMenuItem() {
+        return logoutMenuItem;
+    }
+
+    public JMenuBar getMenuBarX() {
+        return menuBar;
+    }
+
+    public JMenuItem getTutorialMenuItem() {
+        return tutorialMenuItem;
+    }
+        
 }

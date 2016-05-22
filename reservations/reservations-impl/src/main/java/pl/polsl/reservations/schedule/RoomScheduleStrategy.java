@@ -17,12 +17,12 @@ import java.util.List;
 public class RoomScheduleStrategy implements ScheduleStrategy {
 
     @Override
-    public List<ReservationDTO> createSchedule(int roomId, int year, boolean semester,
+    public List<ReservationDTO> createSchedule(int roomNumber, int year, boolean semester,
                                                ReservationsDao reservationsDAO,
                                                RoomScheduleDao roomScheduleDAO,
                                                RoomDao roomDAO) {
         List<ReservationDTO> result = new ArrayList<>();
-        Room room = roomDAO.find(roomId);
+        Room room = roomDAO.getRoomByNumber(roomNumber);
         RoomSchedule roomSchedule = roomScheduleDAO.getCurrentDateSchedule(year, 0, false, room);
         List<Reservations> reservationsList = reservationsDAO.getAllReservationsByRoomSchedule(roomSchedule);
 

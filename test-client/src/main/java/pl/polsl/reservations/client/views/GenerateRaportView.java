@@ -11,9 +11,9 @@ import javax.swing.JPanel;
  *
  * @author Ola
  */
-//class GenerateRaportView extends JPanel {
-//
-//    public GenerateRaportView(MainWindow window) {
-//    }
-//
-//}
+class GenerateRaportView extends JPanel {
+
+    public GenerateRaportView(MainView window) {
+    }
+    
+}

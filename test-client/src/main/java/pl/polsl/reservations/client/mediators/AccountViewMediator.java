@@ -6,10 +6,10 @@ import javax.swing.JOptionPane;
 import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.views.AccountView;
 import pl.polsl.reservations.client.views.MainView;
-import pl.polsl.reservations.client.views.WeekDataView;
 import pl.polsl.reservations.dto.RoomDTO;
 import pl.polsl.reservations.ejb.remote.RoomManagementFacade;
 import pl.polsl.reservations.ejb.remote.UserFacade;
+
 
 /**
  *
@@ -19,7 +19,7 @@ public class AccountViewMediator {
     
     private AccountView accountView;
     private final UserFacade userFacade;
-        private final RoomManagementFacade roomManagementFacade;
+    private final RoomManagementFacade roomManagementFacade;
        
     public AccountViewMediator(){
         userFacade = (UserFacade) Lookup.getRemote("UserFacade");
@@ -28,8 +28,10 @@ public class AccountViewMediator {
     
     public AccountView createView(MainView parent){
         accountView = new AccountView(parent, this);
+        if(userFacade.getUserPrivilege() != 1){
            accountView.getAddButton().setVisible(false);
-
+        }
+        getRoomData();
         return accountView;
     }
     
@@ -39,7 +41,7 @@ public class AccountViewMediator {
     
     public void dispatchRoomClickEvent(ActionEvent evt){
         accountView.getWindow()
-                .setView(new WeekDataView(accountView.getWindow(), 
+                .setView(new WeekDataViewMediator().createView(accountView.getWindow(), 
                         accountView.getChooseRoomDropdown().getSelectedItem()));
     }
     
@@ -65,12 +67,12 @@ public class AccountViewMediator {
             
         }
     }
-    
-    public void getRoomData(){
+
+    public void getRoomData() {
         List<RoomDTO> roomsList = roomManagementFacade.getRoomsList();
-        for(RoomDTO roomDTO : roomsList){
+        roomsList.stream().forEach((roomDTO) -> {
             accountView.getChooseRoomDropdown().addItem(roomDTO.getNumber());
-        }
+        });
     }
     
 }
