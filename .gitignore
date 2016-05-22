@@ -18,3 +18,8 @@ ejb/schedule/target/
 persistence/persistence-ear/target/
 persistence/persistence-ejb/target/
 persistence/persistence-impl/target/
+reservations/common/target/
+reservations/remote/target/
+reservations/reservations-ear/target/
+reservations/reservations-impl/target/classes/pl/polsl/reservations/ejb/dao/InstitutesDao.class
+reservations/reservations-impl/target/

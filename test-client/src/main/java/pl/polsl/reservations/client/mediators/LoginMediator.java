@@ -2,7 +2,7 @@ package pl.polsl.reservations.client.mediators;
 
 import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.dto.UserDTO;
-import pl.polsl.reservations.user.UserFacade;
+import pl.polsl.reservations.ejb.remote.UserFacade;
 import pl.polsl.reservations.client.views.LoginView;
 import pl.polsl.reservations.client.views.MainView;
 

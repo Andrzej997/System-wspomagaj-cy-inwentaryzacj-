@@ -19,7 +19,7 @@ import pl.polsl.reservations.roomManagement.RoomManagementFacade;
 
 /**
  *
- * @author Pawe³
+ * @author Paweï¿½
  */
 public class DayDataViewMediator {
 
@@ -57,7 +57,7 @@ public class DayDataViewMediator {
         for (ReservationDTO reservation : roomSchedule) {
             int endDay = reservation.getStartTime() / 96;
             int startDay = reservation.getEndTime() / 96;
-            int numberOfEndQuarter = reservation.getStartTime() % 96; //róznica miêdzy godzinami w bazie i tabeli
+            int numberOfEndQuarter = reservation.getStartTime() % 96; //rï¿½znica miï¿½dzy godzinami w bazie i tabeli
             int numberOfStartQuarter = reservation.getEndTime() % 96;
 
             if (startDay == (int)date-1) {

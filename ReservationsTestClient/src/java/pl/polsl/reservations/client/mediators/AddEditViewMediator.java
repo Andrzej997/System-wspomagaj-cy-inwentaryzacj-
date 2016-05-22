@@ -16,7 +16,7 @@ import pl.polsl.reservations.schedule.ScheduleFacade;
 
 /**
  *
- * @author Pawe³
+ * @author Paweï¿½
  */
 public class AddEditViewMediator {
 

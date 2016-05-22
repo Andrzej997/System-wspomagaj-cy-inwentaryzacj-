@@ -19,7 +19,7 @@ import pl.polsl.reservations.dto.RoomDTO;
 
 /**
  *
- * @author Pawe³
+ * @author Paweï¿½
  */
 public class WeekDataViewMediator {
 
@@ -56,7 +56,7 @@ public class WeekDataViewMediator {
         roomSchedule.stream().forEach((reservation) -> {
             int endDay = reservation.getStartTime() / 96;
             int startDay = reservation.getEndTime() / 96;
-            int numberOfEndQuarter = reservation.getStartTime() % 96 - 32; //róznica miêdzy godzinami w bazie i tabeli
+            int numberOfEndQuarter = reservation.getStartTime() % 96 - 32; //rï¿½znica miï¿½dzy godzinami w bazie i tabeli
             int numberOfStartQuarter = reservation.getEndTime() % 96 - 32;
             
             if(numberOfEndQuarter>31){
