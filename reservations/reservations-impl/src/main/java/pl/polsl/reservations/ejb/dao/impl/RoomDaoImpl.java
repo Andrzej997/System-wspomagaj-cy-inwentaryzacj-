@@ -61,6 +61,13 @@ public class RoomDaoImpl extends AbstractDaoImpl<Room> implements RoomDao {
         Room room = this.find(id);
         return room.getRoomScheduleCollection();
     }
+    
+    @Override
+    public List<Room> getRoomWithNumOfSeatsHigherOrEqualThan(Number numberOfSeats){
+        Query query = getEntityManager().createNamedQuery("getRoomWithNumOfSeatsHigherOrEqualThan");
+        query.setParameter("numberOfSeats", numberOfSeats.intValue());
+        return query.getResultList();
+    }
 
     @Override
     public void remove(Room entity) {

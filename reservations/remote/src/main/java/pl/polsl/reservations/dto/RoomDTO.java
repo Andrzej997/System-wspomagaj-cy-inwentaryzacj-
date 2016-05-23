@@ -22,12 +22,15 @@ public class RoomDTO implements Serializable {
 
     private String type;
 
-    public RoomDTO(long id, int number, String department, String keeper, String type) {
+    private Integer numberOfSeats;
+
+    public RoomDTO(long id, int number, String department, String keeper, String type, Integer numberOfSeats) {
         this.id = id;
         this.number = number;
         this.department = department;
         this.keeper = keeper;
         this.type = type;
+        this.numberOfSeats = numberOfSeats;
     }
 
     public RoomDTO(Room r) {
@@ -37,6 +40,7 @@ public class RoomDTO implements Serializable {
         Workers w = r.getKeeperId();
         this.keeper = w.getWorkerName() + " " + w.getSurname();
         this.type = r.getRoomType().getShortDescription();
+        this.numberOfSeats = r.getNumberOfSeats();
     }
 
     public RoomDTO() {
@@ -81,5 +85,13 @@ public class RoomDTO implements Serializable {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Integer getNumberOfSeats() {
+        return numberOfSeats;
+    }
+
+    public void setNumberOfSeats(Integer numberOfSeats) {
+        this.numberOfSeats = numberOfSeats;
     }
 }

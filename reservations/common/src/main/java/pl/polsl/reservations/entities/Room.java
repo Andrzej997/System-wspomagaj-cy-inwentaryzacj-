@@ -5,8 +5,12 @@ import pl.polsl.reservations.logger.LoggerImpl;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-@NamedQueries({@NamedQuery(name = "getRoomByNumber", query = "select r from Room  r where r.roomNumber = :roomNumber")
-                })
+
+@NamedQueries({
+    @NamedQuery(name = "getRoomByNumber", query = "select r from Room  r where r.roomNumber = :roomNumber"),
+    @NamedQuery(name = "getRoomWithNumOfSeatsHigherOrEqualThan", 
+            query="select r from Room r where r.numberOfSeats >= :numberOfSeats")
+})
 
 @Entity
 @Table(name = "ROOM", uniqueConstraints = @UniqueConstraint(columnNames = {"ROOM_NUMBER"}))
@@ -43,6 +47,9 @@ public class Room implements Serializable {
 
     @OneToMany(targetEntity = RoomSchedule.class, mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<RoomSchedule> roomScheduleCollection;
+
+    @Column(name = "NUMBER_OF_SEATS", updatable = true, insertable = true, nullable = true)
+    private Integer numberOfSeats;
 
     public Room() {
 
@@ -110,6 +117,14 @@ public class Room implements Serializable {
 
     public void setRoomScheduleCollection(List<RoomSchedule> roomScheduleCollection) {
         this.roomScheduleCollection = roomScheduleCollection;
+    }
+
+    public Integer getNumberOfSeats() {
+        return numberOfSeats;
+    }
+
+    public void setNumberOfSeats(Integer numberOfSeats) {
+        this.numberOfSeats = numberOfSeats;
     }
 
 }

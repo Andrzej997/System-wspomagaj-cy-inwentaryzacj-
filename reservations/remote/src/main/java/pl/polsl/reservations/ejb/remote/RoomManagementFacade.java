@@ -25,6 +25,7 @@ public interface RoomManagementFacade {
     void removeEquipmentType(int typeId);
     void addEquipmentState(String definition);
     void removeEquipmentState(int stateId);
+    List<RoomDTO> getRoomsWithNumberOfSeatsHigherEqualThan(Number numberOfSeats);
 
     //TODO implementacja jak będzie wiadomo jak ma działać
     default void findRoom() {

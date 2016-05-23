@@ -23,7 +23,7 @@ public class RoomScheduleStrategy implements ScheduleStrategy {
                                                RoomDao roomDAO) {
         List<ReservationDTO> result = new ArrayList<>();
         Room room = roomDAO.getRoomByNumber(roomNumber);
-        RoomSchedule roomSchedule = roomScheduleDAO.getCurrentDateSchedule(year, 0, false, room);
+        RoomSchedule roomSchedule = roomScheduleDAO.getCurrentDateSchedule(year, 0, semester, room);
         List<Reservations> reservationsList = reservationsDAO.getAllReservationsByRoomSchedule(roomSchedule);
 
         for (Reservations r : reservationsList) {

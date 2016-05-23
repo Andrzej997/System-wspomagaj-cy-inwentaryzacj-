@@ -39,7 +39,7 @@ public class DetailedScheduleStrategyDecorator implements ScheduleStrategy {
                 roomDAO);
 
         Room room = roomDAO.find(roomId);
-        RoomSchedule roomSchedule = roomScheduleDAO.getCurrentDateSchedule(year, week, false, room);
+        RoomSchedule roomSchedule = roomScheduleDAO.getCurrentDateSchedule(year, week, semester, room);
         List<Reservations> reservationsList = reservationsDAO.getAllReservationsByRoomSchedule(roomSchedule);
 
         for (Reservations r : reservationsList) {

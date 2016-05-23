@@ -39,8 +39,7 @@ public class RoomScheduleDaoImpl extends AbstractDaoImpl<RoomSchedule> implement
     @Override
     public List<RoomSchedule> getAllSchedulesByYearAndSemester(int year, boolean semester){
         Query query = this.getEntityManager().createNamedQuery("getAllSchedulesByYearAndSemester", RoomSchedule.class);
-        Date date = new java.sql.Date(year-1900, 0, 1);
-        query.setParameter("year", date);
+        query.setParameter("year", year);
         query.setParameter("semester", semester);
         return query.getResultList();
     }
@@ -48,8 +47,7 @@ public class RoomScheduleDaoImpl extends AbstractDaoImpl<RoomSchedule> implement
     @Override
     public List<RoomSchedule> getAllSchedulesAtSession(int year, boolean semester){
         Query query = this.getEntityManager().createNamedQuery("getAllSchedulesAtSession", RoomSchedule.class);
-        Date date = new java.sql.Date(year-1900, 0, 1);
-        query.setParameter("year", date);
+        query.setParameter("year", year);
         query.setParameter("semester", semester);
         return query.getResultList();
     }
@@ -57,8 +55,7 @@ public class RoomScheduleDaoImpl extends AbstractDaoImpl<RoomSchedule> implement
     @Override
     public RoomSchedule getCurrentDateSchedule(int year, int week,boolean semester, Room room){
         Query query = this.getEntityManager().createNamedQuery("getCurrentDateSchedule", RoomSchedule.class);
-        Date date = new java.sql.Date(year-1900, 0, 1);
-        query.setParameter("year", date);
+        query.setParameter("year", year);
         query.setParameter("week", week);
         query.setParameter("room", room);
         query.setParameter("semester", semester);

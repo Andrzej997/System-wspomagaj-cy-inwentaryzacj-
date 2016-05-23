@@ -16,7 +16,6 @@ import javax.interceptor.Interceptors;
 import javax.naming.NamingException;
 import javax.persistence.Query;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -45,8 +44,7 @@ public class ReservationsDaoImpl extends AbstractDaoImpl<Reservations> implement
     @Override
     public List<Reservations> getAllWeekReservations(int week, int year){
         Query query = getEntityManager().createNamedQuery("getAllWeekReservations", Reservations.class);
-        Date date = new java.sql.Date(year-1900, 0, 1);
-        query.setParameter("year", date);
+        query.setParameter("year", year);
         query.setParameter("week", week);
         return query.getResultList();
     }
@@ -56,8 +54,7 @@ public class ReservationsDaoImpl extends AbstractDaoImpl<Reservations> implement
         Query query = getEntityManager().createNamedQuery("getAllWeekReservations", Reservations.class);
         Calendar c = Calendar.getInstance();
         query.setParameter("year", c.get(Calendar.YEAR));
-        query.setParameter("year", c.get(Calendar.YEAR));
-    query.setParameter("week", c.get(Calendar.WEEK_OF_YEAR));
+        query.setParameter("week", c.get(Calendar.WEEK_OF_YEAR));
         return query.getResultList();
     }
 

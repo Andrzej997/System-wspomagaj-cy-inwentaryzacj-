@@ -83,7 +83,7 @@ public class ScheduleFacadeImpl implements ScheduleFacade {
             schedule.setRoom(room);
             schedule.setWeek(week);
             schedule.setSemester(semester);
-            schedule.set_year(new java.sql.Date(year-1900, 0, 1));
+            schedule.setYear(year);
         }
 
         newReservaton.setRoomSchedule(schedule);

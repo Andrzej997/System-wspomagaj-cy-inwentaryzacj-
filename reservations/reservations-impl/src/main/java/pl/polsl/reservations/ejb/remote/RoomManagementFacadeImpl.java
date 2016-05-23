@@ -1,6 +1,5 @@
 package pl.polsl.reservations.ejb.remote;
 
-
 import pl.polsl.reservations.dto.*;
 import pl.polsl.reservations.ejb.dao.*;
 import pl.polsl.reservations.entities.*;
@@ -104,7 +103,19 @@ public class RoomManagementFacadeImpl implements RoomManagementFacade {
         List<Room> rooms = roomsDAO.findAll();
         List<RoomDTO> result = new ArrayList<>();
 
-        for(Room r: rooms) {
+        for (Room r : rooms) {
+            result.add(new RoomDTO(r));
+        }
+
+        return result;
+    }
+
+    @Override
+    public List<RoomDTO> getRoomsWithNumberOfSeatsHigherEqualThan(Number numberOfSeats) {
+        List<Room> rooms = roomsDAO.getRoomWithNumOfSeatsHigherOrEqualThan(numberOfSeats);
+        List<RoomDTO> result = new ArrayList<>();
+
+        for (Room r : rooms) {
             result.add(new RoomDTO(r));
         }
 
@@ -117,7 +128,7 @@ public class RoomManagementFacadeImpl implements RoomManagementFacade {
         List<Equipment> equpment = equipmentDAO.getEquipmentByRoomNumber(roomsDAO.find(roomId).getRoomNumber());
         List<EquipmentDTO> result = new ArrayList<>();
 
-        for(Equipment e: equpment) {
+        for (Equipment e : equpment) {
             result.add(new EquipmentDTO(e));
         }
 
@@ -134,7 +145,7 @@ public class RoomManagementFacadeImpl implements RoomManagementFacade {
     @Override
     public List<EquipmentStateDTO> getEquipmentStates() {
         List<EquipmentStateDTO> result = new ArrayList<>();
-        for(EqupmentState es: equipmentStateDAO.findAll()) {
+        for (EqupmentState es : equipmentStateDAO.findAll()) {
             result.add(new EquipmentStateDTO(es));
         }
         return result;
@@ -143,7 +154,7 @@ public class RoomManagementFacadeImpl implements RoomManagementFacade {
     @Override
     public List<EquipmentTypeDTO> getEquipmentTypes() {
         List<EquipmentTypeDTO> result = new ArrayList<>();
-        for(EquipmentType et: equipmentTypeDAO.findAll()) {
+        for (EquipmentType et : equipmentTypeDAO.findAll()) {
             result.add(new EquipmentTypeDTO(et));
         }
         return result;

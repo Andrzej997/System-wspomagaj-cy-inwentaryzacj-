@@ -4,12 +4,11 @@ import pl.polsl.reservations.logger.LoggerImpl;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
-@NamedQueries({@NamedQuery(name = "getAllSchedulesByYearAndSemester", query = "select rs from RoomSchedule rs where rs.semester = :semester and rs._year = :year "),
-                @NamedQuery(name = "getAllSchedulesAtSession", query = "select rs from RoomSchedule rs where rs.semester = :semester and rs._year = :year and rs.examinationSession = true "),
-                @NamedQuery(name = "getCurrentDateSchedule", query = "select rs from RoomSchedule  rs where rs._year = :year and rs.week = :week and rs.room = :room and rs.semester = :semester" ),
+@NamedQueries({@NamedQuery(name = "getAllSchedulesByYearAndSemester", query = "select rs from RoomSchedule rs where rs.semester = :semester and rs.year = :year "),
+                @NamedQuery(name = "getAllSchedulesAtSession", query = "select rs from RoomSchedule rs where rs.semester = :semester and rs.year = :year and rs.examinationSession = true "),
+                @NamedQuery(name = "getCurrentDateSchedule", query = "select rs from RoomSchedule  rs where rs.year = :year and rs.week = :week and rs.room = :room and rs.semester = :semester" ),
                 @NamedQuery(name = "getCurrentScheduleForRoom", query = "select rs from RoomSchedule rs where rs = :RoomSchedule and rs.room.roomNumber = :roomNumber")
 
 })
@@ -35,9 +34,8 @@ public class RoomSchedule implements Serializable {
     @Column(name = "SEMESTER", updatable = true, insertable = true, nullable = false)
     private Boolean semester;
 
-    @Column(name = "S_YEAR", updatable = true, insertable = true, nullable = false)
-    @Temporal(TemporalType.DATE)
-    private Date _year;
+    @Column(name = "YEAR", updatable = true, insertable = true, nullable = false)
+    private Integer year;
 
     @ManyToOne(optional = true, targetEntity = Room.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "ROOM", insertable = true, nullable = true, updatable = true)
@@ -82,12 +80,12 @@ public class RoomSchedule implements Serializable {
         this.id = id;
     }
 
-    public Date get_year() {
-        return (Date) this._year.clone();
+    public Integer getYear() {
+        return this.year;
     }
 
-    public void set_year(Date sYear) {
-        this._year = (Date) sYear.clone();
+    public void setYear(Integer year) {
+        this.year = year;
     }
 
     public Room getRoom() {

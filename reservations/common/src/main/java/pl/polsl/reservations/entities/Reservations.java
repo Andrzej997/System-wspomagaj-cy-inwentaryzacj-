@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @NamedQueries({
         @NamedQuery(name = "getAllReservationsByRoomSchedule", query = "select r from Reservations  r where r.roomSchedule = :roomSchedule"),
-        @NamedQuery(name = "getAllWeekReservations", query = "select r from Reservations  r where r.roomSchedule.week = :week and r.roomSchedule._year = :year"),
+        @NamedQuery(name = "getAllWeekReservations", query = "select r from Reservations  r where r.roomSchedule.week = :week and r.roomSchedule.year = :year"),
         @NamedQuery(name = "getAllReservationsByType", query = "select r from Reservations r where r.reservationType.typeId = :typeId"),
         @NamedQuery(name = "getAllReservationsByUser", query = "select r from Reservations r where r.userId.userId = :userId")
 })
