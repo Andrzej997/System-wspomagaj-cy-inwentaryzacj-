@@ -17,6 +17,11 @@
             <artifactId>remote</artifactId>
             <version>0.7</version>
         </dependency>
+        <dependency>
+            <groupId>pl.polsl</groupId>
+            <artifactId>common</artifactId>
+            <version>0.7</version>
+        </dependency>
     </dependencies>
     <packaging>ejb</packaging>
     <build>

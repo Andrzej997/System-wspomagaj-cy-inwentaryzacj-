@@ -6,7 +6,6 @@ import pl.polsl.reservations.entities.Room;
 import pl.polsl.reservations.entities.Workers;
 
 import javax.ejb.Local;
-import javax.ejb.Remote;
 import java.util.List;
 
 /**

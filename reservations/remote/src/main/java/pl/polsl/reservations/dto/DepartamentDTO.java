@@ -1,11 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pl.polsl.reservations.dto;
-
-import pl.polsl.reservations.entities.Departaments;
 
 import java.io.Serializable;
 
@@ -32,12 +25,6 @@ public class DepartamentDTO implements Serializable {
         this.institute = institute;
     }
     
-    public DepartamentDTO(Departaments d) {
-        this.id = d.getId();
-        this.name = d.getDepratamentName();
-        this.institute = new InstituteDTO(d.getInstituteId());
-    }
-
     public Long getId() {
         return id;
     }

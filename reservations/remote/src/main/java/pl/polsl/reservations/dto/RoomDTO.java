@@ -1,8 +1,5 @@
 package pl.polsl.reservations.dto;
 
-import pl.polsl.reservations.entities.Room;
-import pl.polsl.reservations.entities.Workers;
-
 import java.io.Serializable;
 
 /**
@@ -31,16 +28,6 @@ public class RoomDTO implements Serializable {
         this.keeper = keeper;
         this.type = type;
         this.numberOfSeats = numberOfSeats;
-    }
-
-    public RoomDTO(Room r) {
-        this.id = r.getId();
-        this.number = r.getRoomNumber();
-        this.department = r.getDepartamentId().getDepratamentName();
-        Workers w = r.getKeeperId();
-        this.keeper = w.getWorkerName() + " " + w.getSurname();
-        this.type = r.getRoomType().getShortDescription();
-        this.numberOfSeats = r.getNumberOfSeats();
     }
 
     public RoomDTO() {

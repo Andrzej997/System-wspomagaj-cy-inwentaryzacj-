@@ -15,6 +15,7 @@ import javax.ejb.Stateful;
 import javax.interceptor.Interceptors;
 import java.util.ArrayList;
 import java.util.List;
+import pl.polsl.reservations.builder.DTOBuilder;
 
 /**
  * Created by Krzysztof Stręk on 2016-05-11.
@@ -49,7 +50,7 @@ public class ScheduleFacadeImpl implements ScheduleFacade {
         List<ReservationDTO> result = new ArrayList<>();
         List<Reservations> reservationsList = reservationsDAO.getAllReservationsByUser((long)userId);
         for (Reservations r : reservationsList) {
-            result.add(new ReservationDTO(r));
+            result.add(DTOBuilder.buildReservationDTO(r));
         }
         return result;
     }
@@ -93,6 +94,17 @@ public class ScheduleFacadeImpl implements ScheduleFacade {
         newReservaton.setUserId(usersDAO.find(userId));
 
         reservationsDAO.create(newReservaton);
+        List<Reservations> reservationsCollection = schedule.getReservationsCollection();
+        if(schedule.getId() != null){
+            reservationsCollection.add(newReservaton);
+            schedule.setReservationsCollection(reservationsCollection);
+            roomScheduleDAO.merge(schedule);
+        } else {
+            reservationsCollection = new ArrayList<>();
+            reservationsCollection.add(newReservaton);
+            schedule.setReservationsCollection(reservationsCollection);
+            roomScheduleDAO.create(schedule);
+        }
     }
 
     @Override

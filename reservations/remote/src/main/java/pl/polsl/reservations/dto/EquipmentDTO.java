@@ -1,8 +1,5 @@
 package pl.polsl.reservations.dto;
 
-
-import pl.polsl.reservations.entities.Equipment;
-
 import java.io.Serializable;
 
 /**
@@ -31,14 +28,6 @@ public class EquipmentDTO implements Serializable {
     }
 
     public EquipmentDTO() {}
-
-    public EquipmentDTO(Equipment e) {
-        this.id = e.getId();
-        this.name = e.getEquipmentName();
-        this.quantity = e.getQuantity();
-        this.type = e.getEquipmentState().getStateDefinition();
-        this.state = e.getEquipmentType().getShortDescription();
-    }
 
     public long getId() {
         return id;

@@ -1,7 +1,5 @@
 package pl.polsl.reservations.dto;
 
-import pl.polsl.reservations.entities.PriviligeLevels;
-
 import java.io.Serializable;
 
 /**
@@ -21,11 +19,10 @@ public class PrivilegeLevelDTO implements Serializable{
         this.description = description;
     }
     
-    public PrivilegeLevelDTO(PriviligeLevels prLvl) {
-        this.privilegeLevel = prLvl.getPriviligeLevel();
-        this.description = prLvl.getDescription();
+    public PrivilegeLevelDTO(){
+        
     }
-
+    
     public Long getPrivilegeLevel() {
         return privilegeLevel;
     }

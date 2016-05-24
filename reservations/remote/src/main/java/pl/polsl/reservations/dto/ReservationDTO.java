@@ -1,7 +1,5 @@
 package pl.polsl.reservations.dto;
 
-import pl.polsl.reservations.entities.Reservations;
-
 import java.io.Serializable;
 
 /**
@@ -33,15 +31,6 @@ public class ReservationDTO implements Serializable {
         this.endTime = endTime;
         this.type = type;
         this.userId = userId;
-    }
-
-    public ReservationDTO(Reservations entity) {
-        this.id = entity.getId();
-        this.roomNumber = entity.getRoomSchedule().getRoom().getRoomNumber();
-        this.startTime = entity.getStartTime();
-        this.endTime = entity.getEndTime();
-        this.type = entity.getReservationType().getTypeShortDescription();
-        this.userId = entity.getUserId().getUserId();
     }
 
     public long getId() {

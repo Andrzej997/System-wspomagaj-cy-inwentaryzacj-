@@ -10,6 +10,7 @@ import javax.ejb.Stateful;
 import javax.interceptor.Interceptors;
 import java.util.ArrayList;
 import java.util.List;
+import pl.polsl.reservations.builder.DTOBuilder;
 
 /**
  * Created by Krzysztof Stręk on 2016-05-09.
@@ -33,6 +34,12 @@ public class RoomManagementFacadeImpl implements RoomManagementFacade {
     @EJB
     EquipmentTypeDao equipmentTypeDAO;
 
+    @EJB
+    WorkersDao workersDAO;
+
+    @EJB
+    EquipmentDao equipmentDAO;
+   
     @Override
     public void removeEquipmentType(int typeId) {
         EquipmentType type = equipmentTypeDAO.find(typeId);
@@ -52,9 +59,6 @@ public class RoomManagementFacadeImpl implements RoomManagementFacade {
         equipmentStateDAO.remove(state);
     }
 
-    @EJB
-    EquipmentDao equipmentDAO;
-
     @Override
     public void addEquipmentType(String shortDescription, String longDescription) {
         EquipmentType type = new EquipmentType();
@@ -62,9 +66,6 @@ public class RoomManagementFacadeImpl implements RoomManagementFacade {
         type.setLongDescription(longDescription);
         equipmentTypeDAO.create(type);
     }
-
-    @EJB
-    WorkersDao workersDAO;
 
     public RoomManagementFacadeImpl() {
     }
@@ -80,8 +81,8 @@ public class RoomManagementFacadeImpl implements RoomManagementFacade {
     public UserDTO getRoomKeeper(int roomId) {
         Room room = roomsDAO.find(roomId);
         Workers w = room.getKeeperId();
-
-        return new UserDTO(w);
+        Users u = userDAO.find(w.getId());
+        return DTOBuilder.buildUserDTO(u, w);
     }
 
     @Override
@@ -104,7 +105,7 @@ public class RoomManagementFacadeImpl implements RoomManagementFacade {
         List<RoomDTO> result = new ArrayList<>();
 
         for (Room r : rooms) {
-            result.add(new RoomDTO(r));
+            result.add(DTOBuilder.buildRoomDTO(r));
         }
 
         return result;
@@ -116,7 +117,7 @@ public class RoomManagementFacadeImpl implements RoomManagementFacade {
         List<RoomDTO> result = new ArrayList<>();
 
         for (Room r : rooms) {
-            result.add(new RoomDTO(r));
+            result.add(DTOBuilder.buildRoomDTO(r));
         }
 
         return result;
@@ -129,7 +130,7 @@ public class RoomManagementFacadeImpl implements RoomManagementFacade {
         List<EquipmentDTO> result = new ArrayList<>();
 
         for (Equipment e : equpment) {
-            result.add(new EquipmentDTO(e));
+            result.add(DTOBuilder.buildEquipmentDTO(e));
         }
 
         return result;
@@ -146,7 +147,7 @@ public class RoomManagementFacadeImpl implements RoomManagementFacade {
     public List<EquipmentStateDTO> getEquipmentStates() {
         List<EquipmentStateDTO> result = new ArrayList<>();
         for (EqupmentState es : equipmentStateDAO.findAll()) {
-            result.add(new EquipmentStateDTO(es));
+            result.add(DTOBuilder.buildEquipmentStateDTO(es));
         }
         return result;
     }
@@ -155,7 +156,7 @@ public class RoomManagementFacadeImpl implements RoomManagementFacade {
     public List<EquipmentTypeDTO> getEquipmentTypes() {
         List<EquipmentTypeDTO> result = new ArrayList<>();
         for (EquipmentType et : equipmentTypeDAO.findAll()) {
-            result.add(new EquipmentTypeDTO(et));
+            result.add(DTOBuilder.buildEquipmentTypeDTO(et));
         }
         return result;
     }

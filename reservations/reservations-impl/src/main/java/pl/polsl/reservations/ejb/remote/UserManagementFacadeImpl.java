@@ -16,6 +16,7 @@ import javax.ejb.Stateful;
 import javax.interceptor.Interceptors;
 import java.util.ArrayList;
 import java.util.List;
+import pl.polsl.reservations.builder.DTOBuilder;
 import pl.polsl.reservations.dto.DepartamentDTO;
 import pl.polsl.reservations.dto.InstituteDTO;
 
@@ -49,8 +50,8 @@ public class UserManagementFacadeImpl implements UserManagementFacade {
         if (user == null) {
             return null;
         }
-
-        return new UserDTO(user);
+        Workers worker = workersFacade.find(user.getUserId());
+        return DTOBuilder.buildUserDTO(user, worker);
     }
 
     @Override
@@ -60,8 +61,8 @@ public class UserManagementFacadeImpl implements UserManagementFacade {
         if (user == null) {
             return null;
         }
-
-        return new UserDTO(user);
+        Workers worker = workersFacade.find(user.getUserId());
+        return DTOBuilder.buildUserDTO(user, worker);
     }
 
     /**
@@ -114,10 +115,11 @@ public class UserManagementFacadeImpl implements UserManagementFacade {
     public boolean assignUserToDepartament(String userName, Long departamentId) {
         Workers worker = usersFacade.getWorkerByUsername(userName);
         Departaments departament = departamentsFacade.find(departamentId);
-        
-        if(worker == null || departament == null)
+
+        if (worker == null || departament == null) {
             return false;
-        
+        }
+
         worker.setDepartamentId(departament);
         workersFacade.edit(worker);
         return true;
@@ -138,7 +140,7 @@ public class UserManagementFacadeImpl implements UserManagementFacade {
 
         List<PrivilegeLevelDTO> list = new ArrayList<>();
         for (PriviligeLevels level : levels) {
-            list.add(new PrivilegeLevelDTO(level));
+            list.add(DTOBuilder.buildPrivilegeLevelDTO(level));
         }
         return list;
     }
@@ -172,12 +174,13 @@ public class UserManagementFacadeImpl implements UserManagementFacade {
     @Override
     public List<DepartamentDTO> getAllDepartaments() {
         List<Departaments> departamentsList = departamentsFacade.findAll();
-        if(departamentsList == null)
+        if (departamentsList == null) {
             return null;
-        
+        }
+
         List<DepartamentDTO> list = new ArrayList<>();
-        for(Departaments d : departamentsList) {
-            list.add(new DepartamentDTO(d));
+        for (Departaments d : departamentsList) {
+            list.add(DTOBuilder.buildDepartamentDTO(d));
         }
         return list;
     }
@@ -185,12 +188,13 @@ public class UserManagementFacadeImpl implements UserManagementFacade {
     @Override
     public List<InstituteDTO> getAllInstitutes() {
         List<Institutes> institutesList = institutesFacade.findAll();
-        if(institutesList == null)
+        if (institutesList == null) {
             return null;
-        
+        }
+
         List<InstituteDTO> list = new ArrayList<>();
-        for(Institutes i : institutesList) {
-            list.add(new InstituteDTO(i));
+        for (Institutes i : institutesList) {
+            list.add(DTOBuilder.buildInstituteDTO(i));
         }
         return list;
     }
@@ -202,8 +206,8 @@ public class UserManagementFacadeImpl implements UserManagementFacade {
         if (user == null) {
             return null;
         }
-
-        return new PrivilegeLevelDTO(user.getPriviligeLevel());
+        PriviligeLevels priviligeLevel = user.getPriviligeLevel();
+        return DTOBuilder.buildPrivilegeLevelDTO(priviligeLevel);
     }
 
     @Override
@@ -213,8 +217,8 @@ public class UserManagementFacadeImpl implements UserManagementFacade {
         if (user == null) {
             return null;
         }
-
-        return new PrivilegeLevelDTO(user.getPriviligeLevel());
+        PriviligeLevels priviligeLevel = user.getPriviligeLevel();
+        return DTOBuilder.buildPrivilegeLevelDTO(priviligeLevel);
     }
 
     /**
@@ -314,7 +318,7 @@ public class UserManagementFacadeImpl implements UserManagementFacade {
         if (departaments != null) {
             workerDB.setDepartamentId(departaments);
         }
-        
+
         workersFacade.create(workerDB);
 
         return true;

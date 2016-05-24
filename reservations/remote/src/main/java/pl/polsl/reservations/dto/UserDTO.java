@@ -1,8 +1,5 @@
 package pl.polsl.reservations.dto;
 
-import pl.polsl.reservations.entities.Users;
-import pl.polsl.reservations.entities.Workers;
-
 import java.io.Serializable;
 
 /**
@@ -52,33 +49,6 @@ public class UserDTO implements Serializable {
         this.email = email;
         this.privilegeLevel = privilegeLevel;
         this.roomNumber = roomNumber;
-    }
-
-    public UserDTO(Workers w) {
-        this.id = w.getId();
-        this.address = w.getAdress();
-        this.department = w.getDepartamentId().getDepratamentName();
-        this.grade = w.getGrade();
-        this.pesel = w.getPesel();
-        this.name = w.getWorkerName();
-        this.surname = w.getSurname();
-        this.roomNumber = w.getRoom().getRoomNumber();
-    }
-
-    public UserDTO(Users u) {
-        Workers w = u.getWorkers();
-        this.id = u.getUserId();
-        this.address = w.getAdress();
-        this.department = w.getDepartamentId().getDepratamentName();
-        this.grade = w.getGrade();
-        this.pesel = w.getPesel();
-        this.name = w.getWorkerName();
-        this.surname = w.getSurname();
-        this.roomNumber = w.getRoom().getRoomNumber();
-        this.userName = u.getUsername();
-        this.phoneNumber = u.getPhoneNumber().toString();
-        this.email = u.getEmail();
-        this.privilegeLevel = u.getPriviligeLevel().getPriviligeLevel();
     }
 
     public long getId() {

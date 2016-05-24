@@ -11,6 +11,7 @@ import javax.ejb.Stateful;
 import javax.interceptor.Interceptors;
 
 import java.util.List;
+import pl.polsl.reservations.builder.DTOBuilder;
 
 /**
  * Created by Krzysztof Stręk on 2016-05-07.
@@ -27,8 +28,7 @@ public class UserFacadeImpl implements UserFacade {
     private DepartamentsDao departamentsFacade;
     @EJB
     private WorkersDao workersFacade;
-    @EJB
-    private PriviligeLevelsDao privilegeLevelsDao;
+
     @EJB
     private UserContext userContext;
 
@@ -44,8 +44,8 @@ public class UserFacadeImpl implements UserFacade {
             if (usersFacade.validateUserByEmail(nameOrEmail, password)) {
                 user = usersFacade.getUserByEmail(nameOrEmail);
                 PriviligeLevels pl = user.getPriviligeLevel();
-                List<Priviliges> list = privilegeLevelsDao.getPriviligesCollectionById(pl.getPriviligeLevel());
-                userContext.initialize(list);
+                List<Priviliges> priviligesCollection = pl.getPriviligesCollection();
+                userContext.initialize(priviligesCollection);
                 PrivilegeLevelEnum level = PrivilegeLevelEnum.getPrivilegeLevel(pl.getPriviligeLevel().intValue());
                 userContext.setPrivilegeLevel(level);
                 return true;
@@ -103,8 +103,8 @@ public class UserFacadeImpl implements UserFacade {
         if (user == null) {
             return null;
         }
-
-        return new UserDTO(user);
+        Workers worker = workersFacade.find(user.getUserId());
+        return DTOBuilder.buildUserDTO(user, worker);
     }
 
     /**
