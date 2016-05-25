@@ -10,13 +10,15 @@ import javax.ejb.Stateful;
 import javax.interceptor.Interceptors;
 import java.util.ArrayList;
 import java.util.List;
+import pl.polsl.reservations.annotations.PrivilegeLevel;
 import pl.polsl.reservations.builder.DTOBuilder;
+import pl.polsl.reservations.interceptors.PrivilegeInterceptor;
 
 /**
  * Created by Krzysztof Stręk on 2016-05-09.
  */
 @Stateful(mappedName = "RoomManagementFacade")
-@Interceptors({LoggerImpl.class})
+@Interceptors({LoggerImpl.class, PrivilegeInterceptor.class})
 public class RoomManagementFacadeImpl implements RoomManagementFacade {
 
     @EJB
@@ -39,14 +41,20 @@ public class RoomManagementFacadeImpl implements RoomManagementFacade {
 
     @EJB
     EquipmentDao equipmentDAO;
-   
+
+    public RoomManagementFacadeImpl() {
+        
+    }
+
     @Override
+    @PrivilegeLevel(privilegeLevel = "P_EQUIPMENT_MANAGEMENT_WORKER")
     public void removeEquipmentType(int typeId) {
         EquipmentType type = equipmentTypeDAO.find(typeId);
         equipmentTypeDAO.remove(type);
     }
 
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public void addEquipmentState(String definition) {
         EqupmentState state = new EqupmentState();
         state.setStateDefinition(definition);
@@ -54,12 +62,14 @@ public class RoomManagementFacadeImpl implements RoomManagementFacade {
     }
 
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public void removeEquipmentState(int stateId) {
         EqupmentState state = equipmentStateDAO.find(stateId);
         equipmentStateDAO.remove(state);
     }
 
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public void addEquipmentType(String shortDescription, String longDescription) {
         EquipmentType type = new EquipmentType();
         type.setShortDescription(shortDescription);
@@ -67,10 +77,8 @@ public class RoomManagementFacadeImpl implements RoomManagementFacade {
         equipmentTypeDAO.create(type);
     }
 
-    public RoomManagementFacadeImpl() {
-    }
-
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public void assignKeeperToRoom(int roomId, int workerId) {
         Room room = roomsDAO.find(roomId);
         room.setKeeperId(workersDAO.find(workerId));
@@ -78,6 +86,7 @@ public class RoomManagementFacadeImpl implements RoomManagementFacade {
     }
 
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public UserDTO getRoomKeeper(int roomId) {
         Room room = roomsDAO.find(roomId);
         Workers w = room.getKeeperId();
@@ -86,6 +95,7 @@ public class RoomManagementFacadeImpl implements RoomManagementFacade {
     }
 
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public void addEquipment(int roomId, String name, int quantity, short stateId, short typeId) {
         Equipment newEquipment = new Equipment();
         newEquipment.setEquipmentName(name);
@@ -100,6 +110,7 @@ public class RoomManagementFacadeImpl implements RoomManagementFacade {
     }
 
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public List<RoomDTO> getRoomsList() {
         List<Room> rooms = roomsDAO.findAll();
         List<RoomDTO> result = new ArrayList<>();
@@ -112,6 +123,7 @@ public class RoomManagementFacadeImpl implements RoomManagementFacade {
     }
 
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public List<RoomDTO> getRoomsWithNumberOfSeatsHigherEqualThan(Number numberOfSeats) {
         List<Room> rooms = roomsDAO.getRoomWithNumOfSeatsHigherOrEqualThan(numberOfSeats);
         List<RoomDTO> result = new ArrayList<>();
@@ -124,6 +136,7 @@ public class RoomManagementFacadeImpl implements RoomManagementFacade {
     }
 
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public List<EquipmentDTO> getRoomEquipment(int roomId) {
 
         List<Equipment> equpment = equipmentDAO.getEquipmentByRoomNumber(roomsDAO.find(roomId).getRoomNumber());
@@ -137,6 +150,7 @@ public class RoomManagementFacadeImpl implements RoomManagementFacade {
     }
 
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public void moveEquipment(int equipmentId, int roomToId) {
         Equipment e = equipmentDAO.find(equipmentId);
         e.setRoomId(roomsDAO.find(roomToId));
@@ -144,6 +158,7 @@ public class RoomManagementFacadeImpl implements RoomManagementFacade {
     }
 
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public List<EquipmentStateDTO> getEquipmentStates() {
         List<EquipmentStateDTO> result = new ArrayList<>();
         for (EqupmentState es : equipmentStateDAO.findAll()) {
@@ -153,6 +168,7 @@ public class RoomManagementFacadeImpl implements RoomManagementFacade {
     }
 
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public List<EquipmentTypeDTO> getEquipmentTypes() {
         List<EquipmentTypeDTO> result = new ArrayList<>();
         for (EquipmentType et : equipmentTypeDAO.findAll()) {
@@ -162,6 +178,7 @@ public class RoomManagementFacadeImpl implements RoomManagementFacade {
     }
 
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public void assignUserToRoom(int roomId, int workerId) {
         Room room = roomsDAO.find(roomId);
 
@@ -173,6 +190,7 @@ public class RoomManagementFacadeImpl implements RoomManagementFacade {
     }
 
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public void removeEquipment(int equipmentId) {
         Equipment eq = equipmentDAO.find(equipmentId);
         equipmentDAO.remove(eq);

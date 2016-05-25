@@ -16,15 +16,17 @@ import javax.ejb.Stateful;
 import javax.interceptor.Interceptors;
 import java.util.ArrayList;
 import java.util.List;
+import pl.polsl.reservations.annotations.PrivilegeLevel;
 import pl.polsl.reservations.builder.DTOBuilder;
 import pl.polsl.reservations.dto.DepartamentDTO;
 import pl.polsl.reservations.dto.InstituteDTO;
+import pl.polsl.reservations.interceptors.PrivilegeInterceptor;
 
 /**
  * Created by Krzysztof Strek on 2016-05-09.
  */
 @Stateful(mappedName = "UserManagementFacade")
-@Interceptors({LoggerImpl.class})
+@Interceptors({LoggerImpl.class, PrivilegeInterceptor.class})
 public class UserManagementFacadeImpl implements UserManagementFacade {
 
     @EJB
@@ -44,6 +46,7 @@ public class UserManagementFacadeImpl implements UserManagementFacade {
     }
 
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public UserDTO getUserDetails(String userName) {
         Users user = usersFacade.getUserByUsername(userName);
 
@@ -55,6 +58,7 @@ public class UserManagementFacadeImpl implements UserManagementFacade {
     }
 
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public UserDTO getUserDetails(int userId) {
         Users user = usersFacade.getReference(userId);
 
@@ -73,6 +77,7 @@ public class UserManagementFacadeImpl implements UserManagementFacade {
      * @return true jesli sie udalo, false jesli nie
      */
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public boolean assignUserToChief(String userName, String chiefName) {
         Workers user = usersFacade.getWorkerByUsername(userName);
         Workers chief = usersFacade.getWorkerByUsername(chiefName);
@@ -96,6 +101,7 @@ public class UserManagementFacadeImpl implements UserManagementFacade {
      * @return true jesli sie uda, false jesli nie
      */
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public boolean assignUserToRoom(String userName, int roomNumber) {
         Room room = roomFacade.getRoomByNumber(roomNumber);
         Workers worker = usersFacade.getWorkerByUsername(userName);
@@ -112,6 +118,7 @@ public class UserManagementFacadeImpl implements UserManagementFacade {
     }
 
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public boolean assignUserToDepartament(String userName, Long departamentId) {
         Workers worker = usersFacade.getWorkerByUsername(userName);
         Departaments departament = departamentsFacade.find(departamentId);
@@ -131,6 +138,7 @@ public class UserManagementFacadeImpl implements UserManagementFacade {
      * @return
      */
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public List<PrivilegeLevelDTO> getAllPrivilegeLevels() {
         List<PriviligeLevels> levels = priviligeLevelsFacade.findAll();
 
@@ -146,6 +154,7 @@ public class UserManagementFacadeImpl implements UserManagementFacade {
     }
 
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public boolean changePrivilegeLevel(String userName, Long privilegeLevel) {
         Users user = usersFacade.getUserByUsername(userName);
         List<PriviligeLevels> levels = priviligeLevelsFacade.findAll();
@@ -172,6 +181,7 @@ public class UserManagementFacadeImpl implements UserManagementFacade {
     }
 
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public List<DepartamentDTO> getAllDepartaments() {
         List<Departaments> departamentsList = departamentsFacade.findAll();
         if (departamentsList == null) {
@@ -186,6 +196,7 @@ public class UserManagementFacadeImpl implements UserManagementFacade {
     }
 
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public List<InstituteDTO> getAllInstitutes() {
         List<Institutes> institutesList = institutesFacade.findAll();
         if (institutesList == null) {
@@ -200,6 +211,7 @@ public class UserManagementFacadeImpl implements UserManagementFacade {
     }
 
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public PrivilegeLevelDTO getUsersPrivilegeLevel(String userName) {
         Users user = usersFacade.getUserByUsername(userName);
 
@@ -211,6 +223,7 @@ public class UserManagementFacadeImpl implements UserManagementFacade {
     }
 
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public PrivilegeLevelDTO getUsersPrivilegeLevel(int userId) {
         Users user = usersFacade.getReference(userId);
 
@@ -227,6 +240,7 @@ public class UserManagementFacadeImpl implements UserManagementFacade {
      * @return
      */
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public List<UserDTO> getUnderlings(String chiefName) {
         Workers chief = usersFacade.getWorkerByUsername(chiefName);
         List<Workers> workers = workersFacade.findAll();
@@ -246,6 +260,7 @@ public class UserManagementFacadeImpl implements UserManagementFacade {
     }
 
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public List<UserDTO> getUnderlings(int chiefId) {
         Workers chief = workersFacade.getReference(chiefId);
         List<Workers> workers = workersFacade.findAll();
@@ -270,6 +285,7 @@ public class UserManagementFacadeImpl implements UserManagementFacade {
      * @return true jesli istnieje
      */
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public boolean checkUserExistence(UserDTO user) {
         Users userDB;
         userDB = usersFacade.getReference(user.getId());
@@ -288,6 +304,7 @@ public class UserManagementFacadeImpl implements UserManagementFacade {
     }
 
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public boolean registerUser(UserDTO user, String password) {
         if (checkUserExistence(user)) {
             return false;

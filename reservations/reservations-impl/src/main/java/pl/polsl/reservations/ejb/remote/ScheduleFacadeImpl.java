@@ -15,13 +15,15 @@ import javax.ejb.Stateful;
 import javax.interceptor.Interceptors;
 import java.util.ArrayList;
 import java.util.List;
+import pl.polsl.reservations.annotations.PrivilegeLevel;
 import pl.polsl.reservations.builder.DTOBuilder;
+import pl.polsl.reservations.interceptors.PrivilegeInterceptor;
 
 /**
  * Created by Krzysztof Stręk on 2016-05-11.
  */
 @Stateful(mappedName = "ScheduleFacade")
-@Interceptors({LoggerImpl.class})
+@Interceptors({LoggerImpl.class, PrivilegeInterceptor.class})
 public class ScheduleFacadeImpl implements ScheduleFacade {
 
     @EJB
@@ -46,6 +48,7 @@ public class ScheduleFacadeImpl implements ScheduleFacade {
     }
 
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public List<ReservationDTO> getReservationsByUser(int userId) {
         List<ReservationDTO> result = new ArrayList<>();
         List<Reservations> reservationsList = reservationsDAO.getAllReservationsByUser((long)userId);
@@ -56,6 +59,7 @@ public class ScheduleFacadeImpl implements ScheduleFacade {
     }
 
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public List<ReservationDTO> getDetailedRoomSchedule(int roomId, int year, int week, boolean semester) {
         return scheduleFactory.createSchedule(
                 new DetailedScheduleStrategyDecorator(week, new RoomScheduleStrategy()),
@@ -66,6 +70,7 @@ public class ScheduleFacadeImpl implements ScheduleFacade {
     }
 
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public void createReservation(int roomId, int startTime, int endTime, int week, int year, boolean semester, int typeId, int userId) {
         Reservations newReservaton = new Reservations();
         List<RoomSchedule> roomSchedules = roomScheduleDAO.getAllSchedulesByYearAndSemester(year, semester);
@@ -108,11 +113,13 @@ public class ScheduleFacadeImpl implements ScheduleFacade {
     }
 
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public void removeReservation(int reservationId) {
         reservationsDAO.remove(reservationsDAO.find(reservationId));
     }
 
     @Override
+    @PrivilegeLevel(privilegeLevel = "P_SCHEDULE_LOOKUP")
     public List<ReservationDTO> getRoomSchedule(int roomId, int year, boolean semester) {
         return scheduleFactory.createSchedule(new RoomScheduleStrategy(), roomId, year, semester);
     }

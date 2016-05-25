@@ -128,5 +128,5 @@ public class LoggerImpl {
         log.log(Level.CONFIG, "*** Entity: {0} was loaded\n", object.getClass().getName());
         log.log(Level.FINE, object.toString());
     }
-
+    
 }

@@ -11,13 +11,15 @@ import javax.ejb.Stateful;
 import javax.interceptor.Interceptors;
 
 import java.util.List;
+import pl.polsl.reservations.annotations.PrivilegeLevel;
 import pl.polsl.reservations.builder.DTOBuilder;
+import pl.polsl.reservations.interceptors.PrivilegeInterceptor;
 
 /**
  * Created by Krzysztof Stręk on 2016-05-07.
  */
 @Stateful(mappedName = "UserFacade")
-@Interceptors({LoggerImpl.class})
+@Interceptors({LoggerImpl.class, PrivilegeInterceptor.class})
 public class UserFacadeImpl implements UserFacade {
 
     @EJB
@@ -60,6 +62,7 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public boolean loginAsGuest() {
         //zaslepka
         userContext.setPrivilegeLevel(PrivilegeLevelEnum.STANDARD_USER);
@@ -68,6 +71,7 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public boolean logout() {
         if (user != null) {
             user = null;
@@ -77,6 +81,7 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public Long getUserPrivilege() {
         if (user == null) {
             return 6l;
@@ -86,6 +91,7 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public boolean changePassword(String oldPassword, String newPassword) {
         if (user == null) {
             return false;
@@ -99,6 +105,7 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public UserDTO getUserDetails() {
         if (user == null) {
             return null;
@@ -115,6 +122,7 @@ public class UserFacadeImpl implements UserFacade {
      * @return
      */
     @Override
+    @PrivilegeLevel(privilegeLevel = "NONE")
     public boolean changeUserDetails(UserDTO userDTO) {
 
         if (user == null || user.getUserId() != userDTO.getId()) {
