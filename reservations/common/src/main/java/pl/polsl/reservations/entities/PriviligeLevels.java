@@ -1,10 +1,9 @@
 package pl.polsl.reservations.entities;
 
-import pl.polsl.reservations.logger.LoggerImpl;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.*;
+import pl.polsl.reservations.logger.LoggerImpl;
 @NamedQueries({
         @NamedQuery(name = "getPrivligeLevelsEntityByLevelValue", query = "select pl from PriviligeLevels pl where pl.priviligeLevel = :levelValue")
 })

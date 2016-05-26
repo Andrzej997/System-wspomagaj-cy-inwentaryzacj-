@@ -1,12 +1,11 @@
 package pl.polsl.reservations.ejb.dao;
 
 
+import java.util.List;
+import javax.ejb.Local;
 import pl.polsl.reservations.ejb.local.AbstractDao;
 import pl.polsl.reservations.entities.Departaments;
 import pl.polsl.reservations.entities.Institutes;
-
-import javax.ejb.Local;
-import java.util.List;
 
 /**
  * @author matis

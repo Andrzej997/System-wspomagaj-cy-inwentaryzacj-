@@ -1,8 +1,6 @@
 package pl.polsl.reservations.client.views.renderers;
 
-import java.awt.Color;
 import java.awt.Component;
-import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 

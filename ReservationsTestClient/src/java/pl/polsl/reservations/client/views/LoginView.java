@@ -3,7 +3,6 @@ package pl.polsl.reservations.client.views;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import pl.polsl.reservations.client.mediators.AccountViewMediator;
 import pl.polsl.reservations.client.mediators.LoginMediator;
 

@@ -2,11 +2,11 @@ package pl.polsl.reservations.client.views;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.*;
-import pl.polsl.reservations.client.mediators.LoginMediator;
+import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.mediators.AccountViewMediator;
 import pl.polsl.reservations.client.mediators.AddEditViewMediator;
+import pl.polsl.reservations.client.mediators.LoginMediator;
 import pl.polsl.reservations.client.mediators.MainViewMediator;
 
 public class MainView extends JFrame {
@@ -85,6 +85,7 @@ public class MainView extends JFrame {
     }
 
     private void exitMenuItemActionPerformed(ActionEvent evt) {
+        Lookup.removeUserCertificate();
         System.exit(0);
     }
 

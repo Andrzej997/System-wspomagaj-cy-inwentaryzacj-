@@ -1,18 +1,17 @@
 package pl.polsl.reservations.ejb.dao.impl;
 
+import java.util.List;
+import javax.ejb.Stateful;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
+import javax.interceptor.Interceptors;
+import javax.naming.NamingException;
 import pl.polsl.reservations.ejb.dao.ReservationTypesDao;
 import pl.polsl.reservations.ejb.dao.ReservationsDao;
 import pl.polsl.reservations.entities.ReservationTypes;
 import pl.polsl.reservations.entities.Reservations;
 import pl.polsl.reservations.interceptors.TransactionalInterceptor;
 import pl.polsl.reservations.logger.LoggerImpl;
-
-import javax.ejb.Stateful;
-import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
-import javax.interceptor.Interceptors;
-import javax.naming.NamingException;
-import java.util.List;
 
 /**
  * @author matis
@@ -52,6 +51,7 @@ public class ReservationTypesDaoImpl extends AbstractDaoImpl<ReservationTypes> i
     protected void getDependencies(){
         try {
             reservationsFacadeRemote = new ReservationsDaoImpl();
+            reservationsFacadeRemote.setUserContext(userContext);
         } catch (NamingException e) {
             e.printStackTrace();
         }

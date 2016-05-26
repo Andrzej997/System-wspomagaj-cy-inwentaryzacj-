@@ -1,10 +1,9 @@
 package pl.polsl.reservations.entities;
 
-import pl.polsl.reservations.logger.LoggerImpl;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.*;
+import pl.polsl.reservations.logger.LoggerImpl;
 
 @NamedQueries({@NamedQuery(name = "getAllSchedulesByYearAndSemester", query = "select rs from RoomSchedule rs where rs.semester = :semester and rs.year = :year "),
                 @NamedQuery(name = "getAllSchedulesAtSession", query = "select rs from RoomSchedule rs where rs.semester = :semester and rs.year = :year and rs.examinationSession = true "),

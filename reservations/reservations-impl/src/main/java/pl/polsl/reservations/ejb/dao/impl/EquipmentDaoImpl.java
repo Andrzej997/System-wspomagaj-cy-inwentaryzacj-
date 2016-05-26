@@ -1,5 +1,12 @@
 package pl.polsl.reservations.ejb.dao.impl;
 
+import java.util.List;
+import javax.ejb.Stateful;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
+import javax.interceptor.Interceptors;
+import javax.naming.NamingException;
+import javax.persistence.Query;
 import pl.polsl.reservations.ejb.dao.EquipmentDao;
 import pl.polsl.reservations.ejb.dao.EquipmentStateDao;
 import pl.polsl.reservations.ejb.dao.EquipmentTypeDao;
@@ -10,14 +17,6 @@ import pl.polsl.reservations.entities.EqupmentState;
 import pl.polsl.reservations.entities.Room;
 import pl.polsl.reservations.interceptors.TransactionalInterceptor;
 import pl.polsl.reservations.logger.LoggerImpl;
-
-import javax.ejb.Stateful;
-import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
-import javax.interceptor.Interceptors;
-import javax.naming.NamingException;
-import javax.persistence.Query;
-import java.util.List;
 
 /**
  * @author matis
@@ -75,6 +74,9 @@ public class EquipmentDaoImpl extends AbstractDaoImpl<Equipment> implements Equi
             equipmentStateFacadeRemote = new EquipmentStateDaoImpl();
             roomFacadeRemote = new RoomDaoImpl();
             equipmentTypeFacadeRemote = new EquipmentTypeDaoImpl();
+            equipmentStateFacadeRemote.setUserContext(userContext);
+            roomFacadeRemote.setUserContext(userContext);
+            equipmentTypeFacadeRemote.setUserContext(userContext);
         } catch (NamingException e) {
         }
     }

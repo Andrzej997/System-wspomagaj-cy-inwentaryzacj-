@@ -1,15 +1,14 @@
 package pl.polsl.reservations.ejb.remote;
 
-import pl.polsl.reservations.dto.*;
-
-import javax.ejb.Remote;
 import java.util.List;
+import javax.ejb.Remote;
+import pl.polsl.reservations.dto.*;
 
 /**
  * Created by Krzysztof Stręk on 2016-05-09.
  */
 @Remote
-public interface RoomManagementFacade {
+public interface RoomManagementFacade extends AbstractBusinessFacade{
 
     void addEquipment(int roomId, String name, int quantity, short stateId, short typeId);
     void removeEquipment(int equipmentId);

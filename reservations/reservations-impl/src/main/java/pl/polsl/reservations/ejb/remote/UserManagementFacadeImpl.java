@@ -1,33 +1,32 @@
 package pl.polsl.reservations.ejb.remote;
 
-import pl.polsl.reservations.dto.PrivilegeLevelDTO;
-import pl.polsl.reservations.dto.UserDTO;
-import pl.polsl.reservations.ejb.dao.*;
-import pl.polsl.reservations.entities.PriviligeLevels;
-import pl.polsl.reservations.entities.Room;
-import pl.polsl.reservations.entities.Users;
-import pl.polsl.reservations.entities.Workers;
-import pl.polsl.reservations.entities.Departaments;
-import pl.polsl.reservations.entities.Institutes;
-import pl.polsl.reservations.logger.LoggerImpl;
-
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
 import javax.interceptor.Interceptors;
-import java.util.ArrayList;
-import java.util.List;
 import pl.polsl.reservations.annotations.PrivilegeLevel;
 import pl.polsl.reservations.builder.DTOBuilder;
 import pl.polsl.reservations.dto.DepartamentDTO;
 import pl.polsl.reservations.dto.InstituteDTO;
+import pl.polsl.reservations.dto.PrivilegeLevelDTO;
+import pl.polsl.reservations.dto.UserDTO;
+import pl.polsl.reservations.ejb.dao.*;
+import pl.polsl.reservations.entities.Departaments;
+import pl.polsl.reservations.entities.Institutes;
+import pl.polsl.reservations.entities.PriviligeLevels;
+import pl.polsl.reservations.entities.Room;
+import pl.polsl.reservations.entities.Users;
+import pl.polsl.reservations.entities.Workers;
 import pl.polsl.reservations.interceptors.PrivilegeInterceptor;
+import pl.polsl.reservations.logger.LoggerImpl;
 
 /**
  * Created by Krzysztof Strek on 2016-05-09.
  */
 @Stateful(mappedName = "UserManagementFacade")
 @Interceptors({LoggerImpl.class, PrivilegeInterceptor.class})
-public class UserManagementFacadeImpl implements UserManagementFacade {
+public class UserManagementFacadeImpl extends AbstractBusinessFacadeImpl implements UserManagementFacade {
 
     @EJB
     UsersDao usersFacade;
@@ -43,6 +42,7 @@ public class UserManagementFacadeImpl implements UserManagementFacade {
     InstitutesDao institutesFacade;
 
     public UserManagementFacadeImpl() {
+        super();
     }
 
     @Override
@@ -340,4 +340,17 @@ public class UserManagementFacadeImpl implements UserManagementFacade {
 
         return true;
     }
+
+    @Override
+    public Boolean certificateBean(String certificate) {
+        Boolean certificateBean = super.certificateBean(certificate);
+        usersFacade.setUserContext(certificate);
+        roomFacade.setUserContext(certificate);
+        departamentsFacade.setUserContext(certificate);
+        workersFacade.setUserContext(certificate);
+        priviligeLevelsFacade.setUserContext(certificate);
+        institutesFacade.setUserContext(certificate);
+        return certificateBean;
+    }
+
 }

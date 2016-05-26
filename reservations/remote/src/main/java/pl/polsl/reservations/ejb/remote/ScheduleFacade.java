@@ -1,15 +1,14 @@
 package pl.polsl.reservations.ejb.remote;
 
-import pl.polsl.reservations.dto.ReservationDTO;
-
-import javax.ejb.Remote;
 import java.util.List;
+import javax.ejb.Remote;
+import pl.polsl.reservations.dto.ReservationDTO;
 
 /**
  * Created by Krzysztof Stręk on 2016-05-11.
  */
 @Remote
-public interface ScheduleFacade {
+public interface ScheduleFacade extends AbstractBusinessFacade{
     List<ReservationDTO> getRoomSchedule(int roomId, int year, boolean semester);
     List<ReservationDTO> getDetailedRoomSchedule(int roomId, int year, int week, boolean semester);
     List<ReservationDTO> getReservationsByUser(int userId);

@@ -1,10 +1,9 @@
 package pl.polsl.reservations.entities;
 
-import pl.polsl.reservations.logger.LoggerImpl;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.*;
+import pl.polsl.reservations.logger.LoggerImpl;
 
 @NamedQueries({@NamedQuery(name = "validateUser", query = "select u from Users u where u.username = :username and u.password = :password"),
         @NamedQuery(name = "validateUserByEmail", query = "select u from Users u where u.email = :email and u.password = :password"),

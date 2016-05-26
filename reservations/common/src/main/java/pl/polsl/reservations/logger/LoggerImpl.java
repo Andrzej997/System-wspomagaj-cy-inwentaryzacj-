@@ -1,17 +1,16 @@
 package pl.polsl.reservations.logger;
 
-import pl.polsl.reservations.ejb.local.AbstractDao;
-
+import java.io.IOException;
+import java.lang.reflect.Parameter;
+import java.util.Arrays;
+import java.util.logging.*;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 import javax.persistence.*;
-import java.io.IOException;
-import java.lang.reflect.Parameter;
-import java.util.Arrays;
-import java.util.logging.*;
+import pl.polsl.reservations.ejb.local.AbstractDao;
 
 
 /**

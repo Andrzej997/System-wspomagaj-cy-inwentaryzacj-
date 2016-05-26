@@ -1,30 +1,29 @@
 package pl.polsl.reservations.ejb.remote;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.ejb.Stateful;
+import javax.interceptor.Interceptors;
+import pl.polsl.reservations.annotations.PrivilegeLevel;
+import pl.polsl.reservations.builder.DTOBuilder;
 import pl.polsl.reservations.dto.ReservationDTO;
 import pl.polsl.reservations.ejb.dao.*;
 import pl.polsl.reservations.entities.Reservations;
 import pl.polsl.reservations.entities.Room;
 import pl.polsl.reservations.entities.RoomSchedule;
+import pl.polsl.reservations.interceptors.PrivilegeInterceptor;
 import pl.polsl.reservations.logger.LoggerImpl;
 import pl.polsl.reservations.schedule.DetailedScheduleStrategyDecorator;
 import pl.polsl.reservations.schedule.RoomScheduleStrategy;
 import pl.polsl.reservations.schedule.ScheduleFactory;
-
-import javax.ejb.EJB;
-import javax.ejb.Stateful;
-import javax.interceptor.Interceptors;
-import java.util.ArrayList;
-import java.util.List;
-import pl.polsl.reservations.annotations.PrivilegeLevel;
-import pl.polsl.reservations.builder.DTOBuilder;
-import pl.polsl.reservations.interceptors.PrivilegeInterceptor;
 
 /**
  * Created by Krzysztof Stręk on 2016-05-11.
  */
 @Stateful(mappedName = "ScheduleFacade")
 @Interceptors({LoggerImpl.class, PrivilegeInterceptor.class})
-public class ScheduleFacadeImpl implements ScheduleFacade {
+public class ScheduleFacadeImpl extends AbstractBusinessFacadeImpl implements ScheduleFacade {
 
     @EJB
     ScheduleFactory scheduleFactory;
@@ -45,13 +44,14 @@ public class ScheduleFacadeImpl implements ScheduleFacade {
     UsersDao usersDAO;
 
     public ScheduleFacadeImpl() {
+        super();
     }
 
     @Override
     @PrivilegeLevel(privilegeLevel = "NONE")
     public List<ReservationDTO> getReservationsByUser(int userId) {
         List<ReservationDTO> result = new ArrayList<>();
-        List<Reservations> reservationsList = reservationsDAO.getAllReservationsByUser((long)userId);
+        List<Reservations> reservationsList = reservationsDAO.getAllReservationsByUser((long) userId);
         for (Reservations r : reservationsList) {
             result.add(DTOBuilder.buildReservationDTO(r));
         }
@@ -76,7 +76,7 @@ public class ScheduleFacadeImpl implements ScheduleFacade {
         List<RoomSchedule> roomSchedules = roomScheduleDAO.getAllSchedulesByYearAndSemester(year, semester);
 
         RoomSchedule schedule = null;
-        for (RoomSchedule r: roomSchedules) {
+        for (RoomSchedule r : roomSchedules) {
             if (r.getWeek() == week && r.getRoom().getId() == roomId) {
                 schedule = r;
                 break;
@@ -100,7 +100,7 @@ public class ScheduleFacadeImpl implements ScheduleFacade {
 
         reservationsDAO.create(newReservaton);
         List<Reservations> reservationsCollection = schedule.getReservationsCollection();
-        if(schedule.getId() != null){
+        if (schedule.getId() != null) {
             reservationsCollection.add(newReservaton);
             schedule.setReservationsCollection(reservationsCollection);
             roomScheduleDAO.merge(schedule);
@@ -123,4 +123,17 @@ public class ScheduleFacadeImpl implements ScheduleFacade {
     public List<ReservationDTO> getRoomSchedule(int roomId, int year, boolean semester) {
         return scheduleFactory.createSchedule(new RoomScheduleStrategy(), roomId, year, semester);
     }
+
+    @Override
+    public Boolean certificateBean(String certificate) {
+        Boolean certificateBean = super.certificateBean(certificate);
+        scheduleFactory.setUserContext(certificate);
+        reservationsDAO.setUserContext(certificate);
+        roomDAO.setUserContext(certificate);
+        roomScheduleDAO.setUserContext(certificate);
+        reservationTypeDAO.setUserContext(certificate);
+        usersDAO.setUserContext(certificate);
+        return certificateBean;
+    }
+
 }

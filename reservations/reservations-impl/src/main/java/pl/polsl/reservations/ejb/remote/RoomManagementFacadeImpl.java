@@ -1,25 +1,24 @@
 package pl.polsl.reservations.ejb.remote;
 
-import pl.polsl.reservations.dto.*;
-import pl.polsl.reservations.ejb.dao.*;
-import pl.polsl.reservations.entities.*;
-import pl.polsl.reservations.logger.LoggerImpl;
-
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
 import javax.interceptor.Interceptors;
-import java.util.ArrayList;
-import java.util.List;
 import pl.polsl.reservations.annotations.PrivilegeLevel;
 import pl.polsl.reservations.builder.DTOBuilder;
+import pl.polsl.reservations.dto.*;
+import pl.polsl.reservations.ejb.dao.*;
+import pl.polsl.reservations.entities.*;
 import pl.polsl.reservations.interceptors.PrivilegeInterceptor;
+import pl.polsl.reservations.logger.LoggerImpl;
 
 /**
  * Created by Krzysztof Stręk on 2016-05-09.
  */
 @Stateful(mappedName = "RoomManagementFacade")
 @Interceptors({LoggerImpl.class, PrivilegeInterceptor.class})
-public class RoomManagementFacadeImpl implements RoomManagementFacade {
+public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl implements RoomManagementFacade {
 
     @EJB
     RoomDao roomsDAO;
@@ -43,7 +42,7 @@ public class RoomManagementFacadeImpl implements RoomManagementFacade {
     EquipmentDao equipmentDAO;
 
     public RoomManagementFacadeImpl() {
-        
+        super();
     }
 
     @Override
@@ -195,4 +194,18 @@ public class RoomManagementFacadeImpl implements RoomManagementFacade {
         Equipment eq = equipmentDAO.find(equipmentId);
         equipmentDAO.remove(eq);
     }
+    
+    @Override
+    public Boolean certificateBean(String certificate){
+        Boolean certificateBean = super.certificateBean(certificate);
+        roomsDAO.setUserContext(certificate);
+        userDAO.setUserContext(certificate);
+        departmentDAO.setUserContext(certificate);
+        equipmentStateDAO.setUserContext(certificate);
+        equipmentTypeDAO.setUserContext(certificate);
+        workersDAO.setUserContext(certificate);
+        equipmentDAO.setUserContext(certificate);
+        return certificateBean;
+    }
+    
 }

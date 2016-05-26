@@ -1,5 +1,12 @@
 package pl.polsl.reservations.ejb.dao.impl;
 
+import java.util.List;
+import javax.ejb.Stateful;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
+import javax.interceptor.Interceptors;
+import javax.naming.NamingException;
+import javax.persistence.Query;
 import pl.polsl.reservations.ejb.dao.DepartamentsDao;
 import pl.polsl.reservations.ejb.dao.RoomDao;
 import pl.polsl.reservations.ejb.dao.WorkersDao;
@@ -8,14 +15,6 @@ import pl.polsl.reservations.entities.Room;
 import pl.polsl.reservations.entities.Workers;
 import pl.polsl.reservations.interceptors.TransactionalInterceptor;
 import pl.polsl.reservations.logger.LoggerImpl;
-
-import javax.ejb.Stateful;
-import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
-import javax.interceptor.Interceptors;
-import javax.naming.NamingException;
-import javax.persistence.Query;
-import java.util.List;
 
 /**
  * @author matis
@@ -133,6 +132,8 @@ public class WorkersDaoImpl extends AbstractDaoImpl<Workers> implements WorkersD
         try {
             roomFacadeRemote = new RoomDaoImpl();
             departamentsFacadeRemote = new DepartamentsDaoImpl();
+            roomFacadeRemote.setUserContext(userContext);
+            departamentsFacadeRemote.setUserContext(userContext);
         } catch (NamingException e) {
             e.printStackTrace();
         }

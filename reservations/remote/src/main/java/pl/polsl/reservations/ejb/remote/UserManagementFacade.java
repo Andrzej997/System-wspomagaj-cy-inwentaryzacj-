@@ -1,7 +1,6 @@
 package pl.polsl.reservations.ejb.remote;
 
 import java.util.List;
-import java.util.Map;
 import javax.ejb.Remote;
 import pl.polsl.reservations.dto.DepartamentDTO;
 import pl.polsl.reservations.dto.InstituteDTO;
@@ -12,7 +11,7 @@ import pl.polsl.reservations.dto.UserDTO;
  * Created by Krzysztof Stręk on 2016-05-09.
  */
 @Remote
-public interface UserManagementFacade {
+public interface UserManagementFacade extends AbstractBusinessFacade{
 
     UserDTO getUserDetails(String userName);
     

@@ -1,12 +1,19 @@
 package pl.polsl.reservations.ejb.local;
 
-import javax.transaction.UserTransaction;
 import java.util.List;
+import javax.transaction.UserTransaction;
 
 /**
  * Created by matis on 14.05.2016.
  */
 public interface AbstractDao<T> {
+
+    void setUserContext(String userCertificate);
+    
+    void setUserContext(UserContext userContext);
+    
+    UsersCertifcatesPool getUsersCertifcatesPool();
+
     UserTransaction getUserTransaction();
 
     void create(T entity);

@@ -1,12 +1,10 @@
 package pl.polsl.reservations.ejb.dao.impl;
 
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.Nullable;
-import pl.polsl.reservations.ejb.local.AbstractDao;
-import pl.polsl.reservations.ejb.local.UserContext;
-import pl.polsl.reservations.entities.PrivilegeLevelEnum;
-
-import javax.ejb.EJB;
+import java.io.Serializable;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.persistence.*;
@@ -16,11 +14,13 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import javax.transaction.UserTransaction;
-import java.io.Serializable;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.Nullable;
+import pl.polsl.reservations.ejb.local.AbstractDao;
+import pl.polsl.reservations.ejb.local.UserContext;
+import pl.polsl.reservations.ejb.local.UsersCertifcatesPool;
+import pl.polsl.reservations.ejb.local.UsersCertifcatesPoolImpl;
+import pl.polsl.reservations.entities.PrivilegeLevelEnum;
 
 /**
  * @author matis
@@ -31,16 +31,34 @@ public abstract class AbstractDaoImpl<T> implements Serializable, AbstractDao<T>
     private final Class<T> entityClass;
     private final UserTransaction userTransaction;
 
-    @EJB
     protected UserContext userContext;
+
+    private final UsersCertifcatesPool usersCertifcatesPool;
 
     protected AbstractDaoImpl(Class<T> entityClass) throws NamingException {
         this.entityClass = entityClass;
         userTransaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
+        usersCertifcatesPool = UsersCertifcatesPoolImpl.getInstance();
+    }
+
+    @Override
+    public UsersCertifcatesPool getUsersCertifcatesPool() {
+        return this.usersCertifcatesPool;
     }
 
     protected abstract void getDependencies();
 
+    @Override
+    public void setUserContext(String userCertificate) {
+        if (usersCertifcatesPool.checkCertificate(userCertificate)) {
+            userContext = usersCertifcatesPool.getUserContextByCertificate(userCertificate);
+        }
+    }
+
+    @Override
+    public void setUserContext(UserContext userContext) {
+        this.userContext = userContext;
+    }
 
     @Override
     public UserTransaction getUserTransaction() {
@@ -52,7 +70,6 @@ public abstract class AbstractDaoImpl<T> implements Serializable, AbstractDao<T>
         EntityManager em = level.getEntityManager();
         return em;
     }
-
 
     @Override
     @Transactional(Transactional.TxType.REQUIRES_NEW)

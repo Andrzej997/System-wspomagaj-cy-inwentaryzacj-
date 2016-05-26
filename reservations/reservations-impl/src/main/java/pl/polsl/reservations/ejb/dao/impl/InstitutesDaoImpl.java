@@ -1,19 +1,18 @@
 package pl.polsl.reservations.ejb.dao.impl;
 
-import pl.polsl.reservations.ejb.dao.DepartamentsDao;
-import pl.polsl.reservations.ejb.dao.InstitutesDao;
-import pl.polsl.reservations.entities.Departaments;
-import pl.polsl.reservations.entities.Institutes;
-import pl.polsl.reservations.interceptors.TransactionalInterceptor;
-import pl.polsl.reservations.logger.LoggerImpl;
-
+import java.util.List;
 import javax.ejb.Stateful;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.interceptor.Interceptors;
 import javax.naming.NamingException;
 import javax.persistence.Query;
-import java.util.List;
+import pl.polsl.reservations.ejb.dao.DepartamentsDao;
+import pl.polsl.reservations.ejb.dao.InstitutesDao;
+import pl.polsl.reservations.entities.Departaments;
+import pl.polsl.reservations.entities.Institutes;
+import pl.polsl.reservations.interceptors.TransactionalInterceptor;
+import pl.polsl.reservations.logger.LoggerImpl;
 
 /**
  * @author matis
@@ -68,6 +67,7 @@ public class InstitutesDaoImpl extends AbstractDaoImpl<Institutes> implements In
     protected void getDependencies(){
         try {
             departamentsFacadeRemote = new DepartamentsDaoImpl();
+            departamentsFacadeRemote.setUserContext(userContext);
         } catch (NamingException e) {
         }
     }

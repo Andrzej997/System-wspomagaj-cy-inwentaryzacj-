@@ -1,10 +1,9 @@
 package pl.polsl.reservations.entities;
 
-import pl.polsl.reservations.logger.LoggerImpl;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.*;
+import pl.polsl.reservations.logger.LoggerImpl;
 
 @NamedQueries({@NamedQuery(name = "getWorkersByName", query = "select w from Workers w where w.workerName = :workerName"),
                 @NamedQuery(name = "getWorkersBySurname", query = "select w from Workers w where w.surname = :surname"),

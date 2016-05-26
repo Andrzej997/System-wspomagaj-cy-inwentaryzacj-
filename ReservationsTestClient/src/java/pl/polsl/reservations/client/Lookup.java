@@ -1,7 +1,10 @@
 package pl.polsl.reservations.client;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJBHome;
 import javax.ejb.EJBLocalHome;
 import javax.jms.ConnectionFactory;
@@ -13,6 +16,8 @@ import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.rmi.PortableRemoteObject;
 import javax.sql.DataSource;
+import pl.polsl.reservations.ejb.remote.AbstractBusinessFacade;
+import pl.polsl.reservations.ejb.remote.UserFacade;
 
 /**
  *
@@ -20,10 +25,12 @@ import javax.sql.DataSource;
  */
 public class Lookup {
 
-    private static final InitialContext ic;
+    private static InitialContext ic;
+    private static ClientSessionCertificate clientSessionCertificate;
 
     static {
         try {
+            clientSessionCertificate = ClientSessionCertificate.getInstance();
             Properties p = new Properties();
             p.put("java.rmi.server.useCodebaseOnly", "false");
             ic = new InitialContext(p);
@@ -31,7 +38,6 @@ public class Lookup {
             while (list.hasMore()) {
                 System.out.println(list.next().getName());
             }
-
         } catch (NamingException ne) {
             throw new RuntimeException(ne);
         }
@@ -45,6 +51,13 @@ public class Lookup {
         Object o = null;
         try {
             o = Lookup.lookup(jndiName);
+            if (o instanceof AbstractBusinessFacade) {
+                try {
+                    ((AbstractBusinessFacade) o).certificateBean(clientSessionCertificate.getCertificate());
+                } catch (UnsupportedEncodingException ex) {
+                    Logger.getLogger(Lookup.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         } catch (NamingException ex) {
             System.out.println("Remote object doesn't exists!");
         }
@@ -154,4 +167,14 @@ public class Lookup {
     public static String getString(String envName) throws NamingException {
         return (String) lookup(envName);
     }
+
+    public static void removeUserCertificate() {
+        UserFacade userFacade = (UserFacade) getRemote("UserFacade");
+        try {
+            userFacade.removeCertificate(clientSessionCertificate.getCertificate());
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(Lookup.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
 }

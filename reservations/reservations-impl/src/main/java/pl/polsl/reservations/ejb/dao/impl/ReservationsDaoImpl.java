@@ -1,5 +1,13 @@
 package pl.polsl.reservations.ejb.dao.impl;
 
+import java.util.Calendar;
+import java.util.List;
+import javax.ejb.Stateful;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
+import javax.interceptor.Interceptors;
+import javax.naming.NamingException;
+import javax.persistence.Query;
 import pl.polsl.reservations.ejb.dao.ReservationTypesDao;
 import pl.polsl.reservations.ejb.dao.ReservationsDao;
 import pl.polsl.reservations.ejb.dao.RoomScheduleDao;
@@ -8,15 +16,6 @@ import pl.polsl.reservations.entities.Reservations;
 import pl.polsl.reservations.entities.RoomSchedule;
 import pl.polsl.reservations.interceptors.TransactionalInterceptor;
 import pl.polsl.reservations.logger.LoggerImpl;
-
-import javax.ejb.Stateful;
-import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
-import javax.interceptor.Interceptors;
-import javax.naming.NamingException;
-import javax.persistence.Query;
-import java.util.Calendar;
-import java.util.List;
 
 /**
  * @author matis
@@ -97,6 +96,8 @@ public class ReservationsDaoImpl extends AbstractDaoImpl<Reservations> implement
         try {
             roomScheduleFacadeRemote = new RoomScheduleDaoImpl();
             reservationTypesFacadeRemote = new ReservationTypesDaoImpl();
+            roomScheduleFacadeRemote.setUserContext(userContext);
+            reservationTypesFacadeRemote.setUserContext(userContext);
         } catch (NamingException e) {
             e.printStackTrace();
         }

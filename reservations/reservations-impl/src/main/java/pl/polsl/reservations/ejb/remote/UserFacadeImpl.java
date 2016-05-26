@@ -1,26 +1,24 @@
 package pl.polsl.reservations.ejb.remote;
 
-import pl.polsl.reservations.ejb.dao.*;
-import pl.polsl.reservations.ejb.local.UserContext;
-import pl.polsl.reservations.dto.UserDTO;
-import pl.polsl.reservations.entities.*;
-import pl.polsl.reservations.logger.LoggerImpl;
-
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
 import javax.interceptor.Interceptors;
-
-import java.util.List;
 import pl.polsl.reservations.annotations.PrivilegeLevel;
 import pl.polsl.reservations.builder.DTOBuilder;
+import pl.polsl.reservations.dto.UserDTO;
+import pl.polsl.reservations.ejb.dao.*;
+import pl.polsl.reservations.ejb.local.UserContext;
+import pl.polsl.reservations.entities.*;
 import pl.polsl.reservations.interceptors.PrivilegeInterceptor;
+import pl.polsl.reservations.logger.LoggerImpl;
 
 /**
  * Created by Krzysztof Stręk on 2016-05-07.
  */
 @Stateful(mappedName = "UserFacade")
 @Interceptors({LoggerImpl.class, PrivilegeInterceptor.class})
-public class UserFacadeImpl implements UserFacade {
+public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFacade {
 
     @EJB
     private UsersDao usersFacade;
@@ -31,16 +29,15 @@ public class UserFacadeImpl implements UserFacade {
     @EJB
     private WorkersDao workersFacade;
 
-    @EJB
-    private UserContext userContext;
-
     private Users user = null;
 
     public UserFacadeImpl() {
+        super();
     }
 
     @Override
     public boolean login(String nameOrEmail, String password) {
+        UserContext userContext = getCurrentUserContext();
         userContext.setPrivilegeLevel(PrivilegeLevelEnum.ADMIN);
         if (nameOrEmail.contains("@") && nameOrEmail.contains(".")) {
             if (usersFacade.validateUserByEmail(nameOrEmail, password)) {
@@ -64,6 +61,7 @@ public class UserFacadeImpl implements UserFacade {
     @Override
     @PrivilegeLevel(privilegeLevel = "NONE")
     public boolean loginAsGuest() {
+        UserContext userContext = getCurrentUserContext();
         //zaslepka
         userContext.setPrivilegeLevel(PrivilegeLevelEnum.STANDARD_USER);
         user = new Users();
@@ -145,6 +143,22 @@ public class UserFacadeImpl implements UserFacade {
         workersFacade.edit(workerDB);
 
         return true;
+    }
+
+    @Override
+    public Boolean certificateBean(String certificate) {
+        Boolean certificateBean = super.certificateBean(certificate);
+        usersFacade.setUserContext(certificate);
+        roomFacade.setUserContext(certificate);
+        departamentsFacade.setUserContext(certificate);
+        workersFacade.setUserContext(certificate);
+        return certificateBean;
+        
+    }
+    
+    @Override
+    public void removeCertificate(String certificate){
+        getUsersCertifcatesPool().removeCertificate(certificate);
     }
 
 }

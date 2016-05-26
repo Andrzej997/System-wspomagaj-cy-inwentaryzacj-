@@ -1,5 +1,12 @@
 package pl.polsl.reservations.ejb.dao.impl;
 
+import java.util.List;
+import javax.ejb.Stateful;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
+import javax.interceptor.Interceptors;
+import javax.naming.NamingException;
+import javax.persistence.Query;
 import pl.polsl.reservations.ejb.dao.PriviligeLevelsDao;
 import pl.polsl.reservations.ejb.dao.PriviligesDao;
 import pl.polsl.reservations.ejb.dao.UsersDao;
@@ -8,14 +15,6 @@ import pl.polsl.reservations.entities.Priviliges;
 import pl.polsl.reservations.entities.Users;
 import pl.polsl.reservations.interceptors.TransactionalInterceptor;
 import pl.polsl.reservations.logger.LoggerImpl;
-
-import javax.ejb.Stateful;
-import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
-import javax.interceptor.Interceptors;
-import javax.naming.NamingException;
-import javax.persistence.Query;
-import java.util.List;
 
 /**
  * @author matis
@@ -86,6 +85,8 @@ public class PriviligeLevelsDaoImpl extends AbstractDaoImpl<PriviligeLevels> imp
         try {
             usersFacadeRemote = new UsersDaoImpl();
             priviligesFacadeRemote = new PriviligesDaoImpl();
+            usersFacadeRemote.setUserContext(userContext);
+            priviligesFacadeRemote.setUserContext(userContext);
         } catch (NamingException e) {
         }
     }

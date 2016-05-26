@@ -1,11 +1,10 @@
 package pl.polsl.reservations.schedule;
 
+import java.util.List;
 import pl.polsl.reservations.dto.ReservationDTO;
 import pl.polsl.reservations.ejb.dao.ReservationsDao;
 import pl.polsl.reservations.ejb.dao.RoomDao;
 import pl.polsl.reservations.ejb.dao.RoomScheduleDao;
-
-import java.util.List;
 
 /**
  * Created by Krzysztof Stręk on 2016-05-12.

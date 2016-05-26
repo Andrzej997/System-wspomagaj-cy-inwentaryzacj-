@@ -1,12 +1,11 @@
 package pl.polsl.reservations.client;
 
+import java.util.List;
 import pl.polsl.reservations.dto.RoomDTO;
 import pl.polsl.reservations.ejb.remote.RoomManagementFacade;
 import pl.polsl.reservations.ejb.remote.ScheduleFacade;
 import pl.polsl.reservations.ejb.remote.UserFacade;
 import pl.polsl.reservations.ejb.remote.UserManagementFacade;
-
-import java.util.List;
 
 /**
  *

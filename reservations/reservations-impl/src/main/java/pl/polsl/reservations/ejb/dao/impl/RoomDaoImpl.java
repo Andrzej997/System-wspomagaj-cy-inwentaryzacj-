@@ -1,17 +1,16 @@
 package pl.polsl.reservations.ejb.dao.impl;
 
-import pl.polsl.reservations.ejb.dao.*;
-import pl.polsl.reservations.entities.*;
-import pl.polsl.reservations.interceptors.TransactionalInterceptor;
-import pl.polsl.reservations.logger.LoggerImpl;
-
+import java.util.List;
 import javax.ejb.Stateful;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.interceptor.Interceptors;
 import javax.naming.NamingException;
 import javax.persistence.Query;
-import java.util.List;
+import pl.polsl.reservations.ejb.dao.*;
+import pl.polsl.reservations.entities.*;
+import pl.polsl.reservations.interceptors.TransactionalInterceptor;
+import pl.polsl.reservations.logger.LoggerImpl;
 
 /**
  * @author matis
@@ -120,6 +119,11 @@ public class RoomDaoImpl extends AbstractDaoImpl<Room> implements RoomDao {
             departamentsFacadeRemote = new DepartamentsDaoImpl();
             roomScheduleFacadeRemote = new RoomScheduleDaoImpl();
             roomTypesFacadeRemote = new RoomTypesDaoImpl();
+            equipmentFacadeRemote.setUserContext(userContext);
+            workersFacadeRemote.setUserContext(userContext);
+            departamentsFacadeRemote.setUserContext(userContext);
+            roomScheduleFacadeRemote.setUserContext(userContext);
+            roomTypesFacadeRemote.setUserContext(userContext);
         } catch (NamingException e) {
             e.printStackTrace();
         }
