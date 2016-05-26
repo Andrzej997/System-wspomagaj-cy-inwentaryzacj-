@@ -13,7 +13,6 @@
             </test-roots>
             <included-library dirs="200">libs.hibernate4-persistence.classpath</included-library>
             <included-library dirs="200">file.reference.remote-0.7.jar</included-library>
-            <included-library dirs="200">libs.javaee-api-7.0.classpath</included-library>
         </data>
         <libraries xmlns="http://www.netbeans.org/ns/ant-project-libraries/1">
             <definitions>.\lib\nblibraries.properties</definitions>
