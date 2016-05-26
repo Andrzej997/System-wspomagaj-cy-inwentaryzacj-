@@ -17,7 +17,7 @@ public class AccountView extends JPanel {
     private JButton addButton;
     private JButton chooseButton;
     
-    private final AccountViewMediator accountViewMediator;
+    private transient final AccountViewMediator accountViewMediator;
 
     public AccountView(MainView window, AccountViewMediator accountViewMediator) {
         super(new BorderLayout());

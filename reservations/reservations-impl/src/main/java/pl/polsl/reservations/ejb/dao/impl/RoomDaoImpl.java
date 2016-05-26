@@ -78,7 +78,7 @@ public class RoomDaoImpl extends AbstractDaoImpl<Room> implements RoomDao {
             equipmentFacadeRemote.remove(equipment);
         }
 
-        Workers keeper = room.getKeeperId();
+        Workers keeper = room.getKeeper();
         List<Room> roomCollection = keeper.getRoomCollection();
         roomCollection.remove(room);
         keeper.setRoomCollection(roomCollection);
@@ -91,7 +91,7 @@ public class RoomDaoImpl extends AbstractDaoImpl<Room> implements RoomDao {
             workersFacadeRemote.merge(worker);
         }
 
-        Departaments departament = room.getDepartamentId();
+        Departaments departament = room.getDepartament();
         roomCollection = departament.getRoomCollection();
         roomCollection.remove(room);
         departament.setRoomCollection(roomCollection);
@@ -125,7 +125,6 @@ public class RoomDaoImpl extends AbstractDaoImpl<Room> implements RoomDao {
             roomScheduleFacadeRemote.setUserContext(userContext);
             roomTypesFacadeRemote.setUserContext(userContext);
         } catch (NamingException e) {
-            e.printStackTrace();
         }
     }
 }

@@ -20,7 +20,7 @@ public class LoginView extends JPanel {
     private JLabel passwordLabel;
     private JPasswordField passwordEditText;
 
-    private LoginMediator loginMediator;
+    private transient final LoginMediator loginMediator;
 
     public LoginView(MainView window, LoginMediator loginMediator) {
         super(new BorderLayout());

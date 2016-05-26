@@ -24,6 +24,8 @@ import pl.polsl.reservations.client.mediators.WeekDataViewMediator;
  */
 public class WeekDataView extends JPanel {
 
+    private static final long serialVersionUID = 29987884996505785L;
+
     MainView window;
     private JComboBox chooseRoomDropdown;
     private JButton chooseButton;
@@ -33,9 +35,9 @@ public class WeekDataView extends JPanel {
     private JPanel buttonPanel;
     private JLabel weekTv;
 
-    private Object selectedItem;
+    private final Object selectedItem;
 
-    private WeekDataViewMediator weekDataViewMediator;
+    private transient final WeekDataViewMediator weekDataViewMediator;
 
     public WeekDataView(MainView window, Object selectedItem, WeekDataViewMediator weekDataViewMediator) {
         this.window = window;

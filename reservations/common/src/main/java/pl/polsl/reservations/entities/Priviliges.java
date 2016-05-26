@@ -15,7 +15,7 @@ public class Priviliges implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "PRIVILIGE_ID", updatable = true, insertable = true, nullable = false)
-    private Long priviligeId;
+    private Long id;
 
     @Column(name = "DESCRIPTION", updatable = true, insertable = true, nullable = true)
     @Lob
@@ -34,12 +34,12 @@ public class Priviliges implements Serializable {
 
     }
 
-    public Long getPriviligeId() {
-        return this.priviligeId;
+    public Long getId() {
+        return this.id;
     }
 
-    public void setPriviligeId(Long priviligeId) {
-        this.priviligeId = priviligeId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getDescription() {

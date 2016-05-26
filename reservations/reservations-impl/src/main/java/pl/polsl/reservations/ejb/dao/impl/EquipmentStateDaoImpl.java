@@ -39,7 +39,7 @@ public class EquipmentStateDaoImpl extends AbstractDaoImpl<EqupmentState> implem
     public void remove(EqupmentState entity) {
         getDependencies();
 
-        EqupmentState equpmentState = this.find(entity.getStateId());
+        EqupmentState equpmentState = this.find(entity.getId());
         List<Equipment> equipmentCollection = equpmentState.getEquipmentCollection();
         for(Equipment equipment : equipmentCollection){
             equipmentFacadeRemote.remove(equipment);

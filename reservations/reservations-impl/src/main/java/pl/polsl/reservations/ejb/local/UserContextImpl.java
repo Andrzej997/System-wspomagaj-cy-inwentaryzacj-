@@ -4,7 +4,7 @@ import java.util.EnumSet;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.FlushModeType;
-import pl.polsl.reservations.entities.PrivilegeLevelEnum;
+import pl.polsl.reservations.privileges.PrivilegeLevelEnum;
 import pl.polsl.reservations.entities.Priviliges;
 import pl.polsl.reservations.privileges.PrivilegeEnum;
 

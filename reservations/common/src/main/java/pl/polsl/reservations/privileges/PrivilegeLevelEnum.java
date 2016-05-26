@@ -1,4 +1,4 @@
-package pl.polsl.reservations.entities;
+package pl.polsl.reservations.privileges;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

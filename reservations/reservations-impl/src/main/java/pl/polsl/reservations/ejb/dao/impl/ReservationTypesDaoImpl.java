@@ -38,7 +38,7 @@ public class ReservationTypesDaoImpl extends AbstractDaoImpl<ReservationTypes> i
     public void remove(ReservationTypes entity) {
         getDependencies();
 
-        ReservationTypes reservationType = this.find(entity.getTypeId());
+        ReservationTypes reservationType = this.find(entity.getId());
         List<Reservations> reservationsCollection = reservationType.getReservationsCollection();
         for(Reservations reservation : reservationsCollection){
             reservationsFacadeRemote.remove(reservation);
@@ -53,7 +53,6 @@ public class ReservationTypesDaoImpl extends AbstractDaoImpl<ReservationTypes> i
             reservationsFacadeRemote = new ReservationsDaoImpl();
             reservationsFacadeRemote.setUserContext(userContext);
         } catch (NamingException e) {
-            e.printStackTrace();
         }
     }
 }

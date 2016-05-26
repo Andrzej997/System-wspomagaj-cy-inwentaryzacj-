@@ -39,7 +39,7 @@ public class PriviligesDaoImpl extends AbstractDaoImpl<Priviliges> implements Pr
     public void remove(Priviliges entity) {
         getDependencies();
 
-        Priviliges privilige = this.find(entity.getPriviligeId());
+        Priviliges privilige = this.find(entity.getId());
         List<PriviligeLevels> priviligeLevelsCollection = privilige.getPriviligeLevelsCollection();
         for(PriviligeLevels priviligeLevels : priviligeLevelsCollection){
             List<Priviliges> priviligesCollection = priviligeLevels.getPriviligesCollection();
@@ -57,7 +57,6 @@ public class PriviligesDaoImpl extends AbstractDaoImpl<Priviliges> implements Pr
             priviligeLevelsFacadeRemote = new PriviligeLevelsDaoImpl();
             priviligeLevelsFacadeRemote.setUserContext(userContext);
         } catch (NamingException e) {
-            e.printStackTrace();
         }
     }
 }

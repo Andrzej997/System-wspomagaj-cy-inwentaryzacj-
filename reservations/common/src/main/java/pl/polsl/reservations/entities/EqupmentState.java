@@ -15,7 +15,7 @@ public class EqupmentState  implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "STATE_ID", updatable = true, insertable = true, nullable = false)
-    private Short stateId;
+    private Short id;
 
     @OneToMany(targetEntity = Equipment.class, mappedBy = "equipmentState", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Equipment> equipmentCollection;
@@ -27,12 +27,12 @@ public class EqupmentState  implements Serializable {
 
     }
 
-    public Short getStateId() {
-        return this.stateId;
+    public Short getId() {
+        return this.id;
     }
 
-    public void setStateId(Short stateId) {
-        this.stateId = stateId;
+    public void setId(Short id) {
+        this.id = id;
     }
 
     public List<Equipment> getEquipmentCollection() {

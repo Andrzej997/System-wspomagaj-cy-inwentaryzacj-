@@ -29,7 +29,7 @@ public class DTOBuilder {
     public static DepartamentDTO buildDepartamentDTO(Departaments departament) {
         DepartamentDTO departamentDTO = new DepartamentDTO();
         departamentDTO.setId(departament.getId());
-        Institutes institute = departament.getInstituteId();
+        Institutes institute = departament.getInstitute();
         departamentDTO.setInstitute(buildInstituteDTO(institute));
         departamentDTO.setName(departament.getDepratamentName());
         return departamentDTO;
@@ -48,7 +48,7 @@ public class DTOBuilder {
     public static EquipmentStateDTO buildEquipmentStateDTO(EqupmentState equipmentState) {
         EquipmentStateDTO equipmentStateDTO = new EquipmentStateDTO();
         equipmentStateDTO.setDescription(equipmentState.getStateDefinition());
-        equipmentStateDTO.setId(equipmentState.getStateId().longValue());
+        equipmentStateDTO.setId(equipmentState.getId().longValue());
         return equipmentStateDTO;
     }
 
@@ -80,15 +80,15 @@ public class DTOBuilder {
         reservationDTO.setRoomNumber(reservation.getRoomSchedule().getRoom().getRoomNumber());
         reservationDTO.setStartTime(reservation.getStartTime());
         reservationDTO.setType(reservation.getReservationType().getTypeShortDescription());
-        reservationDTO.setUserId(reservation.getUserId().getUserId().intValue());
+        reservationDTO.setUserId(reservation.getUser().getId().intValue());
         return reservationDTO;
     }
 
     public static RoomDTO buildRoomDTO(Room room) {
         RoomDTO roomDTO = new RoomDTO();
-        roomDTO.setDepartment(room.getDepartamentId().getDepratamentName());
+        roomDTO.setDepartment(room.getDepartament().getDepratamentName());
         roomDTO.setId(room.getId());
-        roomDTO.setKeeper(room.getKeeperId().getWorkerName());
+        roomDTO.setKeeper(room.getKeeper().getWorkerName());
         roomDTO.setNumber(room.getRoomNumber());
         roomDTO.setNumberOfSeats(room.getNumberOfSeats());
         roomDTO.setType(room.getRoomType().getShortDescription());
@@ -100,7 +100,7 @@ public class DTOBuilder {
         userDTO.setAddress(worker.getAdress());
         userDTO.setDepartment(worker.getDepartamentId().getDepratamentName());
         userDTO.setEmail(user.getEmail());
-        userDTO.setId(user.getUserId());
+        userDTO.setId(user.getId());
         userDTO.setName(worker.getWorkerName());
         userDTO.setPesel(worker.getPesel());
         userDTO.setPhoneNumber(user.getPhoneNumber().toString());

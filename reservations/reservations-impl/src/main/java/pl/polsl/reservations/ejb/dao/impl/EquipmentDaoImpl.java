@@ -59,7 +59,7 @@ public class EquipmentDaoImpl extends AbstractDaoImpl<Equipment> implements Equi
         equipmentType.setEquipmentCollection(equipmentCollection);
         equipmentTypeFacadeRemote.merge(equipmentType);
 
-        Room room = equipment.getRoomId();
+        Room room = equipment.getRoom();
         equipmentCollection = room.getEquipmentCollection();
         equipmentCollection.remove(equipment);
         room.setEquipmentCollection(equipmentCollection);

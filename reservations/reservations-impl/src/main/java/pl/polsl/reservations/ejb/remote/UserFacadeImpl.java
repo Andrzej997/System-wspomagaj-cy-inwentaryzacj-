@@ -1,5 +1,6 @@
 package pl.polsl.reservations.ejb.remote;
 
+import pl.polsl.reservations.privileges.PrivilegeLevelEnum;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
@@ -108,7 +109,7 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
         if (user == null) {
             return null;
         }
-        Workers worker = workersFacade.find(user.getUserId());
+        Workers worker = workersFacade.find(user.getId());
         return DTOBuilder.buildUserDTO(user, worker);
     }
 
@@ -123,7 +124,7 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
     @PrivilegeLevel(privilegeLevel = "NONE")
     public boolean changeUserDetails(UserDTO userDTO) {
 
-        if (user == null || user.getUserId() != userDTO.getId()) {
+        if (user == null || user.getId() != userDTO.getId()) {
             return false;
         }
 
@@ -132,7 +133,7 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
 
         usersFacade.edit(user);
 
-        Workers workerDB = workersFacade.getReference(user.getUserId());
+        Workers workerDB = workersFacade.getReference(user.getId());
 
         workerDB.setAdress(userDTO.getAddress());
         workerDB.setGrade(userDTO.getGrade());

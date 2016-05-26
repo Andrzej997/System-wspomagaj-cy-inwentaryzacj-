@@ -31,14 +31,14 @@ public class Room implements Serializable {
 
     @ManyToOne(optional = true, targetEntity = Workers.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "KEEPER_ID", insertable = true, nullable = true, updatable = true)
-    private Workers keeperId;
+    private Workers keeper;
 
     @OneToMany(targetEntity = Equipment.class, mappedBy = "roomId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Equipment> equipmentCollection;
 
     @ManyToOne(optional = false, targetEntity = Departaments.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "DEPARTAMENT_ID", insertable = true, nullable = true, updatable = true)
-    private Departaments departamentId;
+    private Departaments departament;
 
     @ManyToOne(optional = true, targetEntity = RoomTypes.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "ROOM_TYPE", insertable = true, nullable = true, updatable = true)
@@ -78,12 +78,12 @@ public class Room implements Serializable {
         this.id = id;
     }
 
-    public Workers getKeeperId() {
-        return this.keeperId;
+    public Workers getKeeper() {
+        return this.keeper;
     }
 
-    public void setKeeperId(Workers keeperId) {
-        this.keeperId = keeperId;
+    public void setKeeper(Workers keeper) {
+        this.keeper = keeper;
     }
 
     public List<Equipment> getEquipmentCollection() {
@@ -94,12 +94,12 @@ public class Room implements Serializable {
         this.equipmentCollection = equipmentCollection;
     }
 
-    public Departaments getDepartamentId() {
-        return this.departamentId;
+    public Departaments getDepartament() {
+        return this.departament;
     }
 
-    public void setDepartamentId(Departaments departamentId) {
-        this.departamentId = departamentId;
+    public void setDepartament(Departaments departament) {
+        this.departament = departament;
     }
 
     public RoomTypes getRoomType() {

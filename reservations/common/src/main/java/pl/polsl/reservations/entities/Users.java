@@ -23,7 +23,7 @@ public class Users implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "USER_ID", updatable = true, insertable = true, nullable = false)
-    private Long userId;
+    private Long id;
 
     @Column(name = "PASSWORD", updatable = true, insertable = true, nullable = false)
     private String password;
@@ -75,12 +75,12 @@ public class Users implements Serializable {
         this.priviligeLevel = priviligeLevel;
     }
 
-    public Long getUserId() {
-        return this.userId;
+    public Long getId() {
+        return this.id;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Workers getWorkers() {

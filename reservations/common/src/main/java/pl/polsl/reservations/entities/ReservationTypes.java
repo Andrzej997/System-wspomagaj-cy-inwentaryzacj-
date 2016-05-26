@@ -15,7 +15,7 @@ public class ReservationTypes implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "TYPE_ID", updatable = true, insertable = true, nullable = false)
-    private Long typeId;
+    private Long id;
 
     @OneToMany(targetEntity = Reservations.class, mappedBy = "reservationType", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Reservations> reservationsCollection;
@@ -39,12 +39,12 @@ public class ReservationTypes implements Serializable {
         this.reservationsCollection = reservationsCollection;
     }
 
-    public Long getTypeId() {
-        return this.typeId;
+    public Long getId() {
+        return this.id;
     }
 
-    public void setTypeId(Long typeId) {
-        this.typeId = typeId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTypeShortDescription() {

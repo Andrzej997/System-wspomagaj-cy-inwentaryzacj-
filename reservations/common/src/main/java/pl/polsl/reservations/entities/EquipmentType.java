@@ -18,7 +18,7 @@ public class EquipmentType implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "TYPE_ID", updatable = true, insertable = true, nullable = false)
-    private Short typeId;
+    private Short id;
 
     @OneToMany(targetEntity = Equipment.class, mappedBy = "equipmentType", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Equipment> equipmentCollection;
@@ -30,11 +30,11 @@ public class EquipmentType implements Serializable {
     private String longDescription;
 
     public Short getId() {
-        return typeId;
+        return id;
     }
 
-    public void setId(Short typeId) {
-        this.typeId = typeId;
+    public void setId(Short id) {
+        this.id = id;
     }
 
     public List<Equipment> getEquipmentCollection() {

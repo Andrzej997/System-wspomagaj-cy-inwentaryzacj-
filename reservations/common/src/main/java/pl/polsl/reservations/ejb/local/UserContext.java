@@ -2,7 +2,7 @@ package pl.polsl.reservations.ejb.local;
 
 import java.util.List;
 import javax.persistence.EntityManager;
-import pl.polsl.reservations.entities.PrivilegeLevelEnum;
+import pl.polsl.reservations.privileges.PrivilegeLevelEnum;
 import pl.polsl.reservations.entities.Priviliges;
 import pl.polsl.reservations.privileges.PrivilegeEnum;
 

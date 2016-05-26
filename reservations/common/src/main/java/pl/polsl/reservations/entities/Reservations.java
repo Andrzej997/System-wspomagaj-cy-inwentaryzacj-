@@ -7,8 +7,8 @@ import pl.polsl.reservations.logger.LoggerImpl;
 @NamedQueries({
         @NamedQuery(name = "getAllReservationsByRoomSchedule", query = "select r from Reservations  r where r.roomSchedule = :roomSchedule"),
         @NamedQuery(name = "getAllWeekReservations", query = "select r from Reservations  r where r.roomSchedule.week = :week and r.roomSchedule.year = :year"),
-        @NamedQuery(name = "getAllReservationsByType", query = "select r from Reservations r where r.reservationType.typeId = :typeId"),
-        @NamedQuery(name = "getAllReservationsByUser", query = "select r from Reservations r where r.userId.userId = :userId")
+        @NamedQuery(name = "getAllReservationsByType", query = "select r from Reservations r where r.reservationType.id = :id"),
+        @NamedQuery(name = "getAllReservationsByUser", query = "select r from Reservations r where r.user.id = :id")
 })
 
 @Entity
@@ -39,7 +39,7 @@ public class Reservations implements Serializable {
 
     @ManyToOne(optional = true, targetEntity = Users.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "USER_ID", insertable = true, nullable = true, updatable = true)
-    private Users userId;
+    private Users user;
 
     public Reservations() {
 
@@ -85,12 +85,12 @@ public class Reservations implements Serializable {
         this.endTime = endTime;
     }
 
-    public Users getUserId() {
-        return this.userId;
+    public Users getUser() {
+        return this.user;
     }
 
-    public void setUserId(Users userId) {
-        this.userId = userId;
+    public void setUser(Users user) {
+        this.user = user;
     }
 
 }

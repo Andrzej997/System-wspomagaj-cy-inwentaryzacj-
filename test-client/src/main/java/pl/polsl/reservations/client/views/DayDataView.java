@@ -29,7 +29,7 @@ public class DayDataView extends javax.swing.JPanel {
     private JTable planView;
     private JLabel weekTv;
     
-    private DayDataViewMediator dayDataViewMediator;
+    private final transient DayDataViewMediator dayDataViewMediator;
 
     public DayDataView(MainView window, Object i ,DayDataViewMediator dayDataViewMediator) {
         this.window = window;

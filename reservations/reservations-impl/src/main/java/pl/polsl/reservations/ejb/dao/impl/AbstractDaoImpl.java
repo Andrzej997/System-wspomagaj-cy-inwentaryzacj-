@@ -20,7 +20,7 @@ import pl.polsl.reservations.ejb.local.AbstractDao;
 import pl.polsl.reservations.ejb.local.UserContext;
 import pl.polsl.reservations.ejb.local.UsersCertifcatesPool;
 import pl.polsl.reservations.ejb.local.UsersCertifcatesPoolImpl;
-import pl.polsl.reservations.entities.PrivilegeLevelEnum;
+import pl.polsl.reservations.privileges.PrivilegeLevelEnum;
 
 /**
  * @author matis

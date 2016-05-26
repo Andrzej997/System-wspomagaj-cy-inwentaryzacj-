@@ -15,7 +15,7 @@ import pl.polsl.reservations.ejb.local.AbstractDao;
 
 /**
  * Created by matis on 05.05.2016.
- * Log zapisuje się z reguły na glassfishu w takiej scieżce
+ * Log zapisuje sie z reguly na glassfishu w sciezce:
  * \glassfish4\glassfish\domains\domain1\config
  */
 @Interceptor

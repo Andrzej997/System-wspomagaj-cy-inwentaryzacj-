@@ -54,7 +54,6 @@ public class RoomTypesDaoImpl extends AbstractDaoImpl<RoomTypes> implements Room
             roomFacadeRemote = new RoomDaoImpl();
             roomFacadeRemote.setUserContext(userContext);
         } catch (NamingException e) {
-            e.printStackTrace();
         }
     }
 }

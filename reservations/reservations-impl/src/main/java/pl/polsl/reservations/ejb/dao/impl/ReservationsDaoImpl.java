@@ -99,7 +99,6 @@ public class ReservationsDaoImpl extends AbstractDaoImpl<Reservations> implement
             roomScheduleFacadeRemote.setUserContext(userContext);
             reservationTypesFacadeRemote.setUserContext(userContext);
         } catch (NamingException e) {
-            e.printStackTrace();
         }
     }
 }

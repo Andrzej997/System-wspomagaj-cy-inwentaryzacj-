@@ -35,7 +35,7 @@ public class WeekDataView extends JPanel {
 
     private Object selectedItem;
 
-    private WeekDataViewMediator weekDataViewMediator;
+    private transient WeekDataViewMediator weekDataViewMediator;
 
     public WeekDataView(MainView window, Object selectedItem, WeekDataViewMediator weekDataViewMediator) {
         this.window = window;

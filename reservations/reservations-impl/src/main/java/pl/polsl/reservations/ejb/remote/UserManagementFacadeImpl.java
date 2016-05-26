@@ -53,7 +53,7 @@ public class UserManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
         if (user == null) {
             return null;
         }
-        Workers worker = workersFacade.find(user.getUserId());
+        Workers worker = workersFacade.find(user.getId());
         return DTOBuilder.buildUserDTO(user, worker);
     }
 
@@ -65,7 +65,7 @@ public class UserManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
         if (user == null) {
             return null;
         }
-        Workers worker = workersFacade.find(user.getUserId());
+        Workers worker = workersFacade.find(user.getId());
         return DTOBuilder.buildUserDTO(user, worker);
     }
 
@@ -87,7 +87,7 @@ public class UserManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
         }
 
         //TODO poziom uprawnien
-        user.setChiefId(chief.getChiefId());
+        user.setChief(chief.getChief());
         workersFacade.edit(user);
         return true;
     }
@@ -251,7 +251,7 @@ public class UserManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
 
         List<UserDTO> list = new ArrayList<>();
         for (Workers worker : workers) {
-            if (worker.getChiefId().getId().equals(chief.getId())) {
+            if (worker.getChief().getId().equals(chief.getId())) {
                 UserDTO user = getUserDetails(worker.getId().intValue());
                 list.add(user);
             }
@@ -271,7 +271,7 @@ public class UserManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
 
         List<UserDTO> list = new ArrayList<>();
         for (Workers worker : workers) {
-            if (worker.getChiefId().getId().equals(chief.getId())) {
+            if (worker.getChief().getId().equals(chief.getId())) {
                 UserDTO user = getUserDetails(worker.getId().intValue());
                 list.add(user);
             }

@@ -38,7 +38,7 @@ public class AddEditView extends JPanel {
     private JTextField titleTf;
     private JComboBox teacherCb;
     
-    private AddEditViewMediator addEditViewMediator;
+    private final transient AddEditViewMediator addEditViewMediator;
 
     public AddEditView(MainView window,AddEditViewMediator addEditViewMediator) {
         super(new BorderLayout());

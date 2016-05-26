@@ -8,7 +8,7 @@ import pl.polsl.reservations.logger.LoggerImpl;
 @NamedQueries({
         @NamedQuery(name = "getDepartamentByName", query = "select d from Departaments d where d.depratamentName like :name"),
         @NamedQuery(name = "findDepartametsHavingWorkers", query = "select d from Departaments d where d.workersCollection is not empty"),
-        @NamedQuery(name = "getDepartamentByChiefId", query = "select d from Departaments d where d.chiefId.id = :id")
+        @NamedQuery(name = "getDepartamentByChiefId", query = "select d from Departaments d where d.chief.id = :id")
 })
 
 @Entity
@@ -31,14 +31,14 @@ public class Departaments implements Serializable{
 
     @ManyToOne(optional = true, targetEntity = Institutes.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "INSTITUTE_ID", insertable = true, nullable = true, unique = false, updatable = true)
-    private Institutes instituteId;
+    private Institutes institute;
 
     @OneToMany(targetEntity = Workers.class, mappedBy = "departamentId", cascade = CascadeType.ALL)
     private List<Workers> workersCollection;
 
     @OneToOne(targetEntity = Workers.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @PrimaryKeyJoinColumn
-    private Workers chiefId;
+    private Workers chief;
 
     public Departaments() {
 
@@ -60,12 +60,12 @@ public class Departaments implements Serializable{
         this.roomCollection = roomCollection;
     }
 
-    public Institutes getInstituteId() {
-        return this.instituteId;
+    public Institutes getInstitute() {
+        return this.institute;
     }
 
-    public void setInstituteId(Institutes instituteId) {
-        this.instituteId = instituteId;
+    public void setInstitute(Institutes institute) {
+        this.institute = institute;
     }
 
     public Long getId() {
@@ -84,12 +84,12 @@ public class Departaments implements Serializable{
         this.workersCollection = workersCollection;
     }
 
-    public Workers getChiefId() {
-        return this.chiefId;
+    public Workers getChief() {
+        return this.chief;
     }
 
-    public void setChiefId(Workers chiefId) {
-        this.chiefId = chiefId;
+    public void setChief(Workers chief) {
+        this.chief = chief;
     }
 
 }

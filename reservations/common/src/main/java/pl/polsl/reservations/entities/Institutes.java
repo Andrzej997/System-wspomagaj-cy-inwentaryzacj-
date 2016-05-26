@@ -7,7 +7,7 @@ import pl.polsl.reservations.logger.LoggerImpl;
 
 @NamedQueries({
         @NamedQuery(name = "getInstituteByName", query = "select i from Institutes i where i.instituteName = :name"),
-        @NamedQuery(name = "getInstituteByChiefId", query = "select i from Institutes i where i.chiefId.id = :id")
+        @NamedQuery(name = "getInstituteByChiefId", query = "select i from Institutes i where i.chief.id = :id")
 })
 
 @Entity
@@ -30,7 +30,7 @@ public class Institutes implements Serializable {
 
     @OneToOne(fetch = FetchType.EAGER, targetEntity = Workers.class)
     @PrimaryKeyJoinColumn
-    private Workers chiefId;
+    private Workers chief;
 
     public Institutes() {
 
@@ -60,12 +60,12 @@ public class Institutes implements Serializable {
         this.instituteName = instituteName;
     }
 
-    public Workers getChiefId() {
-        return this.chiefId;
+    public Workers getChief() {
+        return this.chief;
     }
 
-    public void setChiefId(Workers chiefId) {
-        this.chiefId = chiefId;
+    public void setChief(Workers chief) {
+        this.chief = chief;
     }
 
 }

@@ -88,10 +88,11 @@ public class UsersDaoImpl extends AbstractDaoImpl<Users> implements UsersDao {
         return users.getReservationsCollection();
     }
 
+    @Override
     public void remove(Users entity) {
         getDependencies();
 
-        Users user = this.find(entity.getUserId());
+        Users user = this.find(entity.getId());
         List<Reservations> reservationsCollection = user.getReservationsCollection();
         for(Reservations reservation : reservationsCollection){
             reservationsFacadeRemote.remove(reservation);
@@ -115,7 +116,6 @@ public class UsersDaoImpl extends AbstractDaoImpl<Users> implements UsersDao {
             reservationsFacadeRemote.setUserContext(userContext);
             priviligeLevelsFacadeRemote.setUserContext(userContext);
         } catch (NamingException e) {
-            e.printStackTrace();
         }
     }
 }

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 import pl.polsl.reservations.logger.LoggerImpl;
 @NamedQueries({
-        @NamedQuery(name = "getEquipmentByRoomNumber", query = "select e from Equipment e where e.roomId.roomNumber = :roomNumber")
+        @NamedQuery(name = "getEquipmentByRoomNumber", query = "select e from Equipment e where e.room.roomNumber = :roomNumber")
 })
 
 @Entity
@@ -35,7 +35,7 @@ public class Equipment implements Serializable {
 
     @ManyToOne(optional = false, targetEntity = Room.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "ROOM_ID", insertable = true, nullable = false, updatable = true)
-    private Room roomId;
+    private Room room;
 
     public Equipment() {
 
@@ -73,12 +73,12 @@ public class Equipment implements Serializable {
         this.equipmentType = equipmentType;
     }
 
-    public Room getRoomId() {
-        return this.roomId;
+    public Room getRoom() {
+        return this.room;
     }
 
-    public void setRoomId(Room roomId) {
-        this.roomId = roomId;
+    public void setRoom(Room room) {
+        this.room = room;
     }
 
     public Integer getQuantity() {

@@ -80,7 +80,7 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     @PrivilegeLevel(privilegeLevel = "NONE")
     public void assignKeeperToRoom(int roomId, int workerId) {
         Room room = roomsDAO.find(roomId);
-        room.setKeeperId(workersDAO.find(workerId));
+        room.setKeeper(workersDAO.find(workerId));
         roomsDAO.edit(room);
     }
 
@@ -88,7 +88,7 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     @PrivilegeLevel(privilegeLevel = "NONE")
     public UserDTO getRoomKeeper(int roomId) {
         Room room = roomsDAO.find(roomId);
-        Workers w = room.getKeeperId();
+        Workers w = room.getKeeper();
         Users u = userDAO.find(w.getId());
         return DTOBuilder.buildUserDTO(u, w);
     }
@@ -104,7 +104,7 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
 
         Room room = roomsDAO.find(roomId);
 
-        newEquipment.setRoomId(room);
+        newEquipment.setRoom(room);
         equipmentDAO.create(newEquipment);
     }
 
@@ -152,7 +152,7 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     @PrivilegeLevel(privilegeLevel = "NONE")
     public void moveEquipment(int equipmentId, int roomToId) {
         Equipment e = equipmentDAO.find(equipmentId);
-        e.setRoomId(roomsDAO.find(roomToId));
+        e.setRoom(roomsDAO.find(roomToId));
         equipmentDAO.edit(e);
     }
 

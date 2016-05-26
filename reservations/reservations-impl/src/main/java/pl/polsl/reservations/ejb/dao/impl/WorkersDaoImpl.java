@@ -106,10 +106,10 @@ public class WorkersDaoImpl extends AbstractDaoImpl<Workers> implements WorkersD
         getDependencies();
 
         Workers worker = this.find(entity.getId());
-        worker.setChiefId(null);
+        worker.setChief(null);
         List<Room> roomCollection = worker.getRoomCollection();
         for(Room room : roomCollection){
-            room.setKeeperId(null);
+            room.setKeeper(null);
             roomFacadeRemote.merge(room);
         }
 
@@ -135,7 +135,6 @@ public class WorkersDaoImpl extends AbstractDaoImpl<Workers> implements WorkersD
             roomFacadeRemote.setUserContext(userContext);
             departamentsFacadeRemote.setUserContext(userContext);
         } catch (NamingException e) {
-            e.printStackTrace();
         }
     }
 }

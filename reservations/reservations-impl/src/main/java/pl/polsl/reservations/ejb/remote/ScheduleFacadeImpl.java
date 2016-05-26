@@ -96,7 +96,7 @@ public class ScheduleFacadeImpl extends AbstractBusinessFacadeImpl implements Sc
         newReservaton.setStartTime(startTime);
         newReservaton.setEndTime(endTime);
         newReservaton.setReservationType(reservationTypeDAO.find(typeId));
-        newReservaton.setUserId(usersDAO.find(userId));
+        newReservaton.setUser(usersDAO.find(userId));
 
         reservationsDAO.create(newReservaton);
         List<Reservations> reservationsCollection = schedule.getReservationsCollection();

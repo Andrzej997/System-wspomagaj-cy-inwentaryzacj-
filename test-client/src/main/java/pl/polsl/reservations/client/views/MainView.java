@@ -27,7 +27,7 @@ public class MainView extends JFrame {
     private JMenuBar menuBar;
     private JMenuItem tutorialMenuItem;
     
-    private final MainViewMediator mainViewMediator;
+    private transient final MainViewMediator mainViewMediator;
 
     public MainView(MainViewMediator mainViewMediator) {
         this.mainViewMediator = mainViewMediator;

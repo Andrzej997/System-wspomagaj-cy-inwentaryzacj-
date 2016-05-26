@@ -12,8 +12,8 @@ import pl.polsl.reservations.logger.LoggerImpl;
                 @NamedQuery(name = "getWorkerByPesel", query = "select w from Workers  w where w.pesel = :pesel"),
                 @NamedQuery(name = "getRoomsCollectionByKeeperId", query = "select w.roomCollection from Workers w where w.id = :id"),
                 @NamedQuery(name = "getDepartamentByWorkerId", query = "select w.departamentId from Workers w where w.id = :id"),
-                @NamedQuery(name = "getAllChiefs", query = "select w from Workers w where w.chiefId is null"),
-                @NamedQuery(name = "getWorkersWhichHaveChief", query = "select w from Workers w where w.chiefId is not null")
+                @NamedQuery(name = "getAllChiefs", query = "select w from Workers w where w.chief is null"),
+                @NamedQuery(name = "getWorkersWhichHaveChief", query = "select w from Workers w where w.chief is not null")
             })
 
 @Entity
@@ -58,7 +58,7 @@ public class Workers implements Serializable {
     @ManyToOne(targetEntity = Workers.class,
             cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.EAGER, optional = true)
     @JoinColumn(updatable = true, nullable = true)
-    private Workers chiefId;
+    private Workers chief;
 
     public Workers() {
 
@@ -136,12 +136,12 @@ public class Workers implements Serializable {
         this.room = room;
     }
 
-    public Workers getChiefId() {
-        return this.chiefId;
+    public Workers getChief() {
+        return this.chief;
     }
 
-    public void setChiefId(Workers chiefID) {
-        this.chiefId = chiefID;
+    public void setChief(Workers chiefID) {
+        this.chief = chiefID;
     }
 
 }
