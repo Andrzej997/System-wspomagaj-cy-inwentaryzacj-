@@ -33,7 +33,7 @@ public class Room implements Serializable {
     @JoinColumn(name = "KEEPER_ID", insertable = true, nullable = true, updatable = true)
     private Workers keeper;
 
-    @OneToMany(targetEntity = Equipment.class, mappedBy = "roomId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = Equipment.class, mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Equipment> equipmentCollection;
 
     @ManyToOne(optional = false, targetEntity = Departaments.class, fetch = FetchType.EAGER)

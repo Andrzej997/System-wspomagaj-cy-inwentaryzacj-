@@ -119,7 +119,7 @@ public class WorkersDaoImpl extends AbstractDaoImpl<Workers> implements WorkersD
         room.setWorkerses(workers);
         roomFacadeRemote.merge(room);
 
-        Departaments departament = worker.getDepartamentId();
+        Departaments departament = worker.getDepartament();
         List<Workers> workersCollection = departament.getWorkersCollection();
         workersCollection.remove(worker);
         departament.setWorkersCollection(workersCollection);

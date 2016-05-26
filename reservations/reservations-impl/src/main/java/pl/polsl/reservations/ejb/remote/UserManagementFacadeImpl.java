@@ -127,7 +127,7 @@ public class UserManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
             return false;
         }
 
-        worker.setDepartamentId(departament);
+        worker.setDepartament(departament);
         workersFacade.edit(worker);
         return true;
     }
@@ -333,7 +333,7 @@ public class UserManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
 
         Departaments departaments = departamentsFacade.getDepartamentByName(user.getDepartment());
         if (departaments != null) {
-            workerDB.setDepartamentId(departaments);
+            workerDB.setDepartament(departaments);
         }
 
         workersFacade.create(workerDB);

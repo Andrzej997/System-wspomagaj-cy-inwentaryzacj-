@@ -98,7 +98,7 @@ public class DTOBuilder {
     public static UserDTO buildUserDTO(Users user, Workers worker){
         UserDTO userDTO = new UserDTO();
         userDTO.setAddress(worker.getAdress());
-        userDTO.setDepartment(worker.getDepartamentId().getDepratamentName());
+        userDTO.setDepartment(worker.getDepartament().getDepratamentName());
         userDTO.setEmail(user.getEmail());
         userDTO.setId(user.getId());
         userDTO.setName(worker.getWorkerName());

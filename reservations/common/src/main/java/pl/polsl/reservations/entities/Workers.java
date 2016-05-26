@@ -10,8 +10,8 @@ import pl.polsl.reservations.logger.LoggerImpl;
                 @NamedQuery(name = "getWorkersByGrade", query = "select w from Workers  w where w.grade = :grade"),
                 @NamedQuery(name = "getWorkersByAdress", query = "select w from Workers  w where w.adress = :adress"),
                 @NamedQuery(name = "getWorkerByPesel", query = "select w from Workers  w where w.pesel = :pesel"),
-                @NamedQuery(name = "getRoomsCollectionByKeeperId", query = "select w.roomCollection from Workers w where w.id = :id"),
-                @NamedQuery(name = "getDepartamentByWorkerId", query = "select w.departamentId from Workers w where w.id = :id"),
+                @NamedQuery(name = "getRoomsCollectionByKeeperId", query = "select r from Room r where r.keeper.id = :id"),
+                @NamedQuery(name = "getDepartamentByWorkerId", query = "select w.departament from Workers w where w.id = :id"),
                 @NamedQuery(name = "getAllChiefs", query = "select w from Workers w where w.chief is null"),
                 @NamedQuery(name = "getWorkersWhichHaveChief", query = "select w from Workers w where w.chief is not null")
             })
@@ -34,7 +34,7 @@ public class Workers implements Serializable {
     @Column(name = "GRADE", updatable = true, insertable = true, nullable = false, length = 50)
     private String grade;
 
-    @OneToMany(targetEntity = Room.class, mappedBy = "keeperId",
+    @OneToMany(targetEntity = Room.class, mappedBy = "keeper",
             cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH}
             , fetch = FetchType.LAZY)
     private List<Room> roomCollection;
@@ -50,7 +50,7 @@ public class Workers implements Serializable {
 
     @ManyToOne(optional = false, targetEntity = Departaments.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "DEPARTAMENT_ID", insertable = true, nullable = false, updatable = true)
-    private Departaments departamentId;
+    private Departaments departament;
 
     @ManyToOne(optional = true, targetEntity = Room.class, fetch = FetchType.EAGER)
     private Room room;
@@ -120,12 +120,12 @@ public class Workers implements Serializable {
         this.pesel = pesel;
     }
 
-    public Departaments getDepartamentId() {
-        return this.departamentId;
+    public Departaments getDepartament() {
+        return this.departament;
     }
 
-    public void setDepartamentId(Departaments departamentId) {
-        this.departamentId = departamentId;
+    public void setDepartament(Departaments departament) {
+        this.departament = departament;
     }
 
     public Room getRoom() {

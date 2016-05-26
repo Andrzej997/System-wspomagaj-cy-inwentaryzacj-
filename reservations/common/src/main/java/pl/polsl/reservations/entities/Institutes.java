@@ -22,7 +22,7 @@ public class Institutes implements Serializable {
     @Column(name = "ID", updatable = true, insertable = true, nullable = false)
     private Long id;
 
-    @OneToMany(targetEntity = Departaments.class, mappedBy = "instituteId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = Departaments.class, mappedBy = "institute", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Departaments> departamentsCollection;
 
     @Column(name = "INSTITUTE_NAME", updatable = true, insertable = true, nullable = false)
