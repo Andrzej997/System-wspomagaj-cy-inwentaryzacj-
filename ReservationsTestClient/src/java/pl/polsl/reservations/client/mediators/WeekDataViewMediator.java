@@ -31,8 +31,8 @@ public class WeekDataViewMediator {
     public WeekDataView createView(MainView parent, Object selectedItem) {
         weekDataView = new WeekDataView(parent, selectedItem, this);
         getRooms();
-        weekDataView.getChooseRoomDropdown()
-                .setSelectedItem(weekDataView.getSelectedItem());
+     //   weekDataView.getChooseRoomDropdown()
+     //           .setSelectedItem(weekDataView.getSelectedItem());
         getReservations();
         
         return weekDataView;
@@ -45,11 +45,11 @@ public class WeekDataViewMediator {
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         int weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
 
-        List<ReservationDTO> roomSchedule = scheduleFacade.getRoomSchedule((Integer)weekDataView.getChooseRoomDropdown().getSelectedItem(), 2016, true);
+    //    List<ReservationDTO> roomSchedule = scheduleFacade.getRoomSchedule((Integer)weekDataView.getChooseRoomDropdown().getSelectedItem(), 2016, true);
 
         DefaultTableModel defaultTableModel = new DefaultTableModel(32, 7);
 
-        roomSchedule.stream().forEach((reservation) -> {
+      /*  roomSchedule.stream().forEach((reservation) -> {
             int endDay = reservation.getStartTime() / 96;
             int startDay = reservation.getEndTime() / 96;
             int numberOfEndQuarter = reservation.getStartTime() % 96 - 32; //r�znica mi�dzy godzinami w bazie i tabeli
@@ -81,7 +81,7 @@ public class WeekDataViewMediator {
         });
         weekDataView.getPlanView().setModel(defaultTableModel);
         weekDataView.getPlanView().setDefaultRenderer(Object.class, new CustomRenderer());
-    /*    
+       
         DefaultTableModel model = (DefaultTableModel)weekDataView.getPlanView().getModel();
         TableColumnModel columnModel = weekDataView.getPlanView().getColumnModel();
         for(int i = 0; i< columnModel.getColumnCount(); i++){
@@ -90,8 +90,8 @@ public class WeekDataViewMediator {
     }
     public void getRooms(){
         List<RoomDTO> roomsList = roomManagementFacade.getRoomsList();
-        roomsList.stream().forEach((room) -> {
-            weekDataView.getChooseRoomDropdown().addItem(room.getNumber());
-        });    
+    //    roomsList.stream().forEach((room) -> {
+   //         weekDataView.getChooseRoomDropdown().addItem(room.getNumber());
+    //    });    
     }
 }

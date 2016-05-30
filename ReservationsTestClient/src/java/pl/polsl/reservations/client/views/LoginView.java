@@ -2,9 +2,14 @@ package pl.polsl.reservations.client.views;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import pl.polsl.reservations.client.mediators.AccountViewMediator;
 import pl.polsl.reservations.client.mediators.LoginMediator;
+import pl.polsl.reservations.client.mediators.WeekDataViewMediator;
+import pl.polsl.reservations.client.views.utils.ButtonStyle;
 
 public class LoginView extends JPanel {
 
@@ -64,9 +69,10 @@ public class LoginView extends JPanel {
 
     private void onClickLogin(java.awt.event.ActionEvent evt) {
         if (passwordEditText.getText().length() > 0 && loginEditText.getText().length() > 0) {
-            window.setOptionsAvailable(Color.black);
-            if(loginMediator.getUserData(loginEditText.getText(), passwordEditText.getText())){
-                window.setView(new AccountViewMediator().createView(window));
+            if (loginMediator.getUserData(loginEditText.getText(), passwordEditText.getText())) {
+                //todo: logika wyboru pierwszego za³adowanego pokoju
+                    window.setOptionsAvailable(Color.black);
+                window.setView(new WeekDataViewMediator().createView(window, 101));
                 window.setLogged(true);
             } else {
                 JOptionPane.showMessageDialog(this, "Wrong login or password!!.");
@@ -82,8 +88,8 @@ public class LoginView extends JPanel {
 
     private void onClickGuest(ActionEvent evt) {
         window.setOptionsAvailable(Color.black);
-        window.setView(new AccountViewMediator().createView(window));
-        window.setLogged(true);
+      window.setView(new WeekDataViewMediator().createView(window, 101));
+                window.setLogged(true);
     }
 
     private void initialize() {
@@ -97,9 +103,9 @@ public class LoginView extends JPanel {
     }
 
     private void setSize() {
-        setMaximumSize(new Dimension(800, 600));
-        setMinimumSize(new Dimension(800, 600));
-        setPreferredSize(new Dimension(800, 600));
+        setMaximumSize(new Dimension(300, 200));
+        setMinimumSize(new Dimension(300, 200));
+        setPreferredSize(new Dimension(300, 200));
     }
 
     private void initLoginFields() {
@@ -110,21 +116,39 @@ public class LoginView extends JPanel {
 
         loginLabel.setText("Login: ");
         passwordLabel.setText("Password: ");
-        loginButton.setText("Login");
+
         loginButton.addActionListener((java.awt.event.ActionEvent evt) -> {
             onClickLogin(evt);
         });
+        try {
+            Image img = ImageIO.read(getClass().getResource("/resources/login.png"));
+            ButtonStyle.setStyle(loginButton, img);
+        } catch (IOException ex) {
+                 System.out.println("RESOURCE ERROR: " + ex.toString());
+        }
     }
 
     private void initButtons() {
-        registerButton.setText("Register");
+
         registerButton.addActionListener((java.awt.event.ActionEvent evt) -> {
             onClickRegister(evt);
         });
-        guestButton.setText("Guest login");
+        try {
+            Image img = ImageIO.read(getClass().getResource("/resources/register.png"));
+         ButtonStyle.setStyle(registerButton, img);
+        } catch (IOException ex) {
+                   System.out.println("RESOURCE ERROR: " + ex.toString());
+        }
+
         guestButton.addActionListener((java.awt.event.ActionEvent evt) -> {
             onClickGuest(evt);
         });
+        try {
+            Image img = ImageIO.read(getClass().getResource("/resources/guest_login.png"));
+               ButtonStyle.setStyle(guestButton, img);
+        } catch (IOException ex) {
+               System.out.println("RESOURCE ERROR: " + ex.toString());
+        }
     }
 
     public MainView getWindow() {
@@ -158,5 +182,4 @@ public class LoginView extends JPanel {
     public JPasswordField getPasswordEditText() {
         return passwordEditText;
     }
-
 }

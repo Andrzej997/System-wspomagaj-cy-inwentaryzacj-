@@ -5,18 +5,27 @@
  */
 package pl.polsl.reservations.client.views;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Properties;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-import pl.polsl.reservations.client.mediators.DayDataViewMediator;
+import org.jdatepicker.DateModel;
+import org.jdatepicker.JDatePicker;
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
 import pl.polsl.reservations.client.mediators.WeekDataViewMediator;
+import pl.polsl.reservations.client.views.utils.ButtonStyle;
+import pl.polsl.reservations.client.views.utils.DateLabelFormatter;
+import pl.polsl.reservations.client.views.utils.PanelStyle;
+import pl.polsl.reservations.client.views.utils.RoomComboBox;
 
 /**
  *
@@ -25,19 +34,18 @@ import pl.polsl.reservations.client.mediators.WeekDataViewMediator;
 public class WeekDataView extends JPanel {
 
     MainView window;
-    private JComboBox chooseRoomDropdown;
-    private JButton chooseButton;
-    private JButton nextWeek;
-    private JButton prevWeek;
-    private JTable planView;
-    private JPanel buttonPanel;
-    private JLabel weekTv;
+    private JPanel chooseRoomDropdown;
+    private JButton nextBtn;
+    private JButton prevBtn;
+    private JTable planTable;
+    private JButton calendarBtn;
 
-    private Object selectedItem;
+    private final Object selectedItem;
 
-    private transient WeekDataViewMediator weekDataViewMediator;
+    private final transient WeekDataViewMediator weekDataViewMediator;
 
-    public WeekDataView(MainView window, Object selectedItem, WeekDataViewMediator weekDataViewMediator) {
+    public WeekDataView(MainView window, Object selectedItem,
+            WeekDataViewMediator weekDataViewMediator) {
         this.window = window;
         this.weekDataViewMediator = weekDataViewMediator;
         initComponents();
@@ -45,45 +53,70 @@ public class WeekDataView extends JPanel {
     }
 
     private void initComponents() {
-        chooseRoomDropdown = new JComboBox();
-        chooseButton = new JButton();
-        nextWeek = new JButton();
-        prevWeek = new JButton();
-        planView = new JTable();
-        buttonPanel = new JPanel(new GridLayout(1, 8));
-        weekTv = new JLabel();
-
+        chooseRoomDropdown = new RoomComboBox();
+        nextBtn = new JButton();
+        prevBtn = new JButton();
+        calendarBtn = new JButton();
+        planTable = new JTable();
+     
+        UtilDateModel model = new UtilDateModel();
+        Properties p = new Properties();
+        p.put("text.today", "Today");
+        p.put("text.month", "Month");
+        p.put("text.year", "Year");
+        SimpleDateFormat dateFormat = new DateLabelFormatter().dateFormatter;
+        JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
+     //   model.setDate(Calendar.getInstance().getTime());
+        JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+        PanelStyle.setSize(datePanel, 240, 200);
+        Calendar endDate = Calendar.getInstance();
+        endDate.add(Calendar.DATE, 6);
+        datePicker
+                .getJFormattedTextField()
+                .setText(dateFormat
+                        .format(Calendar
+                                .getInstance()
+                                .getTime()) + " - " + 
+                       endDate.getTime());
         //TODO - logika zmiany tygodnia
-        nextWeek.setText("NEXT WEEK");
-        prevWeek.setText("PREV WEEK");
-        weekTv.setText("POCZATEK DATA - KONIEC DATA");
-        chooseButton.setText("OK");
-        chooseButton.setPreferredSize(new Dimension(200, 30));
+        try {
+            Image img = ImageIO.read(getClass().getResource("/resources/left.png"));
+            ButtonStyle.setStyle(prevBtn, img);
+            Image img2 = ImageIO.read(getClass().getResource("/resources/right.png"));
+            ButtonStyle.setStyle(nextBtn, img2);
+            Image img3 = ImageIO.read(getClass().getResource("/resources/calendar.png"));
+            ButtonStyle.setStyle(calendarBtn, img3);
+        } catch (IOException ex) {
+            System.out.println("RESOURCE ERROR: " + ex.toString());
+        }
+        
+        prevBtn.addActionListener((ActionEvent e) -> {
+          
+        });
+        nextBtn.addActionListener((ActionEvent e) -> {
+           
+        });
+   
         initTable();
-        initHeaders();
+        PanelStyle.setSize(this, 800, 600);
+        JPanel weekPanel = new JPanel();
+        PanelStyle.setSize(weekPanel, 400, 40);
+        BoxLayout weekLayout = new BoxLayout(weekPanel, BoxLayout.X_AXIS);
+        weekPanel.setLayout(weekLayout);
+        weekPanel.add(prevBtn);
+        weekPanel.add(datePicker);
+        weekPanel.add(nextBtn);
+        
 
-        setMaximumSize(new java.awt.Dimension(800, 600));
-        setMinimumSize(new java.awt.Dimension(800, 600));
-        setPreferredSize(new java.awt.Dimension(800, 600));
-        JPanel weekPanel = new JPanel(new BorderLayout());
-        weekPanel.add(prevWeek, BorderLayout.WEST);
-        weekPanel.add(weekTv, BorderLayout.CENTER);
-        weekPanel.add(nextWeek, BorderLayout.EAST);
-        JPanel navPanel = new JPanel(new BorderLayout());
-        navPanel.add(chooseRoomDropdown, BorderLayout.WEST);
-        navPanel.add(chooseButton, BorderLayout.CENTER);
-        navPanel.add(weekPanel, BorderLayout.EAST);
-        JPanel dataLayout = new JPanel(new BorderLayout());
-        dataLayout.add(navPanel, BorderLayout.NORTH);
-        dataLayout.add(buttonPanel, BorderLayout.CENTER);
-        dataLayout.add(planView, BorderLayout.SOUTH);
+        BoxLayout boxlayout = new BoxLayout(this, BoxLayout.Y_AXIS);
+        setLayout(boxlayout);
 
-        JPanel mainLayout = new JPanel(new GridBagLayout());
-        GridBagConstraints position = new GridBagConstraints();
-        mainLayout.add(dataLayout, position);
-        add(mainLayout, BorderLayout.CENTER);
+        add(weekPanel);
+        add(chooseRoomDropdown);
+        add(planTable);
 
-        chooseRoomDropdown.addActionListener((ActionEvent e) -> {
+
+        /*    chooseRoomDropdown.addActionListener((ActionEvent e) -> {
             if (chooseRoomDropdown.getSelectedItem() != null) {
                 weekDataViewMediator.getReservations();
             }
@@ -92,8 +125,7 @@ public class WeekDataView extends JPanel {
             if (chooseRoomDropdown.getSelectedItem() != null) {
                 weekDataViewMediator.getReservations();
             }
-        });
-
+        });*/
     }
 
     private void initTable() {
@@ -114,70 +146,32 @@ public class WeekDataView extends JPanel {
             }
 
         };
-        planView = new JTable(dataModel);
-    }
-
-    private void initHeaders() {
-        for (int i = 0; i < 7; i++) {
-
-            JButton temp = new JButton(String.valueOf(i + 1));
-            temp.addActionListener(new ButtonColumnListener(i));
-            temp.setPreferredSize(new Dimension(40, 40));
-            buttonPanel.add(temp);
-        }
-        buttonPanel.setPreferredSize(new Dimension(800, 40));
-    }
-
-    private class ButtonColumnListener implements ActionListener {
-
-        private int index;
-
-        public ButtonColumnListener(int i) {
-            index = i + 1;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            window.setView(new DayDataViewMediator().createView(window, index));
-        }
+        planTable = new JTable(dataModel);
     }
 
     public void setPlanView(JTable planView) {
-        this.planView = planView;
+        this.planTable = planView;
     }
 
     public MainView getWindow() {
         return window;
     }
 
-    public JComboBox getChooseRoomDropdown() {
+    public JPanel getChooseRoomDropdown() {
         return chooseRoomDropdown;
     }
 
-    public JButton getChooseButton() {
-        return chooseButton;
-    }
-
     public JButton getNextWeek() {
-        return nextWeek;
+        return nextBtn;
     }
 
     public JButton getPrevWeek() {
-        return prevWeek;
+        return prevBtn;
     }
 
     public JTable getPlanView() {
-        return planView;
+        return planTable;
     }
-
-    public JPanel getButtonPanel() {
-        return buttonPanel;
-    }
-
-    public JLabel getWeekTv() {
-        return weekTv;
-    }
-
     public Object getSelectedItem() {
         return selectedItem;
     }

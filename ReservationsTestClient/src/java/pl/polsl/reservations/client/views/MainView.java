@@ -15,18 +15,20 @@ public class MainView extends JFrame {
     private boolean isLoggedIn = false;
 
     private JMenuItem aboutMenuItem;
-    private JMenuItem accountMenuItem;
     private JMenuItem addMenuItem;
     private JMenuItem checkRaportMenuItem;
-    private JMenuItem exitMenuItem;
-    private JMenu fileMenu;
-    private JMenuItem generateMenuItem;
-    private JMenu helpMenu;
-    private JPanel contentView;
     private JMenuItem logoutMenuItem;
-    private JMenuBar menuBar;
     private JMenuItem tutorialMenuItem;
-    
+    private JMenuItem generateMenuItem;
+    private JMenuItem exitMenuItem;
+    private JMenuItem changePasswordItem;
+    private JMenu fileMenu;
+    private JMenu helpMenu;
+    private JMenu accountMenu;
+    private JPanel contentView;
+
+    private JMenuBar menuBar;
+
     private transient final MainViewMediator mainViewMediator;
 
     public MainView(MainViewMediator mainViewMediator) {
@@ -39,6 +41,7 @@ public class MainView extends JFrame {
         setContentPane(view);
         setVisible(true);
         pack();
+        centreWindow(this);
     }
 
     public void setOptionsAvailable(Color fg) {
@@ -46,7 +49,9 @@ public class MainView extends JFrame {
         generateMenuItem.setForeground(fg);
         checkRaportMenuItem.setForeground(fg);
         logoutMenuItem.setForeground(fg);
-        accountMenuItem.setForeground(fg);
+        accountMenu.setForeground(fg);
+        changePasswordItem.setForeground(fg);
+        accountMenu.setForeground(fg);
     }
 
     private void initComponents() {
@@ -70,18 +75,19 @@ public class MainView extends JFrame {
         fileMenu = new JMenu();
         addMenuItem = new JMenuItem();
         generateMenuItem = new JMenuItem();
-        accountMenuItem = new JMenuItem();
+        accountMenu= new JMenu();
         logoutMenuItem = new JMenuItem();
         exitMenuItem = new JMenuItem();
         helpMenu = new JMenu();
         tutorialMenuItem = new JMenuItem();
         aboutMenuItem = new JMenuItem();
+        changePasswordItem = new JMenuItem();
         checkRaportMenuItem = new JMenuItem();
     }
 
     private void tutorialMenuItemActionPerformed(ActionEvent evt) {
-           JOptionPane.showMessageDialog(this, "Not supported yet");
-      //  setView(new TutorialView(window));
+        JOptionPane.showMessageDialog(this, "Not supported yet");
+        //  setView(new TutorialView(window));
     }
 
     private void exitMenuItemActionPerformed(ActionEvent evt) {
@@ -97,21 +103,21 @@ public class MainView extends JFrame {
 
     private void generateMenuItemActionPerformed(ActionEvent evt) {
         if (isLoggedIn) {
-             JOptionPane.showMessageDialog(this, "Not supported yet");
-      //      setView(new GenerateRaportView(window));
+            JOptionPane.showMessageDialog(this, "Not supported yet");
+            //      setView(new GenerateRaportView(window));
         }
     }
 
     private void checkRaportMenuItemActionPerformed(ActionEvent evt) {
         if (isLoggedIn) {
-             JOptionPane.showMessageDialog(this, "Not supported yet");
-          //  setView(new CheckRaportView(window));
+            JOptionPane.showMessageDialog(this, "Not supported yet");
+            //  setView(new CheckRaportView(window));
         }
     }
 
-    private void accountMenuItemActionPerformed(ActionEvent evt) {
+    private void changePasswordActionPerformed(ActionEvent evt) {
         if (isLoggedIn) {
-            setView(new AccountViewMediator().createView(window));
+            //open Dialog Change password
         }
     }
 
@@ -119,14 +125,16 @@ public class MainView extends JFrame {
         if (isLoggedIn) {
             setOptionsAvailable(Color.gray);
             isLoggedIn = false;
-            setView(new LoginMediator().createView(this));
+          setView(new LoginMediator().createView(this));
+     
             JOptionPane.showMessageDialog(this, "You are logged out.");
             mainViewMediator.dispatchLogoutMenuItemActionPerformed(evt);
         }
     }
 
     private void aboutMenuItemActionPerformed(ActionEvent evt) {
-    JOptionPane.showMessageDialog(this, "Not supported yet");   }
+        JOptionPane.showMessageDialog(this, "Not supported yet");
+    }
 
     public void setLogged(boolean value) {
         isLoggedIn = value;
@@ -159,13 +167,19 @@ public class MainView extends JFrame {
             checkRaportMenuItemActionPerformed(evt);
         });
         fileMenu.add(checkRaportMenuItem);
+        
 
-        accountMenuItem.setForeground(new java.awt.Color(153, 153, 153));
-        accountMenuItem.setText("My account");
-        accountMenuItem.addActionListener((ActionEvent evt) -> {
-            accountMenuItemActionPerformed(evt);
+        accountMenu.setForeground(new java.awt.Color(153, 153, 153));
+        accountMenu.setText("My account");
+        accountMenu.add(changePasswordItem);
+        
+        changePasswordItem.setText("Change password");
+        changePasswordItem.setForeground(new java.awt.Color(153, 153, 153));
+        changePasswordItem.addActionListener((ActionEvent evt) -> {
+            changePasswordActionPerformed(evt);
         });
-        fileMenu.add(accountMenuItem);
+   
+        fileMenu.add(accountMenu);
         logoutMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         logoutMenuItem.setMnemonic('a');
         logoutMenuItem.setText("Logout");
@@ -193,8 +207,14 @@ public class MainView extends JFrame {
             aboutMenuItemActionPerformed(evt);
         });
         helpMenu.add(aboutMenuItem);
-
     }
+    
+    public void centreWindow(Window frame) {
+    Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+    int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2);
+    int y = (int) ((dimension.getHeight() - frame.getHeight()) / 2);
+    frame.setLocation(x, y);
+}
 
     public MainView getWindow() {
         return window;
@@ -206,10 +226,6 @@ public class MainView extends JFrame {
 
     public JMenuItem getAboutMenuItem() {
         return aboutMenuItem;
-    }
-
-    public JMenuItem getAccountMenuItem() {
-        return accountMenuItem;
     }
 
     public JMenuItem getAddMenuItem() {
@@ -251,5 +267,5 @@ public class MainView extends JFrame {
     public JMenuItem getTutorialMenuItem() {
         return tutorialMenuItem;
     }
-        
+
 }
