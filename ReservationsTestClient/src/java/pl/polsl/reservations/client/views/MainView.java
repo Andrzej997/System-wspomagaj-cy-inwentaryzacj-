@@ -2,6 +2,8 @@ package pl.polsl.reservations.client.views;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.FileWriter;
 import javax.swing.*;
 import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.mediators.AddEditViewMediator;
@@ -21,6 +23,8 @@ public class MainView extends JFrame {
     private JMenuItem generateMenuItem;
     private JMenuItem exitMenuItem;
     private JMenuItem changePasswordItem;
+    private JMenuItem editDataMenuItem;
+    private JMenuItem addUserMenuItem;
     private JMenu fileMenu;
     private JMenu helpMenu;
     private JMenu accountMenu;
@@ -50,6 +54,8 @@ public class MainView extends JFrame {
         logoutMenuItem.setForeground(fg);
         accountMenu.setForeground(fg);
         changePasswordItem.setForeground(fg);
+        editDataMenuItem.setForeground(fg);
+        addUserMenuItem.setForeground(fg);
         accountMenu.setForeground(fg);
     }
 
@@ -74,7 +80,7 @@ public class MainView extends JFrame {
         fileMenu = new JMenu();
         addMenuItem = new JMenuItem();
         generateMenuItem = new JMenuItem();
-        accountMenu= new JMenu();
+        accountMenu = new JMenu();
         logoutMenuItem = new JMenuItem();
         exitMenuItem = new JMenuItem();
         helpMenu = new JMenu();
@@ -82,6 +88,8 @@ public class MainView extends JFrame {
         aboutMenuItem = new JMenuItem();
         changePasswordItem = new JMenuItem();
         checkRaportMenuItem = new JMenuItem();
+        addUserMenuItem = new JMenuItem();
+        editDataMenuItem = new JMenuItem();
     }
 
     private void tutorialMenuItemActionPerformed(ActionEvent evt) {
@@ -102,8 +110,16 @@ public class MainView extends JFrame {
 
     private void generateMenuItemActionPerformed(ActionEvent evt) {
         if (isLoggedIn) {
-            JOptionPane.showMessageDialog(this, "Not supported yet");
-            //      setView(new GenerateRaportView(window));
+            JFileChooser chooser = new JFileChooser();
+            int retrival = chooser.showSaveDialog(null);
+            if (retrival == JFileChooser.APPROVE_OPTION) {
+                try {
+                    FileWriter fw = new FileWriter(chooser.getSelectedFile() + ".txt");
+                    fw.write("test");
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
         }
     }
 
@@ -119,13 +135,24 @@ public class MainView extends JFrame {
             //open Dialog Change password
         }
     }
+    
+     private void addUserActionPerformed(ActionEvent evt) {
+        if (isLoggedIn) {
+      setView(new AddEditUserView(this, false));
+        }
+    }
+     
+      private void editUserActionPerformed(ActionEvent evt) {
+        if (isLoggedIn) {
+             setView(new AddEditUserView(this, true));
+        }
+    }
 
     private void logoutMenuItemActionPerformed(ActionEvent evt) {
         if (isLoggedIn) {
             setOptionsAvailable(Color.gray);
             isLoggedIn = false;
-          setView(new LoginMediator().createView(this));
-     
+            setView(new LoginMediator().createView(this));
             JOptionPane.showMessageDialog(this, "You are logged out.");
             mainViewMediator.dispatchLogoutMenuItemActionPerformed(evt);
         }
@@ -172,18 +199,32 @@ public class MainView extends JFrame {
             checkRaportMenuItemActionPerformed(evt);
         });
         fileMenu.add(checkRaportMenuItem);
-        
 
         accountMenu.setForeground(new java.awt.Color(153, 153, 153));
         accountMenu.setText("My account");
         accountMenu.add(changePasswordItem);
-        
+        accountMenu.add(addUserMenuItem);
+        accountMenu.add(editDataMenuItem);
+
         changePasswordItem.setText("Change password");
         changePasswordItem.setForeground(new java.awt.Color(153, 153, 153));
         changePasswordItem.addActionListener((ActionEvent evt) -> {
             changePasswordActionPerformed(evt);
         });
-   
+        
+        //TYLKO DLA ADMINISTRATORÓW - DODAJ IFA :D
+        addUserMenuItem.setText("Add user");
+        addUserMenuItem.setForeground(new java.awt.Color(153, 153, 153));
+        addUserMenuItem.addActionListener((ActionEvent evt) -> {
+            addUserActionPerformed(evt);
+        });
+        
+        editDataMenuItem.setText("Edit user data");
+        editDataMenuItem.setForeground(new java.awt.Color(153, 153, 153));
+        editDataMenuItem.addActionListener((ActionEvent evt) -> {
+            editUserActionPerformed(evt);
+        });
+        
         fileMenu.add(accountMenu);
         logoutMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         logoutMenuItem.setMnemonic('a');
@@ -213,13 +254,13 @@ public class MainView extends JFrame {
         });
         helpMenu.add(aboutMenuItem);
     }
-    
+
     public void centreWindow(Window frame) {
-    Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-    int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2);
-    int y = (int) ((dimension.getHeight() - frame.getHeight()) / 2);
-    frame.setLocation(x, y);
-}
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2);
+        int y = (int) ((dimension.getHeight() - frame.getHeight()) / 2);
+        frame.setLocation(x, y);
+    }
 
     public MainView getWindow() {
         return window;
