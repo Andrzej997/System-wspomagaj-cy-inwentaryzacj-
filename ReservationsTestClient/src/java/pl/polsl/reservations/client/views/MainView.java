@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 import pl.polsl.reservations.client.Lookup;
-import pl.polsl.reservations.client.mediators.AccountViewMediator;
 import pl.polsl.reservations.client.mediators.AddEditViewMediator;
 import pl.polsl.reservations.client.mediators.LoginMediator;
 import pl.polsl.reservations.client.mediators.MainViewMediator;
@@ -133,7 +132,13 @@ public class MainView extends JFrame {
     }
 
     private void aboutMenuItemActionPerformed(ActionEvent evt) {
-        JOptionPane.showMessageDialog(this, "Not supported yet");
+        JOptionPane.showMessageDialog(this, "Created by:"
+                + "\n Aleksandra Bienioszek"
+                + "\n Wojciech Dêbski"
+                + "\n Pawe³ Janeta"
+                + "\n Mateusz Sojka"
+                + "\n Krzysztof Strêk"
+                + "\n Krzystof Warzecha");
     }
 
     public void setLogged(boolean value) {

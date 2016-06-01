@@ -9,6 +9,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Properties;
@@ -39,9 +40,13 @@ public class WeekDataView extends JPanel {
     private JButton prevBtn;
     private JTable planTable;
     private JButton calendarBtn;
-
+    private Calendar startDate;
+    private Calendar endDate;
+    private JDatePanelImpl datePanel;
+    private JDatePickerImpl datePicker;
     private final Object selectedItem;
-
+    private UtilDateModel model;
+    private SimpleDateFormat dateFormat;
     private final transient WeekDataViewMediator weekDataViewMediator;
 
     public WeekDataView(MainView window, Object selectedItem,
@@ -58,26 +63,20 @@ public class WeekDataView extends JPanel {
         prevBtn = new JButton();
         calendarBtn = new JButton();
         planTable = new JTable();
-     
-        UtilDateModel model = new UtilDateModel();
+
+        model = new UtilDateModel();
         Properties p = new Properties();
         p.put("text.today", "Today");
         p.put("text.month", "Month");
         p.put("text.year", "Year");
-        SimpleDateFormat dateFormat = new DateLabelFormatter().dateFormatter;
-        JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
-     //   model.setDate(Calendar.getInstance().getTime());
-        JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
-        PanelStyle.setSize(datePanel, 240, 200);
-        Calendar endDate = Calendar.getInstance();
+        startDate = Calendar.getInstance();
+        endDate = Calendar.getInstance();
         endDate.add(Calendar.DATE, 6);
-        datePicker
-                .getJFormattedTextField()
-                .setText(dateFormat
-                        .format(Calendar
-                                .getInstance()
-                                .getTime()) + " - " + 
-                       endDate.getTime());
+        dateFormat = new DateLabelFormatter().dateFormatter;
+        datePanel = new JDatePanelImpl(model, p);
+        datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+        PanelStyle.setSize(datePanel, 220, 200);
+        setDateText();
         //TODO - logika zmiany tygodnia
         try {
             Image img = ImageIO.read(getClass().getResource("/resources/left.png"));
@@ -89,24 +88,38 @@ public class WeekDataView extends JPanel {
         } catch (IOException ex) {
             System.out.println("RESOURCE ERROR: " + ex.toString());
         }
-        
+
         prevBtn.addActionListener((ActionEvent e) -> {
-          
+             startDate.set(datePicker.getModel().getYear(), 
+                    datePicker.getModel().getMonth(),
+                    datePicker.getModel().getDay());
+            startDate.add(Calendar.DATE, -1);
+            endDate.set(datePicker.getModel().getYear(), 
+                    datePicker.getModel().getMonth(),
+                    datePicker.getModel().getDay());
+            endDate.add(Calendar.DATE, 5);
+            setDateText();
         });
         nextBtn.addActionListener((ActionEvent e) -> {
-           
+            startDate.set(datePicker.getModel().getYear(), 
+                    datePicker.getModel().getMonth(),
+                    datePicker.getModel().getDay());
+            startDate.add(Calendar.DATE, 1);
+            endDate.set(datePicker.getModel().getYear(), 
+                    datePicker.getModel().getMonth(),
+                    datePicker.getModel().getDay());
+            endDate.add(Calendar.DATE, 7);
+            setDateText();
         });
-   
         initTable();
         PanelStyle.setSize(this, 800, 600);
         JPanel weekPanel = new JPanel();
-        PanelStyle.setSize(weekPanel, 400, 40);
+        PanelStyle.setSize(weekPanel, 350, 40);
         BoxLayout weekLayout = new BoxLayout(weekPanel, BoxLayout.X_AXIS);
         weekPanel.setLayout(weekLayout);
         weekPanel.add(prevBtn);
         weekPanel.add(datePicker);
         weekPanel.add(nextBtn);
-        
 
         BoxLayout boxlayout = new BoxLayout(this, BoxLayout.Y_AXIS);
         setLayout(boxlayout);
@@ -172,8 +185,22 @@ public class WeekDataView extends JPanel {
     public JTable getPlanView() {
         return planTable;
     }
+
     public Object getSelectedItem() {
         return selectedItem;
+    }
+
+    private void setDateText() {
+        datePicker.getModel().setDay(startDate.get(Calendar.DAY_OF_MONTH));
+          datePicker.getModel().setMonth(startDate.get(Calendar.MONTH));
+            datePicker.getModel().setYear(startDate.get(Calendar.YEAR));
+        datePicker
+                .getJFormattedTextField()
+                .setText(dateFormat
+                        .format(startDate
+                                .getTime()) + " - "
+                        + dateFormat
+                        .format(endDate.getTime()));
     }
 
 }
