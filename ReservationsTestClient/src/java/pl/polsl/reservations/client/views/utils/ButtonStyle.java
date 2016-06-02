@@ -5,6 +5,7 @@
  */
 package pl.polsl.reservations.client.views.utils;
 
+import java.awt.Component;
 import java.awt.Image;
 import java.awt.Insets;
 import javax.swing.ImageIcon;
@@ -22,6 +23,7 @@ public class ButtonStyle {
         button.setMargin(new Insets(0,5,0,5));
         button.setOpaque(false);
         button.setContentAreaFilled(false);
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.setBorderPainted(false);
     }
 

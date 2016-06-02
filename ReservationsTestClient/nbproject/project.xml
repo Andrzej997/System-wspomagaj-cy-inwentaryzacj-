@@ -27,6 +27,7 @@
             <included-library dirs="200">file.reference.xmlworker-5.5.9-javadoc.jar</included-library>
             <included-library dirs="200">file.reference.xmlworker-5.5.9-sources.jar</included-library>
             <included-library dirs="200">file.reference.xmlworker-5.5.9.jar</included-library>
+            <included-library dirs="200">libs.javaee-api-7.0.classpath</included-library>
         </data>
         <libraries xmlns="http://www.netbeans.org/ns/ant-project-libraries/1">
             <definitions>.\lib\nblibraries.properties</definitions>

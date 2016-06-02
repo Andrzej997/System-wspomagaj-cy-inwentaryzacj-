@@ -7,11 +7,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.reports.PDFDocument;
 import pl.polsl.reservations.client.mediators.AddEditViewMediator;
 import pl.polsl.reservations.client.mediators.LoginMediator;
 import pl.polsl.reservations.client.mediators.MainViewMediator;
+import pl.polsl.reservations.client.views.utils.FrameStyle;
 
 public class MainView extends JFrame {
 
@@ -20,7 +22,6 @@ public class MainView extends JFrame {
 
     private JMenuItem aboutMenuItem;
     private JMenuItem addMenuItem;
-    private JMenuItem checkRaportMenuItem;
     private JMenuItem logoutMenuItem;
     private JMenuItem tutorialMenuItem;
     private JMenuItem generateMenuItem;
@@ -28,9 +29,14 @@ public class MainView extends JFrame {
     private JMenuItem changePasswordItem;
     private JMenuItem editDataMenuItem;
     private JMenuItem addUserMenuItem;
+    private JMenuItem addRoomMenuItem;
+    private JMenuItem addDeviceMenuItem;
+    private JMenuItem addStateMenuItem;
+    private JMenuItem addTypeMenuItem;
     private JMenu fileMenu;
     private JMenu helpMenu;
     private JMenu accountMenu;
+    private JMenu createRaportMenu;
     private JPanel contentView;
 
     private JMenuBar menuBar;
@@ -47,19 +53,23 @@ public class MainView extends JFrame {
         setContentPane(view);
         setVisible(true);
         pack();
-        centreWindow(this);
+        FrameStyle.centreWindow(this);
     }
 
     public void setOptionsAvailable(Color fg) {
         addMenuItem.setForeground(fg);
         generateMenuItem.setForeground(fg);
-        checkRaportMenuItem.setForeground(fg);
+        createRaportMenu.setForeground(fg);
         logoutMenuItem.setForeground(fg);
         accountMenu.setForeground(fg);
         changePasswordItem.setForeground(fg);
         editDataMenuItem.setForeground(fg);
         addUserMenuItem.setForeground(fg);
         accountMenu.setForeground(fg);
+        addRoomMenuItem.setForeground(fg);
+        addDeviceMenuItem.setForeground(fg);
+        addStateMenuItem.setForeground(fg);
+        addTypeMenuItem.setForeground(fg);
     }
 
     private void initComponents() {
@@ -87,12 +97,17 @@ public class MainView extends JFrame {
         logoutMenuItem = new JMenuItem();
         exitMenuItem = new JMenuItem();
         helpMenu = new JMenu();
+        createRaportMenu = new JMenu();
         tutorialMenuItem = new JMenuItem();
         aboutMenuItem = new JMenuItem();
         changePasswordItem = new JMenuItem();
-        checkRaportMenuItem = new JMenuItem();
         addUserMenuItem = new JMenuItem();
         editDataMenuItem = new JMenuItem();
+        addRoomMenuItem = new JMenuItem();
+        addDeviceMenuItem = new JMenuItem();
+        addStateMenuItem = new JMenuItem();
+        addTypeMenuItem = new JMenuItem();
+      
     }
 
     private void tutorialMenuItemActionPerformed(ActionEvent evt) {
@@ -110,10 +125,36 @@ public class MainView extends JFrame {
             setView(new AddEditViewMediator().createView(this));
         }
     }
+    
+    private void addRoomMenuItemActionPerformed(ActionEvent evt) {
+        if (isLoggedIn) {
+      FrameStyle.dialogStyle(new CreateRaportView(this, 1), "Add room");
+        }
+    }
+    
+     private void addDeviceMenuItemActionPerformed(ActionEvent evt) {
+        if (isLoggedIn) {
+            FrameStyle.dialogStyle(new CreateRaportView(this, 2), "Add device");
+        }
+    }
+     
+     
+      private void addStateMenuItemActionPerformed(ActionEvent evt) {
+        if (isLoggedIn) {
+               FrameStyle.dialogStyle(new CreateRaportView(this, 3), "Add state");
+        }
+    }
+      
+       private void addTypeMenuItemActionPerformed(ActionEvent evt) {
+        if (isLoggedIn) {
+               FrameStyle.dialogStyle(new CreateRaportView(this, 4), "Add type");
+        }
+    }
 
     private void generateMenuItemActionPerformed(ActionEvent evt) {
         if (isLoggedIn) {
             JFileChooser chooser = new JFileChooser();
+       chooser.addChoosableFileFilter(new FileNameExtensionFilter(".pdf", "pdf")); 
             int retrival = chooser.showSaveDialog(null);
             if (retrival == JFileChooser.APPROVE_OPTION) {
                 try {
@@ -137,19 +178,19 @@ public class MainView extends JFrame {
 
     private void changePasswordActionPerformed(ActionEvent evt) {
         if (isLoggedIn) {
-            //open Dialog Change password
+           FrameStyle.dialogStyle(new ChangePasswordView(this), "Change password");
         }
     }
     
      private void addUserActionPerformed(ActionEvent evt) {
         if (isLoggedIn) {
-      setView(new AddEditUserView(this, false));
+           FrameStyle.dialogStyle(new AddEditUserView(this,false), "Add user");
         }
     }
      
       private void editUserActionPerformed(ActionEvent evt) {
         if (isLoggedIn) {
-             setView(new AddEditUserView(this, true));
+           FrameStyle.dialogStyle(new AddEditUserView(this,true), "Edit user");
         }
     }
 
@@ -192,18 +233,46 @@ public class MainView extends JFrame {
         });
         fileMenu.add(addMenuItem);
         generateMenuItem.setForeground(new java.awt.Color(153, 153, 153));
-        generateMenuItem.setText("Generate");
+        generateMenuItem.setText("Generate raport");
         generateMenuItem.addActionListener((ActionEvent evt) -> {
             generateMenuItemActionPerformed(evt);
         });
         fileMenu.add(generateMenuItem);
 
-        checkRaportMenuItem.setForeground(new java.awt.Color(153, 153, 153));
-        checkRaportMenuItem.setText("Check raport");
-        checkRaportMenuItem.addActionListener((ActionEvent evt) -> {
-            checkRaportMenuItemActionPerformed(evt);
+        createRaportMenu.setForeground(new java.awt.Color(153, 153, 153));
+        createRaportMenu.setText("Create raport");
+        
+        addRoomMenuItem.setForeground(new java.awt.Color(153, 153, 153));
+        addRoomMenuItem.setText("Add room");
+        addRoomMenuItem.addActionListener((ActionEvent evt) -> {
+            addRoomMenuItemActionPerformed(evt);
         });
-        fileMenu.add(checkRaportMenuItem);
+        createRaportMenu.add(addRoomMenuItem);
+        
+        addDeviceMenuItem.setForeground(new java.awt.Color(153, 153, 153));
+        addDeviceMenuItem.setText("Add device");
+        addDeviceMenuItem.addActionListener((ActionEvent evt) -> {
+            addDeviceMenuItemActionPerformed(evt);
+        });
+        createRaportMenu.add(addDeviceMenuItem);
+        
+        //TYLKO ADMIN:
+        addStateMenuItem.setForeground(new java.awt.Color(153, 153, 153));
+        addStateMenuItem.setText("Add state");
+        addStateMenuItem.addActionListener((ActionEvent evt) -> {
+            addStateMenuItemActionPerformed(evt);
+        });
+        createRaportMenu.add(addStateMenuItem);
+        
+        //TYLKO ADMIN:
+        addTypeMenuItem.setForeground(new java.awt.Color(153, 153, 153));
+        addTypeMenuItem.setText("Add type");
+        addTypeMenuItem.addActionListener((ActionEvent evt) -> {
+            addTypeMenuItemActionPerformed(evt);
+        });
+        createRaportMenu.add(addTypeMenuItem);
+        
+        fileMenu.add(createRaportMenu);
 
         accountMenu.setForeground(new java.awt.Color(153, 153, 153));
         accountMenu.setText("My account");
@@ -260,13 +329,6 @@ public class MainView extends JFrame {
         helpMenu.add(aboutMenuItem);
     }
 
-    public void centreWindow(Window frame) {
-        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2);
-        int y = (int) ((dimension.getHeight() - frame.getHeight()) / 2);
-        frame.setLocation(x, y);
-    }
-
     public MainView getWindow() {
         return window;
     }
@@ -281,10 +343,6 @@ public class MainView extends JFrame {
 
     public JMenuItem getAddMenuItem() {
         return addMenuItem;
-    }
-
-    public JMenuItem getCheckRaportMenuItem() {
-        return checkRaportMenuItem;
     }
 
     public JMenuItem getExitMenuItem() {
