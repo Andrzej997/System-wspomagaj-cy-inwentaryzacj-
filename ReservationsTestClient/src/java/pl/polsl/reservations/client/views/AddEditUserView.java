@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
 import pl.polsl.reservations.client.views.utils.PanelStyle;
 
@@ -67,7 +68,6 @@ public class AddEditUserView extends JPanel {
         this.editUser = editUser;
         initComponents();
         initPanels();
-        PanelStyle.setSize(this, 800, 600);
     }
 
     private void initComponents() {
@@ -150,9 +150,9 @@ public class AddEditUserView extends JPanel {
         PanelStyle.setSize(gradeTf, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(gradeLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(gradeContentLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 400);
-        PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 400);
-          PanelStyle.setSize(mainPanel, 2*NORMAL_WIDTH, 400);
+        PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 240);
+        PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 240);
+        PanelStyle.setSize(mainPanel, 2*NORMAL_WIDTH, 300);
     }
 
     private void initializeObjects() {
@@ -189,6 +189,7 @@ public class AddEditUserView extends JPanel {
     }
 
     private void initPanels() {
+        setBorder(new EmptyBorder(10, 10, 10, 10));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS));
         dataPanel.setLayout(new BoxLayout(dataPanel, BoxLayout.Y_AXIS));

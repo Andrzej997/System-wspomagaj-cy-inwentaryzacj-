@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.util.Date;
 import javax.swing.*;
 import pl.polsl.reservations.client.mediators.AddEditViewMediator;
+import pl.polsl.reservations.client.views.utils.PanelStyle;
 
 /**
  *
@@ -37,10 +38,10 @@ public class AddEditView extends JPanel {
     private JComboBox hourStopCb;
     private JTextField titleTf;
     private JComboBox teacherCb;
-    
+
     private final transient AddEditViewMediator addEditViewMediator;
 
-    public AddEditView(MainView window,AddEditViewMediator addEditViewMediator) {
+    public AddEditView(MainView window, AddEditViewMediator addEditViewMediator) {
         super(new BorderLayout());
         this.window = window;
         this.addEditViewMediator = addEditViewMediator;
@@ -102,18 +103,11 @@ public class AddEditView extends JPanel {
     }
 
     private void setSize() {
-        setMaximumSize(new Dimension(800, 600));
-        setMinimumSize(new Dimension(800, 600));
-        setPreferredSize(new Dimension(800, 600));
-        setSize(addPanel, new Dimension(400, 285));
-        setSize(searchPanel, new Dimension(400, 285));
-        setSize(dayTablePanel, new Dimension(400, 560));
-    }
+        PanelStyle.setSize(this, 800, 600);
+        PanelStyle.setSize(addPanel, 400, 285);
+        PanelStyle.setSize(searchPanel, 400, 285);
+        PanelStyle.setSize(dayTablePanel, 400, 560);
 
-    private void setSize(JPanel panel, Dimension dimension) {
-        panel.setMaximumSize(dimension);
-        panel.setMinimumSize(dimension);
-        panel.setPreferredSize(dimension);
     }
 
     private void initLabelPanel() {
