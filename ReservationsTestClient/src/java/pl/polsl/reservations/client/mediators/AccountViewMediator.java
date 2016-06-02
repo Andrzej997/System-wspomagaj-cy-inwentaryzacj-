@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
 import pl.polsl.reservations.client.Lookup;
-import pl.polsl.reservations.client.views.AccountView;
+//import pl.polsl.reservations.client.views.AccountView;
 import pl.polsl.reservations.client.views.MainView;
 import pl.polsl.reservations.dto.RoomDTO;
 import pl.polsl.reservations.ejb.remote.RoomManagementFacade;
@@ -15,9 +15,9 @@ import pl.polsl.reservations.ejb.remote.UserFacade;
  *
  * @author matis
  */
-public class AccountViewMediator {
+/*public class AccountViewMediator {
     
-    private AccountView accountView;
+   // private AccountView accountView;
     private final UserFacade userFacade;
     private final RoomManagementFacade roomManagementFacade;
        
@@ -75,4 +75,4 @@ public class AccountViewMediator {
         });
     }
     
-}
+}*/

@@ -1,11 +1,14 @@
 package pl.polsl.reservations.client.views;
 
+import com.itextpdf.text.DocumentException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import javax.swing.*;
 import pl.polsl.reservations.client.Lookup;
+import pl.polsl.reservations.client.reports.PDFDocument;
 import pl.polsl.reservations.client.mediators.AddEditViewMediator;
 import pl.polsl.reservations.client.mediators.LoginMediator;
 import pl.polsl.reservations.client.mediators.MainViewMediator;
@@ -116,7 +119,9 @@ public class MainView extends JFrame {
                 try {
                     FileWriter fw = new FileWriter(chooser.getSelectedFile() + ".txt");
                     fw.write("test");
-                } catch (Exception ex) {
+                //    PDFDocument pDFDocument = new PDFDocument(chooser.getSelectedFile() + ".pdf");
+             //       pDFDocument.generatePDF();
+                } catch (IOException ex) {
                     ex.printStackTrace();
                 }
             }
