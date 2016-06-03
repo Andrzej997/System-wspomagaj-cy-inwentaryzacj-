@@ -133,8 +133,7 @@ public class DepartamentRoomsEquipmentReportDocument extends PDFDocument {
         for (EquipmentDTO equipmentDTO : roomEquipment) {
             cell = new PdfPCell(new Phrase(equipmentDTO.getName()));
             contentTable.addCell(cell);
-            Integer quantity = equipmentDTO.getQuantity();
-            cell = new PdfPCell(new Phrase(quantity.toString()));
+            cell = new PdfPCell(new Phrase(equipmentDTO.getQuantity().toString()));
             contentTable.addCell(cell);
             cell = new PdfPCell(new Phrase(equipmentDTO.getType()));
             contentTable.addCell(cell);
