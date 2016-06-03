@@ -14,6 +14,7 @@ public interface RoomManagementFacade extends AbstractBusinessFacade{
     void removeEquipment(int equipmentId);
     void moveEquipment(int equipmentId, int roomToId);
     List<RoomDTO> getRoomsList();
+    RoomDTO getRoom(int roomNumber);
     List<EquipmentDTO> getRoomEquipment(int roomId);
     List<EquipmentDTO> getDepartmentEquipment(int departmentId);
     List<EquipmentStateDTO> getEquipmentStates();
