@@ -13,6 +13,8 @@ import javax.swing.JPanel;
  */
 class TutorialView extends JPanel {
 
+    private static final long serialVersionUID = 5902382055394831826L;
+
     public TutorialView(MainView window) {
     }
     

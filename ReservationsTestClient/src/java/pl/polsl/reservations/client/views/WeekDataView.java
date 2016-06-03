@@ -7,9 +7,7 @@ package pl.polsl.reservations.client.views;
 
 import java.awt.Image;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Properties;
@@ -17,8 +15,6 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-import org.jdatepicker.DateModel;
-import org.jdatepicker.JDatePicker;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
@@ -163,34 +159,6 @@ public class WeekDataView extends JPanel {
         planTable = new JTable(dataModel);
     }
 
-    public void setPlanView(JTable planView) {
-        this.planTable = planView;
-    }
-
-    public MainView getWindow() {
-        return window;
-    }
-
-    public JPanel getChooseRoomDropdown() {
-        return chooseRoomDropdown;
-    }
-
-    public JButton getNextWeek() {
-        return nextBtn;
-    }
-
-    public JButton getPrevWeek() {
-        return prevBtn;
-    }
-
-    public JTable getPlanView() {
-        return planTable;
-    }
-
-    public Object getSelectedItem() {
-        return selectedItem;
-    }
-
     private void setDateText() {
         datePicker.getModel().setDay(startDate.get(Calendar.DAY_OF_MONTH));
           datePicker.getModel().setMonth(startDate.get(Calendar.MONTH));
@@ -203,5 +171,103 @@ public class WeekDataView extends JPanel {
                         + dateFormat
                         .format(endDate.getTime()));
     }
+
+    public MainView getWindow() {
+        return window;
+    }
+
+    public void setWindow(MainView window) {
+        this.window = window;
+    }
+
+    public JPanel getChooseRoomDropdown() {
+        return chooseRoomDropdown;
+    }
+
+    public void setChooseRoomDropdown(JPanel chooseRoomDropdown) {
+        this.chooseRoomDropdown = chooseRoomDropdown;
+    }
+
+    public JButton getNextBtn() {
+        return nextBtn;
+    }
+
+    public void setNextBtn(JButton nextBtn) {
+        this.nextBtn = nextBtn;
+    }
+
+    public JButton getPrevBtn() {
+        return prevBtn;
+    }
+
+    public void setPrevBtn(JButton prevBtn) {
+        this.prevBtn = prevBtn;
+    }
+
+    public JTable getPlanTable() {
+        return planTable;
+    }
+
+    public void setPlanTable(JTable planTable) {
+        this.planTable = planTable;
+    }
+
+    public JButton getCalendarBtn() {
+        return calendarBtn;
+    }
+
+    public void setCalendarBtn(JButton calendarBtn) {
+        this.calendarBtn = calendarBtn;
+    }
+
+    public Calendar getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Calendar startDate) {
+        this.startDate = startDate;
+    }
+
+    public Calendar getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Calendar endDate) {
+        this.endDate = endDate;
+    }
+
+    public JDatePanelImpl getDatePanel() {
+        return datePanel;
+    }
+
+    public void setDatePanel(JDatePanelImpl datePanel) {
+        this.datePanel = datePanel;
+    }
+
+    public JDatePickerImpl getDatePicker() {
+        return datePicker;
+    }
+
+    public void setDatePicker(JDatePickerImpl datePicker) {
+        this.datePicker = datePicker;
+    }
+
+    public UtilDateModel getModel() {
+        return model;
+    }
+
+    public void setModel(UtilDateModel model) {
+        this.model = model;
+    }
+
+    public SimpleDateFormat getDateFormat() {
+        return dateFormat;
+    }
+
+    public void setDateFormat(SimpleDateFormat dateFormat) {
+        this.dateFormat = dateFormat;
+    }
+    
+    
 
 }

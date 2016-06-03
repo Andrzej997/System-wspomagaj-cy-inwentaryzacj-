@@ -1,15 +1,10 @@
 package pl.polsl.reservations.client.views;
 
-import com.itextpdf.text.DocumentException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import pl.polsl.reservations.client.Lookup;
-import pl.polsl.reservations.client.reports.PDFDocument;
 import pl.polsl.reservations.client.mediators.AddEditViewMediator;
 import pl.polsl.reservations.client.mediators.LoginMediator;
 import pl.polsl.reservations.client.mediators.MainViewMediator;
@@ -328,48 +323,168 @@ public class MainView extends JFrame {
         return window;
     }
 
+    public void setWindow(MainView window) {
+        this.window = window;
+    }
+
     public boolean isIsLoggedIn() {
         return isLoggedIn;
+    }
+
+    public void setIsLoggedIn(boolean isLoggedIn) {
+        this.isLoggedIn = isLoggedIn;
     }
 
     public JMenuItem getAboutMenuItem() {
         return aboutMenuItem;
     }
 
+    public void setAboutMenuItem(JMenuItem aboutMenuItem) {
+        this.aboutMenuItem = aboutMenuItem;
+    }
+
     public JMenuItem getAddMenuItem() {
         return addMenuItem;
     }
 
-    public JMenuItem getExitMenuItem() {
-        return exitMenuItem;
-    }
-
-    public JMenu getFileMenu() {
-        return fileMenu;
-    }
-
-    public JMenuItem getGenerateMenuItem() {
-        return generateMenuItem;
-    }
-
-    public JMenu getHelpMenu() {
-        return helpMenu;
-    }
-
-    public JPanel getContentView() {
-        return contentView;
+    public void setAddMenuItem(JMenuItem addMenuItem) {
+        this.addMenuItem = addMenuItem;
     }
 
     public JMenuItem getLogoutMenuItem() {
         return logoutMenuItem;
     }
 
-    public JMenuBar getMenuBarX() {
-        return menuBar;
+    public void setLogoutMenuItem(JMenuItem logoutMenuItem) {
+        this.logoutMenuItem = logoutMenuItem;
     }
 
     public JMenuItem getTutorialMenuItem() {
         return tutorialMenuItem;
+    }
+
+    public void setTutorialMenuItem(JMenuItem tutorialMenuItem) {
+        this.tutorialMenuItem = tutorialMenuItem;
+    }
+
+    public JMenuItem getGenerateMenuItem() {
+        return generateMenuItem;
+    }
+
+    public void setGenerateMenuItem(JMenuItem generateMenuItem) {
+        this.generateMenuItem = generateMenuItem;
+    }
+
+    public JMenuItem getExitMenuItem() {
+        return exitMenuItem;
+    }
+
+    public void setExitMenuItem(JMenuItem exitMenuItem) {
+        this.exitMenuItem = exitMenuItem;
+    }
+
+    public JMenuItem getChangePasswordItem() {
+        return changePasswordItem;
+    }
+
+    public void setChangePasswordItem(JMenuItem changePasswordItem) {
+        this.changePasswordItem = changePasswordItem;
+    }
+
+    public JMenuItem getEditDataMenuItem() {
+        return editDataMenuItem;
+    }
+
+    public void setEditDataMenuItem(JMenuItem editDataMenuItem) {
+        this.editDataMenuItem = editDataMenuItem;
+    }
+
+    public JMenuItem getAddUserMenuItem() {
+        return addUserMenuItem;
+    }
+
+    public void setAddUserMenuItem(JMenuItem addUserMenuItem) {
+        this.addUserMenuItem = addUserMenuItem;
+    }
+
+    public JMenuItem getAddRoomMenuItem() {
+        return addRoomMenuItem;
+    }
+
+    public void setAddRoomMenuItem(JMenuItem addRoomMenuItem) {
+        this.addRoomMenuItem = addRoomMenuItem;
+    }
+
+    public JMenuItem getAddDeviceMenuItem() {
+        return addDeviceMenuItem;
+    }
+
+    public void setAddDeviceMenuItem(JMenuItem addDeviceMenuItem) {
+        this.addDeviceMenuItem = addDeviceMenuItem;
+    }
+
+    public JMenuItem getAddStateMenuItem() {
+        return addStateMenuItem;
+    }
+
+    public void setAddStateMenuItem(JMenuItem addStateMenuItem) {
+        this.addStateMenuItem = addStateMenuItem;
+    }
+
+    public JMenuItem getAddTypeMenuItem() {
+        return addTypeMenuItem;
+    }
+
+    public void setAddTypeMenuItem(JMenuItem addTypeMenuItem) {
+        this.addTypeMenuItem = addTypeMenuItem;
+    }
+
+    public JMenu getFileMenu() {
+        return fileMenu;
+    }
+
+    public void setFileMenu(JMenu fileMenu) {
+        this.fileMenu = fileMenu;
+    }
+
+    public JMenu getHelpMenu() {
+        return helpMenu;
+    }
+
+    public void setHelpMenu(JMenu helpMenu) {
+        this.helpMenu = helpMenu;
+    }
+
+    public JMenu getAccountMenu() {
+        return accountMenu;
+    }
+
+    public void setAccountMenu(JMenu accountMenu) {
+        this.accountMenu = accountMenu;
+    }
+
+    public JMenu getCreateRaportMenu() {
+        return createRaportMenu;
+    }
+
+    public void setCreateRaportMenu(JMenu createRaportMenu) {
+        this.createRaportMenu = createRaportMenu;
+    }
+
+    public JPanel getContentView() {
+        return contentView;
+    }
+
+    public void setContentView(JPanel contentView) {
+        this.contentView = contentView;
+    }
+
+    public JMenuBar getMenuBarNew() {
+        return menuBar;
+    }
+
+    public void setMenuBar(JMenuBar menuBar) {
+        this.menuBar = menuBar;
     }
 
 }

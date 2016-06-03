@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.Date;
 import javax.swing.*;
+import javax.swing.event.EventListenerList;
 import pl.polsl.reservations.client.mediators.AddEditViewMediator;
 import pl.polsl.reservations.client.views.utils.PanelStyle;
 
@@ -240,4 +241,12 @@ public class AddEditView extends JPanel {
         return teacherCb;
     }
 
+    public EventListenerList getListenerList() {
+        return listenerList;
+    }
+
+    public void setListenerList(EventListenerList listenerList) {
+        this.listenerList = listenerList;
+    }
+   
 }

@@ -172,4 +172,166 @@ public class CreateRaportView extends JPanel {
         dataPanel.setLayout(new BoxLayout(dataPanel, BoxLayout.Y_AXIS));
     }
 
+    public MainView getWindow() {
+        return window;
+    }
+
+    public void setWindow(MainView window) {
+        this.window = window;
+    }
+
+    public int getOption() {
+        return option;
+    }
+
+    public void setOption(int option) {
+        this.option = option;
+    }
+
+    public JTextField getRoomIdTf() {
+        return roomIdTf;
+    }
+
+    public void setRoomIdTf(JTextField roomIdTf) {
+        this.roomIdTf = roomIdTf;
+    }
+
+    public JTextField getNumberTf() {
+        return numberTf;
+    }
+
+    public void setNumberTf(JTextField numberTf) {
+        this.numberTf = numberTf;
+    }
+
+    public JComboBox getTypeCb() {
+        return typeCb;
+    }
+
+    public void setTypeCb(JComboBox typeCb) {
+        this.typeCb = typeCb;
+    }
+
+    public JComboBox getKeeperCb() {
+        return keeperCb;
+    }
+
+    public void setKeeperCb(JComboBox keeperCb) {
+        this.keeperCb = keeperCb;
+    }
+
+    public JComboBox getDepartmentCb() {
+        return departmentCb;
+    }
+
+    public void setDepartmentCb(JComboBox departmentCb) {
+        this.departmentCb = departmentCb;
+    }
+
+    public JComboBox getStateCb() {
+        return stateCb;
+    }
+
+    public void setStateCb(JComboBox stateCb) {
+        this.stateCb = stateCb;
+    }
+
+    public JTextField getNameTf() {
+        return nameTf;
+    }
+
+    public void setNameTf(JTextField nameTf) {
+        this.nameTf = nameTf;
+    }
+
+    public JLabel getRoomLabel() {
+        return roomLabel;
+    }
+
+    public void setRoomLabel(JLabel roomLabel) {
+        this.roomLabel = roomLabel;
+    }
+
+    public JLabel getNumberLabel() {
+        return numberLabel;
+    }
+
+    public void setNumberLabel(JLabel numberLabel) {
+        this.numberLabel = numberLabel;
+    }
+
+    public JLabel getTypeLabel() {
+        return typeLabel;
+    }
+
+    public void setTypeLabel(JLabel typeLabel) {
+        this.typeLabel = typeLabel;
+    }
+
+    public JLabel getKeeperLabel() {
+        return keeperLabel;
+    }
+
+    public void setKeeperLabel(JLabel keeperLabel) {
+        this.keeperLabel = keeperLabel;
+    }
+
+    public JLabel getDepartmentLabel() {
+        return departmentLabel;
+    }
+
+    public void setDepartmentLabel(JLabel departmentLabel) {
+        this.departmentLabel = departmentLabel;
+    }
+
+    public JLabel getStateLabel() {
+        return stateLabel;
+    }
+
+    public void setStateLabel(JLabel stateLabel) {
+        this.stateLabel = stateLabel;
+    }
+
+    public JLabel getNameLabel() {
+        return nameLabel;
+    }
+
+    public void setNameLabel(JLabel nameLabel) {
+        this.nameLabel = nameLabel;
+    }
+
+    public JPanel getMainPanel() {
+        return mainPanel;
+    }
+
+    public void setMainPanel(JPanel mainPanel) {
+        this.mainPanel = mainPanel;
+    }
+
+    public JPanel getDataPanel() {
+        return dataPanel;
+    }
+
+    public void setDataPanel(JPanel dataPanel) {
+        this.dataPanel = dataPanel;
+    }
+
+    public JPanel getLabelPanel() {
+        return labelPanel;
+    }
+
+    public void setLabelPanel(JPanel labelPanel) {
+        this.labelPanel = labelPanel;
+    }
+
+    public JButton getOkButton() {
+        return okButton;
+    }
+
+    public void setOkButton(JButton okButton) {
+        this.okButton = okButton;
+    }
+    
+    
+
 }

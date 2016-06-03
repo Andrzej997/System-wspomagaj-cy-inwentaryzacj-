@@ -124,4 +124,118 @@ public class SearchView extends JPanel {
         responseTf.setText("COULD NOT GET ANY RESPONSE");
     }
 
+    public MainView getWindow() {
+        return window;
+    }
+
+    public void setWindow(MainView window) {
+        this.window = window;
+    }
+
+    public JPanel getMainLayout() {
+        return mainLayout;
+    }
+
+    public void setMainLayout(JPanel mainLayout) {
+        this.mainLayout = mainLayout;
+    }
+
+    public JPanel getDataLayout() {
+        return dataLayout;
+    }
+
+    public void setDataLayout(JPanel dataLayout) {
+        this.dataLayout = dataLayout;
+    }
+
+    public JPanel getNavPanel() {
+        return navPanel;
+    }
+
+    public void setNavPanel(JPanel navPanel) {
+        this.navPanel = navPanel;
+    }
+
+    public JPanel getSearchPanel() {
+        return searchPanel;
+    }
+
+    public void setSearchPanel(JPanel searchPanel) {
+        this.searchPanel = searchPanel;
+    }
+
+    public JPanel getSearchLabelPanel() {
+        return searchLabelPanel;
+    }
+
+    public void setSearchLabelPanel(JPanel searchLabelPanel) {
+        this.searchLabelPanel = searchLabelPanel;
+    }
+
+    public JPanel getSearchDataPanel() {
+        return searchDataPanel;
+    }
+
+    public void setSearchDataPanel(JPanel searchDataPanel) {
+        this.searchDataPanel = searchDataPanel;
+    }
+
+    public JComboBox getDateCb() {
+        return dateCb;
+    }
+
+    public void setDateCb(JComboBox dateCb) {
+        this.dateCb = dateCb;
+    }
+
+    public JComboBox getTypeCb() {
+        return typeCb;
+    }
+
+    public void setTypeCb(JComboBox typeCb) {
+        this.typeCb = typeCb;
+    }
+
+    public JComboBox getHourStartCb() {
+        return hourStartCb;
+    }
+
+    public void setHourStartCb(JComboBox hourStartCb) {
+        this.hourStartCb = hourStartCb;
+    }
+
+    public JComboBox getHourStopCb() {
+        return hourStopCb;
+    }
+
+    public void setHourStopCb(JComboBox hourStopCb) {
+        this.hourStopCb = hourStopCb;
+    }
+
+    public JTextField getStudentsTf() {
+        return studentsTf;
+    }
+
+    public void setStudentsTf(JTextField studentsTf) {
+        this.studentsTf = studentsTf;
+    }
+
+    public JLabel getResponseTf() {
+        return responseTf;
+    }
+
+    public void setResponseTf(JLabel responseTf) {
+        this.responseTf = responseTf;
+    }
+
+    public JButton getResponseBtn() {
+        return responseBtn;
+    }
+
+    public void setResponseBtn(JButton responseBtn) {
+        this.responseBtn = responseBtn;
+    }
+    
+    
+
 }

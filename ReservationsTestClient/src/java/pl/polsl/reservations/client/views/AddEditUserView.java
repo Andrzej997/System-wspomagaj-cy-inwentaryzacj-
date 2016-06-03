@@ -12,7 +12,6 @@ import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -193,6 +192,384 @@ public class AddEditUserView extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS));
         dataPanel.setLayout(new BoxLayout(dataPanel, BoxLayout.Y_AXIS));
+    }
+
+    /**
+     * @return the editUser
+     */
+    public boolean isEditUser() {
+        return editUser;
+    }
+
+    /**
+     * @param editUser the editUser to set
+     */
+    public void setEditUser(boolean editUser) {
+        this.editUser = editUser;
+    }
+
+    /**
+     * @return the usernameLabel
+     */
+    public JLabel getUsernameLabel() {
+        return usernameLabel;
+    }
+
+    /**
+     * @param usernameLabel the usernameLabel to set
+     */
+    public void setUsernameLabel(JLabel usernameLabel) {
+        this.usernameLabel = usernameLabel;
+    }
+
+    /**
+     * @return the surnameLabel
+     */
+    public JLabel getSurnameLabel() {
+        return surnameLabel;
+    }
+
+    /**
+     * @param surnameLabel the surnameLabel to set
+     */
+    public void setSurnameLabel(JLabel surnameLabel) {
+        this.surnameLabel = surnameLabel;
+    }
+
+    /**
+     * @return the nameLabel
+     */
+    public JLabel getNameLabel() {
+        return nameLabel;
+    }
+
+    /**
+     * @param nameLabel the nameLabel to set
+     */
+    public void setNameLabel(JLabel nameLabel) {
+        this.nameLabel = nameLabel;
+    }
+
+    /**
+     * @return the phoneLabel
+     */
+    public JLabel getPhoneLabel() {
+        return phoneLabel;
+    }
+
+    /**
+     * @param phoneLabel the phoneLabel to set
+     */
+    public void setPhoneLabel(JLabel phoneLabel) {
+        this.phoneLabel = phoneLabel;
+    }
+
+    /**
+     * @return the emailLabel
+     */
+    public JLabel getEmailLabel() {
+        return emailLabel;
+    }
+
+    /**
+     * @param emailLabel the emailLabel to set
+     */
+    public void setEmailLabel(JLabel emailLabel) {
+        this.emailLabel = emailLabel;
+    }
+
+    /**
+     * @return the addressLabel
+     */
+    public JLabel getAddressLabel() {
+        return addressLabel;
+    }
+
+    /**
+     * @param addressLabel the addressLabel to set
+     */
+    public void setAddressLabel(JLabel addressLabel) {
+        this.addressLabel = addressLabel;
+    }
+
+    /**
+     * @return the departmentLabel
+     */
+    public JLabel getDepartmentLabel() {
+        return departmentLabel;
+    }
+
+    /**
+     * @param departmentLabel the departmentLabel to set
+     */
+    public void setDepartmentLabel(JLabel departmentLabel) {
+        this.departmentLabel = departmentLabel;
+    }
+
+    /**
+     * @return the gradeLabel
+     */
+    public JLabel getGradeLabel() {
+        return gradeLabel;
+    }
+
+    /**
+     * @param gradeLabel the gradeLabel to set
+     */
+    public void setGradeLabel(JLabel gradeLabel) {
+        this.gradeLabel = gradeLabel;
+    }
+
+    /**
+     * @return the peselLabel
+     */
+    public JLabel getPeselLabel() {
+        return peselLabel;
+    }
+
+    /**
+     * @param peselLabel the peselLabel to set
+     */
+    public void setPeselLabel(JLabel peselLabel) {
+        this.peselLabel = peselLabel;
+    }
+
+    /**
+     * @return the usernameTf
+     */
+    public JTextField getUsernameTf() {
+        return usernameTf;
+    }
+
+    /**
+     * @param usernameTf the usernameTf to set
+     */
+    public void setUsernameTf(JTextField usernameTf) {
+        this.usernameTf = usernameTf;
+    }
+
+    /**
+     * @return the nameTf
+     */
+    public JTextField getNameTf() {
+        return nameTf;
+    }
+
+    /**
+     * @param nameTf the nameTf to set
+     */
+    public void setNameTf(JTextField nameTf) {
+        this.nameTf = nameTf;
+    }
+
+    /**
+     * @return the surnameTf
+     */
+    public JTextField getSurnameTf() {
+        return surnameTf;
+    }
+
+    /**
+     * @param surnameTf the surnameTf to set
+     */
+    public void setSurnameTf(JTextField surnameTf) {
+        this.surnameTf = surnameTf;
+    }
+
+    /**
+     * @return the phoneTf
+     */
+    public JTextField getPhoneTf() {
+        return phoneTf;
+    }
+
+    /**
+     * @param phoneTf the phoneTf to set
+     */
+    public void setPhoneTf(JTextField phoneTf) {
+        this.phoneTf = phoneTf;
+    }
+
+    /**
+     * @return the emailTf
+     */
+    public JTextField getEmailTf() {
+        return emailTf;
+    }
+
+    /**
+     * @param emailTf the emailTf to set
+     */
+    public void setEmailTf(JTextField emailTf) {
+        this.emailTf = emailTf;
+    }
+
+    /**
+     * @return the addressTf
+     */
+    public JTextField getAddressTf() {
+        return addressTf;
+    }
+
+    /**
+     * @param addressTf the addressTf to set
+     */
+    public void setAddressTf(JTextField addressTf) {
+        this.addressTf = addressTf;
+    }
+
+    /**
+     * @return the peselTf
+     */
+    public JTextField getPeselTf() {
+        return peselTf;
+    }
+
+    /**
+     * @param peselTf the peselTf to set
+     */
+    public void setPeselTf(JTextField peselTf) {
+        this.peselTf = peselTf;
+    }
+
+    /**
+     * @return the departmentCb
+     */
+    public JComboBox getDepartmentCb() {
+        return departmentCb;
+    }
+
+    /**
+     * @param departmentCb the departmentCb to set
+     */
+    public void setDepartmentCb(JComboBox departmentCb) {
+        this.departmentCb = departmentCb;
+    }
+
+    /**
+     * @return the gradeTf
+     */
+    public JTextField getGradeTf() {
+        return gradeTf;
+    }
+
+    /**
+     * @param gradeTf the gradeTf to set
+     */
+    public void setGradeTf(JTextField gradeTf) {
+        this.gradeTf = gradeTf;
+    }
+
+    /**
+     * @return the peselContentLabel
+     */
+    public JLabel getPeselContentLabel() {
+        return peselContentLabel;
+    }
+
+    /**
+     * @param peselContentLabel the peselContentLabel to set
+     */
+    public void setPeselContentLabel(JLabel peselContentLabel) {
+        this.peselContentLabel = peselContentLabel;
+    }
+
+    /**
+     * @return the departmentContentLabel
+     */
+    public JLabel getDepartmentContentLabel() {
+        return departmentContentLabel;
+    }
+
+    /**
+     * @param departmentContentLabel the departmentContentLabel to set
+     */
+    public void setDepartmentContentLabel(JLabel departmentContentLabel) {
+        this.departmentContentLabel = departmentContentLabel;
+    }
+
+    /**
+     * @return the usernameContentLabel
+     */
+    public JLabel getUsernameContentLabel() {
+        return usernameContentLabel;
+    }
+
+    /**
+     * @param usernameContentLabel the usernameContentLabel to set
+     */
+    public void setUsernameContentLabel(JLabel usernameContentLabel) {
+        this.usernameContentLabel = usernameContentLabel;
+    }
+
+    /**
+     * @return the gradeContentLabel
+     */
+    public JLabel getGradeContentLabel() {
+        return gradeContentLabel;
+    }
+
+    /**
+     * @param gradeContentLabel the gradeContentLabel to set
+     */
+    public void setGradeContentLabel(JLabel gradeContentLabel) {
+        this.gradeContentLabel = gradeContentLabel;
+    }
+
+    /**
+     * @return the labelPanel
+     */
+    public JPanel getLabelPanel() {
+        return labelPanel;
+    }
+
+    /**
+     * @param labelPanel the labelPanel to set
+     */
+    public void setLabelPanel(JPanel labelPanel) {
+        this.labelPanel = labelPanel;
+    }
+
+    /**
+     * @return the dataPanel
+     */
+    public JPanel getDataPanel() {
+        return dataPanel;
+    }
+
+    /**
+     * @param dataPanel the dataPanel to set
+     */
+    public void setDataPanel(JPanel dataPanel) {
+        this.dataPanel = dataPanel;
+    }
+
+    /**
+     * @return the mainPanel
+     */
+    public JPanel getMainPanel() {
+        return mainPanel;
+    }
+
+    /**
+     * @param mainPanel the mainPanel to set
+     */
+    public void setMainPanel(JPanel mainPanel) {
+        this.mainPanel = mainPanel;
+    }
+
+    /**
+     * @return the okButton
+     */
+    public JButton getOkButton() {
+        return okButton;
+    }
+
+    /**
+     * @param okButton the okButton to set
+     */
+    public void setOkButton(JButton okButton) {
+        this.okButton = okButton;
     }
 
 }

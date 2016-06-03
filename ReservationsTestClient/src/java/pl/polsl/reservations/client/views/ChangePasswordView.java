@@ -7,7 +7,6 @@ package pl.polsl.reservations.client.views;
 
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Insets;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
@@ -97,5 +96,87 @@ public class ChangePasswordView extends JPanel {
         labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS));
         dataPanel.setLayout(new BoxLayout(dataPanel, BoxLayout.Y_AXIS));
     }
+
+    public JLabel getOldLabel() {
+        return oldLabel;
+    }
+
+    public void setOldLabel(JLabel oldLabel) {
+        this.oldLabel = oldLabel;
+    }
+
+    public JLabel getNew1Label() {
+        return new1Label;
+    }
+
+    public void setNew1Label(JLabel new1Label) {
+        this.new1Label = new1Label;
+    }
+
+    public JLabel getNew2Label() {
+        return new2Label;
+    }
+
+    public void setNew2Label(JLabel new2Label) {
+        this.new2Label = new2Label;
+    }
+
+    public JTextField getOldTf() {
+        return oldTf;
+    }
+
+    public void setOldTf(JTextField oldTf) {
+        this.oldTf = oldTf;
+    }
+
+    public JTextField getNew1Tf() {
+        return new1Tf;
+    }
+
+    public void setNew1Tf(JTextField new1Tf) {
+        this.new1Tf = new1Tf;
+    }
+
+    public JTextField getNew2Tf() {
+        return new2Tf;
+    }
+
+    public void setNew2Tf(JTextField new2Tf) {
+        this.new2Tf = new2Tf;
+    }
+
+    public JButton getOkButton() {
+        return okButton;
+    }
+
+    public void setOkButton(JButton okButton) {
+        this.okButton = okButton;
+    }
+
+    public JPanel getLabelPanel() {
+        return labelPanel;
+    }
+
+    public void setLabelPanel(JPanel labelPanel) {
+        this.labelPanel = labelPanel;
+    }
+
+    public JPanel getDataPanel() {
+        return dataPanel;
+    }
+
+    public void setDataPanel(JPanel dataPanel) {
+        this.dataPanel = dataPanel;
+    }
+
+    public JPanel getMainPanel() {
+        return mainPanel;
+    }
+
+    public void setMainPanel(JPanel mainPanel) {
+        this.mainPanel = mainPanel;
+    }
+    
+    
 
 }
