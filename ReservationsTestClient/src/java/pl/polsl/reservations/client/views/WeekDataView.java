@@ -19,6 +19,7 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 import pl.polsl.reservations.client.mediators.WeekDataViewMediator;
+import pl.polsl.reservations.client.views.renderers.CustomRenderer;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
 import pl.polsl.reservations.client.views.utils.DateLabelFormatter;
 import pl.polsl.reservations.client.views.utils.PanelStyle;
@@ -157,6 +158,7 @@ public class WeekDataView extends JPanel {
 
         };
         planTable = new JTable(dataModel);
+        planTable.setDefaultRenderer(Object.class, new CustomRenderer());
     }
 
     private void setDateText() {
