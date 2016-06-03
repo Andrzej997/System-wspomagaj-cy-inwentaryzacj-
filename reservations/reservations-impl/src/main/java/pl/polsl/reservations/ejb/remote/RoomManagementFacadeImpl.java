@@ -109,6 +109,21 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
+    public List<EquipmentDTO> getDepartmentEquipment(int departmentId) {
+        List<Room> departmentRooms = departmentDAO.getRoomCollectionById((long)departmentId);
+        List<EquipmentDTO> result = new ArrayList<>();
+
+        for (Room room : departmentRooms) {
+            List<Equipment> roomEquipment = room.getEquipmentCollection();
+            for (Equipment e : roomEquipment) {
+                result.add(DTOBuilder.buildEquipmentDTO(e));
+            }
+        }
+
+        return result;
+    }
+
+    @Override
     @PrivilegeLevel(privilegeLevel = "NONE")
     public List<RoomDTO> getRoomsList() {
         List<Room> rooms = roomsDAO.findAll();

@@ -9,22 +9,22 @@ public class EquipmentTypeDTO implements Serializable {
 
     private static final long serialVersionUID = -6167597351834042225L;
 
-    private long id;
+    private Long id;
 
     private String description;
 
     public EquipmentTypeDTO() {}
 
-    public EquipmentTypeDTO(long id, String description) {
+    public EquipmentTypeDTO(Long id, String description) {
         this.id = id;
         this.description = description;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

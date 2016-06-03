@@ -9,22 +9,22 @@ public class ReservationDTO implements Serializable {
 
     private static final long serialVersionUID = 6796108171113124154L;
 
-    private long id;
+    private Long id;
 
-    private int roomNumber;
+    private Integer roomNumber;
 
-    private int startTime;
+    private Integer startTime;
 
-    private int endTime;
+    private Integer endTime;
 
     private String type;
 
-    private long userId;
+    private Long userId;
 
     public ReservationDTO() {
     }
 
-    public ReservationDTO(long id, int roomNumber, int startTime, int endTime, String type, long userId) {
+    public ReservationDTO(Long id, Integer roomNumber, Integer startTime, Integer endTime, String type, Long userId) {
         this.id = id;
         this.roomNumber = roomNumber;
         this.startTime = startTime;
@@ -33,35 +33,35 @@ public class ReservationDTO implements Serializable {
         this.userId = userId;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public int getRoomNumber() {
+    public Integer getRoomNumber() {
         return roomNumber;
     }
 
-    public void setRoomNumber(int roomNumber) {
+    public void setRoomNumber(Integer roomNumber) {
         this.roomNumber = roomNumber;
     }
 
-    public int getStartTime() {
+    public Integer getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(int startTime) {
+    public void setStartTime(Integer startTime) {
         this.startTime = startTime;
     }
 
-    public int getEndTime() {
+    public Integer getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(int endTime) {
+    public void setEndTime(Integer endTime) {
         this.endTime = endTime;
     }
 
@@ -73,11 +73,11 @@ public class ReservationDTO implements Serializable {
         this.type = type;
     }
 
-    public long getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 }

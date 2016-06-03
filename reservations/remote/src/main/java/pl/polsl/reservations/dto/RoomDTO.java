@@ -9,9 +9,9 @@ public class RoomDTO implements Serializable {
 
     private static final long serialVersionUID = 907737187968943198L;
 
-    private long id;
+    private Long id;
 
-    private int number;
+    private Integer number;
 
     private String department;
 
@@ -21,7 +21,7 @@ public class RoomDTO implements Serializable {
 
     private Integer numberOfSeats;
 
-    public RoomDTO(long id, int number, String department, String keeper, String type, Integer numberOfSeats) {
+    public RoomDTO(Long id, Integer number, String department, String keeper, String type, Integer numberOfSeats) {
         this.id = id;
         this.number = number;
         this.department = department;
@@ -34,19 +34,19 @@ public class RoomDTO implements Serializable {
 
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public int getNumber() {
+    public Integer getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(Integer number) {
         this.number = number;
     }
 

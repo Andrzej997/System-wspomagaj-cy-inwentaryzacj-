@@ -9,17 +9,17 @@ public class EquipmentDTO implements Serializable {
 
     private static final long serialVersionUID = 4479013165387722403L;
 
-    private long id;
+    private Long id;
 
     private String name;
 
-    private int quantity;
+    private Integer quantity;
 
     private String type;
 
     private String state;
 
-    public EquipmentDTO(long id, String name, int quantity, String type, String state) {
+    public EquipmentDTO(Long id, String name, Integer quantity, String type, String state) {
         this.id = id;
         this.name = name;
         this.quantity = quantity;
@@ -29,11 +29,11 @@ public class EquipmentDTO implements Serializable {
 
     public EquipmentDTO() {}
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -45,11 +45,11 @@ public class EquipmentDTO implements Serializable {
         this.name = name;
     }
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 

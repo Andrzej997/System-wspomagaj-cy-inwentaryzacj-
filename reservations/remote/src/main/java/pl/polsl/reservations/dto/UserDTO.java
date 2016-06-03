@@ -9,7 +9,7 @@ public class UserDTO implements Serializable {
 
     private static final long serialVersionUID = 9126885376175271192L;
 
-    private long id;
+    private Long id;
 
     private String address;
 
@@ -31,12 +31,12 @@ public class UserDTO implements Serializable {
 
     private Long privilegeLevel;
 
-    private int roomNumber;
+    private Integer roomNumber;
 
     public UserDTO() {
     }
 
-    public UserDTO(long id, String address, String department, String grade, String pesel, String name, String surname, String userName, String phoneNumber, String email, Long privilegeLevel, int roomNumber) {
+    public UserDTO(Long id, String address, String department, String grade, String pesel, String name, String surname, String userName, String phoneNumber, String email, Long privilegeLevel, Integer roomNumber) {
         this.id = id;
         this.address = address;
         this.department = department;
@@ -51,11 +51,11 @@ public class UserDTO implements Serializable {
         this.roomNumber = roomNumber;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -139,11 +139,11 @@ public class UserDTO implements Serializable {
         this.privilegeLevel = privilegeLevel;
     }
 
-    public int getRoomNumber() {
+    public Integer getRoomNumber() {
         return roomNumber;
     }
 
-    public void setRoomNumber(int roomNumber) {
+    public void setRoomNumber(Integer roomNumber) {
         this.roomNumber = roomNumber;
     }
 }

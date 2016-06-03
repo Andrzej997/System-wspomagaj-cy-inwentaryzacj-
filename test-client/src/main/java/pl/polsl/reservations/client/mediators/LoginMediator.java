@@ -8,7 +8,7 @@ import pl.polsl.reservations.ejb.remote.UserFacade;
 
 /**
  *
- * @author Pawe≥
+ * @author Pawe≈Ç
  */
 public class LoginMediator {
 

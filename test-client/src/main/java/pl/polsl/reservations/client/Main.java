@@ -1,6 +1,8 @@
 package pl.polsl.reservations.client;
 
 import java.util.List;
+
+import pl.polsl.reservations.dto.EquipmentDTO;
 import pl.polsl.reservations.dto.RoomDTO;
 import pl.polsl.reservations.ejb.remote.RoomManagementFacade;
 import pl.polsl.reservations.ejb.remote.ScheduleFacade;
@@ -35,6 +37,8 @@ public class Main {
 //        List<RoomDTO> roomsList = roomManagementFacade.getRoomsList();
         userFacadeRemote.login("m1@onet.pl", "123");
         List<RoomDTO> roomsList2 = roomManagementFacade.getRoomsList();
+
+        List<EquipmentDTO> res = roomManagementFacade.getDepartmentEquipment(1);
 
     }
 //

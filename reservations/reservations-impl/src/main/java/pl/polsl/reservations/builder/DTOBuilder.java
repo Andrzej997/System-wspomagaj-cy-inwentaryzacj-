@@ -80,7 +80,7 @@ public class DTOBuilder {
         reservationDTO.setRoomNumber(reservation.getRoomSchedule().getRoom().getRoomNumber());
         reservationDTO.setStartTime(reservation.getStartTime());
         reservationDTO.setType(reservation.getReservationType().getTypeShortDescription());
-        reservationDTO.setUserId(reservation.getUser().getId().intValue());
+        reservationDTO.setUserId(reservation.getUser().getId());
         return reservationDTO;
     }
 
