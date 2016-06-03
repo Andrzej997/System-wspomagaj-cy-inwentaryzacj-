@@ -1,14 +1,16 @@
 package pl.polsl.reservations.client.mediators;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 import javax.swing.table.DefaultTableModel;
 import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.views.MainView;
 import pl.polsl.reservations.client.views.WeekDataView;
-import pl.polsl.reservations.client.views.renderers.CustomRenderer;
-import pl.polsl.reservations.dto.ReservationDTO;
+import pl.polsl.reservations.client.views.utils.RoomComboBox;
 import pl.polsl.reservations.dto.RoomDTO;
 import pl.polsl.reservations.ejb.remote.RoomManagementFacade;
 import pl.polsl.reservations.ejb.remote.ScheduleFacade;
@@ -31,10 +33,10 @@ public class WeekDataViewMediator {
     public WeekDataView createView(MainView parent, Object selectedItem) {
         weekDataView = new WeekDataView(parent, selectedItem, this);
         getRooms();
-     //   weekDataView.getChooseRoomDropdown()
-     //           .setSelectedItem(weekDataView.getSelectedItem());
+        //   weekDataView.getChooseRoomDropdown()
+        //           .setSelectedItem(weekDataView.getSelectedItem());
         getReservations();
-        
+
         return weekDataView;
     }
 
@@ -45,11 +47,10 @@ public class WeekDataViewMediator {
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         int weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
 
-    //    List<ReservationDTO> roomSchedule = scheduleFacade.getRoomSchedule((Integer)weekDataView.getChooseRoomDropdown().getSelectedItem(), 2016, true);
-
+        //    List<ReservationDTO> roomSchedule = scheduleFacade.getRoomSchedule((Integer)weekDataView.getChooseRoomDropdown().getSelectedItem(), 2016, true);
         DefaultTableModel defaultTableModel = new DefaultTableModel(32, 7);
 
-      /*  roomSchedule.stream().forEach((reservation) -> {
+        /*  roomSchedule.stream().forEach((reservation) -> {
             int endDay = reservation.getStartTime() / 96;
             int startDay = reservation.getEndTime() / 96;
             int numberOfEndQuarter = reservation.getStartTime() % 96 - 32; //r�znica mi�dzy godzinami w bazie i tabeli
@@ -88,10 +89,35 @@ public class WeekDataViewMediator {
             columnModel.getColumn(i).setCellRenderer(new CustomRenderer());
         }*/
     }
-    public void getRooms(){
-        List<RoomDTO> roomsList = roomManagementFacade.getRoomsList();
-    //    roomsList.stream().forEach((room) -> {
-   //         weekDataView.getChooseRoomDropdown().addItem(room.getNumber());
-    //    });    
+
+    public void getRooms() {
+        if (weekDataView.getChooseRoomDropdown() instanceof RoomComboBox) {
+            List<RoomDTO> roomsList = roomManagementFacade.getRoomsList();
+            HashMap<Integer, List<Integer>> numbersMap = new HashMap<>();
+            RoomComboBox roomComboBox = (RoomComboBox) weekDataView.getChooseRoomDropdown();
+            List<Integer> floors = new ArrayList<>();
+            for (RoomDTO room : roomsList) {
+                Integer roomNumber = room.getNumber();
+                Integer floor = roomNumber / 100;
+                Integer number = roomNumber % 100;
+                if (numbersMap.containsKey(floor)) {
+                    List<Integer> numbers = numbersMap.get(floor);
+                    numbers.add(number);
+                    numbersMap.put(floor, numbers);
+                } else {
+                    List<Integer> numbers = new ArrayList<>();
+                    numbers.add(number);
+                    numbersMap.put(floor, numbers);
+                    floors.add(floor);
+                }
+            }
+            roomComboBox.setFloors(floors);
+            for(Entry<Integer, List<Integer>> floorEntry : numbersMap.entrySet()){
+                roomComboBox.setRooms(floorEntry.getValue(), floorEntry.getKey());
+            }
+            
+            //Przemyslec !!!
+            roomComboBox.selectItem(1, 1);
+        }
     }
 }

@@ -9,11 +9,8 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -23,56 +20,66 @@ public class RoomComboBox extends JPanel implements ActionListener {
     private final JComboBox mainComboBox;
     private final JComboBox subComboBox;
     private final Hashtable subItems = new Hashtable();
+    private String previouslySelectedRoom;
 
     public RoomComboBox() {
-        String[] items = {"Select Floor", "1 floor", "2 floor", "3 floor"};
-        mainComboBox = new JComboBox(items);
+        mainComboBox = new JComboBox();
         mainComboBox.addActionListener(this);
         add(mainComboBox, BorderLayout.WEST);
         subComboBox = new JComboBox();
         subComboBox.setPrototypeDisplayValue("XXXXXXXXXX");
         add(subComboBox, BorderLayout.EAST);
-        String[] subItems1 = {"Select Room", "1", "2", "3"};
-        subItems.put(items[1], subItems1);
-        String[] subItems2 = {"Select Room", "1", "2", "3"};
-        subItems.put(items[2], subItems2);
-        String[] subItems3 = {"Select Room", "1", "2", "3"};
-        subItems.put(items[3], subItems3);
+        previouslySelectedRoom = null;
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
         String item = (String) mainComboBox.getSelectedItem();
         Object o = subItems.get(item);
-
+        previouslySelectedRoom = (String) subComboBox.getSelectedItem();
         if (o == null) {
             subComboBox.setModel(new DefaultComboBoxModel());
-        } else {
-            subComboBox.setModel(new DefaultComboBoxModel((String[]) o));
+        } else if(o instanceof Object[]) {
+            subComboBox.setModel(new DefaultComboBoxModel((Object[]) o));
+            for(Object element : (Object[]) o){
+                if(element instanceof String && element.equals(previouslySelectedRoom))
+                    subComboBox.setSelectedItem(element);
+            }
         }
     }
 
-    public void setFloors(List<String> floors) {
+    public void setFloors(List<Integer> floors) {
         mainComboBox.removeAllItems();
-
-        mainComboBox.addItem("Select Floor");
-
-        for (String floor : floors) {
+        List<String> floorStringList = new ArrayList<>();
+        floors.forEach((floor) -> floorStringList.add(floor.toString()));
+        for (String floor : floorStringList) {
             mainComboBox.addItem(floor);
         }
 
     }
 
-    public void setRooms(List<Integer> rooms,Integer floor) {
-       subComboBox.removeAllItems();
+    public void setRooms(List<Integer> roomNumberList, Integer floor) {
+        subComboBox.removeAllItems();
+        List<String> roomNumberListString = new ArrayList<>();
+        roomNumberList.forEach((roomNumber) -> roomNumberListString.add(roomNumber.toString()));
+        subItems.put(floor.toString(), roomNumberListString.toArray());
+    }
 
-        subComboBox.addItem("Select Floor");
-
-        for (String floor : floors) {
-            subComboBox.addItem(floor);
+    public void selectItem(Integer floor, Integer roomNumber) {
+        if (floor == null && roomNumber == null) {
+            return;
+        }
+        mainComboBox.setSelectedItem(floor.toString());
+        Object selectedItem = subItems.get(floor.toString());
+        if (selectedItem instanceof String[]) {
+            String[] selectedStrings = (String[]) selectedItem;
+            for (String item : selectedStrings) {
+                if (item.equals(roomNumber.toString())) {
+                    subComboBox.setModel(new DefaultComboBoxModel(selectedStrings));
+                    subComboBox.setSelectedItem(item);
+                }
+            }
         }
     }
 
-    public void setItem(Integer currentItem) {
-
-    }
 }
