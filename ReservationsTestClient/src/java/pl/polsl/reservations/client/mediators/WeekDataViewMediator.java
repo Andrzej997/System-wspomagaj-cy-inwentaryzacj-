@@ -24,6 +24,7 @@ public class WeekDataViewMediator {
     private final ScheduleFacade scheduleFacade;
     private final RoomManagementFacade roomManagementFacade;
     private WeekDataView weekDataView;
+    private Integer selectedItem;
 
     public WeekDataViewMediator() {
         scheduleFacade = (ScheduleFacade) Lookup.getRemote("ScheduleFacade");
@@ -32,9 +33,15 @@ public class WeekDataViewMediator {
 
     public WeekDataView createView(MainView parent, Object selectedItem) {
         weekDataView = new WeekDataView(parent, selectedItem, this);
+
+        if (selectedItem instanceof Integer) {
+            this.selectedItem = (Integer) selectedItem;
+        }
+
         getRooms();
         //   weekDataView.getChooseRoomDropdown()
         //           .setSelectedItem(weekDataView.getSelectedItem());
+
         getReservations();
 
         return weekDataView;
@@ -112,12 +119,14 @@ public class WeekDataViewMediator {
                 }
             }
             roomComboBox.setFloors(floors);
-            for(Entry<Integer, List<Integer>> floorEntry : numbersMap.entrySet()){
+            for (Entry<Integer, List<Integer>> floorEntry : numbersMap.entrySet()) {
                 roomComboBox.setRooms(floorEntry.getValue(), floorEntry.getKey());
             }
-            
+
             //Przemyslec !!!
-            roomComboBox.selectItem(1, 1);
+            Integer floor = selectedItem / 100;
+            Integer number = selectedItem % 100;
+            roomComboBox.selectItem(floor, number);
         }
     }
 }
