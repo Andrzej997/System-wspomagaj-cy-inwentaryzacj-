@@ -55,6 +55,7 @@ public class WeekDataView extends JPanel {
         this.weekDataViewMediator = weekDataViewMediator;
         initComponents();
         this.selectedItem = selectedItem;
+        
     }
 
     private void initComponents() {

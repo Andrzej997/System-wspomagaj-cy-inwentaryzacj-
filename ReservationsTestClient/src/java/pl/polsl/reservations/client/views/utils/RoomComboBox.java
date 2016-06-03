@@ -8,7 +8,12 @@ package pl.polsl.reservations.client.views.utils;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -25,7 +30,7 @@ public class RoomComboBox extends JPanel implements ActionListener {
         mainComboBox.addActionListener(this);
         add(mainComboBox, BorderLayout.WEST);
         subComboBox = new JComboBox();
-        subComboBox.setPrototypeDisplayValue("XXXXXXXXXX"); 
+        subComboBox.setPrototypeDisplayValue("XXXXXXXXXX");
         add(subComboBox, BorderLayout.EAST);
         String[] subItems1 = {"Select Room", "1", "2", "3"};
         subItems.put(items[1], subItems1);
@@ -44,5 +49,30 @@ public class RoomComboBox extends JPanel implements ActionListener {
         } else {
             subComboBox.setModel(new DefaultComboBoxModel((String[]) o));
         }
+    }
+
+    public void setFloors(List<String> floors) {
+        mainComboBox.removeAllItems();
+
+        mainComboBox.addItem("Select Floor");
+
+        for (String floor : floors) {
+            mainComboBox.addItem(floor);
+        }
+
+    }
+
+    public void setRooms(List<Integer> rooms,Integer floor) {
+       subComboBox.removeAllItems();
+
+        subComboBox.addItem("Select Floor");
+
+        for (String floor : floors) {
+            subComboBox.addItem(floor);
+        }
+    }
+
+    public void setItem(Integer currentItem) {
+
     }
 }

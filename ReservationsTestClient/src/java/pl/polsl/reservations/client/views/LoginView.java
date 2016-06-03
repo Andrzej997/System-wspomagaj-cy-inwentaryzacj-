@@ -71,7 +71,7 @@ public class LoginView extends JPanel {
             if (loginMediator.getUserData(loginEditText.getText(), passwordEditText.getText())) {
                 //todo: logika wyboru pierwszego za³adowanego pokoju
                     window.setOptionsAvailable(Color.black);
-                window.setView(new WeekDataViewMediator().createView(window, 101));
+                window.setView(new WeekDataViewMediator().createView(window, loginMediator.getFirstRoom()));
                 window.setLogged(true);
             } else {
                 JOptionPane.showMessageDialog(this, "Wrong login or password!!.");
@@ -87,7 +87,7 @@ public class LoginView extends JPanel {
 
     private void onClickGuest(ActionEvent evt) {
         window.setOptionsAvailable(Color.black);
-      window.setView(new WeekDataViewMediator().createView(window, 101));
+      window.setView(new WeekDataViewMediator().createView(window, loginMediator.getFirstRoom()));
                 window.setLogged(true);
     }
 
