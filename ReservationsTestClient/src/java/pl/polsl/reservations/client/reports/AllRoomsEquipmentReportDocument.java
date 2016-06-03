@@ -37,12 +37,12 @@ public class AllRoomsEquipmentReportDocument extends PDFDocument {
     private final RoomManagementFacade roomManagementFacade
             = (RoomManagementFacade) Lookup.getRemote("RoomManagementFacade");
 
-    public AllRoomsEquipmentReportDocument() throws DocumentException, IOException {
+    public AllRoomsEquipmentReportDocument() {
         super();
         roomDTOCollection = null;
     }
 
-    public AllRoomsEquipmentReportDocument(List<RoomDTO> roomDTOCollection, String pathToResultFile, Rectangle pageSize) throws DocumentException, IOException {
+    public AllRoomsEquipmentReportDocument(List<RoomDTO> roomDTOCollection, String pathToResultFile, Rectangle pageSize){
         super(pathToResultFile, pageSize);
         this.roomDTOCollection = roomDTOCollection;
     }
@@ -128,8 +128,7 @@ public class AllRoomsEquipmentReportDocument extends PDFDocument {
         for (EquipmentDTO equipmentDTO : roomEquipment) {
             cell = new PdfPCell(new Phrase(equipmentDTO.getName()));
             contentTable.addCell(cell);
-            Integer quantity = equipmentDTO.getQuantity();
-            cell = new PdfPCell(new Phrase(quantity.toString()));
+            cell = new PdfPCell(new Phrase(equipmentDTO.getQuantity().toString()));
             contentTable.addCell(cell);
             cell = new PdfPCell(new Phrase(equipmentDTO.getType()));
             contentTable.addCell(cell);
