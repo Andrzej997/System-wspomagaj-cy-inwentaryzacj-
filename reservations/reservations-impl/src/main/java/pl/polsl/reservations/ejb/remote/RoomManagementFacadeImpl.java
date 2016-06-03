@@ -209,7 +209,13 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
         Equipment eq = equipmentDAO.find(equipmentId);
         equipmentDAO.remove(eq);
     }
-    
+
+    @Override
+    public RoomDTO getRoom(int roomNumber) {
+        Room room = roomsDAO.getRoomByNumber(roomNumber);
+        return DTOBuilder.buildRoomDTO(room);
+    }
+
     @Override
     public Boolean certificateBean(String certificate){
         Boolean certificateBean = super.certificateBean(certificate);
