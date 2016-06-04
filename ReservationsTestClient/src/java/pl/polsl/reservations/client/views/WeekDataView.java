@@ -70,8 +70,9 @@ public class WeekDataView extends JPanel {
         p.put("text.month", "Month");
         p.put("text.year", "Year");
         startDate = Calendar.getInstance();
+        startDate.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         endDate = Calendar.getInstance();
-        endDate.add(Calendar.DATE, 6);
+        endDate.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
         dateFormat = new DateLabelFormatter().dateFormatter;
         datePanel = new JDatePanelImpl(model, p);
         datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
@@ -93,22 +94,27 @@ public class WeekDataView extends JPanel {
             startDate.set(datePicker.getModel().getYear(),
                     datePicker.getModel().getMonth(),
                     datePicker.getModel().getDay());
-            startDate.add(Calendar.DATE, -1);
-            endDate.set(datePicker.getModel().getYear(),
-                    datePicker.getModel().getMonth(),
-                    datePicker.getModel().getDay());
-            endDate.add(Calendar.DATE, 5);
+            startDate.add(Calendar.DAY_OF_MONTH, -7);
+            int dayOfWeek = startDate.get(Calendar.DAY_OF_WEEK);
+            dayOfWeek -= 2;
+            startDate.add(Calendar.DAY_OF_MONTH, -dayOfWeek);
+
+            endDate.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH),
+                    startDate.get(Calendar.DATE));
+            endDate.add(Calendar.DATE, 6);
             setDateText();
         });
         nextBtn.addActionListener((ActionEvent e) -> {
             startDate.set(datePicker.getModel().getYear(),
                     datePicker.getModel().getMonth(),
                     datePicker.getModel().getDay());
-            startDate.add(Calendar.DATE, 1);
-            endDate.set(datePicker.getModel().getYear(),
-                    datePicker.getModel().getMonth(),
-                    datePicker.getModel().getDay());
-            endDate.add(Calendar.DATE, 7);
+            startDate.add(Calendar.DATE, 7);
+            int dayOfWeek = startDate.get(Calendar.DAY_OF_WEEK);
+            dayOfWeek -= 2;
+            startDate.add(Calendar.DAY_OF_MONTH, -dayOfWeek);
+            endDate.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH),
+                    startDate.get(Calendar.DATE));
+            endDate.add(Calendar.DATE, 6);
             setDateText();
         });
         initTable();
@@ -125,12 +131,9 @@ public class WeekDataView extends JPanel {
         setLayout(boxlayout);
 
         //chooseRoomDropdown.add
-        
-        
-        
         add(weekPanel);
         add(chooseRoomDropdown);
-        add(planTable);
+        add(new JScrollPane(planTable));
 
 
         /*    chooseRoomDropdown.addActionListener((ActionEvent e) -> {
@@ -146,7 +149,7 @@ public class WeekDataView extends JPanel {
     }
 
     private void initTable() {
-        TableModel dataModel = new DefaultTableModel() {
+        DefaultTableModel dataModel = new DefaultTableModel() {
             @Override
             public int getColumnCount() {
                 return 7;
@@ -169,7 +172,9 @@ public class WeekDataView extends JPanel {
             }
 
         };
-
+        String[] days = new String[]{"Monday", "Tuesday", "Wednesday","Thursday", "Friday", "Saturday", "Sunday"};
+        dataModel.setColumnIdentifiers(days);
+        
         planTable = new JTable(dataModel);
         planTable.setDefaultRenderer(Object.class, new CustomRenderer());
 

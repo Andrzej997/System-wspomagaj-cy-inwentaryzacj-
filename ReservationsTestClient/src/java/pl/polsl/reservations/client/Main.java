@@ -1,9 +1,12 @@
 package pl.polsl.reservations.client;
 
+import java.util.List;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import pl.polsl.reservations.client.mediators.MainViewMediator;
 import pl.polsl.reservations.client.views.MainView;
+import pl.polsl.reservations.dto.ReservationDTO;
+import pl.polsl.reservations.ejb.remote.ScheduleFacade;
 
 /**
  *

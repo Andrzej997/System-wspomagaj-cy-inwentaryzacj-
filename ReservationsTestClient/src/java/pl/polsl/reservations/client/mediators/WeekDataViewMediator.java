@@ -31,7 +31,7 @@ public class WeekDataViewMediator {
     private final RoomManagementFacade roomManagementFacade;
     private WeekDataView weekDataView;
     private Integer selectedItem;
-    private final HashMap<Color, List<Integer>> reservationCellsRendererMap;
+    private HashMap<Color, List<Integer>> reservationCellsRendererMap;
 
     public WeekDataViewMediator() {
         scheduleFacade = (ScheduleFacade) Lookup.getRemote("ScheduleFacade");
@@ -56,6 +56,7 @@ public class WeekDataViewMediator {
     }
 
     public void getReservations() {
+        reservationCellsRendererMap = new HashMap<>();
         Date date = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -73,6 +74,9 @@ public class WeekDataViewMediator {
                     return false;
                 }
             };
+
+            String[] days = new String[]{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+            defaultTableModel.setColumnIdentifiers(days);
 
             for (ReservationDTO reservation : roomSchedule) {
                 int endDay = reservation.getStartTime() / 96;
@@ -99,9 +103,8 @@ public class WeekDataViewMediator {
             weekDataView.getPlanTable().setModel(defaultTableModel);
 
             weekDataView.getPlanTable().setDefaultRenderer(Object.class, new CustomRenderer(reservationCellsRendererMap));
-           
-        //    weekDataView.getPlanTable().repaint();
 
+            //    weekDataView.getPlanTable().repaint();
         }
     }
 

@@ -26,6 +26,9 @@ public class DateLabelFormatter extends AbstractFormatter {
         String result = "";
         if (value != null) {
             Calendar cal = (Calendar) value;
+            int dayofWeek = cal.get(Calendar.DAY_OF_WEEK);
+            dayofWeek -= 2;
+            cal.add(Calendar.DATE, -dayofWeek);
             result += dateFormatter.format(cal.getTime()) + " - ";
             cal.add(Calendar.DATE, 6);
             result += dateFormatter.format(cal.getTime());
