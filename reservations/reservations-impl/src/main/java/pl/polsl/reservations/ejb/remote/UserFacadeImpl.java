@@ -62,7 +62,6 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
     @Override
     public boolean loginAsGuest() {
         UserContext userContext = getCurrentUserContext();
-        //zaslepka
         userContext.setPrivilegeLevel(PrivilegeLevelEnum.STANDARD_USER);
         user = new Users();
         return true;
