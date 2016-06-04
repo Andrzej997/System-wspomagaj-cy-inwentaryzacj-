@@ -161,7 +161,6 @@ public class ScheduleFacadeImpl extends AbstractBusinessFacadeImpl implements Sc
     }
 
     @Override
-    @RequiredPrivilege(PrivilegeEnum.SCHEDULE_LOOKUP)
     public List<ReservationDTO> getRoomSchedule(int roomId, int year, boolean semester) {
         return scheduleFactory.createSchedule(new RoomScheduleStrategy(), roomId, year, semester);
     }

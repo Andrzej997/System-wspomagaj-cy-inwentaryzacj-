@@ -1,7 +1,5 @@
 package pl.polsl.reservations.ejb.remote;
 
-import pl.polsl.reservations.annotations.RequiredPrivilege;
-import pl.polsl.reservations.privileges.PrivilegeEnum;
 import pl.polsl.reservations.privileges.PrivilegeLevelEnum;
 import java.util.List;
 import javax.ejb.EJB;

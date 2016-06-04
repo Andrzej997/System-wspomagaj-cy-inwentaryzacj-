@@ -136,7 +136,6 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
-    @RequiredPrivilege(PrivilegeEnum.ROOMS_LOOKUP)
     public List<RoomDTO> getRoomsList() {
         List<Room> rooms = roomsDAO.findAll();
         List<RoomDTO> result = new ArrayList<>();
