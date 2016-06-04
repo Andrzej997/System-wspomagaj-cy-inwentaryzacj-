@@ -167,10 +167,19 @@ public class LoginView extends JPanel {
                 LoginView.this.onClickGuest(e);
             }
         };
+        AbstractAction escapeAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                LoginView.this.getWindow().dispose();
+                System.exit(0);
+            }
+        };
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "login");
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_F12, 0), "guestLogin");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "escape");
         actionMap.put("login", loginAction);
         actionMap.put("guestLogin", guestLoginAction);
+        actionMap.put("escape", escapeAction);
     }
 
     public MainView getWindow() {

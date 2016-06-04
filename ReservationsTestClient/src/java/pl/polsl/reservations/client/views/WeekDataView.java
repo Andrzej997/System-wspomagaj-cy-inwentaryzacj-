@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pl.polsl.reservations.client.views;
 
 import java.awt.Image;
@@ -16,7 +11,6 @@ import java.util.Properties;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
@@ -32,6 +26,8 @@ import pl.polsl.reservations.client.views.utils.RoomComboBox;
  * @author Ola
  */
 public class WeekDataView extends JPanel {
+
+    private static final long serialVersionUID = 1354395203575126802L;
 
     MainView window;
     private JPanel chooseRoomDropdown;
@@ -130,48 +126,13 @@ public class WeekDataView extends JPanel {
         BoxLayout boxlayout = new BoxLayout(this, BoxLayout.Y_AXIS);
         setLayout(boxlayout);
 
-        //chooseRoomDropdown.add
         add(weekPanel);
         add(chooseRoomDropdown);
         add(new JScrollPane(planTable));
-
-
-        /*    chooseRoomDropdown.addActionListener((ActionEvent e) -> {
-            if (chooseRoomDropdown.getSelectedItem() != null) {
-                weekDataViewMediator.getReservations();
-            }
-        });
-        chooseButton.addActionListener((ActionEvent e) -> {
-            if (chooseRoomDropdown.getSelectedItem() != null) {
-                weekDataViewMediator.getReservations();
-            }
-        });*/
     }
 
     private void initTable() {
-        DefaultTableModel dataModel = new DefaultTableModel() {
-            @Override
-            public int getColumnCount() {
-                return 8;
-            }
-
-            @Override
-            public int getRowCount() {
-                return 32;
-            }
-
-            @Override
-            public Object getValueAt(int row, int column) {
-                return row;
-            }
-
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                //all cells false
-                return false;
-            }
-
-        };
+        DefaultTableModel dataModel = new DefaultTableModelImpl();
         String[] days = new String[]{"Monday", "Tuesday", "Wednesday","Thursday", "Friday", "Saturday", "Sunday"};
         dataModel.setColumnIdentifiers(days);
         
@@ -320,6 +281,33 @@ public class WeekDataView extends JPanel {
 
     public void setDateFormat(SimpleDateFormat dateFormat) {
         this.dateFormat = dateFormat;
+    }
+
+    private static class DefaultTableModelImpl extends DefaultTableModel {
+
+        public DefaultTableModelImpl() {
+        }
+        private static final long serialVersionUID = 7434377947963338162L;
+
+        @Override
+        public int getColumnCount() {
+            return 8;
+        }
+
+        @Override
+        public int getRowCount() {
+            return 32;
+        }
+
+        @Override
+        public Object getValueAt(int row, int column) {
+            return row;
+        }
+
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
     }
 
 }
