@@ -35,7 +35,7 @@ public abstract class AbstractBusinessFacadeImpl implements AbstractBusinessFaca
         return false;
     }
     
-    public UserContext getCurrentUserContext()
+    public final UserContext getCurrentUserContext()
     {
         return getUsersCertifcatesPool().getUserContextByCertificate(certificate);
     }

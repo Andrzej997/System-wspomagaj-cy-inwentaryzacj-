@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.views.MainView;
 import pl.polsl.reservations.ejb.remote.UserFacade;
-import pl.polsl.reservations.ejb.remote.UserManagementFacade;
 
 /**
  *

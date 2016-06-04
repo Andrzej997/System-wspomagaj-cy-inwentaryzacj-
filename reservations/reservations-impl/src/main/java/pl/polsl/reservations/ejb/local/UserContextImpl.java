@@ -48,6 +48,11 @@ public class UserContextImpl implements UserContext{
     public Users getUser() {
         return user;
     }
+    
+    @Override
+    public void setUser(Users user){
+        this.user = user;
+    }
 
     @Override
     public EntityManager getEntityManager() {

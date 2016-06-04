@@ -36,7 +36,7 @@ public class LoginMediator {
 
     public LoginView createView(MainView parent) {
         loginWindow = new LoginView(parent, this);
-        if (userFacade.getUserPrivilege() != 1) {
+        if (userFacade.getUserPriviligeLevel().getPrivilegeLevel() != 1l) {
             loginWindow.getRegisterButton().setVisible(false);
         }
         return loginWindow;

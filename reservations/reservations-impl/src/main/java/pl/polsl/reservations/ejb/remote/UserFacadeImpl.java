@@ -2,6 +2,7 @@ package pl.polsl.reservations.ejb.remote;
 
 import pl.polsl.reservations.privileges.PrivilegeLevelEnum;
 import java.util.List;
+import java.util.Objects;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
 import javax.interceptor.Interceptors;
@@ -32,8 +33,8 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
     private WorkersDao workersFacade;
     @EJB
     private PriviligeLevelsDao privilegeFacade;
-    
-    private Users user = null;
+
+    private Users user;
 
     public UserFacadeImpl() {
         super();
@@ -74,6 +75,9 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
     public boolean logout() {
         if (user != null) {
             user = null;
+            UserContext userContext = getCurrentUserContext();
+            userContext.setPrivilegeLevel(PrivilegeLevelEnum.STANDARD_USER);
+            userContext.setUser(new Users());
             return true;
         }
         return false;
@@ -81,6 +85,7 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
 
     @Override
     public PrivilegeLevelDTO getUserPriviligeLevel() {
+        user = getCurrentUserContext().getUser();
         if (user == null) {
             PriviligeLevels pLevel = privilegeFacade.find(PrivilegeLevelEnum.STANDARD_USER.getValue());
             return DTOBuilder.buildPrivilegeLevelDTO(pLevel);
@@ -91,6 +96,7 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
 
     @Override
     public boolean changePassword(String oldPassword, String newPassword) {
+        user = getCurrentUserContext().getUser();
         if (user == null) {
             return false;
         }
@@ -104,6 +110,7 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
 
     @Override
     public UserDTO getUserDetails() {
+        user = getCurrentUserContext().getUser();
         if (user == null) {
             return null;
         }
@@ -120,8 +127,8 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
      */
     @Override
     public boolean changeUserDetails(UserDTO userDTO) {
-
-        if (user == null || user.getId() != userDTO.getId()) {
+        user = getCurrentUserContext().getUser();
+        if (user == null || !Objects.equals(user.getId(), userDTO.getId())) {
             return false;
         }
 

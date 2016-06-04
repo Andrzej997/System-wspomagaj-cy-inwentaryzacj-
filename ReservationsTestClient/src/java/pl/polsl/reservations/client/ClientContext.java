@@ -1,7 +1,7 @@
 package pl.polsl.reservations.client;
 
 import pl.polsl.reservations.dto.PrivilegeLevelDTO;
-import pl.polsl.reservations.ejb.remote.UserManagementFacade;
+import pl.polsl.reservations.ejb.remote.UserFacade;
 
 /**
  *
@@ -11,14 +11,15 @@ public class ClientContext {
     
     private static final String[] USER_TYPES = new String[] {"ADMIN", "INSTITUTE_CHIEF",
     "DEPARTAMENT_CHIEF", "TECHNICAL_CHIEF", "TECHNICAL_WORKER", "STANDARD_USER", "TESTER"};
-    private static final UserManagementFacade userManagementFacade = 
-            (UserManagementFacade) Lookup.getRemote("UserManagementFacade");
+    private static final UserFacade userFacade = 
+            (UserFacade) Lookup.getRemote("UserFacade");
     
     public ClientContext(){
+    
     }
     
     public static PrivilegeLevelDTO getUserPrivilegeLevel(){
-        return userManagementFacade.getUsersPrivilegeLevel("");
+        return userFacade.getUserPriviligeLevel();
     }
     
     public static Boolean checkUserPrivilegesToAction(String requestedPrivilegeLevel){
@@ -28,10 +29,9 @@ public class ClientContext {
                 requestedLevel=new Long(i+1);
             }
         }
-        PrivilegeLevelDTO usersPrivilegeLevel = userManagementFacade.getUsersPrivilegeLevel("");
+        PrivilegeLevelDTO usersPrivilegeLevel = userFacade.getUserPriviligeLevel();
         Long privilegeLevel = usersPrivilegeLevel.getPrivilegeLevel();
-        return privilegeLevel >= requestedLevel;
+        return privilegeLevel <= requestedLevel;
     }
-    
     
 }

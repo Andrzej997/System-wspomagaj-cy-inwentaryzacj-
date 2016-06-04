@@ -110,6 +110,7 @@ public class WeekDataView extends JPanel {
         add(chooseRoomDropdown);
         add(new JScrollPane(planTable));
         keyInputDispatcher();
+        window.checkPrivileges();
     }
 
     private void initTable() {

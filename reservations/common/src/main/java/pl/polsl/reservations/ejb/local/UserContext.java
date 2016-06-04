@@ -24,4 +24,6 @@ public interface UserContext {
     PrivilegeLevelEnum getPrivilegeLevel();
 
     Users getUser();
+    
+    void setUser(Users user);
 }

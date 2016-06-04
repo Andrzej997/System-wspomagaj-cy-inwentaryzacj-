@@ -69,9 +69,6 @@ public class MainView extends JFrame {
         addDeviceMenuItem.setForeground(fg);
         addStateMenuItem.setForeground(fg);
         addTypeMenuItem.setForeground(fg);
-        if(!ClientContext.checkUserPrivilegesToAction("TECHNICAL_WORKER")){
-            addMenuItem.setEnabled(false);
-        }
     }
 
     private void initComponents() {
@@ -310,6 +307,22 @@ public class MainView extends JFrame {
         fileMenu.add(exitMenuItem);
     }
 
+    public void checkPrivileges() {
+
+        if (!ClientContext.checkUserPrivilegesToAction("ADMIN")) {
+            addDeviceMenuItem.setEnabled(false);
+            addStateMenuItem.setEnabled(false);
+            addTypeMenuItem.setEnabled(false);
+            addUserMenuItem.setEnabled(false);
+            addRoomMenuItem.setEnabled(false);
+        }
+        if (!ClientContext.checkUserPrivilegesToAction("TECHNICAL_WORKER")) {
+            addMenuItem.setEnabled(false);
+            generateMenuItem.setEnabled(false);
+            editDataMenuItem.setEnabled(false);
+        }
+    }
+
     private void generateHelpMenu() {
         helpMenu.setText("Help");
         tutorialMenuItem.setText("Tutorial");
@@ -324,7 +337,7 @@ public class MainView extends JFrame {
         });
         helpMenu.add(aboutMenuItem);
     }
-    
+
     public MainView getWindow() {
         return window;
     }
