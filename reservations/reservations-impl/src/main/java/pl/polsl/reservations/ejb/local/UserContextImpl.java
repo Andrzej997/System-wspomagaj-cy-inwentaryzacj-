@@ -44,6 +44,7 @@ public class UserContextImpl implements UserContext{
         return privileges != null && privileges.contains(privilege);
     }
 
+    @Override
     public Users getUser() {
         return user;
     }
