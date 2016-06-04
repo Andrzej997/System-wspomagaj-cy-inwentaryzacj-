@@ -1,6 +1,7 @@
 package pl.polsl.reservations.client.mediators;
 
 import java.awt.Color;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -97,7 +98,7 @@ public class WeekDataViewMediator {
                 for (int i = startDay; i <= endDay; i++) {
                     for (int j = numberOfStartQuarter; j <= numberOfEndQuarter; j++) {
                         defaultTableModel.setValueAt("T", j, i);
-                        createReservationsRendererList(endDay, startDay, 
+                        createReservationsRendererList(endDay, startDay,
                                 numberOfStartQuarter, numberOfEndQuarter, reservation);
 
                     }
@@ -148,23 +149,34 @@ public class WeekDataViewMediator {
     }
 
     //TODO
-    private void createReservationsRendererList(Integer endDay, Integer startDay, 
+    private void createReservationsRendererList(Integer endDay, Integer startDay,
             Integer numberOfStartQuarter, Integer numberOfEndQuarter, ReservationDTO reservation) {
         if (!Objects.equals(startDay, endDay)) {
             return;
         }
         //TODO get dane o kolorze z bazy
         String type = reservation.getType();
+        // TODO z reservation.getID();
+        // scheduleFacade.getColorByID(id);
+
         Color color = Color.BLUE;
-        for (Integer i = numberOfStartQuarter; i <=numberOfEndQuarter; i++ ) {
-            if(reservationCellsRendererMap.containsKey(color)){
-                List<Integer> reservationNumbers = reservationCellsRendererMap.get(color);
-                reservationNumbers.add(i);
-                reservationCellsRendererMap.put(color, reservationNumbers);
-            } else {
-                List<Integer> reservationNumbers = new ArrayList<>();
-                reservationNumbers.add(i);
-                reservationCellsRendererMap.put(color, reservationNumbers);
+        /* try {
+            Field field = Color.class.getField("colorName");
+            color = (Color) field.get(null);
+        } catch (Exception e) {
+            color = null; // Not defined
+        }*/
+        if (color != null) {
+            for (Integer i = numberOfStartQuarter; i <= numberOfEndQuarter; i++) {
+                if (reservationCellsRendererMap.containsKey(color)) {
+                    List<Integer> reservationNumbers = reservationCellsRendererMap.get(color);
+                    reservationNumbers.add(i);
+                    reservationCellsRendererMap.put(color, reservationNumbers);
+                } else {
+                    List<Integer> reservationNumbers = new ArrayList<>();
+                    reservationNumbers.add(i);
+                    reservationCellsRendererMap.put(color, reservationNumbers);
+                }
             }
         }
     }
