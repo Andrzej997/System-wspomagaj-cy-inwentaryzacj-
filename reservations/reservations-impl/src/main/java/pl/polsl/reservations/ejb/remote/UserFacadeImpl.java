@@ -7,6 +7,7 @@ import javax.ejb.Stateful;
 import javax.interceptor.Interceptors;
 
 import pl.polsl.reservations.builder.DTOBuilder;
+import pl.polsl.reservations.dto.PrivilegeLevelDTO;
 import pl.polsl.reservations.dto.UserDTO;
 import pl.polsl.reservations.ejb.dao.*;
 import pl.polsl.reservations.ejb.local.UserContext;
@@ -29,7 +30,9 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
     private DepartamentsDao departamentsFacade;
     @EJB
     private WorkersDao workersFacade;
-
+    @EJB
+    private PriviligeLevelsDao privilegeFacade;
+    
     private Users user = null;
 
     public UserFacadeImpl() {
@@ -77,11 +80,12 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
     }
 
     @Override
-    public Long getUserPrivilege() {
+    public PrivilegeLevelDTO getUserPriviligeLevel() {
         if (user == null) {
-            return 6l;
+            PriviligeLevels pLevel = privilegeFacade.find(PrivilegeLevelEnum.STANDARD_USER.getValue());
+            return DTOBuilder.buildPrivilegeLevelDTO(pLevel);
         } else {
-            return usersFacade.getUserPrivligeLevelByUsername(user.getUsername());
+            return DTOBuilder.buildPrivilegeLevelDTO(user.getPriviligeLevel());
         }
     }
 
