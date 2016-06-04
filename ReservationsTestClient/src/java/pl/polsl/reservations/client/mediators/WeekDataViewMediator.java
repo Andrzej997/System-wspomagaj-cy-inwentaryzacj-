@@ -30,11 +30,12 @@ public class WeekDataViewMediator {
     private final RoomManagementFacade roomManagementFacade;
     private WeekDataView weekDataView;
     private Integer selectedItem;
-    private HashMap<Color, List<Integer>> reservationCellsRendererMap;
+    private final HashMap<Color, List<Integer>> reservationCellsRendererMap;
 
     public WeekDataViewMediator() {
         scheduleFacade = (ScheduleFacade) Lookup.getRemote("ScheduleFacade");
         roomManagementFacade = (RoomManagementFacade) Lookup.getRemote("RoomManagementFacade");
+        reservationCellsRendererMap = new HashMap<>();
     }
 
     public WeekDataView createView(MainView parent, Object selectedItem) {
@@ -98,11 +99,10 @@ public class WeekDataViewMediator {
                 for (int i = startDay; i <= endDay; i++) {
                     for (int j = numberOfStartQuarter; j <= numberOfEndQuarter; j++) {
                         defaultTableModel.setValueAt("T", j, i);
-                        createReservationsRendererList(endDay, startDay,
-                                numberOfStartQuarter, numberOfEndQuarter, reservation);
-
                     }
                 }
+                createReservationsRendererList(endDay, startDay,
+                        numberOfStartQuarter, numberOfEndQuarter, reservation);
             }
             weekDataView.getPlanTable().setModel(defaultTableModel);
 
@@ -170,11 +170,11 @@ public class WeekDataViewMediator {
             for (Integer i = numberOfStartQuarter; i <= numberOfEndQuarter; i++) {
                 if (reservationCellsRendererMap.containsKey(color)) {
                     List<Integer> reservationNumbers = reservationCellsRendererMap.get(color);
-                    reservationNumbers.add(i);
+                    reservationNumbers.add(i + startDay *32);
                     reservationCellsRendererMap.put(color, reservationNumbers);
                 } else {
                     List<Integer> reservationNumbers = new ArrayList<>();
-                    reservationNumbers.add(i);
+                    reservationNumbers.add(i+ startDay*32);
                     reservationCellsRendererMap.put(color, reservationNumbers);
                 }
             }
