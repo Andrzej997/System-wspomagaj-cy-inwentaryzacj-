@@ -4,6 +4,8 @@ import java.util.EnumSet;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.FlushModeType;
+
+import pl.polsl.reservations.entities.Users;
 import pl.polsl.reservations.privileges.PrivilegeLevelEnum;
 import pl.polsl.reservations.entities.Priviliges;
 import pl.polsl.reservations.privileges.PrivilegeEnum;
@@ -16,6 +18,7 @@ public class UserContextImpl implements UserContext{
     private EnumSet<PrivilegeEnum> privileges;
     private PrivilegeLevelEnum privilegeLevel;
     private EntityManager entityManager;
+    private Users user;
 
 
     public UserContextImpl() {
@@ -23,7 +26,7 @@ public class UserContextImpl implements UserContext{
     }
 
     @Override
-    public void initialize(List<Priviliges> privilegesList) {
+    public void initialize(List<Priviliges> privilegesList, Users user) {
         privileges = EnumSet.noneOf(PrivilegeEnum.class);
         for (Priviliges p : privilegesList) {
             try {
@@ -33,11 +36,16 @@ public class UserContextImpl implements UserContext{
                 e.printStackTrace();
             }
         }
+        this.user = user;
     }
 
     @Override
     public boolean checkPrivilege(PrivilegeEnum privilege) {
-        return privileges.contains(privilege);
+        return privileges != null && privileges.contains(privilege);
+    }
+
+    public Users getUser() {
+        return user;
     }
 
     @Override

@@ -4,6 +4,7 @@ import java.util.List;
 
 import pl.polsl.reservations.dto.EquipmentDTO;
 import pl.polsl.reservations.dto.RoomDTO;
+import pl.polsl.reservations.dto.UnauthorizedAccessException;
 import pl.polsl.reservations.ejb.remote.RoomManagementFacade;
 import pl.polsl.reservations.ejb.remote.ScheduleFacade;
 import pl.polsl.reservations.ejb.remote.UserFacade;
@@ -39,6 +40,12 @@ public class Main {
         List<RoomDTO> roomsList2 = roomManagementFacade.getRoomsList();
 
         List<EquipmentDTO> res = roomManagementFacade.getDepartmentEquipment(1);
+        try {
+            roomManagementFacade.addEquipment(6, "asdasdasd", 3, (short)1, (short)1);
+            roomManagementFacade.moveEquipment(1, 2);
+        } catch (UnauthorizedAccessException e) {
+            e.printStackTrace();
+        }
 
     }
 //

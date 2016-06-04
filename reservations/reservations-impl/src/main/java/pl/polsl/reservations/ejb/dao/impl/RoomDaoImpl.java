@@ -7,6 +7,7 @@ import javax.ejb.TransactionManagementType;
 import javax.interceptor.Interceptors;
 import javax.naming.NamingException;
 import javax.persistence.Query;
+
 import pl.polsl.reservations.ejb.dao.*;
 import pl.polsl.reservations.entities.*;
 import pl.polsl.reservations.interceptors.TransactionalInterceptor;
@@ -40,6 +41,13 @@ public class RoomDaoImpl extends AbstractDaoImpl<Room> implements RoomDao {
     public Room getRoomByNumber(int number){
         Query query = getEntityManager().createNamedQuery("getRoomByNumber", Room.class);
         query.setParameter("roomNumber", number);
+        return (Room)query.getSingleResult();
+    }
+
+    @Override
+    public Room getRoomByKeeper(Workers worker) {
+        Query query = getEntityManager().createNamedQuery("getRoomByKeeper", Room.class);
+        query.setParameter("keeper", worker);
         return (Room)query.getSingleResult();
     }
 

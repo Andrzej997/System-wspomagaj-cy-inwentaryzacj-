@@ -1,11 +1,13 @@
 package pl.polsl.reservations.ejb.remote;
 
+import pl.polsl.reservations.annotations.RequiredPrivilege;
+import pl.polsl.reservations.privileges.PrivilegeEnum;
 import pl.polsl.reservations.privileges.PrivilegeLevelEnum;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
 import javax.interceptor.Interceptors;
-import pl.polsl.reservations.annotations.PrivilegeLevel;
+
 import pl.polsl.reservations.builder.DTOBuilder;
 import pl.polsl.reservations.dto.UserDTO;
 import pl.polsl.reservations.ejb.dao.*;
@@ -45,14 +47,14 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
                 user = usersFacade.getUserByEmail(nameOrEmail);
                 PriviligeLevels pl = user.getPriviligeLevel();
                 List<Priviliges> priviligesCollection = pl.getPriviligesCollection();
-                userContext.initialize(priviligesCollection);
+                userContext.initialize(priviligesCollection, user);
                 PrivilegeLevelEnum level = PrivilegeLevelEnum.getPrivilegeLevel(pl.getPriviligeLevel().intValue());
                 userContext.setPrivilegeLevel(level);
                 return true;
             }
         } else if (usersFacade.validateUser(nameOrEmail, password)) {
             user = usersFacade.getUserByUsername(nameOrEmail);
-            userContext.initialize(user.getPriviligeLevel().getPriviligesCollection());
+            userContext.initialize(user.getPriviligeLevel().getPriviligesCollection(), user);
             return true;
         }
         userContext.setPrivilegeLevel(PrivilegeLevelEnum.STANDARD_USER);
@@ -60,7 +62,6 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
     }
 
     @Override
-    @PrivilegeLevel(privilegeLevel = "NONE")
     public boolean loginAsGuest() {
         UserContext userContext = getCurrentUserContext();
         //zaslepka
@@ -70,7 +71,6 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
     }
 
     @Override
-    @PrivilegeLevel(privilegeLevel = "NONE")
     public boolean logout() {
         if (user != null) {
             user = null;
@@ -80,7 +80,6 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
     }
 
     @Override
-    @PrivilegeLevel(privilegeLevel = "NONE")
     public Long getUserPrivilege() {
         if (user == null) {
             return 6l;
@@ -90,7 +89,6 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
     }
 
     @Override
-    @PrivilegeLevel(privilegeLevel = "NONE")
     public boolean changePassword(String oldPassword, String newPassword) {
         if (user == null) {
             return false;
@@ -104,7 +102,6 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
     }
 
     @Override
-    @PrivilegeLevel(privilegeLevel = "NONE")
     public UserDTO getUserDetails() {
         if (user == null) {
             return null;
@@ -121,7 +118,6 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
      * @return
      */
     @Override
-    @PrivilegeLevel(privilegeLevel = "NONE")
     public boolean changeUserDetails(UserDTO userDTO) {
 
         if (user == null || user.getId() != userDTO.getId()) {

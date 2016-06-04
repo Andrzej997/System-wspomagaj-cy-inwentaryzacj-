@@ -10,9 +10,9 @@ import pl.polsl.reservations.dto.*;
 @Remote
 public interface RoomManagementFacade extends AbstractBusinessFacade{
 
-    void addEquipment(int roomId, String name, int quantity, short stateId, short typeId);
-    void removeEquipment(int equipmentId);
-    void moveEquipment(int equipmentId, int roomToId);
+    void addEquipment(int roomId, String name, int quantity, short stateId, short typeId) throws UnauthorizedAccessException;
+    void removeEquipment(int equipmentId) throws UnauthorizedAccessException;
+    void moveEquipment(int equipmentId, int roomToId) throws UnauthorizedAccessException;
     List<RoomDTO> getRoomsList();
     RoomDTO getRoom(int roomNumber);
     List<EquipmentDTO> getRoomEquipment(int roomId);

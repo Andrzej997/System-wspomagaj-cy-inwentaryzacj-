@@ -1,11 +1,10 @@
 package pl.polsl.reservations.interceptors;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
-import pl.polsl.reservations.annotations.PrivilegeLevel;
+import pl.polsl.reservations.annotations.RequiredPrivilege;
 import pl.polsl.reservations.dto.UnauthorizedAccessException;
 import pl.polsl.reservations.ejb.local.UserContext;
 import pl.polsl.reservations.ejb.remote.AbstractBusinessFacadeImpl;
@@ -15,7 +14,7 @@ import pl.polsl.reservations.privileges.PrivilegeEnum;
  *
  * @author matis
  */
-@PrivilegeLevel
+@RequiredPrivilege
 @Interceptor
 public class PrivilegeInterceptor {
 
@@ -39,19 +38,12 @@ public class PrivilegeInterceptor {
     }
 
     private boolean checkMethodPrivileges(Method calledMethod, UserContext userContext) throws Exception {
-        Annotation[] declaredAnnotations = calledMethod.getDeclaredAnnotations();
-        for (Annotation annotation : declaredAnnotations) {
-            if (annotation instanceof PrivilegeLevel) {
-                String privilegeLevel = ((PrivilegeLevel) annotation).privilegeLevel();
-                if (privilegeLevel == null || privilegeLevel.equals("")
-                        || privilegeLevel.equalsIgnoreCase("NONE") || privilegeLevel.equalsIgnoreCase("NULL")) {
-                    return true;
-                }
-                PrivilegeEnum privilegeEnum = PrivilegeEnum.getPrivilege(privilegeLevel);
-                return userContext.checkPrivilege(privilegeEnum);
-            }
+        RequiredPrivilege privilegeAnnotation = calledMethod.getAnnotation(RequiredPrivilege.class);
+        if (privilegeAnnotation != null) {
+            PrivilegeEnum requiredPrivilege = privilegeAnnotation.value();
+            return userContext.checkPrivilege(requiredPrivilege);
+        } else {
+            return true;
         }
-        return true;
     }
-
 }

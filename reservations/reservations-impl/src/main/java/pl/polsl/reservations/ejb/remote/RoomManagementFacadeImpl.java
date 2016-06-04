@@ -5,13 +5,15 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
 import javax.interceptor.Interceptors;
-import pl.polsl.reservations.annotations.PrivilegeLevel;
+import pl.polsl.reservations.annotations.RequiredPrivilege;
 import pl.polsl.reservations.builder.DTOBuilder;
 import pl.polsl.reservations.dto.*;
 import pl.polsl.reservations.ejb.dao.*;
+import pl.polsl.reservations.ejb.local.UserContext;
 import pl.polsl.reservations.entities.*;
 import pl.polsl.reservations.interceptors.PrivilegeInterceptor;
 import pl.polsl.reservations.logger.LoggerImpl;
+import pl.polsl.reservations.privileges.PrivilegeEnum;
 
 /**
  * Created by Krzysztof Stręk on 2016-05-09.
@@ -46,14 +48,14 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
-    @PrivilegeLevel(privilegeLevel = "P_EQUIPMENT_MANAGEMENT_WORKER")
+    @RequiredPrivilege(PrivilegeEnum.EQUIPMENT_MANAGEMENT_OWN)
     public void removeEquipmentType(int typeId) {
         EquipmentType type = equipmentTypeDAO.find(typeId);
         equipmentTypeDAO.remove(type);
     }
 
     @Override
-    @PrivilegeLevel(privilegeLevel = "NONE")
+    @RequiredPrivilege(PrivilegeEnum.EQUIPMENT_MANAGEMENT_OWN)
     public void addEquipmentState(String definition) {
         EqupmentState state = new EqupmentState();
         state.setStateDefinition(definition);
@@ -61,14 +63,14 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
-    @PrivilegeLevel(privilegeLevel = "NONE")
+    @RequiredPrivilege(PrivilegeEnum.EQUIPMENT_MANAGEMENT_OWN)
     public void removeEquipmentState(int stateId) {
         EqupmentState state = equipmentStateDAO.find(stateId);
         equipmentStateDAO.remove(state);
     }
 
     @Override
-    @PrivilegeLevel(privilegeLevel = "NONE")
+    @RequiredPrivilege(PrivilegeEnum.EQUIPMENT_MANAGEMENT_OWN)
     public void addEquipmentType(String shortDescription, String longDescription) {
         EquipmentType type = new EquipmentType();
         type.setShortDescription(shortDescription);
@@ -77,7 +79,7 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
-    @PrivilegeLevel(privilegeLevel = "NONE")
+    @RequiredPrivilege(PrivilegeEnum.ASSIGN_KEEPER)
     public void assignKeeperToRoom(int roomId, int workerId) {
         Room room = roomsDAO.find(roomId);
         room.setKeeper(workersDAO.find(workerId));
@@ -85,7 +87,7 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
-    @PrivilegeLevel(privilegeLevel = "NONE")
+    @RequiredPrivilege(PrivilegeEnum.ROOMS_LOOKUP)
     public UserDTO getRoomKeeper(int roomId) {
         Room room = roomsDAO.find(roomId);
         Workers w = room.getKeeper();
@@ -94,8 +96,8 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
-    @PrivilegeLevel(privilegeLevel = "NONE")
-    public void addEquipment(int roomId, String name, int quantity, short stateId, short typeId) {
+    @RequiredPrivilege(PrivilegeEnum.EQUIPMENT_MANAGEMENT_OWN)
+    public void addEquipment(int roomId, String name, int quantity, short stateId, short typeId) throws UnauthorizedAccessException {
         Equipment newEquipment = new Equipment();
         newEquipment.setEquipmentName(name);
         newEquipment.setQuantity(quantity);
@@ -103,12 +105,22 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
         newEquipment.setEquipmentType(equipmentTypeDAO.find(typeId));
 
         Room room = roomsDAO.find(roomId);
+        UserContext userContext = getCurrentUserContext();
+        Workers worker = userContext.getUser().getWorkers();
 
-        newEquipment.setRoom(room);
-        equipmentDAO.create(newEquipment);
+        if (userContext.checkPrivilege(PrivilegeEnum.EQUIPMENT_MANAGEMENT_WORKER)
+                || room.getKeeper().getId().equals(worker.getId())) {
+            newEquipment.setRoom(room);
+            equipmentDAO.create(newEquipment);
+        } else {
+            throw new UnauthorizedAccessException("No access to room with ID: " + roomId);
+        }
+
+
     }
 
     @Override
+    @RequiredPrivilege(PrivilegeEnum.ROOMS_LOOKUP)
     public List<EquipmentDTO> getDepartmentEquipment(int departmentId) {
         List<Room> departmentRooms = departmentDAO.getRoomCollectionById((long)departmentId);
         List<EquipmentDTO> result = new ArrayList<>();
@@ -124,7 +136,7 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
-    @PrivilegeLevel(privilegeLevel = "NONE")
+    @RequiredPrivilege(PrivilegeEnum.ROOMS_LOOKUP)
     public List<RoomDTO> getRoomsList() {
         List<Room> rooms = roomsDAO.findAll();
         List<RoomDTO> result = new ArrayList<>();
@@ -137,7 +149,7 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
-    @PrivilegeLevel(privilegeLevel = "NONE")
+    @RequiredPrivilege(PrivilegeEnum.ROOMS_LOOKUP)
     public List<RoomDTO> getRoomsWithNumberOfSeatsHigherEqualThan(Number numberOfSeats) {
         List<Room> rooms = roomsDAO.getRoomWithNumOfSeatsHigherOrEqualThan(numberOfSeats);
         List<RoomDTO> result = new ArrayList<>();
@@ -150,7 +162,7 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
-    @PrivilegeLevel(privilegeLevel = "NONE")
+    @RequiredPrivilege(PrivilegeEnum.ROOMS_LOOKUP)
     public List<EquipmentDTO> getRoomEquipment(int roomId) {
 
         List<Equipment> equpment = equipmentDAO.getEquipmentByRoomNumber(roomsDAO.find(roomId).getRoomNumber());
@@ -164,15 +176,27 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
-    @PrivilegeLevel(privilegeLevel = "NONE")
-    public void moveEquipment(int equipmentId, int roomToId) {
+    @RequiredPrivilege(PrivilegeEnum.EQUIPMENT_MANAGEMENT_OWN)
+    public void moveEquipment(int equipmentId, int roomToId) throws UnauthorizedAccessException {
+        UserContext userContext = getCurrentUserContext();
+
         Equipment e = equipmentDAO.find(equipmentId);
-        e.setRoom(roomsDAO.find(roomToId));
-        equipmentDAO.edit(e);
+        Workers worker = userContext.getUser().getWorkers();
+        Room roomFrom = e.getRoom();
+        Room roomTo = roomsDAO.find(roomToId);
+
+        if (userContext.checkPrivilege(PrivilegeEnum.EQUIPMENT_MANAGEMENT_WORKER)
+                || (roomFrom.getKeeper().getId().equals(worker.getId())
+                && roomTo.getKeeper().getId().equals(worker.getId()))) {
+
+            e.setRoom(roomsDAO.find(roomToId));
+            equipmentDAO.edit(e);
+        } else {
+            throw new UnauthorizedAccessException("No access to room with ID: " + roomToId + " or " + roomFrom.getId());
+        }
     }
 
     @Override
-    @PrivilegeLevel(privilegeLevel = "NONE")
     public List<EquipmentStateDTO> getEquipmentStates() {
         List<EquipmentStateDTO> result = new ArrayList<>();
         for (EqupmentState es : equipmentStateDAO.findAll()) {
@@ -182,7 +206,6 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
-    @PrivilegeLevel(privilegeLevel = "NONE")
     public List<EquipmentTypeDTO> getEquipmentTypes() {
         List<EquipmentTypeDTO> result = new ArrayList<>();
         for (EquipmentType et : equipmentTypeDAO.findAll()) {
@@ -192,7 +215,7 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
-    @PrivilegeLevel(privilegeLevel = "NONE")
+    @RequiredPrivilege(PrivilegeEnum.MANAGE_TECH_CHEF_SUBORDINATES)
     public void assignUserToRoom(int roomId, int workerId) {
         Room room = roomsDAO.find(roomId);
 
@@ -204,13 +227,26 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
-    @PrivilegeLevel(privilegeLevel = "NONE")
-    public void removeEquipment(int equipmentId) {
-        Equipment eq = equipmentDAO.find(equipmentId);
-        equipmentDAO.remove(eq);
+    @RequiredPrivilege(PrivilegeEnum.EQUIPMENT_MANAGEMENT_OWN)
+    public void removeEquipment(int equipmentId) throws UnauthorizedAccessException {
+        UserContext userContext = getCurrentUserContext();
+
+        Equipment e = equipmentDAO.find(equipmentId);
+        Workers worker = userContext.getUser().getWorkers();
+        Room room = e.getRoom();
+
+        if (userContext.checkPrivilege(PrivilegeEnum.EQUIPMENT_MANAGEMENT_WORKER)
+                || room.getKeeper().getId().equals(worker.getId())) {
+
+            Equipment eq = equipmentDAO.find(equipmentId);
+            equipmentDAO.remove(eq);
+        } else {
+            throw new UnauthorizedAccessException("No access to room with ID: " + room.getId());
+        }
     }
 
     @Override
+    @RequiredPrivilege(PrivilegeEnum.ROOMS_LOOKUP)
     public RoomDTO getRoom(int roomNumber) {
         Room room = roomsDAO.getRoomByNumber(roomNumber);
         return DTOBuilder.buildRoomDTO(room);

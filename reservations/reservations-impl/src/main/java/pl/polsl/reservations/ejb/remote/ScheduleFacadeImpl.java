@@ -5,15 +5,19 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
 import javax.interceptor.Interceptors;
-import pl.polsl.reservations.annotations.PrivilegeLevel;
+
+import pl.polsl.reservations.annotations.RequiredPrivilege;
 import pl.polsl.reservations.builder.DTOBuilder;
 import pl.polsl.reservations.dto.ReservationDTO;
+import pl.polsl.reservations.dto.UnauthorizedAccessException;
 import pl.polsl.reservations.ejb.dao.*;
+import pl.polsl.reservations.ejb.local.UserContext;
 import pl.polsl.reservations.entities.Reservations;
 import pl.polsl.reservations.entities.Room;
 import pl.polsl.reservations.entities.RoomSchedule;
 import pl.polsl.reservations.interceptors.PrivilegeInterceptor;
 import pl.polsl.reservations.logger.LoggerImpl;
+import pl.polsl.reservations.privileges.PrivilegeEnum;
 import pl.polsl.reservations.schedule.DetailedScheduleStrategyDecorator;
 import pl.polsl.reservations.schedule.RoomScheduleStrategy;
 import pl.polsl.reservations.schedule.ScheduleFactory;
@@ -48,7 +52,7 @@ public class ScheduleFacadeImpl extends AbstractBusinessFacadeImpl implements Sc
     }
 
     @Override
-    @PrivilegeLevel(privilegeLevel = "NONE")
+    @RequiredPrivilege(PrivilegeEnum.SCHEDULE_LOOKUP)
     public List<ReservationDTO> getReservationsByUser(int userId) {
         List<ReservationDTO> result = new ArrayList<>();
         List<Reservations> reservationsList = reservationsDAO.getAllReservationsByUser((long) userId);
@@ -59,7 +63,7 @@ public class ScheduleFacadeImpl extends AbstractBusinessFacadeImpl implements Sc
     }
 
     @Override
-    @PrivilegeLevel(privilegeLevel = "NONE")
+    @RequiredPrivilege(PrivilegeEnum.SCHEDULE_LOOKUP)
     public List<ReservationDTO> getDetailedRoomSchedule(int roomId, int year, int week, boolean semester) {
         return scheduleFactory.createSchedule(
                 new DetailedScheduleStrategyDecorator(week, new RoomScheduleStrategy()),
@@ -70,7 +74,7 @@ public class ScheduleFacadeImpl extends AbstractBusinessFacadeImpl implements Sc
     }
 
     @Override
-    @PrivilegeLevel(privilegeLevel = "NONE")
+    @RequiredPrivilege(PrivilegeEnum.ADD_RESERVATION)
     public void createReservation(int roomId, int startTime, int endTime, int week, int year, boolean semester, int typeId, int userId) {
         Reservations newReservaton = new Reservations();
         List<RoomSchedule> roomSchedules = roomScheduleDAO.getAllSchedulesByYearAndSemester(year, semester);
@@ -113,13 +117,22 @@ public class ScheduleFacadeImpl extends AbstractBusinessFacadeImpl implements Sc
     }
 
     @Override
-    @PrivilegeLevel(privilegeLevel = "NONE")
-    public void removeReservation(int reservationId) {
-        reservationsDAO.remove(reservationsDAO.find(reservationId));
+    @RequiredPrivilege(PrivilegeEnum.MODIFY_RESERVATION_OWN)
+    public void removeReservation(int reservationId) throws UnauthorizedAccessException {
+        Reservations reservation = reservationsDAO.find(reservationId);
+        UserContext userContext = getCurrentUserContext();
+        Long userId = reservation.getUser().getId();
+        if (userContext.checkPrivilege(PrivilegeEnum.MODIFY_RESERVATION_WORKER)
+                || userId.equals(userContext.getUser().getId())) {
+            reservationsDAO.remove(reservationsDAO.find(reservationId));
+        } else {
+            throw new UnauthorizedAccessException("No access to reservations of user with ID: " + userId);
+        }
+
     }
 
     @Override
-    @PrivilegeLevel(privilegeLevel = "P_SCHEDULE_LOOKUP")
+    @RequiredPrivilege(PrivilegeEnum.SCHEDULE_LOOKUP)
     public List<ReservationDTO> getRoomSchedule(int roomId, int year, boolean semester) {
         return scheduleFactory.createSchedule(new RoomScheduleStrategy(), roomId, year, semester);
     }

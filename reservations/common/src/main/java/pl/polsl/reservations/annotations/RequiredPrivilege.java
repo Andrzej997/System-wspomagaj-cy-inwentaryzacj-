@@ -1,6 +1,8 @@
 package pl.polsl.reservations.annotations;
 
 
+import pl.polsl.reservations.privileges.PrivilegeEnum;
+
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.TYPE;
 import java.lang.annotation.Inherited;
@@ -17,7 +19,6 @@ import javax.interceptor.InterceptorBinding;
 @InterceptorBinding
 @Target({TYPE, METHOD})
 @Retention(RUNTIME)
-public @interface PrivilegeLevel {
-    //String userType() default "ADMIN";
-    String privilegeLevel() default "NONE";
+public @interface RequiredPrivilege {
+    PrivilegeEnum value() default PrivilegeEnum.ADMIN_ACTIONS;
 }
