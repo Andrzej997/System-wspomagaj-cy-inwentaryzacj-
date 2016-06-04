@@ -9,9 +9,11 @@ import javax.interceptor.Interceptors;
 import pl.polsl.reservations.annotations.RequiredPrivilege;
 import pl.polsl.reservations.builder.DTOBuilder;
 import pl.polsl.reservations.dto.ReservationDTO;
+import pl.polsl.reservations.dto.ReservationTypeDTO;
 import pl.polsl.reservations.dto.UnauthorizedAccessException;
 import pl.polsl.reservations.ejb.dao.*;
 import pl.polsl.reservations.ejb.local.UserContext;
+import pl.polsl.reservations.entities.ReservationTypes;
 import pl.polsl.reservations.entities.Reservations;
 import pl.polsl.reservations.entities.Room;
 import pl.polsl.reservations.entities.RoomSchedule;
@@ -129,6 +131,33 @@ public class ScheduleFacadeImpl extends AbstractBusinessFacadeImpl implements Sc
             throw new UnauthorizedAccessException("No access to reservations of user with ID: " + userId);
         }
 
+    }
+
+    @Override
+    public List<ReservationTypeDTO> getReservationTypes() {
+        List<ReservationTypes> types = reservationTypeDAO.findAll();
+
+        List<ReservationTypeDTO> result = new ArrayList<>();
+
+        for (ReservationTypes r : types) {
+            result.add(DTOBuilder.buildReservationTypeDTO(r));
+        }
+
+        return result;
+    }
+
+    @Override
+    public void removeReservationType(int id) {
+        reservationTypeDAO.remove(reservationTypeDAO.find(id));
+    }
+
+    @Override
+    public void createReservationType(String shortDescription, String longDescription, String color) {
+        ReservationTypes newType = new ReservationTypes();
+        newType.setTypeShortDescription(shortDescription);
+        newType.setTypeLongDescription(longDescription);
+        newType.setReservationColor(color);
+        reservationTypeDAO.create(newType);
     }
 
     @Override

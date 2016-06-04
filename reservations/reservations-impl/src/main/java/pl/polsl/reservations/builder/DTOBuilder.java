@@ -1,24 +1,7 @@
 package pl.polsl.reservations.builder;
 
-import pl.polsl.reservations.dto.DepartamentDTO;
-import pl.polsl.reservations.dto.EquipmentDTO;
-import pl.polsl.reservations.dto.EquipmentStateDTO;
-import pl.polsl.reservations.dto.EquipmentTypeDTO;
-import pl.polsl.reservations.dto.InstituteDTO;
-import pl.polsl.reservations.dto.PrivilegeLevelDTO;
-import pl.polsl.reservations.dto.ReservationDTO;
-import pl.polsl.reservations.dto.RoomDTO;
-import pl.polsl.reservations.dto.UserDTO;
-import pl.polsl.reservations.entities.Departaments;
-import pl.polsl.reservations.entities.Equipment;
-import pl.polsl.reservations.entities.EquipmentType;
-import pl.polsl.reservations.entities.EqupmentState;
-import pl.polsl.reservations.entities.Institutes;
-import pl.polsl.reservations.entities.PriviligeLevels;
-import pl.polsl.reservations.entities.Reservations;
-import pl.polsl.reservations.entities.Room;
-import pl.polsl.reservations.entities.Users;
-import pl.polsl.reservations.entities.Workers;
+import pl.polsl.reservations.dto.*;
+import pl.polsl.reservations.entities.*;
 
 /**
  *
@@ -109,6 +92,15 @@ public class DTOBuilder {
         userDTO.setSurname(worker.getSurname());
         userDTO.setUserName(user.getUsername());
         return userDTO;
+    }
+
+    public static ReservationTypeDTO buildReservationTypeDTO(ReservationTypes reservationType){
+        ReservationTypeDTO reservationTypeDTO = new ReservationTypeDTO();
+        reservationTypeDTO.setShortDescription(reservationType.getTypeShortDescription());
+        reservationTypeDTO.setLongDescription(reservationType.getTypeLongDescription());
+        reservationTypeDTO.setReservationColor(reservationType.getReservationColor());
+        reservationTypeDTO.setId(reservationType.getId());
+        return reservationTypeDTO;
     }
 
 }
