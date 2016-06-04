@@ -1,6 +1,7 @@
 package pl.polsl.reservations.ejb.remote;
 
 import javax.ejb.Remote;
+import pl.polsl.reservations.dto.PrivilegeLevelDTO;
 import pl.polsl.reservations.dto.UserDTO;
 
 /**
@@ -13,7 +14,7 @@ public interface UserFacade extends AbstractBusinessFacade{
     
     public boolean logout();
     
-    public Long getUserPrivilege();
+    public PrivilegeLevelDTO getUserPriviligeLevel();
     
     public boolean changePassword(String oldPassword, String newPassword);
     
