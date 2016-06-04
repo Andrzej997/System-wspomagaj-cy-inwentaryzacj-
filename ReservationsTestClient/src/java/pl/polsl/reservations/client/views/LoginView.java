@@ -2,6 +2,7 @@ package pl.polsl.reservations.client.views;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -63,13 +64,13 @@ public class LoginView extends JPanel {
         GridBagConstraints position = new GridBagConstraints();
         mainLayout.add(dataLayout, position);
         add(mainLayout, BorderLayout.CENTER);
+        keyInputDispatcher();
     }
 
     private void onClickLogin(java.awt.event.ActionEvent evt) {
         if (passwordEditText.getText().length() > 0 && loginEditText.getText().length() > 0) {
             if (loginMediator.getUserData(loginEditText.getText(), passwordEditText.getText())) {
-                //todo: logika wyboru pierwszego za³adowanego pokoju
-                    window.setOptionsAvailable(Color.black);
+                window.setOptionsAvailable(Color.black);
                 window.setView(new WeekDataViewMediator().createView(window, loginMediator.getFirstRoom()));
                 window.setLogged(true);
             } else {
@@ -86,8 +87,8 @@ public class LoginView extends JPanel {
 
     private void onClickGuest(ActionEvent evt) {
         window.setOptionsAvailable(Color.black);
-      window.setView(new WeekDataViewMediator().createView(window, loginMediator.getFirstRoom()));
-                window.setLogged(true);
+        window.setView(new WeekDataViewMediator().createView(window, loginMediator.getFirstRoom()));
+        window.setLogged(true);
     }
 
     private void initialize() {
@@ -122,7 +123,7 @@ public class LoginView extends JPanel {
             Image img = ImageIO.read(getClass().getResource("/resources/login.png"));
             ButtonStyle.setStyle(loginButton, img);
         } catch (IOException ex) {
-                 System.out.println("RESOURCE ERROR: " + ex.toString());
+            System.out.println("RESOURCE ERROR: " + ex.toString());
         }
     }
 
@@ -133,9 +134,9 @@ public class LoginView extends JPanel {
         });
         try {
             Image img = ImageIO.read(getClass().getResource("/resources/register.png"));
-         ButtonStyle.setStyle(registerButton, img);
+            ButtonStyle.setStyle(registerButton, img);
         } catch (IOException ex) {
-                   System.out.println("RESOURCE ERROR: " + ex.toString());
+            System.out.println("RESOURCE ERROR: " + ex.toString());
         }
 
         guestButton.addActionListener((java.awt.event.ActionEvent evt) -> {
@@ -143,10 +144,33 @@ public class LoginView extends JPanel {
         });
         try {
             Image img = ImageIO.read(getClass().getResource("/resources/guest_login.png"));
-               ButtonStyle.setStyle(guestButton, img);
+            ButtonStyle.setStyle(guestButton, img);
         } catch (IOException ex) {
-               System.out.println("RESOURCE ERROR: " + ex.toString());
+            System.out.println("RESOURCE ERROR: " + ex.toString());
         }
+    }
+
+    private void keyInputDispatcher() {
+
+        InputMap inputMap = this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = this.getActionMap();
+
+         AbstractAction loginAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                LoginView.this.onClickLogin(e);
+            }
+        };
+        AbstractAction guestLoginAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                LoginView.this.onClickGuest(e);
+            }
+        };
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "login");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_F12, 0), "guestLogin");
+        actionMap.put("login", loginAction);
+        actionMap.put("guestLogin", guestLoginAction);
     }
 
     public MainView getWindow() {
@@ -180,4 +204,5 @@ public class LoginView extends JPanel {
     public JPasswordField getPasswordEditText() {
         return passwordEditText;
     }
+
 }
