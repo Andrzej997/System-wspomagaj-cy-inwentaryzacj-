@@ -81,5 +81,13 @@ public class RoomComboBox extends JPanel implements ActionListener {
             }
         }
     }
+    
+    public Integer getSelectedItem(){
+        String selectedFloor = (String)mainComboBox.getSelectedItem();
+        Integer selectedFloorNumber = Integer.parseInt(selectedFloor);
+        String selectedRoom = (String) subComboBox.getSelectedItem();
+        Integer selectedRoomNumber = Integer.parseInt(selectedRoom);
+        return (selectedFloorNumber * 100 + selectedRoomNumber);
+    }
 
 }

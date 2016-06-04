@@ -27,6 +27,9 @@ public class ReservationTypes implements Serializable {
     @Lob
     private String typeLongDescription;
 
+    @Column(name = "RESERVATION_COLOR", nullable = false)
+    private String reservationColor;
+
     public ReservationTypes() {
 
     }
@@ -61,6 +64,14 @@ public class ReservationTypes implements Serializable {
 
     public void setTypeLongDescription(String typeLongDescription) {
         this.typeLongDescription = typeLongDescription;
+    }
+
+    public String getReservationColor() {
+        return reservationColor;
+    }
+
+    public void setReservationColor(String reservationColor) {
+        this.reservationColor = reservationColor;
     }
 
 }
