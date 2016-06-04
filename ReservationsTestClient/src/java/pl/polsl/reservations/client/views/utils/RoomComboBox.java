@@ -14,6 +14,7 @@ import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
+import pl.polsl.reservations.client.mediators.WeekDataViewMediator;
 
 public class RoomComboBox extends JPanel implements ActionListener {
 
@@ -21,13 +22,16 @@ public class RoomComboBox extends JPanel implements ActionListener {
     private final JComboBox subComboBox;
     private final Hashtable subItems = new Hashtable();
     private String previouslySelectedRoom;
+    private WeekDataViewMediator weekDataViewMediator;
 
-    public RoomComboBox() {
+    public RoomComboBox(WeekDataViewMediator weekDataViewMediator) {
+        this.weekDataViewMediator=weekDataViewMediator;
         mainComboBox = new JComboBox();
         mainComboBox.addActionListener(this);
         add(mainComboBox, BorderLayout.WEST);
         subComboBox = new JComboBox();
         subComboBox.setPrototypeDisplayValue("XXXXXXXXXX");
+        subComboBox.addActionListener(this);
         add(subComboBox, BorderLayout.EAST);
         previouslySelectedRoom = null;
     }
@@ -45,7 +49,10 @@ public class RoomComboBox extends JPanel implements ActionListener {
                 if(element instanceof String && element.equals(previouslySelectedRoom))
                     subComboBox.setSelectedItem(element);
             }
+             weekDataViewMediator.getReservations();
         }
+        
+       
     }
 
     public void setFloors(List<Integer> floors) {

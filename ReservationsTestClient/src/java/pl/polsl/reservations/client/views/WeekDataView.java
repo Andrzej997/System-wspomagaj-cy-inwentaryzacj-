@@ -7,6 +7,8 @@ package pl.polsl.reservations.client.views;
 
 import java.awt.Image;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -52,11 +54,11 @@ public class WeekDataView extends JPanel {
         this.weekDataViewMediator = weekDataViewMediator;
         initComponents();
         this.selectedItem = selectedItem;
-        
+
     }
 
     private void initComponents() {
-        chooseRoomDropdown = new RoomComboBox();
+        chooseRoomDropdown = new RoomComboBox(weekDataViewMediator);
         nextBtn = new JButton();
         prevBtn = new JButton();
         calendarBtn = new JButton();
@@ -88,22 +90,22 @@ public class WeekDataView extends JPanel {
         }
 
         prevBtn.addActionListener((ActionEvent e) -> {
-             startDate.set(datePicker.getModel().getYear(), 
+            startDate.set(datePicker.getModel().getYear(),
                     datePicker.getModel().getMonth(),
                     datePicker.getModel().getDay());
             startDate.add(Calendar.DATE, -1);
-            endDate.set(datePicker.getModel().getYear(), 
+            endDate.set(datePicker.getModel().getYear(),
                     datePicker.getModel().getMonth(),
                     datePicker.getModel().getDay());
             endDate.add(Calendar.DATE, 5);
             setDateText();
         });
         nextBtn.addActionListener((ActionEvent e) -> {
-            startDate.set(datePicker.getModel().getYear(), 
+            startDate.set(datePicker.getModel().getYear(),
                     datePicker.getModel().getMonth(),
                     datePicker.getModel().getDay());
             startDate.add(Calendar.DATE, 1);
-            endDate.set(datePicker.getModel().getYear(), 
+            endDate.set(datePicker.getModel().getYear(),
                     datePicker.getModel().getMonth(),
                     datePicker.getModel().getDay());
             endDate.add(Calendar.DATE, 7);
@@ -122,6 +124,10 @@ public class WeekDataView extends JPanel {
         BoxLayout boxlayout = new BoxLayout(this, BoxLayout.Y_AXIS);
         setLayout(boxlayout);
 
+        //chooseRoomDropdown.add
+        
+        
+        
         add(weekPanel);
         add(chooseRoomDropdown);
         add(planTable);
@@ -156,15 +162,54 @@ public class WeekDataView extends JPanel {
                 return row;
             }
 
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                //all cells false
+                return false;
+            }
+
         };
+
         planTable = new JTable(dataModel);
         planTable.setDefaultRenderer(Object.class, new CustomRenderer());
+
+        planTable.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    Integer column = planTable.getSelectedColumn();
+
+//todo: 
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        }
+        );
     }
 
     private void setDateText() {
         datePicker.getModel().setDay(startDate.get(Calendar.DAY_OF_MONTH));
-          datePicker.getModel().setMonth(startDate.get(Calendar.MONTH));
-            datePicker.getModel().setYear(startDate.get(Calendar.YEAR));
+        datePicker.getModel().setMonth(startDate.get(Calendar.MONTH));
+        datePicker.getModel().setYear(startDate.get(Calendar.YEAR));
         datePicker
                 .getJFormattedTextField()
                 .setText(dateFormat
@@ -269,7 +314,5 @@ public class WeekDataView extends JPanel {
     public void setDateFormat(SimpleDateFormat dateFormat) {
         this.dateFormat = dateFormat;
     }
-    
-    
 
 }

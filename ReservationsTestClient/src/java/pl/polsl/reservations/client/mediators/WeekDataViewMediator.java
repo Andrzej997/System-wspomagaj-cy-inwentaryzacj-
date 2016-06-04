@@ -66,7 +66,13 @@ public class WeekDataViewMediator {
             List<ReservationDTO> roomSchedule
                     = scheduleFacade.getRoomSchedule(chooseRoomDropdown.getSelectedItem(), 2016, true);
 
-            DefaultTableModel defaultTableModel = new DefaultTableModel(32, 7);
+            DefaultTableModel defaultTableModel = new DefaultTableModel(32, 7) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    //all cells false
+                    return false;
+                }
+            };
 
             for (ReservationDTO reservation : roomSchedule) {
                 int endDay = reservation.getStartTime() / 96;
@@ -74,21 +80,6 @@ public class WeekDataViewMediator {
                 int numberOfEndQuarter = reservation.getStartTime() % 96 - 32; //r�znica mi�dzy godzinami w bazie i tabeli
                 int numberOfStartQuarter = reservation.getEndTime() % 96 - 32;
 
-                /*   if (numberOfEndQuarter > 31) {
-                    numberOfEndQuarter = 31;
-                }
-
-                if (numberOfEndQuarter < 0) {
-                    numberOfEndQuarter = 0;
-                }
-
-                if (numberOfStartQuarter > 31) {
-                    numberOfStartQuarter = 31;
-                }
-
-                if (numberOfStartQuarter < 0) {
-                    numberOfStartQuarter = 0;
-                }*/
                 if (numberOfEndQuarter > 31 || numberOfEndQuarter < 0) {
                     continue;
                 }
@@ -108,12 +99,9 @@ public class WeekDataViewMediator {
             weekDataView.getPlanTable().setModel(defaultTableModel);
 
             weekDataView.getPlanTable().setDefaultRenderer(Object.class, new CustomRenderer(reservationCellsRendererMap));
+           
+        //    weekDataView.getPlanTable().repaint();
 
-            //  DefaultTableModel model = (DefaultTableModel) weekDataView.getPlanView().getModel();
-            //TableColumnModel columnModel = weekDataView.getPlanView().getColumnModel();
-            //for (int i = 0; i < columnModel.getColumnCount(); i++) {
-            //   columnModel.getColumn(i).setCellRenderer(new CustomRenderer());
-            // }
         }
     }
 

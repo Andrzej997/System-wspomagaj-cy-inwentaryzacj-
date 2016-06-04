@@ -50,6 +50,7 @@ public class CustomRenderer extends DefaultTableCellRenderer {
             boolean isSelected, boolean hasFocus, int row, int column) {
         Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
+        
         if (paintCell(table, row, column, c)) {
             c.setFont(Font.getFont("ArialBlack"));
         } else {
