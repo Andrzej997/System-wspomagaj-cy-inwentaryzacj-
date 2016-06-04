@@ -152,7 +152,7 @@ public class WeekDataView extends JPanel {
         DefaultTableModel dataModel = new DefaultTableModel() {
             @Override
             public int getColumnCount() {
-                return 7;
+                return 8;
             }
 
             @Override
@@ -183,7 +183,9 @@ public class WeekDataView extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
                     Integer column = planTable.getSelectedColumn();
-
+                    if(column != 0){
+                        
+                    }
 //todo: 
                 }
             }

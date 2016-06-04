@@ -67,16 +67,7 @@ public class WeekDataViewMediator {
             List<ReservationDTO> roomSchedule
                     = scheduleFacade.getRoomSchedule(chooseRoomDropdown.getSelectedItem(), 2016, true);
 
-            DefaultTableModel defaultTableModel = new DefaultTableModel(32, 7) {
-                @Override
-                public boolean isCellEditable(int row, int column) {
-                    //all cells false
-                    return false;
-                }
-            };
-
-            String[] days = new String[]{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
-            defaultTableModel.setColumnIdentifiers(days);
+            DefaultTableModel defaultTableModel = new DefaultTableModelImpl(32, 8);
 
             for (ReservationDTO reservation : roomSchedule) {
                 int endDay = reservation.getStartTime() / 96;
@@ -92,7 +83,7 @@ public class WeekDataViewMediator {
                     continue;
                 }
 
-                for (int i = startDay; i <= endDay; i++) {
+                for (int i = startDay + 1; i <= endDay + 1; i++) {
                     for (int j = numberOfStartQuarter; j <= numberOfEndQuarter; j++) {
                         defaultTableModel.setValueAt("T", j, i);
                     }
@@ -104,7 +95,6 @@ public class WeekDataViewMediator {
 
             weekDataView.getPlanTable().setDefaultRenderer(Object.class, new CustomRenderer(reservationCellsRendererMap));
 
-            //    weekDataView.getPlanTable().repaint();
         }
     }
 
@@ -171,6 +161,23 @@ public class WeekDataViewMediator {
                     reservationCellsRendererMap.put(color, reservationNumbers);
                 }
             }
+        }
+    }
+
+    private static class DefaultTableModelImpl extends DefaultTableModel {
+
+        private static final long serialVersionUID = 1325718817963973431L;
+
+        String[] days = new String[]{"Hours:","Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+
+        public DefaultTableModelImpl(int rowCount, int columnCount) {
+            super(rowCount, columnCount);
+            super.setColumnIdentifiers(days);
+        }
+
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
         }
     }
 }
