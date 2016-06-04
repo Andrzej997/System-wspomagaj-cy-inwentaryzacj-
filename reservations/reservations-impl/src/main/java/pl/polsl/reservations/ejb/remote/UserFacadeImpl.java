@@ -150,6 +150,7 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
         roomFacade.setUserContext(certificate);
         departamentsFacade.setUserContext(certificate);
         workersFacade.setUserContext(certificate);
+        privilegeFacade.setUserContext(certificate);
         return certificateBean;
 
     }
