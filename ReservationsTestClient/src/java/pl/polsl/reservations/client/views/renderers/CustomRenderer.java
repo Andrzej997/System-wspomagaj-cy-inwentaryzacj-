@@ -33,8 +33,8 @@ public class CustomRenderer extends DefaultTableCellRenderer {
             List<Integer> colorableCellsAddresses = cellsColor.getValue();
             Integer columnCount = table.getColumnCount();
             for (Integer colorableCellAddress : colorableCellsAddresses) {
-                Integer colorableRow = colorableCellAddress % columnCount;
-                Integer colorableColumn = colorableCellAddress / columnCount;
+                Integer colorableRow = colorableCellAddress % 32;
+                Integer colorableColumn = colorableCellAddress / 32;
                 if (row.equals(colorableRow) && column.equals(colorableColumn)) {
                     c.setBackground(cellsColor.getKey());
                     c.setForeground(Color.BLACK);
