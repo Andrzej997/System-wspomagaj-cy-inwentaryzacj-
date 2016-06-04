@@ -1,20 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pl.polsl.reservations.client.views;
 
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
 import javax.swing.BoxLayout;
+import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
 import pl.polsl.reservations.client.views.utils.PanelStyle;
@@ -24,6 +26,8 @@ import pl.polsl.reservations.client.views.utils.PanelStyle;
  * @author abienioszek
  */
 public class AddEditUserView extends JPanel {
+
+    private static final long serialVersionUID = -2193290350545362057L;
 
     private final int NORMAL_WIDTH = 200;
     private final int NORMAL_HEIGHT = 30;
@@ -97,7 +101,7 @@ public class AddEditUserView extends JPanel {
         dataPanel.add(phoneTf);
         dataPanel.add(emailTf);
         dataPanel.add(addressTf);
-        
+
         if (editUser) {
             dataPanel.add(departmentContentLabel);
             dataPanel.add(gradeContentLabel);
@@ -151,7 +155,7 @@ public class AddEditUserView extends JPanel {
         PanelStyle.setSize(gradeContentLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 240);
         PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 240);
-        PanelStyle.setSize(mainPanel, 2*NORMAL_WIDTH, 300);
+        PanelStyle.setSize(mainPanel, 2 * NORMAL_WIDTH, 300);
     }
 
     private void initializeObjects() {
@@ -185,6 +189,7 @@ public class AddEditUserView extends JPanel {
         mainPanel = new JPanel(new GridLayout(1, 2));
         dataPanel = new JPanel();
         labelPanel = new JPanel();
+        keyInputDispatcher();
     }
 
     private void initPanels() {
@@ -192,6 +197,22 @@ public class AddEditUserView extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS));
         dataPanel.setLayout(new BoxLayout(dataPanel, BoxLayout.Y_AXIS));
+    }
+
+    private void keyInputDispatcher() {
+
+        InputMap inputMap = this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = this.getActionMap();
+
+        AbstractAction escapeAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AddEditUserView.this.getWindow().dispose();
+                System.exit(0);
+            }
+        };
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "escape");
+        actionMap.put("escape", escapeAction);
     }
 
     /**
@@ -570,6 +591,14 @@ public class AddEditUserView extends JPanel {
      */
     public void setOkButton(JButton okButton) {
         this.okButton = okButton;
+    }
+    
+    public MainView getWindow() {
+        return window;
+    }
+
+    public void setWindow(MainView window) {
+        this.window = window;
     }
 
 }

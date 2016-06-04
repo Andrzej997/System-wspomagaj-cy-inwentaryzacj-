@@ -1,13 +1,8 @@
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pl.polsl.reservations.client.views;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.util.Date;
 import javax.swing.*;
 import javax.swing.event.EventListenerList;
@@ -70,6 +65,7 @@ public class AddEditView extends JPanel {
 
         add(mainPanel, BorderLayout.NORTH);
         add(okButton, BorderLayout.SOUTH);
+        keyInputDispatcher();
     }
 
     private void initFields() {
@@ -173,6 +169,22 @@ public class AddEditView extends JPanel {
         teacherCb.addItem("111");
     }
 
+    private void keyInputDispatcher() {
+
+        InputMap inputMap = this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = this.getActionMap();
+
+        AbstractAction escapeAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AddEditView.this.getWindow().dispose();
+                System.exit(0);
+            }
+        };
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "escape");
+        actionMap.put("escape", escapeAction);
+    }
+
     public MainView getWindow() {
         return window;
     }
@@ -248,5 +260,5 @@ public class AddEditView extends JPanel {
     public void setListenerList(EventListenerList listenerList) {
         this.listenerList = listenerList;
     }
-   
+
 }

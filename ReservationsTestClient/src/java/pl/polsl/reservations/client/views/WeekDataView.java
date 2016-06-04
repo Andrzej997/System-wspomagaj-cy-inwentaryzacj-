@@ -2,6 +2,7 @@ package pl.polsl.reservations.client.views;
 
 import java.awt.Image;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
@@ -87,31 +88,10 @@ public class WeekDataView extends JPanel {
         }
 
         prevBtn.addActionListener((ActionEvent e) -> {
-            startDate.set(datePicker.getModel().getYear(),
-                    datePicker.getModel().getMonth(),
-                    datePicker.getModel().getDay());
-            startDate.add(Calendar.DAY_OF_MONTH, -7);
-            int dayOfWeek = startDate.get(Calendar.DAY_OF_WEEK);
-            dayOfWeek -= 2;
-            startDate.add(Calendar.DAY_OF_MONTH, -dayOfWeek);
-
-            endDate.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH),
-                    startDate.get(Calendar.DATE));
-            endDate.add(Calendar.DATE, 6);
-            setDateText();
+            onClickBtnPrevious(e);
         });
         nextBtn.addActionListener((ActionEvent e) -> {
-            startDate.set(datePicker.getModel().getYear(),
-                    datePicker.getModel().getMonth(),
-                    datePicker.getModel().getDay());
-            startDate.add(Calendar.DATE, 7);
-            int dayOfWeek = startDate.get(Calendar.DAY_OF_WEEK);
-            dayOfWeek -= 2;
-            startDate.add(Calendar.DAY_OF_MONTH, -dayOfWeek);
-            endDate.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH),
-                    startDate.get(Calendar.DATE));
-            endDate.add(Calendar.DATE, 6);
-            setDateText();
+            onClickBtnNext(e);
         });
         initTable();
         PanelStyle.setSize(this, 800, 600);
@@ -129,49 +109,48 @@ public class WeekDataView extends JPanel {
         add(weekPanel);
         add(chooseRoomDropdown);
         add(new JScrollPane(planTable));
+        keyInputDispatcher();
     }
 
     private void initTable() {
         DefaultTableModel dataModel = new DefaultTableModelImpl();
-        String[] days = new String[]{"Monday", "Tuesday", "Wednesday","Thursday", "Friday", "Saturday", "Sunday"};
+        String[] days = new String[]{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
         dataModel.setColumnIdentifiers(days);
-        
+
         planTable = new JTable(dataModel);
         planTable.setDefaultRenderer(Object.class, new CustomRenderer());
 
-        planTable.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2) {
-                    Integer column = planTable.getSelectedColumn();
-                    if(column != 0){
-                        
-                    }
-//todo: 
-                }
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-        }
+        planTable.addMouseListener(new MouseListenerImpl()
         );
+    }
+
+    private void onClickBtnNext(ActionEvent e) {
+        startDate.set(datePicker.getModel().getYear(),
+                datePicker.getModel().getMonth(),
+                datePicker.getModel().getDay());
+        startDate.add(Calendar.DATE, 7);
+        int dayOfWeek = startDate.get(Calendar.DAY_OF_WEEK);
+        dayOfWeek -= 2;
+        startDate.add(Calendar.DAY_OF_MONTH, -dayOfWeek);
+        endDate.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH),
+                startDate.get(Calendar.DATE));
+        endDate.add(Calendar.DATE, 6);
+        setDateText();
+    }
+
+    private void onClickBtnPrevious(ActionEvent e) {
+        startDate.set(datePicker.getModel().getYear(),
+                datePicker.getModel().getMonth(),
+                datePicker.getModel().getDay());
+        startDate.add(Calendar.DAY_OF_MONTH, -7);
+        int dayOfWeek = startDate.get(Calendar.DAY_OF_WEEK);
+        dayOfWeek -= 2;
+        startDate.add(Calendar.DAY_OF_MONTH, -dayOfWeek);
+
+        endDate.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH),
+                startDate.get(Calendar.DATE));
+        endDate.add(Calendar.DATE, 6);
+        setDateText();
     }
 
     private void setDateText() {
@@ -185,6 +164,38 @@ public class WeekDataView extends JPanel {
                                 .getTime()) + " - "
                         + dateFormat
                         .format(endDate.getTime()));
+    }
+
+    private void keyInputDispatcher() {
+
+        InputMap inputMap = this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = this.getActionMap();
+
+        AbstractAction nextAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                WeekDataView.this.onClickBtnNext(e);
+            }
+        };
+        AbstractAction previousAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                WeekDataView.this.onClickBtnPrevious(e);
+            }
+        };
+        AbstractAction escapeAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                WeekDataView.this.getWindow().dispose();
+                System.exit(0);
+            }
+        };
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "next");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "previous");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "escape");
+        actionMap.put("next", nextAction);
+        actionMap.put("previous", previousAction);
+        actionMap.put("escape", escapeAction);
     }
 
     public MainView getWindow() {
@@ -307,6 +318,43 @@ public class WeekDataView extends JPanel {
         @Override
         public boolean isCellEditable(int row, int column) {
             return false;
+        }
+    }
+
+    private class MouseListenerImpl implements MouseListener {
+
+        public MouseListenerImpl() {
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            if (e.getClickCount() == 2) {
+                Integer column = planTable.getSelectedColumn();
+                if (column != 0) {
+                    
+                }
+//todo:
+            }
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            
         }
     }
 

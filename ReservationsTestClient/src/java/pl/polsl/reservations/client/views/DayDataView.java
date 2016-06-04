@@ -6,6 +6,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import javax.swing.*;
 import pl.polsl.reservations.client.mediators.DayDataViewMediator;
 import pl.polsl.reservations.client.mediators.WeekDataViewMediator;
@@ -63,7 +64,7 @@ public class DayDataView extends javax.swing.JPanel {
         GridBagConstraints position = new GridBagConstraints();
         mainLayout.add(dataLayout, position);
         add(mainLayout, BorderLayout.CENTER);
-
+        keyInputDispatcher();
     }
 
     private void initFields() {
@@ -148,6 +149,22 @@ public class DayDataView extends javax.swing.JPanel {
         }
     }
 
+    private void keyInputDispatcher() {
+
+        InputMap inputMap = this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = this.getActionMap();
+
+        AbstractAction escapeAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                DayDataView.this.getWindow().dispose();
+                System.exit(0);
+            }
+        };
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "escape");
+        actionMap.put("escape", escapeAction);
+    }
+
     public MainView getWindow() {
         return window;
     }
@@ -183,5 +200,5 @@ public class DayDataView extends javax.swing.JPanel {
     public JLabel getWeekTv() {
         return weekTv;
     }
-    
+
 }

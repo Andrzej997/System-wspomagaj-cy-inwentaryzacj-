@@ -13,6 +13,8 @@ import pl.polsl.reservations.client.views.utils.FrameStyle;
 
 public class MainView extends JFrame {
 
+    private static final long serialVersionUID = 2541836851186221686L;
+
     private MainView window;
     private boolean isLoggedIn = false;
 
@@ -318,7 +320,7 @@ public class MainView extends JFrame {
         });
         helpMenu.add(aboutMenuItem);
     }
-
+    
     public MainView getWindow() {
         return window;
     }

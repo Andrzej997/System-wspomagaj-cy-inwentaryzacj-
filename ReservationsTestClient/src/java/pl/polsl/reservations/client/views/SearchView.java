@@ -5,6 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import javax.swing.*;
 
 /**
@@ -12,6 +13,8 @@ import javax.swing.*;
  * @author Ola
  */
 public class SearchView extends JPanel {
+
+    private static final long serialVersionUID = 6265110752316154972L;
 
     private MainView window;
     private JPanel mainLayout;
@@ -71,6 +74,7 @@ public class SearchView extends JPanel {
         responseBtn.addActionListener((java.awt.event.ActionEvent evt) -> {
             onOkClick(evt);
         });
+        keyInputDispatcher();
     }
 
     private void initSearchDataPanel() {
@@ -122,6 +126,22 @@ public class SearchView extends JPanel {
     private void onOkClick(ActionEvent evt) {
         JOptionPane.showMessageDialog(this, "Not supported yet"); //To change body of generated methods, choose Tools | Templates.
         responseTf.setText("COULD NOT GET ANY RESPONSE");
+    }
+
+    private void keyInputDispatcher() {
+
+        InputMap inputMap = this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = this.getActionMap();
+
+        AbstractAction escapeAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SearchView.this.getWindow().dispose();
+                System.exit(0);
+            }
+        };
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "escape");
+        actionMap.put("escape", escapeAction);
     }
 
     public MainView getWindow() {
@@ -235,7 +255,5 @@ public class SearchView extends JPanel {
     public void setResponseBtn(JButton responseBtn) {
         this.responseBtn = responseBtn;
     }
-    
-    
 
 }
