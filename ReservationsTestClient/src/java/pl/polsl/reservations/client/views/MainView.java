@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import pl.polsl.reservations.client.ClientContext;
 import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.mediators.AddEditViewMediator;
 import pl.polsl.reservations.client.mediators.LoginMediator;
@@ -68,6 +69,9 @@ public class MainView extends JFrame {
         addDeviceMenuItem.setForeground(fg);
         addStateMenuItem.setForeground(fg);
         addTypeMenuItem.setForeground(fg);
+        if(!ClientContext.checkUserPrivilegesToAction("TECHNICAL_WORKER")){
+            addMenuItem.setEnabled(false);
+        }
     }
 
     private void initComponents() {
