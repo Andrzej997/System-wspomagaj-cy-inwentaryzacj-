@@ -28,7 +28,7 @@ public class AccountViewMediator {
     
     public AccountView createView(MainView parent){
         accountView = new AccountView(parent, this);
-        if(userFacade.getUserPrivilege() != 1){
+        if(userFacade.getUserPriviligeLevel().getPrivilegeLevel()!= 1){
            accountView.getAddButton().setVisible(false);
         }
         getRoomData();
@@ -63,7 +63,7 @@ public class AccountViewMediator {
     }
     
     public void dispatchAddUserEvent(ActionEvent evt){
-        if(userFacade.getUserPrivilege() == 1){
+        if(userFacade.getUserPriviligeLevel().getPrivilegeLevel() == 1){
             
         }
     }

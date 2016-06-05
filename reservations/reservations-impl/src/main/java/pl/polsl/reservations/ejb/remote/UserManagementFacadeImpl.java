@@ -11,8 +11,12 @@ import pl.polsl.reservations.builder.DTOBuilder;
 import pl.polsl.reservations.dto.DepartamentDTO;
 import pl.polsl.reservations.dto.InstituteDTO;
 import pl.polsl.reservations.dto.PrivilegeLevelDTO;
+import pl.polsl.reservations.dto.PrivilegeRequestDTO;
 import pl.polsl.reservations.dto.UserDTO;
 import pl.polsl.reservations.ejb.dao.*;
+import pl.polsl.reservations.ejb.local.PrivilegeLevelRequestsQueue;
+import pl.polsl.reservations.ejb.local.PrivilegeLevelRequestsQueueImpl;
+import pl.polsl.reservations.ejb.local.UserContext;
 import pl.polsl.reservations.entities.Departaments;
 import pl.polsl.reservations.entities.Institutes;
 import pl.polsl.reservations.entities.PriviligeLevels;
@@ -22,6 +26,7 @@ import pl.polsl.reservations.entities.Workers;
 import pl.polsl.reservations.interceptors.PrivilegeInterceptor;
 import pl.polsl.reservations.logger.LoggerImpl;
 import pl.polsl.reservations.privileges.PrivilegeEnum;
+import pl.polsl.reservations.privileges.PrivilegeRequest;
 
 /**
  * Created by Krzysztof Strek on 2016-05-09.
@@ -43,8 +48,11 @@ public class UserManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     @EJB
     InstitutesDao institutesFacade;
 
+    PrivilegeLevelRequestsQueue levelRequestsQueue;
+
     public UserManagementFacadeImpl() {
         super();
+        levelRequestsQueue = PrivilegeLevelRequestsQueueImpl.getInstance();
     }
 
     @Override
@@ -347,4 +355,36 @@ public class UserManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
         return certificateBean;
     }
 
+    @Override
+    public boolean acceptPrivilegeRequest(PrivilegeRequestDTO privilegeRequestDTO) {
+        UserContext userContext = getCurrentUserContext();
+        if (userContext.getPrivilegeLevel().getValue() > privilegeRequestDTO.getPrivilegeLevel()) {
+            return false;
+        }
+        PrivilegeRequest pr = new PrivilegeRequest(privilegeRequestDTO.getPrivilegeLevel(),
+                privilegeRequestDTO.getUserID(),
+                privilegeRequestDTO.getReason());
+        if (!levelRequestsQueue.removeRequest(pr)) {
+            return false;
+        }
+
+        Users u = usersFacade.find(pr.getUserID());
+        changePrivilegeLevel(u.getUsername(), pr.getPrivilegeLevel());
+        return true;
+    }
+
+    @Override
+    public boolean declinePrivilegeRequest(PrivilegeRequestDTO privilegeRequestDTO) {
+        UserContext userContext = getCurrentUserContext();
+        if (userContext.getPrivilegeLevel().getValue() > privilegeRequestDTO.getPrivilegeLevel()) {
+            return false;
+        }
+        PrivilegeRequest pr = new PrivilegeRequest(privilegeRequestDTO.getPrivilegeLevel(),
+                privilegeRequestDTO.getUserID(),
+                privilegeRequestDTO.getReason());
+        if (!levelRequestsQueue.removeRequest(pr)) {
+            return false;
+        }
+        return true;
+    }
 }

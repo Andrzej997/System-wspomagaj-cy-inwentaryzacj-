@@ -2,6 +2,7 @@ package pl.polsl.reservations.builder;
 
 import pl.polsl.reservations.dto.*;
 import pl.polsl.reservations.entities.*;
+import pl.polsl.reservations.privileges.PrivilegeRequest;
 
 /**
  *
@@ -103,4 +104,7 @@ public class DTOBuilder {
         return reservationTypeDTO;
     }
 
+    public static PrivilegeRequestDTO buildPrivilegeRequestDTO(PrivilegeRequest pr) {
+        return new PrivilegeRequestDTO(pr.getPrivilegeLevel(), pr.getUserID(), pr.getReason());
+    }
 }
