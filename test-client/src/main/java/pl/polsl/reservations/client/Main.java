@@ -32,7 +32,7 @@ public class Main {
         ScheduleFacade scheduleFacadeRemote = (ScheduleFacade) Lookup.getRemote("ScheduleFacade");
         
         //uzycie dowolnej metody zdalnej:
-        Long privilige = userFacadeRemote.getUserPrivilege();
+        //Long privilige = userFacadeRemote.getUserPrivilege();
 //        System.out.println("Privilige level: " + privilige);
 
 //        List<RoomDTO> roomsList = roomManagementFacade.getRoomsList();

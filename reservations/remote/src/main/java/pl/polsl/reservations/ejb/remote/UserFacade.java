@@ -25,4 +25,10 @@ public interface UserFacade extends AbstractBusinessFacade{
     public boolean loginAsGuest();
 
     public void removeCertificate(String certifiate);
+    
+    public PrivilegeLevelDTO getObtainablePrivilegeLevel();
+    
+    public boolean requestHigherPrivilegeLevel(String reason);
+    
+    public boolean isRequestingHigherPrivilegeLevel();
 }
