@@ -311,7 +311,9 @@ public class UserManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
         userDB.setUsername(user.getUserName());
 
         PriviligeLevels level = priviligeLevelsFacade.getPrivligeLevelsEntityByLevelValue(user.getPrivilegeLevel());
-        userDB.setPriviligeLevel(level);
+        if (level != null) {
+            userDB.setPriviligeLevel(level);
+        }
 
         usersFacade.create(userDB);
 

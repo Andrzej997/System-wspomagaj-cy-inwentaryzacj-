@@ -1,5 +1,7 @@
 package pl.polsl.reservations.client.mediators;
 
+import ch.qos.cal10n.Cal10nConstants;
+import com.google.common.cache.Cache;
 import java.awt.Color;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -57,15 +59,50 @@ public class WeekDataViewMediator {
 
     public void getReservations() {
         reservationCellsRendererMap = new HashMap<>();
-        Date date = new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
+     //   Date date = new Date();
+        Calendar calendar = weekDataView.getStartDate();
+     //   calendar.setTime(date);
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         int weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
+        int weekOfSemester = 1;
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+
+        boolean semester = true;
+
+        if (month >= 10 || month <= 2) {
+            semester = false;
+            Calendar cal = calendar;
+            cal.set(Calendar.MONTH, Calendar.OCTOBER);
+            cal.set(Calendar.DATE, 1);
+
+            if (month >= 10 && month <= 12) {
+                weekOfSemester = weekOfYear - cal.get(Calendar.WEEK_OF_YEAR) + 1;
+            } else {   //sprawdziæ zachowanie jak sylwester nie jest w niedzielê
+                Calendar calPom = Calendar.getInstance();
+                cal.set(Calendar.YEAR, cal.get(Calendar.YEAR) - 1);
+                calPom.set(Calendar.YEAR, calPom.get(Calendar.YEAR) - 1);
+                calPom.set(Calendar.MONTH, Calendar.DECEMBER);
+                calPom.set(Calendar.DATE, 31);
+
+                weekOfSemester = calPom.get(Calendar.WEEK_OF_YEAR) - cal.get(Calendar.WEEK_OF_YEAR);
+                calPom.set(calendar.get(Calendar.YEAR), Calendar.JANUARY, 1);
+                weekOfSemester += calendar.get(Calendar.WEEK_OF_YEAR) - calPom.get(Calendar.WEEK_OF_YEAR);
+            }
+
+        } else {
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.MONTH, Calendar.MARCH);
+            cal.set(Calendar.DATE, 1);
+            
+            weekOfSemester = weekOfYear - cal.get(Calendar.WEEK_OF_YEAR) + 1;
+        }
+
         if (weekDataView.getChooseRoomDropdown() instanceof RoomComboBox) {
             RoomComboBox chooseRoomDropdown = (RoomComboBox) weekDataView.getChooseRoomDropdown();
             List<ReservationDTO> roomSchedule
-                    = scheduleFacade.getRoomSchedule(chooseRoomDropdown.getSelectedItem(), 2016, true);
+                    // = scheduleFacade.getRoomSchedule(chooseRoomDropdown.getSelectedItem(), calendar.get(Calendar.YEAR), semester);
+                    = scheduleFacade.getDetailedRoomSchedule(chooseRoomDropdown.getSelectedItem(), calendar.get(Calendar.YEAR), weekOfSemester, semester);
 
             DefaultTableModel defaultTableModel = new DefaultTableModelImpl(32, 8);
 
@@ -168,7 +205,7 @@ public class WeekDataViewMediator {
 
         private static final long serialVersionUID = 1325718817963973431L;
 
-        String[] days = new String[]{"Hours:","Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+        String[] days = new String[]{"Hours:", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
 
         public DefaultTableModelImpl(int rowCount, int columnCount) {
             super(rowCount, columnCount);

@@ -6,6 +6,7 @@ import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.interceptor.Interceptors;
 import javax.naming.NamingException;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import pl.polsl.reservations.ejb.dao.DepartamentsDao;
 import pl.polsl.reservations.ejb.dao.InstitutesDao;
@@ -31,21 +32,29 @@ public class InstitutesDaoImpl extends AbstractDaoImpl<Institutes> implements In
     }
 
     @Override
-    public Institutes getInstituteByName(String name){
+    public Institutes getInstituteByName(String name) {
         Query query = getEntityManager().createNamedQuery("getInstituteByName", Institutes.class);
         query.setParameter("name", name);
-        return (Institutes) query.getSingleResult();
+        try {
+            return (Institutes) query.getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        }
     }
 
     @Override
-    public Institutes getInstituteByChiefId(Long chiefId){
+    public Institutes getInstituteByChiefId(Long chiefId) {
         Query query = getEntityManager().createNamedQuery("getInstituteByChiefId", Institutes.class);
         query.setParameter("id", chiefId);
-        return (Institutes) query.getSingleResult();
+        try {
+            return (Institutes) query.getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        }
     }
 
     @Override
-    public List<Departaments> getDepartamentsCollectionById(Number id){
+    public List<Departaments> getDepartamentsCollectionById(Number id) {
         Institutes institutes = this.find(id);
         return institutes.getDepartamentsCollection();
     }
@@ -56,7 +65,7 @@ public class InstitutesDaoImpl extends AbstractDaoImpl<Institutes> implements In
 
         Institutes institute = this.find(entity.getId());
         List<Departaments> departamentsCollection = institute.getDepartamentsCollection();
-        for(Departaments departament : departamentsCollection){
+        for (Departaments departament : departamentsCollection) {
             departamentsFacadeRemote.remove(departament);
         }
 
@@ -64,7 +73,7 @@ public class InstitutesDaoImpl extends AbstractDaoImpl<Institutes> implements In
     }
 
     @Override
-    protected void getDependencies(){
+    protected void getDependencies() {
         try {
             departamentsFacadeRemote = new DepartamentsDaoImpl();
             departamentsFacadeRemote.setUserContext(userContext);

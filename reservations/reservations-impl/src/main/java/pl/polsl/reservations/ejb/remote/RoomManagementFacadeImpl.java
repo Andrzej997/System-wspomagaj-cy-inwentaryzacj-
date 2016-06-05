@@ -116,13 +116,12 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
             throw new UnauthorizedAccessException("No access to room with ID: " + roomId);
         }
 
-
     }
 
     @Override
     @RequiredPrivilege(PrivilegeEnum.ROOMS_LOOKUP)
     public List<EquipmentDTO> getDepartmentEquipment(int departmentId) {
-        List<Room> departmentRooms = departmentDAO.getRoomCollectionById((long)departmentId);
+        List<Room> departmentRooms = departmentDAO.getRoomCollectionById((long) departmentId);
         List<EquipmentDTO> result = new ArrayList<>();
 
         for (Room room : departmentRooms) {
@@ -248,11 +247,15 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     @RequiredPrivilege(PrivilegeEnum.ROOMS_LOOKUP)
     public RoomDTO getRoom(int roomNumber) {
         Room room = roomsDAO.getRoomByNumber(roomNumber);
-        return DTOBuilder.buildRoomDTO(room);
+        if (room != null) {
+            return DTOBuilder.buildRoomDTO(room);
+        } else {
+            return null;
+        }
     }
 
     @Override
-    public Boolean certificateBean(String certificate){
+    public Boolean certificateBean(String certificate) {
         Boolean certificateBean = super.certificateBean(certificate);
         roomsDAO.setUserContext(certificate);
         userDAO.setUserContext(certificate);
@@ -263,5 +266,5 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
         equipmentDAO.setUserContext(certificate);
         return certificateBean;
     }
-    
+
 }

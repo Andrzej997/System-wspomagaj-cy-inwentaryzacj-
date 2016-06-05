@@ -6,6 +6,7 @@ import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.interceptor.Interceptors;
 import javax.naming.NamingException;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import pl.polsl.reservations.ejb.dao.PriviligeLevelsDao;
 import pl.polsl.reservations.ejb.dao.ReservationsDao;
@@ -36,7 +37,7 @@ public class UsersDaoImpl extends AbstractDaoImpl<Users> implements UsersDao {
     }
 
     @Override
-    public Boolean validateUser(String username, String password){
+    public Boolean validateUser(String username, String password) {
         Query query = this.getEntityManager().createNamedQuery("validateUser", Users.class);
         query.setParameter("username", username);
         query.setParameter("password", password);
@@ -45,7 +46,7 @@ public class UsersDaoImpl extends AbstractDaoImpl<Users> implements UsersDao {
     }
 
     @Override
-    public Boolean validateUserByEmail(String email, String password){
+    public Boolean validateUserByEmail(String email, String password) {
         Query query = this.getEntityManager().createNamedQuery("validateUserByEmail", Users.class);
         query.setParameter("email", email);
         query.setParameter("password", password);
@@ -54,36 +55,52 @@ public class UsersDaoImpl extends AbstractDaoImpl<Users> implements UsersDao {
     }
 
     @Override
-    public Long getUserPrivligeLevelByUsername(String username){
+    public Long getUserPrivligeLevelByUsername(String username) {
         Query query = this.getEntityManager().createNamedQuery("getUserPrivligeLevelByUsername", PriviligeLevels.class);
         query.setParameter("username", username);
-        PriviligeLevels singleResult = (PriviligeLevels) query.getSingleResult();
-        return singleResult.getPriviligeLevel();
+        try {
+            PriviligeLevels singleResult = (PriviligeLevels) query.getSingleResult();
+            return singleResult.getPriviligeLevel();
+        } catch (NoResultException ex) {
+            return new Long(6);
+        }
     }
 
     @Override
-    public Workers getWorkerByUsername(String username){
+    public Workers getWorkerByUsername(String username) {
         Query query = this.getEntityManager().createNamedQuery("getWorkerByUsername", Workers.class);
         query.setParameter("username", username);
-        return (Workers) query.getSingleResult();
+        try {
+            return (Workers) query.getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        }
     }
 
     @Override
-    public Users getUserByUsername(String username){
+    public Users getUserByUsername(String username) {
         Query query = this.getEntityManager().createNamedQuery("getUserByUsername", Users.class);
         query.setParameter("username", username);
-        return (Users) query.getSingleResult();
+        try {
+            return (Users) query.getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        }
     }
 
     @Override
-    public Users getUserByEmail(String email){
+    public Users getUserByEmail(String email) {
         Query query = this.getEntityManager().createNamedQuery("getUserByEmail", Users.class);
         query.setParameter("email", email);
-        return (Users) query.getSingleResult();
+        try {
+            return (Users) query.getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        }
     }
 
     @Override
-    public List<Reservations> getReservationsCollectionById(Number id){
+    public List<Reservations> getReservationsCollectionById(Number id) {
         Users users = this.find(id);
         return users.getReservationsCollection();
     }
@@ -94,7 +111,7 @@ public class UsersDaoImpl extends AbstractDaoImpl<Users> implements UsersDao {
 
         Users user = this.find(entity.getId());
         List<Reservations> reservationsCollection = user.getReservationsCollection();
-        for(Reservations reservation : reservationsCollection){
+        for (Reservations reservation : reservationsCollection) {
             reservationsFacadeRemote.remove(reservation);
         }
 
@@ -109,7 +126,7 @@ public class UsersDaoImpl extends AbstractDaoImpl<Users> implements UsersDao {
     }
 
     @Override
-    protected void getDependencies(){
+    protected void getDependencies() {
         try {
             reservationsFacadeRemote = new ReservationsDaoImpl();
             priviligeLevelsFacadeRemote = new PriviligeLevelsDaoImpl();

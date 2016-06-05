@@ -6,6 +6,7 @@ import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.interceptor.Interceptors;
 import javax.naming.NamingException;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import pl.polsl.reservations.ejb.dao.*;
@@ -38,39 +39,47 @@ public class RoomDaoImpl extends AbstractDaoImpl<Room> implements RoomDao {
     }
 
     @Override
-    public Room getRoomByNumber(int number){
+    public Room getRoomByNumber(int number) {
         Query query = getEntityManager().createNamedQuery("getRoomByNumber", Room.class);
         query.setParameter("roomNumber", number);
-        return (Room)query.getSingleResult();
+        try {
+            return (Room) query.getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        }
     }
 
     @Override
     public Room getRoomByKeeper(Workers worker) {
         Query query = getEntityManager().createNamedQuery("getRoomByKeeper", Room.class);
         query.setParameter("keeper", worker);
-        return (Room)query.getSingleResult();
+        try {
+            return (Room) query.getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        }
     }
 
     @Override
-    public List<Workers> getWorkersCollectionById(Number id){
+    public List<Workers> getWorkersCollectionById(Number id) {
         Room room = this.find(id);
         return room.getWorkerses();
     }
 
     @Override
-    public List<Equipment> getEquipmentCollectionById(Number id){
+    public List<Equipment> getEquipmentCollectionById(Number id) {
         Room room = this.find(id);
         return room.getEquipmentCollection();
     }
 
     @Override
-    public List<RoomSchedule> getRoomScheduleCollectionById(Number id){
+    public List<RoomSchedule> getRoomScheduleCollectionById(Number id) {
         Room room = this.find(id);
         return room.getRoomScheduleCollection();
     }
-    
+
     @Override
-    public List<Room> getRoomWithNumOfSeatsHigherOrEqualThan(Number numberOfSeats){
+    public List<Room> getRoomWithNumOfSeatsHigherOrEqualThan(Number numberOfSeats) {
         Query query = getEntityManager().createNamedQuery("getRoomWithNumOfSeatsHigherOrEqualThan");
         query.setParameter("numberOfSeats", numberOfSeats.intValue());
         return query.getResultList();
@@ -82,7 +91,7 @@ public class RoomDaoImpl extends AbstractDaoImpl<Room> implements RoomDao {
 
         Room room = this.find(entity.getId());
         List<Equipment> equipmentCollection = room.getEquipmentCollection();
-        for(Equipment equipment : equipmentCollection){
+        for (Equipment equipment : equipmentCollection) {
             equipmentFacadeRemote.remove(equipment);
         }
 
@@ -92,9 +101,8 @@ public class RoomDaoImpl extends AbstractDaoImpl<Room> implements RoomDao {
         keeper.setRoomCollection(roomCollection);
         workersFacadeRemote.merge(keeper);
 
-
         List<Workers> workerses = room.getWorkerses();
-        for(Workers worker : workerses){
+        for (Workers worker : workerses) {
             worker.setRoom(null);
             workersFacadeRemote.merge(worker);
         }
@@ -106,7 +114,7 @@ public class RoomDaoImpl extends AbstractDaoImpl<Room> implements RoomDao {
         departamentsFacadeRemote.merge(departament);
 
         List<RoomSchedule> roomScheduleCollection = room.getRoomScheduleCollection();
-        for(RoomSchedule roomSchedule : roomScheduleCollection){
+        for (RoomSchedule roomSchedule : roomScheduleCollection) {
             roomScheduleFacadeRemote.remove(roomSchedule);
         }
 
@@ -120,7 +128,7 @@ public class RoomDaoImpl extends AbstractDaoImpl<Room> implements RoomDao {
     }
 
     @Override
-    protected void getDependencies(){
+    protected void getDependencies() {
         try {
             equipmentFacadeRemote = new EquipmentDaoImpl();
             workersFacadeRemote = new WorkersDaoImpl();

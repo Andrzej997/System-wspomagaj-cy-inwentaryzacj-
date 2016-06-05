@@ -47,6 +47,8 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
         if (nameOrEmail.contains("@") && nameOrEmail.contains(".")) {
             if (usersFacade.validateUserByEmail(nameOrEmail, password)) {
                 user = usersFacade.getUserByEmail(nameOrEmail);
+                if(user == null)
+                    return false;
                 PriviligeLevels pl = user.getPriviligeLevel();
                 List<Priviliges> priviligesCollection = pl.getPriviligesCollection();
                 userContext.initialize(priviligesCollection, user);
@@ -56,6 +58,8 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
             }
         } else if (usersFacade.validateUser(nameOrEmail, password)) {
             user = usersFacade.getUserByUsername(nameOrEmail);
+            if(user == null)
+                return false;
             userContext.initialize(user.getPriviligeLevel().getPriviligesCollection(), user);
             return true;
         }

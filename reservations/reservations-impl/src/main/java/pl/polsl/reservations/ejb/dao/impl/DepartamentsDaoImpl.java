@@ -6,6 +6,7 @@ import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.interceptor.Interceptors;
 import javax.naming.NamingException;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import pl.polsl.reservations.ejb.dao.DepartamentsDao;
 import pl.polsl.reservations.ejb.dao.InstitutesDao;
@@ -36,33 +37,41 @@ public class DepartamentsDaoImpl extends AbstractDaoImpl<Departaments> implement
     }
 
     @Override
-    public Departaments getDepartamentByName(String name){
+    public Departaments getDepartamentByName(String name) {
         Query query = getEntityManager().createNamedQuery("getDepartamentByName", Departaments.class);
         query.setParameter("name", name);
-        return (Departaments) query.getSingleResult();
+        try {
+            return (Departaments) query.getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        }
     }
 
     @Override
-    public List<Departaments> findDepartametsHavingWorkers(){
+    public List<Departaments> findDepartametsHavingWorkers() {
         Query query = getEntityManager().createNamedQuery("findDepartametsHavingWorkers", Departaments.class);
         return query.getResultList();
     }
 
     @Override
-    public Departaments getDepartamentByChiefId(Long chiefId){
+    public Departaments getDepartamentByChiefId(Long chiefId) {
         Query query = getEntityManager().createNamedQuery("getDepartamentByChiefId", Departaments.class);
         query.setParameter("id", chiefId);
-        return (Departaments) query.getSingleResult();
+        try {
+            return (Departaments) query.getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        }
     }
 
     @Override
-    public List<Room> getRoomCollectionById(Long id){
+    public List<Room> getRoomCollectionById(Long id) {
         Departaments departament = this.find(id);
         return departament.getRoomCollection();
     }
 
     @Override
-    public List<Workers> getWorkersCollectionById(Long id){
+    public List<Workers> getWorkersCollectionById(Long id) {
         Departaments departament = this.find(id);
         return departament.getWorkersCollection();
     }
@@ -73,13 +82,13 @@ public class DepartamentsDaoImpl extends AbstractDaoImpl<Departaments> implement
 
         Departaments departament = this.find(entity.getId());
         List<Room> roomCollection = departament.getRoomCollection();
-        for(Room room : roomCollection){
+        for (Room room : roomCollection) {
             room.setDepartament(null);
             roomFacadeRemote.merge(room);
         }
 
         List<Workers> workersCollection = departament.getWorkersCollection();
-        for(Workers worker : workersCollection){
+        for (Workers worker : workersCollection) {
             workersFacadeRemote.remove(worker);
         }
 
@@ -93,7 +102,7 @@ public class DepartamentsDaoImpl extends AbstractDaoImpl<Departaments> implement
     }
 
     @Override
-    protected void getDependencies(){
+    protected void getDependencies() {
         try {
             roomFacadeRemote = new RoomDaoImpl();
             workersFacadeRemote = new WorkersDaoImpl();

@@ -6,6 +6,7 @@ import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.interceptor.Interceptors;
 import javax.naming.NamingException;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import pl.polsl.reservations.ejb.dao.DepartamentsDao;
 import pl.polsl.reservations.ejb.dao.RoomDao;
@@ -35,68 +36,72 @@ public class WorkersDaoImpl extends AbstractDaoImpl<Workers> implements WorkersD
     }
 
     @Override
-    public List<Workers> getWorkersByName(String workerName){
+    public List<Workers> getWorkersByName(String workerName) {
         Query query = this.getEntityManager().createNamedQuery("getWorkersByName", Workers.class);
         query.setParameter("workerName", workerName);
         return query.getResultList();
     }
 
     @Override
-    public List<Workers> getWorkersBySurname(String surname){
+    public List<Workers> getWorkersBySurname(String surname) {
         Query query = this.getEntityManager().createNamedQuery("getWorkersBySurname", Workers.class);
         query.setParameter("surname", surname);
         return query.getResultList();
     }
 
     @Override
-    public List<Workers> getWorkersByGrade(String grade){
+    public List<Workers> getWorkersByGrade(String grade) {
         Query query = this.getEntityManager().createNamedQuery("getWorkersByGrade", Workers.class);
         query.setParameter("grade", grade);
         return query.getResultList();
     }
 
     @Override
-    public List<Workers> getWorkersByAdress(String adress){
+    public List<Workers> getWorkersByAdress(String adress) {
         Query query = this.getEntityManager().createNamedQuery("getWorkersByAdress", Workers.class);
         query.setParameter("adress", adress);
         return query.getResultList();
     }
 
     @Override
-    public List<Workers> getWorkerByPesel(String pesel){
+    public List<Workers> getWorkerByPesel(String pesel) {
         Query query = this.getEntityManager().createNamedQuery("getWorkerByPesel", Workers.class);
         query.setParameter("pesel", pesel);
         return query.getResultList();
     }
 
     @Override
-    public List<Room> getRoomsCollectionByKeeperId(Long id){
+    public List<Room> getRoomsCollectionByKeeperId(Long id) {
         Query query = this.getEntityManager().createNamedQuery("getRoomsCollectionByKeeperId", Room.class);
         query.setParameter("id", id);
         return query.getResultList();
     }
 
     @Override
-    public Departaments getDepartamentByWorkerId(Long id){
+    public Departaments getDepartamentByWorkerId(Long id) {
         Query query = this.getEntityManager().createNamedQuery("getDepartamentByWorkerId", Departaments.class);
         query.setParameter("id", id);
-        return (Departaments) query.getSingleResult();
+        try {
+            return (Departaments) query.getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        }
     }
 
     @Override
-    public List<Workers> getAllChiefs(){
+    public List<Workers> getAllChiefs() {
         Query query = this.getEntityManager().createNamedQuery("getAllChiefs", Workers.class);
         return query.getResultList();
     }
 
     @Override
-    public List<Workers> getWorkersWhichHaveChief(){
+    public List<Workers> getWorkersWhichHaveChief() {
         Query query = this.getEntityManager().createNamedQuery("getWorkersWhichHaveChief", Workers.class);
         return query.getResultList();
     }
 
     @Override
-    public List<Room> getRoomCollectionById(Number id){
+    public List<Room> getRoomCollectionById(Number id) {
         Workers workers = this.find(id);
         return workers.getRoomCollection();
     }
@@ -108,7 +113,7 @@ public class WorkersDaoImpl extends AbstractDaoImpl<Workers> implements WorkersD
         Workers worker = this.find(entity.getId());
         worker.setChief(null);
         List<Room> roomCollection = worker.getRoomCollection();
-        for(Room room : roomCollection){
+        for (Room room : roomCollection) {
             room.setKeeper(null);
             roomFacadeRemote.merge(room);
         }
@@ -128,7 +133,7 @@ public class WorkersDaoImpl extends AbstractDaoImpl<Workers> implements WorkersD
     }
 
     @Override
-    protected void getDependencies(){
+    protected void getDependencies() {
         try {
             roomFacadeRemote = new RoomDaoImpl();
             departamentsFacadeRemote = new DepartamentsDaoImpl();

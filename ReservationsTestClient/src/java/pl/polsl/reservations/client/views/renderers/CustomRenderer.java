@@ -6,7 +6,9 @@ import java.awt.Component;
 import java.awt.Font;
 import java.util.List;
 import java.util.Map.Entry;
+import javax.swing.BorderFactory;
 import javax.swing.JTable;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
 
 /**
@@ -31,6 +33,10 @@ public class CustomRenderer extends DefaultTableCellRenderer {
     }
 
     private Boolean paintCell(Integer row, Integer column, Component c) {
+  //      Border b;
+        
+   //      b = BorderFactory.createCompoundBorder();
+        
         for (Entry<Color, List<Integer>> cellsColor : colorMap.entrySet()) {
             List<Integer> colorableCellsAddresses = cellsColor.getValue();
             for (Integer colorableCellAddress : colorableCellsAddresses) {

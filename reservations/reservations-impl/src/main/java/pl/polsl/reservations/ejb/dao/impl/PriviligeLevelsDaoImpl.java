@@ -6,6 +6,7 @@ import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.interceptor.Interceptors;
 import javax.naming.NamingException;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import pl.polsl.reservations.ejb.dao.PriviligeLevelsDao;
 import pl.polsl.reservations.ejb.dao.PriviligesDao;
@@ -35,22 +36,26 @@ public class PriviligeLevelsDaoImpl extends AbstractDaoImpl<PriviligeLevels> imp
     }
 
     @Override
-    public List<Priviliges> getPriviligesCollectionById(Number id){
+    public List<Priviliges> getPriviligesCollectionById(Number id) {
         PriviligeLevels priviligeLevels = this.find(id);
         return priviligeLevels.getPriviligesCollection();
     }
 
     @Override
-    public List<Users> getUsersCollectionById(Number id){
+    public List<Users> getUsersCollectionById(Number id) {
         PriviligeLevels priviligeLevels = this.find(id);
         return priviligeLevels.getUsersCollection();
     }
 
     @Override
-    public PriviligeLevels getPrivligeLevelsEntityByLevelValue(Long levelValue){
+    public PriviligeLevels getPrivligeLevelsEntityByLevelValue(Long levelValue) {
         Query query = getEntityManager().createNamedQuery("getPrivligeLevelsEntityByLevelValue", PriviligeLevels.class);
-        query.setParameter("levelValue",levelValue);
-        return (PriviligeLevels) query.getSingleResult();
+        query.setParameter("levelValue", levelValue);
+        try {
+            return (PriviligeLevels) query.getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        }
     }
 
     @Override
@@ -59,7 +64,7 @@ public class PriviligeLevelsDaoImpl extends AbstractDaoImpl<PriviligeLevels> imp
 
         PriviligeLevels priviligeLevel = this.find(entity.getPriviligeLevel());
         List<Priviliges> priviligesCollection = priviligeLevel.getPriviligesCollection();
-        for(Priviliges priviliges : priviligesCollection){
+        for (Priviliges priviliges : priviligesCollection) {
             List<PriviligeLevels> priviligeLevelsCollection = priviliges.getPriviligeLevelsCollection();
             priviligeLevelsCollection.remove(priviligeLevel);
             priviliges.setPriviligeLevelsCollection(priviligeLevelsCollection);
@@ -69,8 +74,8 @@ public class PriviligeLevelsDaoImpl extends AbstractDaoImpl<PriviligeLevels> imp
         List<Users> usersCollection = priviligeLevel.getUsersCollection();
         Long level = priviligeLevel.getPriviligeLevel();
         PriviligeLevels newPriviligeLevel = this.getPrivligeLevelsEntityByLevelValue(level - 1);
-        for(Users user : usersCollection){
-            if(newPriviligeLevel != null) {
+        for (Users user : usersCollection) {
+            if (newPriviligeLevel != null) {
                 user.setPriviligeLevel(newPriviligeLevel);
                 usersFacadeRemote.merge(user);
             } else {
@@ -81,7 +86,7 @@ public class PriviligeLevelsDaoImpl extends AbstractDaoImpl<PriviligeLevels> imp
     }
 
     @Override
-    protected void getDependencies(){
+    protected void getDependencies() {
         try {
             usersFacadeRemote = new UsersDaoImpl();
             priviligesFacadeRemote = new PriviligesDaoImpl();
