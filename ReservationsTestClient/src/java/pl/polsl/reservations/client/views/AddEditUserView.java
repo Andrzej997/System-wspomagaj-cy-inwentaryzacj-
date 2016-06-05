@@ -26,7 +26,6 @@ import pl.polsl.reservations.client.views.utils.PanelStyle;
  *
  * @author abienioszek
  */
-
 //TODO: dodac combo z wyborem uzytkownika do edycji w widoku edycji
 public class AddEditUserView extends JPanel {
 
@@ -67,7 +66,7 @@ public class AddEditUserView extends JPanel {
     private JPanel mainPanel;
 
     private JButton okButton;
-    
+
     private final AddEditUserViewMediator addEditUserViewMediator;
 
     public AddEditUserView(MainView window, boolean editUser, AddEditUserViewMediator addEditUserViewMediator) {
@@ -191,7 +190,15 @@ public class AddEditUserView extends JPanel {
         peselTf = new JTextField();
 
         okButton = new JButton();
-
+        okButton.addActionListener((ActionEvent e) -> {
+            if (editUser) {
+                addEditUserViewMediator.onChangeUserData();
+            } else {
+                
+                //TODO metoda waliduj¹ca pola
+                addEditUserViewMediator.onAddUser();
+            }
+        });
         mainPanel = new JPanel(new GridLayout(1, 2));
         dataPanel = new JPanel();
         labelPanel = new JPanel();
@@ -598,7 +605,7 @@ public class AddEditUserView extends JPanel {
     public void setOkButton(JButton okButton) {
         this.okButton = okButton;
     }
-    
+
     public MainView getWindow() {
         return window;
     }

@@ -70,7 +70,6 @@ public class DayDataView extends javax.swing.JPanel {
     private void initFields() {
         chooseRoomDropdown = new JComboBox();
         chooseButton = new JButton();
-        //TODO - dodaj logikę pobierania numerów pokoi
 
         nextWeek = new JButton();
         prevWeek = new JButton();

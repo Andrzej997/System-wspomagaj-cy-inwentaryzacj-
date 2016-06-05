@@ -13,10 +13,12 @@ import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
+import jdk.nashorn.internal.scripts.JO;
 import pl.polsl.reservations.client.mediators.ChangePasswordViewMediator;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
 import pl.polsl.reservations.client.views.utils.PanelStyle;
@@ -103,6 +105,13 @@ public class ChangePasswordView extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS));
         dataPanel.setLayout(new BoxLayout(dataPanel, BoxLayout.Y_AXIS));
+        okButton.addActionListener((ActionEvent e) -> {
+            if(!new1Tf.getText().equals(new2Tf.getText())){
+                JOptionPane.showMessageDialog(this, "Error !!! \n Second password is not the same as first");
+            } else if (!changePasswordViewMediator.onChangePassword()) {
+                JOptionPane.showMessageDialog(this, "Error !!! \n Old password is invalid");
+            }
+        });
         keyInputDispatcher();
     }
 
