@@ -80,8 +80,8 @@ public class AddEditView extends JPanel {
         okButton.addActionListener((java.awt.event.ActionEvent evt) -> {
             onOkClick(evt);
         });
-        dayTable = new JTable(new DayTableModel());
-        dayTablePanel.add(dayTable);
+        dayTable = new JTable(new DayTableModel(32,3));
+        dayTablePanel.add(new JScrollPane(dayTable));
         roomCb = new JComboBox();
         dateCb = new JComboBox();
         groupCb = new JComboBox();

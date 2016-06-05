@@ -44,7 +44,7 @@ public class DayDataView extends javax.swing.JPanel {
         initFields();
         initRoomDropdown();
         initButtons();
-        planView = new JTable(new DayTableModel());
+        planView = new JTable(new DayTableModel(32,3));
 
         setSize();
         JPanel weekPanel = new JPanel(new BorderLayout());
@@ -58,7 +58,7 @@ public class DayDataView extends javax.swing.JPanel {
         JPanel dataLayout = new JPanel(new BorderLayout());
         dataLayout.add(navPanel, BorderLayout.NORTH);
         dataLayout.add(backButton, BorderLayout.CENTER);
-        dataLayout.add(planView, BorderLayout.SOUTH);
+        dataLayout.add(new JScrollPane(planView), BorderLayout.SOUTH);
 
         JPanel mainLayout = new JPanel(new GridBagLayout());
         GridBagConstraints position = new GridBagConstraints();

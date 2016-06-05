@@ -1,12 +1,9 @@
 package pl.polsl.reservations.client.mediators;
 
-import ch.qos.cal10n.Cal10nConstants;
-import com.google.common.cache.Cache;
 import java.awt.Color;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -107,10 +104,10 @@ public class WeekDataViewMediator {
             DefaultTableModel defaultTableModel = new DefaultTableModelImpl(32, 8);
 
             for (ReservationDTO reservation : roomSchedule) {
-                int endDay = reservation.getStartTime() / 96;
-                int startDay = reservation.getEndTime() / 96;
-                int numberOfEndQuarter = reservation.getStartTime() % 96 - 32; //r�znica mi�dzy godzinami w bazie i tabeli
-                int numberOfStartQuarter = reservation.getEndTime() % 96 - 32;
+                int endDay = reservation.getEndTime() / 96;
+                int startDay = reservation.getStartTime() / 96;
+                int numberOfEndQuarter = reservation.getEndTime() % 96 - 32; //r�znica mi�dzy godzinami w bazie i tabeli
+                int numberOfStartQuarter = reservation.getStartTime() % 96 - 32;
 
                 if (numberOfEndQuarter > 31 || numberOfEndQuarter < 0) {
                     continue;
@@ -167,7 +164,6 @@ public class WeekDataViewMediator {
         }
     }
 
-    //TODO
     private void createReservationsRendererList(Integer endDay, Integer startDay,
             Integer numberOfStartQuarter, Integer numberOfEndQuarter, ReservationDTO reservation) {
         if (!Objects.equals(startDay, endDay)) {
