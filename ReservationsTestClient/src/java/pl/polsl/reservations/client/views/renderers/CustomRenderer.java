@@ -7,9 +7,11 @@ import java.awt.Font;
 import java.util.List;
 import java.util.Map.Entry;
 import javax.swing.BorderFactory;
+import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
+import pl.polsl.reservations.client.views.utils.Pair;
 
 /**
  *
@@ -20,6 +22,10 @@ public class CustomRenderer extends DefaultTableCellRenderer {
     private static final long serialVersionUID = 224869581883258761L;
 
     private HashMap<Color, List<Integer>> colorMap;
+    
+    private List<Pair<Integer,Integer>> startQuarters;
+    private List<Pair<Integer,Integer>> endQuarters;
+    
 
     private static final String[] HOURS = new String[]{"8:00", "9:00", "10:00", "11:00",
         "12:00", "13:00", "14:00", "15:00"};
@@ -28,15 +34,41 @@ public class CustomRenderer extends DefaultTableCellRenderer {
 
     }
 
-    public CustomRenderer(HashMap<Color, List<Integer>> colorMap) {
+    public CustomRenderer(HashMap<Color, List<Integer>> colorMap,List<Pair<Integer,Integer>> startQuarters,List<Pair<Integer,Integer>> endQuarters) {
         this.colorMap = colorMap;
+        this.startQuarters=startQuarters;
+        this.endQuarters=endQuarters;
     }
 
-    private Boolean paintCell(Integer row, Integer column, Component c) {
-  //      Border b;
+    private Boolean paintCell(Integer row, Integer column, JComponent c) {
+        Border b;
+        boolean startQuarter = false;
+        boolean endQuarter = false;
         
-   //      b = BorderFactory.createCompoundBorder();
+        for(Pair<Integer,Integer> quarter:startQuarters){
+            if(((quarter.getFirst()+1)==column)&&((quarter.getSecond())==row)){
+                startQuarter=true;
+                break;
+            }
+        }
+
+        for(Pair<Integer,Integer> quarter:endQuarters){
+            if(((quarter.getFirst()+1)==column)&&((quarter.getSecond())==row)){
+                endQuarter=true;
+                break;
+            }
+        }
         
+        b = BorderFactory.createCompoundBorder();
+        if(startQuarter){
+        b = BorderFactory.createCompoundBorder(b, BorderFactory.createMatteBorder(1, 0, 0, 0, Color.BLACK));
+        }
+        b = BorderFactory.createCompoundBorder(b, BorderFactory.createMatteBorder(0, 1, 0, 0, Color.BLACK));
+        if(endQuarter){
+        b = BorderFactory.createCompoundBorder(b, BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK));
+        }
+        b = BorderFactory.createCompoundBorder(b, BorderFactory.createMatteBorder(0, 0, 0, 1, Color.BLACK));
+
         for (Entry<Color, List<Integer>> cellsColor : colorMap.entrySet()) {
             List<Integer> colorableCellsAddresses = cellsColor.getValue();
             for (Integer colorableCellAddress : colorableCellsAddresses) {
@@ -45,6 +77,8 @@ public class CustomRenderer extends DefaultTableCellRenderer {
                 if (row.equals(colorableRow) && colorableColumn.equals(column - 1)) {
                     c.setBackground(cellsColor.getKey());
                     c.setForeground(Color.BLACK);
+                    
+                    c.setBorder(b);
                     return true;
                 }
             }
@@ -52,7 +86,7 @@ public class CustomRenderer extends DefaultTableCellRenderer {
         return false;
     }
 
-    public Component getHeaderCellComponent(JTable table, Integer row, Integer column, Component c) {
+    public JComponent getHeaderCellComponent(JTable table, Integer row, Integer column, JComponent c) {
         if (row % 4 == 0) {
             table.setValueAt(HOURS[row / 4], row, column);
         }
@@ -65,7 +99,7 @@ public class CustomRenderer extends DefaultTableCellRenderer {
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column) {
-        Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+        JComponent c = (JComponent)super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
         if (column != 0) {
             if (paintCell(row, column, c)) {

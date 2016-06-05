@@ -2,12 +2,14 @@ package pl.polsl.reservations.client.mediators;
 
 import java.awt.Color;
 import java.lang.reflect.Field;
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Objects;
+import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.views.MainView;
@@ -18,6 +20,7 @@ import pl.polsl.reservations.dto.RoomDTO;
 import pl.polsl.reservations.ejb.remote.RoomManagementFacade;
 import pl.polsl.reservations.ejb.remote.ScheduleFacade;
 import pl.polsl.reservations.client.views.renderers.CustomRenderer;
+import pl.polsl.reservations.client.views.utils.Pair;
 import pl.polsl.reservations.dto.ReservationTypeDTO;
 
 /**
@@ -31,7 +34,10 @@ public class WeekDataViewMediator {
     private WeekDataView weekDataView;
     private Integer selectedItem;
     private HashMap<Color, List<Integer>> reservationCellsRendererMap;
-
+    
+    private List<Pair<Integer,Integer>> startQuarters;
+    private List<Pair<Integer,Integer>> endQuarters;
+    
     public WeekDataViewMediator() {
         scheduleFacade = (ScheduleFacade) Lookup.getRemote("ScheduleFacade");
         roomManagementFacade = (RoomManagementFacade) Lookup.getRemote("RoomManagementFacade");
@@ -55,6 +61,11 @@ public class WeekDataViewMediator {
     }
 
     public void getReservations() {
+        
+        startQuarters = new ArrayList<Pair<Integer, Integer>>();
+        endQuarters = new ArrayList<Pair<Integer, Integer>>();
+        
+        
         reservationCellsRendererMap = new HashMap<>();
      //   Date date = new Date();
         Calendar calendar = weekDataView.getStartDate();
@@ -117,17 +128,29 @@ public class WeekDataViewMediator {
                     continue;
                 }
 
+                Pair startEntry = new Pair(startDay, numberOfStartQuarter);
+                Pair endEntry = new Pair(endDay, numberOfEndQuarter);
+                
+                
+                startQuarters.add(startEntry);
+                endQuarters.add(endEntry);
+                
+                /*
                 for (int i = startDay + 1; i <= endDay + 1; i++) {
                     for (int j = numberOfStartQuarter; j <= numberOfEndQuarter; j++) {
                         defaultTableModel.setValueAt("T", j, i);
                     }
                 }
+                */
+                defaultTableModel.setValueAt(reservation.getType(), numberOfStartQuarter, startDay+1);
+                defaultTableModel.setValueAt(reservation.getUserId(), numberOfStartQuarter+1, startDay+1);
+                
                 createReservationsRendererList(endDay, startDay,
                         numberOfStartQuarter, numberOfEndQuarter, reservation);
             }
             weekDataView.getPlanTable().setModel(defaultTableModel);
 
-            weekDataView.getPlanTable().setDefaultRenderer(Object.class, new CustomRenderer(reservationCellsRendererMap));
+            weekDataView.getPlanTable().setDefaultRenderer(Object.class, new CustomRenderer(reservationCellsRendererMap,startQuarters, endQuarters));
 
         }
     }
