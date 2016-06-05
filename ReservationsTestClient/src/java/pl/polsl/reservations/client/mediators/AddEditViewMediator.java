@@ -19,6 +19,7 @@ import pl.polsl.reservations.dto.RoomDTO;
 import pl.polsl.reservations.dto.UserDTO;
 import pl.polsl.reservations.ejb.remote.RoomManagementFacade;
 import pl.polsl.reservations.ejb.remote.ScheduleFacade;
+import pl.polsl.reservations.ejb.remote.UserFacade;
 import pl.polsl.reservations.ejb.remote.UserManagementFacade;
 
 /**
@@ -29,7 +30,8 @@ public class AddEditViewMediator {
 
     private final ScheduleFacade scheduleFacade;
     private final RoomManagementFacade roomManagementFacade;
-    private final UserManagementFacade userFacade;
+    private final UserManagementFacade userManagementFacade;
+    private final UserFacade userFacade;
     private AddEditView addEditView;
     private Calendar date;
     private HashMap<Color, List<Integer>> reservationCellsRendererMap;
@@ -37,7 +39,8 @@ public class AddEditViewMediator {
     public AddEditViewMediator() {
         scheduleFacade = (ScheduleFacade) Lookup.getRemote("ScheduleFacade");
         roomManagementFacade = (RoomManagementFacade) Lookup.getRemote("RoomManagementFacade");
-        userFacade = (UserManagementFacade) Lookup.getRemote("UserManagementFacade");
+        userManagementFacade = (UserManagementFacade) Lookup.getRemote("UserManagementFacade");
+        userFacade = (UserFacade) Lookup.getRemote("UserFacade");
         date = Calendar.getInstance();
 
     }
@@ -140,9 +143,14 @@ public class AddEditViewMediator {
     }
     
     public void setWorkersData(){
-        UserDTO userDetails = userFacade.getUserDetails(ClientContext.getUsername());
-        String name = userDetails.getName();
+        UserDTO currentUserDetails = userManagementFacade.getUserDetails(ClientContext.getUsername());
+        List<UserDTO> userDetailsList = userFacade.getUsersWithLowerPrivilegeLevel();
+        userDetailsList.stream().forEach((userDTO) -> {
+            addEditView.getTeacherCb().addItem(userDTO.getName() + " " + userDTO.getSurname());
+        });
+        String name = currentUserDetails.getName() + " " + currentUserDetails.getSurname();
         addEditView.getTeacherCb().addItem(name);
+        addEditView.getTeacherCb().setSelectedItem(name);
     }
     
     public void setTargetData(){

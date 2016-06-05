@@ -6,7 +6,10 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import pl.polsl.reservations.client.ClientContext;
 import pl.polsl.reservations.client.Lookup;
+import pl.polsl.reservations.client.mediators.AddEditUserViewMediator;
 import pl.polsl.reservations.client.mediators.AddEditViewMediator;
+import pl.polsl.reservations.client.mediators.ChangePasswordViewMediator;
+import pl.polsl.reservations.client.mediators.CreateReportViewMediator;
 import pl.polsl.reservations.client.mediators.LoginMediator;
 import pl.polsl.reservations.client.mediators.MainViewMediator;
 import pl.polsl.reservations.client.reports.DocumentGenerator;
@@ -127,25 +130,25 @@ public class MainView extends JFrame {
 
     private void addRoomMenuItemActionPerformed(ActionEvent evt) {
         if (isLoggedIn) {
-            FrameStyle.dialogStyle(new CreateRaportView(this, 1), "Add room");
+            FrameStyle.dialogStyle(new CreateReportViewMediator().createView(this, 1), "Add room");
         }
     }
 
     private void addDeviceMenuItemActionPerformed(ActionEvent evt) {
         if (isLoggedIn) {
-            FrameStyle.dialogStyle(new CreateRaportView(this, 2), "Add device");
+            FrameStyle.dialogStyle(new CreateReportViewMediator().createView(this, 2), "Add device");
         }
     }
 
     private void addStateMenuItemActionPerformed(ActionEvent evt) {
         if (isLoggedIn) {
-            FrameStyle.dialogStyle(new CreateRaportView(this, 3), "Add state");
+            FrameStyle.dialogStyle(new CreateReportViewMediator().createView(this, 3), "Add state");
         }
     }
 
     private void addTypeMenuItemActionPerformed(ActionEvent evt) {
         if (isLoggedIn) {
-            FrameStyle.dialogStyle(new CreateRaportView(this, 4), "Add type");
+            FrameStyle.dialogStyle(new CreateReportViewMediator().createView(this, 4), "Add type");
         }
     }
 
@@ -171,19 +174,19 @@ public class MainView extends JFrame {
 
     private void changePasswordActionPerformed(ActionEvent evt) {
         if (isLoggedIn) {
-            FrameStyle.dialogStyle(new ChangePasswordView(this), "Change password");
+            FrameStyle.dialogStyle(new ChangePasswordViewMediator().createView(this), "Change password");
         }
     }
 
     private void addUserActionPerformed(ActionEvent evt) {
         if (isLoggedIn) {
-            FrameStyle.dialogStyle(new AddEditUserView(this, false), "Add user");
+            FrameStyle.dialogStyle(new AddEditUserViewMediator().createView(this, false), "Add user");
         }
     }
 
     private void editUserActionPerformed(ActionEvent evt) {
         if (isLoggedIn) {
-            FrameStyle.dialogStyle(new AddEditUserView(this, true), "Edit user");
+            FrameStyle.dialogStyle(new AddEditUserViewMediator().createView(this, false), "Edit user");
         }
     }
 

@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
+import pl.polsl.reservations.client.mediators.CreateReportViewMediator;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
 import pl.polsl.reservations.client.views.utils.PanelStyle;
 
@@ -56,10 +57,13 @@ public class CreateRaportView extends JPanel {
     private JPanel labelPanel;
 
     private JButton okButton;
+    
+    private final CreateReportViewMediator createReportViewMediator;
 
-    public CreateRaportView(MainView window, int option) {
+    public CreateRaportView(MainView window, int option, CreateReportViewMediator createReportViewMediator) {
         this.window = window;
         this.option = option;
+        this.createReportViewMediator = createReportViewMediator;
         initializeObjects();
         initPanels();
         setupSize();

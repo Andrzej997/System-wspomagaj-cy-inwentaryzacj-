@@ -8,19 +8,23 @@ import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
+import pl.polsl.reservations.client.mediators.TutorialViewMediator;
 
 /**
  *
  * @author Ola
  */
-class TutorialView extends JPanel {
+public class TutorialView extends JPanel {
 
     private static final long serialVersionUID = 5902382055394831826L;
 
     private MainView window;
+    
+    private final TutorialViewMediator tutorialViewMediator;
 
-    public TutorialView(MainView window) {
+    public TutorialView(MainView window, TutorialViewMediator tutorialViewMediator) {
         this.window = window;
+        this.tutorialViewMediator = tutorialViewMediator;
         
     }
     

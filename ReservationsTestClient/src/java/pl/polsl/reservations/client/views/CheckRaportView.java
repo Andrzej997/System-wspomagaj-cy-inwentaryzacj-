@@ -9,19 +9,23 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
+import pl.polsl.reservations.client.mediators.CheckReportViewMediator;
 
 /**
  *
  * @author abienioszek
  */
-class CheckRaportView extends JPanel {
+public class CheckRaportView extends JPanel {
 
     private static final long serialVersionUID = -8486774124937326659L;
 
     private MainView window;
+    
+    private final CheckReportViewMediator checkReportViewMediator;
 
-    public CheckRaportView(MainView window) {
+    public CheckRaportView(MainView window, CheckReportViewMediator checkReportViewMediator) {
         this.window = window;
+        this.checkReportViewMediator = checkReportViewMediator;
         initializeComponents();
         JOptionPane.showMessageDialog(null, "Not supported yet");
     }

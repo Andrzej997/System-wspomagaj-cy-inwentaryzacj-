@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
+import pl.polsl.reservations.client.mediators.ChangePasswordViewMediator;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
 import pl.polsl.reservations.client.views.utils.PanelStyle;
 
@@ -43,8 +44,11 @@ public class ChangePasswordView extends JPanel {
     private JPanel dataPanel;
     private JPanel mainPanel;
 
-    public ChangePasswordView(MainView window) {
+    private final ChangePasswordViewMediator changePasswordViewMediator;
+    
+    public ChangePasswordView(MainView window, ChangePasswordViewMediator changePasswordViewMediator) {
         this.window = window;
+        this.changePasswordViewMediator = changePasswordViewMediator;
         initialize();
         setupSize();
         setupButton();

@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
+import pl.polsl.reservations.client.mediators.AddEditUserViewMediator;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
 import pl.polsl.reservations.client.views.utils.PanelStyle;
 
@@ -25,6 +26,8 @@ import pl.polsl.reservations.client.views.utils.PanelStyle;
  *
  * @author abienioszek
  */
+
+//TODO: dodac combo z wyborem uzytkownika do edycji w widoku edycji
 public class AddEditUserView extends JPanel {
 
     private static final long serialVersionUID = -2193290350545362057L;
@@ -64,11 +67,14 @@ public class AddEditUserView extends JPanel {
     private JPanel mainPanel;
 
     private JButton okButton;
+    
+    private final AddEditUserViewMediator addEditUserViewMediator;
 
-    public AddEditUserView(MainView window, boolean editUser) {
+    public AddEditUserView(MainView window, boolean editUser, AddEditUserViewMediator addEditUserViewMediator) {
         super();
         this.window = window;
         this.editUser = editUser;
+        this.addEditUserViewMediator = addEditUserViewMediator;
         initComponents();
         initPanels();
     }
