@@ -11,10 +11,13 @@ import pl.polsl.reservations.builder.DTOBuilder;
 import pl.polsl.reservations.dto.PrivilegeLevelDTO;
 import pl.polsl.reservations.dto.UserDTO;
 import pl.polsl.reservations.ejb.dao.*;
+import pl.polsl.reservations.ejb.local.PrivilegeLevelRequestsQueue;
+import pl.polsl.reservations.ejb.local.PrivilegeLevelRequestsQueueImpl;
 import pl.polsl.reservations.ejb.local.UserContext;
 import pl.polsl.reservations.entities.*;
 import pl.polsl.reservations.interceptors.PrivilegeInterceptor;
 import pl.polsl.reservations.logger.LoggerImpl;
+import pl.polsl.reservations.privileges.PrivilegeRequest;
 
 /**
  * Created by Krzysztof Stręk on 2016-05-07.
@@ -34,10 +37,13 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
     @EJB
     private PriviligeLevelsDao privilegeFacade;
 
+    PrivilegeLevelRequestsQueue levelRequestsQueue;
+
     private Users user;
 
     public UserFacadeImpl() {
         super();
+        levelRequestsQueue = PrivilegeLevelRequestsQueueImpl.getInstance();
     }
 
     @Override
@@ -47,8 +53,9 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
         if (nameOrEmail.contains("@") && nameOrEmail.contains(".")) {
             if (usersFacade.validateUserByEmail(nameOrEmail, password)) {
                 user = usersFacade.getUserByEmail(nameOrEmail);
-                if(user == null)
+                if (user == null) {
                     return false;
+                }
                 PriviligeLevels pl = user.getPriviligeLevel();
                 List<Priviliges> priviligesCollection = pl.getPriviligesCollection();
                 userContext.initialize(priviligesCollection, user);
@@ -58,8 +65,9 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
             }
         } else if (usersFacade.validateUser(nameOrEmail, password)) {
             user = usersFacade.getUserByUsername(nameOrEmail);
-            if(user == null)
+            if (user == null) {
                 return false;
+            }
             userContext.initialize(user.getPriviligeLevel().getPriviligesCollection(), user);
             return true;
         }
@@ -171,4 +179,43 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
         getUsersCertifcatesPool().removeCertificate(certificate);
     }
 
+    @Override
+    public PrivilegeLevelDTO getObtainablePrivilegeLevel() {
+        if (user == null) {
+            return null;
+        }
+        Integer adminLevel = PrivilegeLevelEnum.ADMIN.getValue();
+        Long obtainableLevel = user.getPriviligeLevel().getPriviligeLevel() - 1;
+        if (obtainableLevel > adminLevel) {
+            return DTOBuilder.buildPrivilegeLevelDTO(privilegeFacade.getPrivligeLevelsEntityByLevelValue(obtainableLevel));
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public boolean requestHigherPrivilegeLevel(String reason) {
+        if( user == null)
+            return false;
+        PrivilegeLevelDTO obtainablePrivilegeLevel = getObtainablePrivilegeLevel();
+        if (obtainablePrivilegeLevel == null) {
+            return false;
+        }
+        if (isRequestingHigherPrivilegeLevel()) {
+            return false;
+        }
+        PrivilegeRequest pr = new PrivilegeRequest(obtainablePrivilegeLevel.getPrivilegeLevel(), 
+                user.getId(), reason);
+        return levelRequestsQueue.addRequest(pr);        
+    }
+
+    @Override
+    public boolean isRequestingHigherPrivilegeLevel() {
+        if (user == null) {
+            return false;
+        }
+        Long level = getObtainablePrivilegeLevel().getPrivilegeLevel();
+        PrivilegeRequest pr = new PrivilegeRequest(level, user.getId(), "");
+        return levelRequestsQueue.findRequest(pr);
+    }
 }
