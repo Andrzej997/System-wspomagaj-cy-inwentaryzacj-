@@ -22,6 +22,8 @@ import pl.polsl.reservations.ejb.remote.ScheduleFacade;
 import pl.polsl.reservations.client.views.renderers.CustomRenderer;
 import pl.polsl.reservations.client.views.utils.Pair;
 import pl.polsl.reservations.dto.ReservationTypeDTO;
+import pl.polsl.reservations.ejb.remote.UserFacade;
+import pl.polsl.reservations.ejb.remote.UserManagementFacade;
 
 /**
  *
@@ -31,6 +33,7 @@ public class WeekDataViewMediator {
 
     private final ScheduleFacade scheduleFacade;
     private final RoomManagementFacade roomManagementFacade;
+    private final UserManagementFacade userFacade;
     private WeekDataView weekDataView;
     private Integer selectedItem;
     private HashMap<Color, List<Integer>> reservationCellsRendererMap;
@@ -41,6 +44,7 @@ public class WeekDataViewMediator {
     public WeekDataViewMediator() {
         scheduleFacade = (ScheduleFacade) Lookup.getRemote("ScheduleFacade");
         roomManagementFacade = (RoomManagementFacade) Lookup.getRemote("RoomManagementFacade");
+        userFacade = (UserManagementFacade) Lookup.getRemote("UserManagementFacade");
         reservationCellsRendererMap = new HashMap<>();
     }
 
@@ -143,7 +147,7 @@ public class WeekDataViewMediator {
                 }
                 */
                 defaultTableModel.setValueAt(reservation.getType(), numberOfStartQuarter, startDay+1);
-                defaultTableModel.setValueAt(reservation.getUserId(), numberOfStartQuarter+1, startDay+1);
+                defaultTableModel.setValueAt(userFacade.getUserDetails(reservation.getUserId().intValue()).getName()+" "+userFacade.getUserDetails(reservation.getUserId().intValue()).getSurname(), numberOfStartQuarter+1, startDay+1);
                 
                 createReservationsRendererList(endDay, startDay,
                         numberOfStartQuarter, numberOfEndQuarter, reservation);
