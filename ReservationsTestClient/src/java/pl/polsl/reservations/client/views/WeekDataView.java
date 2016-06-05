@@ -93,6 +93,11 @@ public class WeekDataView extends JPanel {
         nextBtn.addActionListener((ActionEvent e) -> {
             onClickBtnNext(e);
         });
+        
+        datePicker.addActionListener((ActionEvent e) -> {
+            datePickerChange(e);
+        });
+        
         initTable();
         PanelStyle.setSize(this, 800, 600);
         JPanel weekPanel = new JPanel();
@@ -125,6 +130,22 @@ public class WeekDataView extends JPanel {
         );
     }
 
+    private void datePickerChange(ActionEvent e){
+        startDate.set(datePicker.getModel().getYear(),
+                datePicker.getModel().getMonth(),
+                datePicker.getModel().getDay());
+        startDate.add(Calendar.DATE, 7);
+        int dayOfWeek = startDate.get(Calendar.DAY_OF_WEEK);
+        dayOfWeek -= 2;
+        startDate.add(Calendar.DAY_OF_MONTH, -dayOfWeek);
+        endDate.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH),
+                startDate.get(Calendar.DATE));
+        endDate.add(Calendar.DATE, 6);
+        setDateText();
+        
+        weekDataViewMediator.getReservations();
+    }
+    
     private void onClickBtnNext(ActionEvent e) {
         startDate.set(datePicker.getModel().getYear(),
                 datePicker.getModel().getMonth(),
@@ -137,6 +158,8 @@ public class WeekDataView extends JPanel {
                 startDate.get(Calendar.DATE));
         endDate.add(Calendar.DATE, 6);
         setDateText();
+        
+        weekDataViewMediator.getReservations();
     }
 
     private void onClickBtnPrevious(ActionEvent e) {
@@ -152,6 +175,8 @@ public class WeekDataView extends JPanel {
                 startDate.get(Calendar.DATE));
         endDate.add(Calendar.DATE, 6);
         setDateText();
+        
+        weekDataViewMediator.getReservations();
     }
 
     private void setDateText() {
