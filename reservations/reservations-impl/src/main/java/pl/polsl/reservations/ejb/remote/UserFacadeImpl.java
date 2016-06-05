@@ -224,6 +224,7 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
 
     @Override
     public List<UserDTO> getUsersWithLowerPrivilegeLevel() {
+        user = getCurrentUserContext().getUser();
         if (user == null) {
             return null;
         }
