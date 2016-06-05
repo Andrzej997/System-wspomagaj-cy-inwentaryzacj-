@@ -10,6 +10,7 @@ import javax.interceptor.Interceptors;
 
 import pl.polsl.reservations.builder.DTOBuilder;
 import pl.polsl.reservations.dto.PrivilegeLevelDTO;
+import pl.polsl.reservations.dto.PrivilegeRequestDTO;
 import pl.polsl.reservations.dto.UserDTO;
 import pl.polsl.reservations.ejb.dao.*;
 import pl.polsl.reservations.ejb.local.PrivilegeLevelRequestsQueue;
@@ -229,13 +230,28 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
         List<UserDTO> userList = new ArrayList<>();
         List<Users> users = usersFacade.findAll();
         for (Users u : users) {
-            if(u.getPriviligeLevel().getPriviligeLevel() > user.getPriviligeLevel().getPriviligeLevel()
-                    && u.getPriviligeLevel().getPriviligeLevel() < PrivilegeLevelEnum.STANDARD_USER.getValue())
-            userList.add(DTOBuilder.buildUserDTO(user, user.getWorkers()));    
+            if (u.getPriviligeLevel().getPriviligeLevel() > user.getPriviligeLevel().getPriviligeLevel()
+                    && u.getPriviligeLevel().getPriviligeLevel() < PrivilegeLevelEnum.STANDARD_USER.getValue()) {
+                userList.add(DTOBuilder.buildUserDTO(user, user.getWorkers()));
+            }
         }
-        if(userList.isEmpty())
+        if (userList.isEmpty()) {
             return null;
-        else
+        } else {
             return userList;
+        }
+    }
+
+    @Override
+    public List<PrivilegeRequestDTO> getOperationableRequests() {
+        List<PrivilegeRequest> prList = levelRequestsQueue.getOperationableRequests(user.getPriviligeLevel().getPriviligeLevel());
+        if (prList == null) {
+            return null;
+        }
+        List<PrivilegeRequestDTO> prListDTO = new ArrayList<>();
+        for (PrivilegeRequest pr : prList) {
+            prListDTO.add(DTOBuilder.buildPrivilegeRequestDTO(pr));
+        }
+        return prListDTO;
     }
 }

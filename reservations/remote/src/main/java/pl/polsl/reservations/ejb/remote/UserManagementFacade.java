@@ -5,6 +5,7 @@ import javax.ejb.Remote;
 import pl.polsl.reservations.dto.DepartamentDTO;
 import pl.polsl.reservations.dto.InstituteDTO;
 import pl.polsl.reservations.dto.PrivilegeLevelDTO;
+import pl.polsl.reservations.dto.PrivilegeRequestDTO;
 import pl.polsl.reservations.dto.UserDTO;
 
 /**
@@ -42,4 +43,8 @@ public interface UserManagementFacade extends AbstractBusinessFacade{
     boolean checkUserExistence(UserDTO user);
     
     boolean registerUser(UserDTO user, String password);
+    
+    public boolean acceptPrivilegeRequest(PrivilegeRequestDTO privilegeRequestDTO);
+    
+    public boolean declinePrivilegeRequest(PrivilegeRequestDTO privilegeRequestDTO);
 }
