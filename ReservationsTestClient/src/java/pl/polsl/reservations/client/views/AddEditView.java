@@ -7,12 +7,14 @@ import java.util.Date;
 import javax.swing.*;
 import javax.swing.event.EventListenerList;
 import pl.polsl.reservations.client.mediators.AddEditViewMediator;
+import pl.polsl.reservations.client.mediators.SearchViewMediator;
 import pl.polsl.reservations.client.views.utils.PanelStyle;
 
 /**
  *
  * @author Ola
  */
+//TODO weŸ zrób datepicker
 public class AddEditView extends JPanel {
 
     private static final long serialVersionUID = -6676295764328716585L;
@@ -75,7 +77,7 @@ public class AddEditView extends JPanel {
         addLabelPanel = new JPanel(new GridLayout(6, 1));
         hourPanel = new JPanel(new BorderLayout());
         dayTablePanel = new JPanel();
-        searchPanel = new SearchView(window);
+        searchPanel = new SearchViewMediator().createView(window);
         okButton = new JButton();
         okButton.addActionListener((java.awt.event.ActionEvent evt) -> {
             onOkClick(evt);
@@ -117,11 +119,9 @@ public class AddEditView extends JPanel {
     }
 
     private void initDataPanel() {
-        setDataRoomCb();
         setDataDateCb();
         setDataGroupCb();
         setDataHourCb();
-        setDataTeacherCb();
         JPanel hourPanel = new JPanel(new BorderLayout());
         hourPanel.add(hourStartCb, BorderLayout.WEST);
         hourPanel.add(hourStopCb, BorderLayout.EAST);
@@ -132,9 +132,6 @@ public class AddEditView extends JPanel {
         addDataPanel.add(groupCb);
         addDataPanel.add(titleTf);
         addDataPanel.add(teacherCb);
-    }
-
-    private void setDataRoomCb() {
     }
 
     private void setDataDateCb() {
@@ -170,14 +167,6 @@ public class AddEditView extends JPanel {
         }
         hourStartCb.setSelectedItem("8:00");
         hourStopCb.setSelectedItem("9:00");
-    }
-
-    private void setDataTeacherCb() {
-        //TODO: rzeczywiste dane
-        teacherCb.addItem("111");
-        teacherCb.addItem("111");
-        teacherCb.addItem("111");
-        teacherCb.addItem("111");
     }
 
     private void keyInputDispatcher() {

@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import pl.polsl.reservations.client.ClientContext;
 import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.views.AddEditView;
 import pl.polsl.reservations.client.views.DayTableModel;
@@ -15,8 +16,10 @@ import pl.polsl.reservations.client.views.renderers.DayCustomRenderer;
 import pl.polsl.reservations.dto.ReservationDTO;
 import pl.polsl.reservations.dto.ReservationTypeDTO;
 import pl.polsl.reservations.dto.RoomDTO;
+import pl.polsl.reservations.dto.UserDTO;
 import pl.polsl.reservations.ejb.remote.RoomManagementFacade;
 import pl.polsl.reservations.ejb.remote.ScheduleFacade;
+import pl.polsl.reservations.ejb.remote.UserManagementFacade;
 
 /**
  *
@@ -26,6 +29,7 @@ public class AddEditViewMediator {
 
     private final ScheduleFacade scheduleFacade;
     private final RoomManagementFacade roomManagementFacade;
+    private final UserManagementFacade userFacade;
     private AddEditView addEditView;
     private Calendar date;
     private HashMap<Color, List<Integer>> reservationCellsRendererMap;
@@ -33,6 +37,7 @@ public class AddEditViewMediator {
     public AddEditViewMediator() {
         scheduleFacade = (ScheduleFacade) Lookup.getRemote("ScheduleFacade");
         roomManagementFacade = (RoomManagementFacade) Lookup.getRemote("RoomManagementFacade");
+        userFacade = (UserManagementFacade) Lookup.getRemote("UserManagementFacade");
         date = Calendar.getInstance();
 
     }
@@ -41,6 +46,7 @@ public class AddEditViewMediator {
         addEditView = new AddEditView(parent, this);
         getRooms();
         getReservations();
+        setWorkersData();
         return addEditView;
     }
 
@@ -112,6 +118,30 @@ public class AddEditViewMediator {
                 }
             }
         }
+    }
+    
+    public Integer getStartHourFromView(){
+        String selectedHour=(String)addEditView.getHourStartCb().getSelectedItem();
+        for(int i = 0; i< 96; i++){
+            Integer hour = i/4;
+            Integer quarter = (i % 4)*15;
+            String hourString = hour.toString() + ":";
+            if(quarter == 0){
+                hourString += "00";
+            } else{
+                hourString += quarter.toString();
+            }
+            if(selectedHour.equals(hourString)){
+                return i;
+            }
+        }
+        return null;
+    }
+    
+    public void setWorkersData(){
+        UserDTO userDetails = userFacade.getUserDetails(ClientContext.getUsername());
+        String name = userDetails.getName();
+        addEditView.getTeacherCb().addItem(name);
     }
 
 }

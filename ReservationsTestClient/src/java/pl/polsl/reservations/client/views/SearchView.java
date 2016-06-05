@@ -7,11 +7,14 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import javax.swing.*;
+import pl.polsl.reservations.client.mediators.SearchViewMediator;
 
 /**
  *
  * @author Ola
  */
+
+//TODO weŸ zrób datepicker
 public class SearchView extends JPanel {
 
     private static final long serialVersionUID = 6265110752316154972L;
@@ -30,10 +33,13 @@ public class SearchView extends JPanel {
     private JTextField studentsTf;
     private JLabel responseTf;
     private JButton responseBtn;
+    
+    private final SearchViewMediator searchViewMediator;
 
-    SearchView(MainView window) {
+    public SearchView(MainView window, SearchViewMediator searchViewMediator) {
         super(new BorderLayout());
         this.window = window;
+        this.searchViewMediator = searchViewMediator;
         initComponents();
 
     }
@@ -100,7 +106,7 @@ public class SearchView extends JPanel {
     }
 
     private void setDataDateCb() {
-        //TODO: rzeczywiste dane
+        //TODO: wez zrob datepicker
         dateCb.addItem("111");
         dateCb.addItem("111");
         dateCb.addItem("111");
@@ -116,11 +122,22 @@ public class SearchView extends JPanel {
     }
 
     private void setDataHourCb() {
-        //TODO: rzeczywiste dane
-        hourStartCb.addItem("111");
-        hourStartCb.addItem("111");
-        hourStopCb.addItem("111");
-        hourStopCb.addItem("111");
+        Integer hour = 0;
+        Integer quarter = 0;
+        for(int i = 0; i< 96; i++){
+            hour = i/4;
+            quarter = (i % 4)*15;
+            String hourString = hour.toString() + ":";
+            if(quarter == 0){
+                hourString += "00";
+            } else{
+                hourString += quarter.toString();
+            }
+            hourStartCb.addItem(hourString);
+            hourStopCb.addItem(hourString);
+        }
+        hourStartCb.setSelectedItem("8:00");
+        hourStopCb.setSelectedItem("9:00");
     }
 
     private void onOkClick(ActionEvent evt) {

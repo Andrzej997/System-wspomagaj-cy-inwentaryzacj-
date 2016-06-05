@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import pl.polsl.reservations.client.ClientContext;
 import pl.polsl.reservations.client.mediators.LoginMediator;
 import pl.polsl.reservations.client.mediators.WeekDataViewMediator;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
@@ -71,6 +72,7 @@ public class LoginView extends JPanel {
         if (passwordEditText.getText().length() > 0 && loginEditText.getText().length() > 0) {
             if (loginMediator.getUserData(loginEditText.getText(), passwordEditText.getText())) {
                 window.setOptionsAvailable(Color.black);
+                ClientContext.setUsername(loginEditText.getText());
                 window.setView(new WeekDataViewMediator().createView(window, loginMediator.getFirstRoom()));
                 window.setLogged(true);
             } else {
