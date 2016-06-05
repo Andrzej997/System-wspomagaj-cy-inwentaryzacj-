@@ -14,8 +14,10 @@ import pl.polsl.reservations.client.views.renderers.DayCustomRenderer;
 import pl.polsl.reservations.dto.ReservationDTO;
 import pl.polsl.reservations.dto.ReservationTypeDTO;
 import pl.polsl.reservations.dto.RoomDTO;
+import pl.polsl.reservations.dto.UserDTO;
 import pl.polsl.reservations.ejb.remote.RoomManagementFacade;
 import pl.polsl.reservations.ejb.remote.ScheduleFacade;
+import pl.polsl.reservations.ejb.remote.UserManagementFacade;
 
 /**
  *
@@ -25,13 +27,17 @@ public class DayDataViewMediator {
 
     private final ScheduleFacade scheduleFacade;
     private final RoomManagementFacade roomManagementFacade;
+    private final UserManagementFacade userManagementFacade;
     private Object date;
     private DayDataView dayDataView;
     private HashMap<Color, List<Integer>> reservationCellsRendererMap;
+    private List<Integer> startQuarters;
+    private List<Integer> endQuarters;
 
     public DayDataViewMediator() {
         scheduleFacade = (ScheduleFacade) Lookup.getRemote("ScheduleFacade");
         roomManagementFacade = (RoomManagementFacade) Lookup.getRemote("RoomManagementFacade");
+        userManagementFacade = (UserManagementFacade) Lookup.getRemote("UserManagementFacade");
         reservationCellsRendererMap = new HashMap<>();
     }
 
@@ -48,26 +54,33 @@ public class DayDataViewMediator {
 
     public void getReservations() {
         reservationCellsRendererMap = new HashMap<>();
+        startQuarters = new ArrayList<>();
+        endQuarters = new ArrayList<>();
         List<ReservationDTO> roomSchedule = scheduleFacade.getRoomSchedule((Integer) dayDataView.getChooseRoomDropdown().getSelectedItem(), 2016, true);
 
         DefaultTableModel defaultTableModel = new DayTableModel(32, 3);
 
         for (ReservationDTO reservation : roomSchedule) {
-            int endDay = reservation.getEndTime()/ 96;
-            int startDay = reservation.getStartTime()/ 96;
-            int numberOfEndQuarter = reservation.getEndTime()% 96;
-            int numberOfStartQuarter = reservation.getStartTime()% 96;
-
+            int endDay = reservation.getEndTime() / 96;
+            int startDay = reservation.getStartTime() / 96;
+            int numberOfEndQuarter = reservation.getEndTime() % 96;
+            int numberOfStartQuarter = reservation.getStartTime() % 96;
             if (startDay == (int) date - 1) {
-
-                for (int j = numberOfStartQuarter; j <= numberOfEndQuarter; j++) {
-                    defaultTableModel.setValueAt("T", j, 0);
+                startQuarters.add(numberOfStartQuarter);
+                if (numberOfEndQuarter < numberOfStartQuarter) {
+                    endQuarters.add(95);
+                } else {
+                    endQuarters.add(numberOfEndQuarter);
                 }
+                defaultTableModel.setValueAt(reservation.getType(), numberOfStartQuarter % 32, numberOfStartQuarter / 32);
+                createReservationsRendererList(numberOfStartQuarter, numberOfEndQuarter, reservation);
+                UserDTO userDetails = userManagementFacade.getUserDetails(reservation.getUserId().intValue());
+                String userString = userDetails.getName() + " " + userDetails.getSurname();
+                defaultTableModel.setValueAt(userString, numberOfStartQuarter % 32 + 1, numberOfStartQuarter / 32);
             }
-            createReservationsRendererList(numberOfStartQuarter, numberOfEndQuarter, reservation);
             dayDataView.getPlanView().setModel(defaultTableModel);
             dayDataView.getPlanView().setDefaultRenderer(Object.class,
-                    new DayCustomRenderer(reservationCellsRendererMap));
+                    new DayCustomRenderer(reservationCellsRendererMap, startQuarters, endQuarters));
         }
 
         dayDataView.getPlanView().setModel(defaultTableModel);

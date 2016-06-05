@@ -126,7 +126,6 @@ public class DayDataView extends javax.swing.JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            //  window.setView(new DayDataView(window, index));
             window.setView(new DayDataViewMediator().createView(window, index));
         }
     }

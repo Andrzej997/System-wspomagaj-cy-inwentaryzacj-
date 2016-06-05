@@ -54,6 +54,7 @@ public class AddEditView extends JPanel {
         setSize();
         initLabelPanel();
         initDataPanel();
+        initListeners();
 
         addPanel.add(addLabelPanel, BorderLayout.WEST);
         addPanel.add(addDataPanel, BorderLayout.WEST);
@@ -68,6 +69,12 @@ public class AddEditView extends JPanel {
         add(mainPanel, BorderLayout.NORTH);
         add(okButton, BorderLayout.SOUTH);
         keyInputDispatcher();
+    }
+    
+    private void initListeners(){
+        roomCb.addActionListener((ActionEvent e) -> {
+            addEditViewMediator.getReservations();
+        });
     }
 
     private void initFields() {

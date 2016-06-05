@@ -2,14 +2,12 @@ package pl.polsl.reservations.client.mediators;
 
 import java.awt.Color;
 import java.lang.reflect.Field;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Objects;
-import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.views.MainView;
@@ -19,10 +17,9 @@ import pl.polsl.reservations.dto.ReservationDTO;
 import pl.polsl.reservations.dto.RoomDTO;
 import pl.polsl.reservations.ejb.remote.RoomManagementFacade;
 import pl.polsl.reservations.ejb.remote.ScheduleFacade;
-import pl.polsl.reservations.client.views.renderers.CustomRenderer;
+import pl.polsl.reservations.client.views.renderers.WeekCustomRenderer;
 import pl.polsl.reservations.client.views.utils.Pair;
 import pl.polsl.reservations.dto.ReservationTypeDTO;
-import pl.polsl.reservations.ejb.remote.UserFacade;
 import pl.polsl.reservations.ejb.remote.UserManagementFacade;
 
 /**
@@ -33,18 +30,18 @@ public class WeekDataViewMediator {
 
     private final ScheduleFacade scheduleFacade;
     private final RoomManagementFacade roomManagementFacade;
-    private final UserManagementFacade userFacade;
+    private final UserManagementFacade userManagementFacade;
     private WeekDataView weekDataView;
     private Integer selectedItem;
     private HashMap<Color, List<Integer>> reservationCellsRendererMap;
-    
-    private List<Pair<Integer,Integer>> startQuarters;
-    private List<Pair<Integer,Integer>> endQuarters;
-    
+
+    private List<Pair<Integer, Integer>> startQuarters;
+    private List<Pair<Integer, Integer>> endQuarters;
+
     public WeekDataViewMediator() {
         scheduleFacade = (ScheduleFacade) Lookup.getRemote("ScheduleFacade");
         roomManagementFacade = (RoomManagementFacade) Lookup.getRemote("RoomManagementFacade");
-        userFacade = (UserManagementFacade) Lookup.getRemote("UserManagementFacade");
+        userManagementFacade = (UserManagementFacade) Lookup.getRemote("UserManagementFacade");
         reservationCellsRendererMap = new HashMap<>();
     }
 
@@ -56,24 +53,18 @@ public class WeekDataViewMediator {
         }
 
         getRooms();
-        //   weekDataView.getChooseRoomDropdown()
-        //           .setSelectedItem(weekDataView.getSelectedItem());
-
         getReservations();
 
         return weekDataView;
     }
 
     public void getReservations() {
-        
-        startQuarters = new ArrayList<Pair<Integer, Integer>>();
-        endQuarters = new ArrayList<Pair<Integer, Integer>>();
-        
-        
+
+        startQuarters = new ArrayList<>();
+        endQuarters = new ArrayList<>();
+
         reservationCellsRendererMap = new HashMap<>();
-     //   Date date = new Date();
         Calendar calendar = weekDataView.getStartDate();
-     //   calendar.setTime(date);
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         int weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
         int weekOfSemester = 1;
@@ -106,7 +97,7 @@ public class WeekDataViewMediator {
             Calendar cal = Calendar.getInstance();
             cal.set(Calendar.MONTH, Calendar.MARCH);
             cal.set(Calendar.DATE, 1);
-            
+
             weekOfSemester = weekOfYear - cal.get(Calendar.WEEK_OF_YEAR) + 1;
         }
 
@@ -134,27 +125,19 @@ public class WeekDataViewMediator {
 
                 Pair startEntry = new Pair(startDay, numberOfStartQuarter);
                 Pair endEntry = new Pair(endDay, numberOfEndQuarter);
-                
-                
+
                 startQuarters.add(startEntry);
                 endQuarters.add(endEntry);
-                
-                /*
-                for (int i = startDay + 1; i <= endDay + 1; i++) {
-                    for (int j = numberOfStartQuarter; j <= numberOfEndQuarter; j++) {
-                        defaultTableModel.setValueAt("T", j, i);
-                    }
-                }
-                */
-                defaultTableModel.setValueAt(reservation.getType(), numberOfStartQuarter, startDay+1);
-                defaultTableModel.setValueAt(userFacade.getUserDetails(reservation.getUserId().intValue()).getName()+" "+userFacade.getUserDetails(reservation.getUserId().intValue()).getSurname(), numberOfStartQuarter+1, startDay+1);
-                
+
+                defaultTableModel.setValueAt(reservation.getType(), numberOfStartQuarter, startDay + 1);
+                defaultTableModel.setValueAt(userManagementFacade.getUserDetails(reservation.getUserId().intValue()).getName() + " " + userManagementFacade.getUserDetails(reservation.getUserId().intValue()).getSurname(), numberOfStartQuarter + 1, startDay + 1);
+
                 createReservationsRendererList(endDay, startDay,
                         numberOfStartQuarter, numberOfEndQuarter, reservation);
             }
             weekDataView.getPlanTable().setModel(defaultTableModel);
 
-            weekDataView.getPlanTable().setDefaultRenderer(Object.class, new CustomRenderer(reservationCellsRendererMap,startQuarters, endQuarters));
+            weekDataView.getPlanTable().setDefaultRenderer(Object.class, new WeekCustomRenderer(reservationCellsRendererMap, startQuarters, endQuarters));
 
         }
     }
