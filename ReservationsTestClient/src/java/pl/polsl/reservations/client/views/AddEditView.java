@@ -120,7 +120,6 @@ public class AddEditView extends JPanel {
 
     private void initDataPanel() {
         setDataDateCb();
-        setDataGroupCb();
         setDataHourCb();
         JPanel hourPanel = new JPanel(new BorderLayout());
         hourPanel.add(hourStartCb, BorderLayout.WEST);
@@ -140,14 +139,6 @@ public class AddEditView extends JPanel {
         dateCb.addItem("111");
         dateCb.addItem("111");
         dateCb.addItem("111");
-    }
-
-    private void setDataGroupCb() {
-        //TODO: rzeczywiste dane
-        groupCb.addItem("111");
-        groupCb.addItem("111");
-        groupCb.addItem("111");
-        groupCb.addItem("111");
     }
 
     private void setDataHourCb() {

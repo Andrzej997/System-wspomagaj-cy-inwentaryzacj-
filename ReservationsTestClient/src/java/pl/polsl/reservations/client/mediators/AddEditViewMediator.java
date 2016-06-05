@@ -47,6 +47,7 @@ public class AddEditViewMediator {
         getRooms();
         getReservations();
         setWorkersData();
+        setTargetData();
         return addEditView;
     }
 
@@ -142,6 +143,13 @@ public class AddEditViewMediator {
         UserDTO userDetails = userFacade.getUserDetails(ClientContext.getUsername());
         String name = userDetails.getName();
         addEditView.getTeacherCb().addItem(name);
+    }
+    
+    public void setTargetData(){
+        List<ReservationTypeDTO> reservationTypes = scheduleFacade.getReservationTypes();
+        for(ReservationTypeDTO reservationTypeDTO : reservationTypes){
+            addEditView.getGroupCb().addItem(reservationTypeDTO.getShortDescription());
+        }
     }
 
 }

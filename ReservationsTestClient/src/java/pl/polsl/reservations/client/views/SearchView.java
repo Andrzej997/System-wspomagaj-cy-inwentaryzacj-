@@ -86,7 +86,6 @@ public class SearchView extends JPanel {
     private void initSearchDataPanel() {
         setDataDateCb();
         setDataHourCb();
-        setDataTypeCb();
         JPanel hourPanel = new JPanel(new BorderLayout());
         hourPanel.add(hourStartCb, BorderLayout.WEST);
         hourPanel.add(hourStopCb, BorderLayout.EAST);
@@ -111,14 +110,6 @@ public class SearchView extends JPanel {
         dateCb.addItem("111");
         dateCb.addItem("111");
         dateCb.addItem("111");
-    }
-
-    private void setDataTypeCb() {
-        //TODO: rzeczywiste dane
-        typeCb.addItem("111");
-        typeCb.addItem("111");
-        typeCb.addItem("111");
-        typeCb.addItem("111");
     }
 
     private void setDataHourCb() {
