@@ -2,8 +2,12 @@ package pl.polsl.reservations.ejb.remote;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.Resource;
 import javax.ejb.EJB;
+import javax.ejb.SessionContext;
 import javax.ejb.Stateful;
+import javax.ejb.Timeout;
+import javax.ejb.Timer;
 import javax.interceptor.Interceptors;
 
 import pl.polsl.reservations.annotations.RequiredPrivilege;
@@ -17,7 +21,6 @@ import pl.polsl.reservations.ejb.dao.*;
 import pl.polsl.reservations.ejb.local.PrivilegeLevelRequestsQueue;
 import pl.polsl.reservations.ejb.local.PrivilegeLevelRequestsQueueImpl;
 import pl.polsl.reservations.ejb.local.UserContext;
-import pl.polsl.reservations.ejb.timer.TimerSession;
 import pl.polsl.reservations.entities.Departaments;
 import pl.polsl.reservations.entities.Institutes;
 import pl.polsl.reservations.entities.PriviligeLevels;
@@ -48,6 +51,9 @@ public class UserManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     PriviligeLevelsDao priviligeLevelsFacade;
     @EJB
     InstitutesDao institutesFacade;
+    
+    @Resource
+    private SessionContext context;
 
     PrivilegeLevelRequestsQueue levelRequestsQueue;
 
@@ -372,8 +378,7 @@ public class UserManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
         Users u = usersFacade.find(pr.getUserID());
         changePrivilegeLevel(u.getUsername(), pr.getPrivilegeLevel());
         
-        //TODO
-        TimerSession timerSession;
+        crateTimer(1000 * 60, u.getId());
         
         return true;
     }
@@ -391,5 +396,19 @@ public class UserManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
             return false;
         }
         return true;
+    }
+    
+    private void crateTimer(long miliseconds, Long userID) {
+        context.getTimerService().createTimer(miliseconds, userID);
+    }
+
+    @Timeout
+    private void revertPrivilegeLevel(Timer timer) {
+        Long id = (Long) timer.getInfo();
+        System.out.println("Revert privilege of user with id: " + id);
+        Users user = usersFacade.find(id);
+        PriviligeLevels level = priviligeLevelsFacade.getPrivligeLevelsEntityByLevelValue(user.getPriviligeLevel().getPriviligeLevel() + 1);
+        user.setPriviligeLevel(level);
+        usersFacade.edit(user);
     }
 }
