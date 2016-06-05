@@ -17,6 +17,7 @@ import pl.polsl.reservations.ejb.dao.*;
 import pl.polsl.reservations.ejb.local.PrivilegeLevelRequestsQueue;
 import pl.polsl.reservations.ejb.local.PrivilegeLevelRequestsQueueImpl;
 import pl.polsl.reservations.ejb.local.UserContext;
+import pl.polsl.reservations.ejb.timer.TimerSession;
 import pl.polsl.reservations.entities.Departaments;
 import pl.polsl.reservations.entities.Institutes;
 import pl.polsl.reservations.entities.PriviligeLevels;
@@ -370,6 +371,10 @@ public class UserManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
 
         Users u = usersFacade.find(pr.getUserID());
         changePrivilegeLevel(u.getUsername(), pr.getPrivilegeLevel());
+        
+        //TODO
+        TimerSession timerSession;
+        
         return true;
     }
 
