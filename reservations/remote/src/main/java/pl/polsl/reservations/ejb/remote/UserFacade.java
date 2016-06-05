@@ -1,5 +1,6 @@
 package pl.polsl.reservations.ejb.remote;
 
+import java.util.List;
 import javax.ejb.Remote;
 import pl.polsl.reservations.dto.PrivilegeLevelDTO;
 import pl.polsl.reservations.dto.UserDTO;
@@ -31,4 +32,6 @@ public interface UserFacade extends AbstractBusinessFacade{
     public boolean requestHigherPrivilegeLevel(String reason);
     
     public boolean isRequestingHigherPrivilegeLevel();
+    
+    public List<UserDTO> getUsersWithLowerPrivilegeLevel();
 }

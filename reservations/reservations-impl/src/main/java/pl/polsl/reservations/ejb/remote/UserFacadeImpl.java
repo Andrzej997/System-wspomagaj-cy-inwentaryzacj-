@@ -1,5 +1,6 @@
 package pl.polsl.reservations.ejb.remote;
 
+import java.util.ArrayList;
 import pl.polsl.reservations.privileges.PrivilegeLevelEnum;
 import java.util.List;
 import java.util.Objects;
@@ -195,8 +196,9 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
 
     @Override
     public boolean requestHigherPrivilegeLevel(String reason) {
-        if( user == null)
+        if (user == null) {
             return false;
+        }
         PrivilegeLevelDTO obtainablePrivilegeLevel = getObtainablePrivilegeLevel();
         if (obtainablePrivilegeLevel == null) {
             return false;
@@ -204,9 +206,9 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
         if (isRequestingHigherPrivilegeLevel()) {
             return false;
         }
-        PrivilegeRequest pr = new PrivilegeRequest(obtainablePrivilegeLevel.getPrivilegeLevel(), 
+        PrivilegeRequest pr = new PrivilegeRequest(obtainablePrivilegeLevel.getPrivilegeLevel(),
                 user.getId(), reason);
-        return levelRequestsQueue.addRequest(pr);        
+        return levelRequestsQueue.addRequest(pr);
     }
 
     @Override
@@ -217,5 +219,23 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
         Long level = getObtainablePrivilegeLevel().getPrivilegeLevel();
         PrivilegeRequest pr = new PrivilegeRequest(level, user.getId(), "");
         return levelRequestsQueue.findRequest(pr);
+    }
+
+    @Override
+    public List<UserDTO> getUsersWithLowerPrivilegeLevel() {
+        if (user == null) {
+            return null;
+        }
+        List<UserDTO> userList = new ArrayList<>();
+        List<Users> users = usersFacade.findAll();
+        for (Users u : users) {
+            if(u.getPriviligeLevel().getPriviligeLevel() > user.getPriviligeLevel().getPriviligeLevel()
+                    && u.getPriviligeLevel().getPriviligeLevel() < PrivilegeLevelEnum.STANDARD_USER.getValue())
+            userList.add(DTOBuilder.buildUserDTO(user, user.getWorkers()));    
+        }
+        if(userList.isEmpty())
+            return null;
+        else
+            return userList;
     }
 }
