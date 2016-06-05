@@ -29,6 +29,9 @@ public class AddEditUserViewMediator {
     public AddEditUserView createView(MainView view, boolean editUser) {
         addEditUserView = new AddEditUserView(view, editUser, this);
         setDepartaments();
+        if(editUser){
+            getSelectedUserData();
+        }
         return addEditUserView;
     }
 

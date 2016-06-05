@@ -186,7 +186,7 @@ public class MainView extends JFrame {
 
     private void editUserActionPerformed(ActionEvent evt) {
         if (isLoggedIn) {
-            FrameStyle.dialogStyle(new AddEditUserViewMediator().createView(this, false), "Edit user");
+            FrameStyle.dialogStyle(new AddEditUserViewMediator().createView(this, true), "Edit user");
         }
     }
 
