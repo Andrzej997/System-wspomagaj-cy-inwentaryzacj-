@@ -228,12 +228,14 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
         if (user == null) {
             return null;
         }
+        if (user.getPriviligeLevel().getPriviligeLevel() >= PrivilegeLevelEnum.STANDARD_USER.getValue()) {
+            return null;
+        }
         List<UserDTO> userList = new ArrayList<>();
         List<Users> users = usersFacade.findAll();
         for (Users u : users) {
-            if (u.getPriviligeLevel().getPriviligeLevel() > user.getPriviligeLevel().getPriviligeLevel()
-                    && u.getPriviligeLevel().getPriviligeLevel() < PrivilegeLevelEnum.STANDARD_USER.getValue()) {
-                userList.add(DTOBuilder.buildUserDTO(user, user.getWorkers()));
+            if (u.getPriviligeLevel().getPriviligeLevel() > user.getPriviligeLevel().getPriviligeLevel()) {
+                userList.add(DTOBuilder.buildUserDTO(u, u.getWorkers()));
             }
         }
         if (userList.isEmpty()) {
