@@ -18,7 +18,6 @@ public class LoginView extends JPanel {
     private final MainView window;
 
     private JButton loginButton;
-    private JButton registerButton;
     private JButton guestButton;
     private JFormattedTextField loginEditText;
     private JLabel loginLabel;
@@ -53,7 +52,6 @@ public class LoginView extends JPanel {
 
         JPanel navLayout = new JPanel(new BorderLayout());
         navLayout.add(loginButton, BorderLayout.NORTH);
-        navLayout.add(registerButton, BorderLayout.CENTER);
         navLayout.add(guestButton, BorderLayout.SOUTH);
 
         JPanel dataLayout = new JPanel(new BorderLayout());
@@ -99,7 +97,6 @@ public class LoginView extends JPanel {
         loginLabel = new JLabel();
         passwordLabel = new JLabel();
         loginButton = new JButton();
-        registerButton = new JButton();
         guestButton = new JButton();
     }
 
@@ -130,16 +127,6 @@ public class LoginView extends JPanel {
     }
 
     private void initButtons() {
-
-        registerButton.addActionListener((java.awt.event.ActionEvent evt) -> {
-            onClickRegister(evt);
-        });
-        try {
-            Image img = ImageIO.read(getClass().getResource("/resources/register.png"));
-            ButtonStyle.setStyle(registerButton, img);
-        } catch (IOException ex) {
-            System.out.println("RESOURCE ERROR: " + ex.toString());
-        }
 
         guestButton.addActionListener((java.awt.event.ActionEvent evt) -> {
             onClickGuest(evt);
@@ -190,10 +177,6 @@ public class LoginView extends JPanel {
 
     public JButton getLoginButton() {
         return loginButton;
-    }
-
-    public JButton getRegisterButton() {
-        return registerButton;
     }
 
     public JButton getGuestButton() {

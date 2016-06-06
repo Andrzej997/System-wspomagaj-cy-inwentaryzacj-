@@ -8,17 +8,14 @@ import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Properties;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import org.jdatepicker.impl.JDatePanelImpl;
-import org.jdatepicker.impl.JDatePickerImpl;
-import org.jdatepicker.impl.UtilDateModel;
 import pl.polsl.reservations.client.mediators.WeekDataViewMediator;
 import pl.polsl.reservations.client.views.renderers.WeekCustomRenderer;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
-import pl.polsl.reservations.client.views.utils.DateLabelFormatter;
+import pl.polsl.reservations.client.views.utils.WeekDateFormatter;
+import pl.polsl.reservations.client.views.utils.DatePicker;
 import pl.polsl.reservations.client.views.utils.PanelStyle;
 import pl.polsl.reservations.client.views.utils.RoomComboBox;
 
@@ -38,12 +35,10 @@ public class WeekDataView extends JPanel {
     private JButton calendarBtn;
     private Calendar startDate;
     private Calendar endDate;
-    private JDatePanelImpl datePanel;
-    private JDatePickerImpl datePicker;
     private final Object selectedItem;
-    private UtilDateModel model;
     private SimpleDateFormat dateFormat;
     private final transient WeekDataViewMediator weekDataViewMediator;
+    private DatePicker datePicker;
 
     public WeekDataView(MainView window, Object selectedItem,
             WeekDataViewMediator weekDataViewMediator) {
@@ -60,20 +55,14 @@ public class WeekDataView extends JPanel {
         prevBtn = new JButton();
         calendarBtn = new JButton();
         planTable = new JTable();
+        datePicker = DatePicker.getInstance();
 
-        model = new UtilDateModel();
-        Properties p = new Properties();
-        p.put("text.today", "Today");
-        p.put("text.month", "Month");
-        p.put("text.year", "Year");
         startDate = Calendar.getInstance();
         startDate.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         endDate = Calendar.getInstance();
         endDate.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-        dateFormat = new DateLabelFormatter().dateFormatter;
-        datePanel = new JDatePanelImpl(model, p);
-        datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
-        PanelStyle.setSize(datePanel, 220, 200);
+        dateFormat = new WeekDateFormatter().dateFormatter;
+       
         setDateText();
         //TODO - logika zmiany tygodnia
         try {
@@ -94,7 +83,7 @@ public class WeekDataView extends JPanel {
             onClickBtnNext(e);
         });
         
-        datePicker.addActionListener((ActionEvent e) -> {
+        datePicker.getDatePicker().addActionListener((ActionEvent e) -> {
             datePickerChange(e);
         });
         
@@ -274,30 +263,6 @@ public class WeekDataView extends JPanel {
 
     public void setEndDate(Calendar endDate) {
         this.endDate = endDate;
-    }
-
-    public JDatePanelImpl getDatePanel() {
-        return datePanel;
-    }
-
-    public void setDatePanel(JDatePanelImpl datePanel) {
-        this.datePanel = datePanel;
-    }
-
-    public JDatePickerImpl getDatePicker() {
-        return datePicker;
-    }
-
-    public void setDatePicker(JDatePickerImpl datePicker) {
-        this.datePicker = datePicker;
-    }
-
-    public UtilDateModel getModel() {
-        return model;
-    }
-
-    public void setModel(UtilDateModel model) {
-        this.model = model;
     }
 
     public SimpleDateFormat getDateFormat() {

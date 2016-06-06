@@ -9,7 +9,7 @@ import javax.swing.JFormattedTextField.AbstractFormatter;
  *
  * @author abienioszek
  */
-public class DateLabelFormatter extends AbstractFormatter {
+public class WeekDateFormatter extends AbstractFormatter {
 
     private static final long serialVersionUID = 775833091532800553L;
 
@@ -35,6 +35,4 @@ public class DateLabelFormatter extends AbstractFormatter {
         }
         return result;
     }
-
-
 }

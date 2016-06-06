@@ -35,6 +35,17 @@ public class RoomComboBox extends JPanel implements ActionListener {
         add(subComboBox, BorderLayout.EAST);
         previouslySelectedRoom = null;
     }
+    
+    public RoomComboBox(){
+         mainComboBox = new JComboBox();
+        mainComboBox.addActionListener(this);
+        add(mainComboBox, BorderLayout.WEST);
+        subComboBox = new JComboBox();
+        subComboBox.setPrototypeDisplayValue("XXXXXXXXXX");
+        subComboBox.addActionListener(this);
+        add(subComboBox, BorderLayout.EAST);
+        previouslySelectedRoom = null;
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
