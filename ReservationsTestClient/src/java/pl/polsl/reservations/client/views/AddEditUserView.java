@@ -20,6 +20,7 @@ import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 import pl.polsl.reservations.client.mediators.AddEditUserViewMediator;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
+import pl.polsl.reservations.client.views.utils.NumberFormatUtils;
 import pl.polsl.reservations.client.views.utils.PanelStyle;
 import pl.polsl.reservations.client.views.utils.ValidationErrorMessanger;
 
@@ -192,15 +193,12 @@ public class AddEditUserView extends JPanel {
 
         okButton = new JButton();
         okButton.addActionListener((ActionEvent e) -> {
+            if (!validateFields()) {
+                return;
+            }
             if (editUser) {
-                if (this.nameTf.getText().isEmpty()) {
-                    ValidationErrorMessanger.showErrorMessage(this.nameTf, "Name field cannot be empty");
-                } else {
-                    addEditUserViewMediator.onChangeUserData();
-                }
+                addEditUserViewMediator.onChangeUserData();
             } else {
-
-                //TODO metoda waliduj¹ca pola
                 addEditUserViewMediator.onAddUser();
             }
         });
@@ -231,6 +229,75 @@ public class AddEditUserView extends JPanel {
         };
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "escape");
         actionMap.put("escape", escapeAction);
+    }
+
+    private Boolean validateFields() {
+        Boolean validationFlag = true;
+        if (editUser) {
+            if (NumberFormatUtils.isInteger(phoneTf.getText())) {
+                ValidationErrorMessanger.showErrorMessage(phoneTf, "Phone is not a number");
+                validationFlag = false;
+            }
+            if (addressTf.getText().isEmpty()) {
+                ValidationErrorMessanger.showErrorMessage(addressTf, "Address field cannot be empty");
+                validationFlag = false;
+            }
+            if (emailTf.getText().isEmpty()) {
+                ValidationErrorMessanger.showErrorMessage(emailTf, "Email field cannot be empty");
+                validationFlag = false;
+            }
+            if (nameTf.getText().isEmpty()) {
+                ValidationErrorMessanger.showErrorMessage(nameTf, "Name field cannot be empty");
+                validationFlag = false;
+            }
+            if (phoneTf.getText().isEmpty()) {
+                ValidationErrorMessanger.showErrorMessage(phoneTf, "Phone field cannot be empty");
+                validationFlag = false;
+            }
+            if (surnameTf.getText().isEmpty()) {
+                ValidationErrorMessanger.showErrorMessage(surnameTf, "Surname field cannot be empty");
+                validationFlag = false;
+            }
+
+        } else {
+            if (addressTf.getText().isEmpty()) {
+                ValidationErrorMessanger.showErrorMessage(addressTf, "Address field cannot be empty");
+                validationFlag = false;
+            }
+            if (emailTf.getText().isEmpty()) {
+                ValidationErrorMessanger.showErrorMessage(emailTf, "Email field cannot be empty");
+                validationFlag = false;
+            }
+            if (nameTf.getText().isEmpty()) {
+                ValidationErrorMessanger.showErrorMessage(nameTf, "Name field cannot be empty");
+                validationFlag = false;
+            }
+            if (phoneTf.getText().isEmpty()) {
+                ValidationErrorMessanger.showErrorMessage(peselTf, "Phone field cannot be empty");
+                validationFlag = false;
+            }
+            if (NumberFormatUtils.isInteger(phoneTf.getText())) {
+                ValidationErrorMessanger.showErrorMessage(phoneTf, "Phone is not a number");
+                validationFlag = false;
+            }
+            if (surnameTf.getText().isEmpty()) {
+                ValidationErrorMessanger.showErrorMessage(surnameTf, "Surname field cannot be empty");
+                validationFlag = false;
+            }
+            if (gradeTf.getText().isEmpty()) {
+                ValidationErrorMessanger.showErrorMessage(gradeTf, "Grade field cannot be empty");
+                validationFlag = false;
+            }
+            if (peselTf.getText().isEmpty()) {
+                ValidationErrorMessanger.showErrorMessage(peselTf, "Pesel field cannot be empty");
+                validationFlag = false;
+            }
+            if (usernameTf.getText().isEmpty()) {
+                ValidationErrorMessanger.showErrorMessage(usernameTf, "Username field cannot be empty");
+                validationFlag = false;
+            }
+        }
+        return validationFlag;
     }
 
     /**
@@ -618,16 +685,4 @@ public class AddEditUserView extends JPanel {
     public void setWindow(MainView window) {
         this.window = window;
     }
-    
-    public Boolean validateFields(){
-        if(editUser){
-            if(addressTf.getText().isEmpty()){
-                
-            }
-        } else {
-            
-        }
-        return true;
-    }
-
 }

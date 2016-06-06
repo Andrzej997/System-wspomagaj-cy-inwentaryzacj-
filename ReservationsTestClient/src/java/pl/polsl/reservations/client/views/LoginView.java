@@ -10,6 +10,7 @@ import pl.polsl.reservations.client.ClientContext;
 import pl.polsl.reservations.client.mediators.LoginMediator;
 import pl.polsl.reservations.client.mediators.WeekDataViewMediator;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
+import pl.polsl.reservations.client.views.utils.ValidationErrorMessanger;
 
 public class LoginView extends JPanel {
 
@@ -70,6 +71,9 @@ public class LoginView extends JPanel {
 
     private void onClickLogin(java.awt.event.ActionEvent evt) {
         if (passwordEditText.getText().length() > 0 && loginEditText.getText().length() > 0) {
+            if(!validateAll()){
+                return;
+            }
             if (loginMediator.getUserData(loginEditText.getText(), passwordEditText.getText())) {
                 window.setOptionsAvailable(Color.black);
                 ClientContext.setUsername(loginEditText.getText());
@@ -119,6 +123,9 @@ public class LoginView extends JPanel {
         passwordLabel.setText("Password: ");
 
         loginButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+            if(!validateAll()){
+                return;
+            }
             onClickLogin(evt);
         });
         try {
@@ -157,7 +164,7 @@ public class LoginView extends JPanel {
         InputMap inputMap = this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         ActionMap actionMap = this.getActionMap();
 
-         AbstractAction loginAction = new AbstractAction() {
+        AbstractAction loginAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 LoginView.this.onClickLogin(e);
@@ -182,6 +189,15 @@ public class LoginView extends JPanel {
         actionMap.put("login", loginAction);
         actionMap.put("guestLogin", guestLoginAction);
         actionMap.put("escape", escapeAction);
+    }
+
+    private Boolean validateAll() {
+        Boolean validationFlag = true;
+        if (loginEditText.getText().isEmpty()) {
+            ValidationErrorMessanger.showErrorMessage(loginEditText, "Username field cannot be empty");
+            validationFlag = false;
+        }
+        return validationFlag;
     }
 
     public MainView getWindow() {

@@ -9,6 +9,7 @@ import javax.swing.event.EventListenerList;
 import pl.polsl.reservations.client.mediators.AddEditViewMediator;
 import pl.polsl.reservations.client.mediators.SearchViewMediator;
 import pl.polsl.reservations.client.views.utils.PanelStyle;
+import pl.polsl.reservations.client.views.utils.ValidationErrorMessanger;
 
 /**
  *
@@ -70,8 +71,8 @@ public class AddEditView extends JPanel {
         add(okButton, BorderLayout.SOUTH);
         keyInputDispatcher();
     }
-    
-    private void initListeners(){
+
+    private void initListeners() {
         roomCb.addActionListener((ActionEvent e) -> {
             addEditViewMediator.getReservations();
         });
@@ -87,9 +88,12 @@ public class AddEditView extends JPanel {
         searchPanel = new SearchViewMediator().createView(window);
         okButton = new JButton();
         okButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+            if(!validateAll()){
+                return;
+            }
             onOkClick(evt);
         });
-        dayTable = new JTable(new DayTableModel(32,3));
+        dayTable = new JTable(new DayTableModel(32, 3));
         dayTablePanel.add(new JScrollPane(dayTable));
         roomCb = new JComboBox();
         dateCb = new JComboBox();
@@ -151,13 +155,13 @@ public class AddEditView extends JPanel {
     private void setDataHourCb() {
         Integer hour = 0;
         Integer quarter = 0;
-        for(int i = 0; i< 96; i++){
-            hour = i/4;
-            quarter = (i % 4)*15;
+        for (int i = 0; i < 96; i++) {
+            hour = i / 4;
+            quarter = (i % 4) * 15;
             String hourString = hour.toString() + ":";
-            if(quarter == 0){
+            if (quarter == 0) {
                 hourString += "00";
-            } else{
+            } else {
                 hourString += quarter.toString();
             }
             hourStartCb.addItem(hourString);
@@ -181,6 +185,15 @@ public class AddEditView extends JPanel {
         };
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "escape");
         actionMap.put("escape", escapeAction);
+    }
+
+    private Boolean validateAll() {
+        Boolean validationFlag = true;
+        if (titleTf.getText().isEmpty()) {
+            ValidationErrorMessanger.showErrorMessage(titleTf, "Reservation title field cannot be empty");
+            validationFlag = false;
+        }
+        return validationFlag;
     }
 
     public MainView getWindow() {

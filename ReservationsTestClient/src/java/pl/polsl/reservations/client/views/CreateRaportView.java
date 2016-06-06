@@ -20,7 +20,9 @@ import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 import pl.polsl.reservations.client.mediators.CreateReportViewMediator;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
+import pl.polsl.reservations.client.views.utils.NumberFormatUtils;
 import pl.polsl.reservations.client.views.utils.PanelStyle;
+import pl.polsl.reservations.client.views.utils.ValidationErrorMessanger;
 
 /**
  *
@@ -57,7 +59,7 @@ public class CreateRaportView extends JPanel {
     private JPanel labelPanel;
 
     private JButton okButton;
-    
+
     private final CreateReportViewMediator createReportViewMediator;
 
     public CreateRaportView(MainView window, int option, CreateReportViewMediator createReportViewMediator) {
@@ -103,10 +105,13 @@ public class CreateRaportView extends JPanel {
         add(mainPanel);
         add(okButton);
     }
-    
-    private void setupListeners(){
-        okButton.addActionListener((ActionEvent e) ->{
-            switch(option){
+
+    private void setupListeners() {
+        okButton.addActionListener((ActionEvent e) -> {
+            if (!validateAll()) {
+                return;
+            }
+            switch (option) {
                 case 1:
                     createReportViewMediator.onAddRoom();
                     break;
@@ -119,7 +124,7 @@ public class CreateRaportView extends JPanel {
                 case 4:
                     createReportViewMediator.onAddType();
                     break;
-            } 
+            }
         });
     }
 
@@ -214,6 +219,81 @@ public class CreateRaportView extends JPanel {
         };
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "escape");
         actionMap.put("escape", escapeAction);
+    }
+
+    private Boolean validateAll() {
+        Boolean validationFlag = true;
+        switch (option) {
+            case 1:
+                validationFlag = validateAddRoom();
+                break;
+            case 2:
+                validationFlag = validateAddDevice();
+                break;
+            case 3:
+                validationFlag = validateAddState();
+                break;
+            case 4:
+                validationFlag = validateAddType();
+                break;
+        }
+        return validationFlag;
+    }
+
+    private Boolean validateAddRoom() {
+        Boolean validationFlag = true;
+        if (NumberFormatUtils.isInteger(numberTf.getText())) {
+            ValidationErrorMessanger.showErrorMessage(numberTf, "Number of seats is not a number");
+            validationFlag = false;
+        }
+        if (roomIdTf.getText().isEmpty()) {
+            ValidationErrorMessanger.showErrorMessage(roomIdTf, "Room field cannot be empty");
+            validationFlag = false;
+        }
+        if (numberTf.getText().isEmpty()) {
+            ValidationErrorMessanger.showErrorMessage(numberTf, "Number of seats field cannot be empty");
+            validationFlag = false;
+        }
+        return validationFlag;
+    }
+
+    private Boolean validateAddDevice() {
+        Boolean validationFlag = true;
+        if (NumberFormatUtils.isInteger(numberTf.getText())) {
+            ValidationErrorMessanger.showErrorMessage(numberTf, "Equipment quantity is not a number");
+            validationFlag = false;
+        }
+        if (nameTf.getText().isEmpty()) {
+            ValidationErrorMessanger.showErrorMessage(nameTf, "Equipment name field cannot be empty");
+            validationFlag = false;
+        }
+        if (numberTf.getText().isEmpty()) {
+            ValidationErrorMessanger.showErrorMessage(numberTf, "Equipment quantity field cannot be empty");
+            validationFlag = false;
+        }
+        return validationFlag;
+    }
+
+    private Boolean validateAddState() {
+        Boolean validationFlag = true;
+        if (nameTf.getText().isEmpty()) {
+            ValidationErrorMessanger.showErrorMessage(nameTf, "State name field cannot be empty");
+            validationFlag = false;
+        }
+        return validationFlag;
+    }
+
+    private Boolean validateAddType() {
+        Boolean validationFlag = true;
+        /* if (nameTf.getText().isEmpty()) {
+            ValidationErrorMessanger.showErrorMessage(nameTf, "Equipment name field cannot be empty");
+            validationFlag = false;
+        }
+        if (numberTf.getText().isEmpty()) {
+            ValidationErrorMessanger.showErrorMessage(numberTf, "Equipment quantity field cannot be empty");
+            validationFlag = false;
+        }*/
+        return validationFlag;
     }
 
     public MainView getWindow() {

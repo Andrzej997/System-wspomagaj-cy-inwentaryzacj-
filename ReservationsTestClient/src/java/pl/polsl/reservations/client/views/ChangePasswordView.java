@@ -22,6 +22,7 @@ import jdk.nashorn.internal.scripts.JO;
 import pl.polsl.reservations.client.mediators.ChangePasswordViewMediator;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
 import pl.polsl.reservations.client.views.utils.PanelStyle;
+import pl.polsl.reservations.client.views.utils.ValidationErrorMessanger;
 
 /**
  *
@@ -47,7 +48,7 @@ public class ChangePasswordView extends JPanel {
     private JPanel mainPanel;
 
     private final ChangePasswordViewMediator changePasswordViewMediator;
-    
+
     public ChangePasswordView(MainView window, ChangePasswordViewMediator changePasswordViewMediator) {
         this.window = window;
         this.changePasswordViewMediator = changePasswordViewMediator;
@@ -106,7 +107,10 @@ public class ChangePasswordView extends JPanel {
         labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS));
         dataPanel.setLayout(new BoxLayout(dataPanel, BoxLayout.Y_AXIS));
         okButton.addActionListener((ActionEvent e) -> {
-            if(!new1Tf.getText().equals(new2Tf.getText())){
+            if (!validateAll()) {
+                return;
+            }
+            if (!new1Tf.getText().equals(new2Tf.getText())) {
                 JOptionPane.showMessageDialog(this, "Error !!! \n Second password is not the same as first");
             } else if (!changePasswordViewMediator.onChangePassword()) {
                 JOptionPane.showMessageDialog(this, "Error !!! \n Old password is invalid");
@@ -129,6 +133,23 @@ public class ChangePasswordView extends JPanel {
         };
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "escape");
         actionMap.put("escape", escapeAction);
+    }
+
+    private Boolean validateAll() {
+        Boolean validationFlag = true;
+        if (oldTf.getText().isEmpty()) {
+            ValidationErrorMessanger.showErrorMessage(oldTf, "Old password field cannot be empty");
+            validationFlag = false;
+        }
+        if (new1Tf.getText().isEmpty()) {
+            ValidationErrorMessanger.showErrorMessage(new1Tf, "New password field cannot be empty");
+            validationFlag = false;
+        }
+        if (new2Tf.getText().isEmpty()) {
+            ValidationErrorMessanger.showErrorMessage(new2Tf, "Confirmation field cannot be empty");
+            validationFlag = false;
+        }
+        return validationFlag;
     }
 
     public JLabel getOldLabel() {
@@ -218,5 +239,4 @@ public class ChangePasswordView extends JPanel {
     public void setWindow(MainView window) {
         this.window = window;
     }
-
 }
