@@ -85,7 +85,7 @@ public class AddEditViewMediator {
             if (dayOfWeek == 1) {
                 dayOfWeek = 7;
             } else {
-                dayOfWeek--;
+                dayOfWeek-=2;
             }
             if (startDay == (int) dayOfWeek) {
                 startQuarters.add(numberOfStartQuarter);
