@@ -69,6 +69,7 @@ public class CreateRaportView extends JPanel {
         setupSize();
         setupButton();
         setupView();
+        setupListeners();
     }
 
     private void setupView() {
@@ -101,6 +102,25 @@ public class CreateRaportView extends JPanel {
         mainPanel.add(dataPanel);
         add(mainPanel);
         add(okButton);
+    }
+    
+    private void setupListeners(){
+        okButton.addActionListener((ActionEvent e) ->{
+            switch(option){
+                case 1:
+                    createReportViewMediator.onAddRoom();
+                    break;
+                case 2:
+                    createReportViewMediator.onAddDevice();
+                    break;
+                case 3:
+                    createReportViewMediator.onAddState();
+                    break;
+                case 4:
+                    createReportViewMediator.onAddType();
+                    break;
+            } 
+        });
     }
 
     private void setupButton() {

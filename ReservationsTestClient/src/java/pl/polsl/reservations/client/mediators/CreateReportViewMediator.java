@@ -6,6 +6,8 @@ import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.views.CreateRaportView;
 import pl.polsl.reservations.client.views.MainView;
 import pl.polsl.reservations.dto.DepartamentDTO;
+import pl.polsl.reservations.dto.EquipmentStateDTO;
+import pl.polsl.reservations.dto.EquipmentTypeDTO;
 import pl.polsl.reservations.dto.RoomDTO;
 import pl.polsl.reservations.dto.UserDTO;
 import pl.polsl.reservations.ejb.remote.RoomManagementFacade;
@@ -32,10 +34,23 @@ public class CreateReportViewMediator {
 
     public CreateRaportView createView(MainView view, int option) {
         createRaportView = new CreateRaportView(view, option, this);
+        switch (option) {
+            case 1:
+                setAddRoomData();
+                break;
+            case 2:
+                setDeviceData();
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+        }
+
         return createRaportView;
     }
 
-    public void setAddRoomData() {
+    private void setAddRoomData() {
         List<DepartamentDTO> departamentsList = userManagementFacade.getAllDepartaments();
         for (DepartamentDTO departament : departamentsList) {
             createRaportView.getDepartmentCb().addItem(departament.getName());
@@ -66,7 +81,40 @@ public class CreateReportViewMediator {
         roomDTO.setDepartment(departament);
         roomDTO.setNumber(Integer.parseInt(roomNumber));
         roomDTO.setType("TODO");
-        roomDTO.setKeeper("dzik");
+        UserDTO keeper = keepersList.get(keeperIndex);
+        roomDTO.setKeeper(keeper.getId().toString());
+    }
+
+    private void setDeviceData() {
+        List<EquipmentStateDTO> equipmentStates = roomManagementFacade.getEquipmentStates();
+        List<EquipmentTypeDTO> equipmentTypes = roomManagementFacade.getEquipmentTypes();
+        for (EquipmentStateDTO equipmentState : equipmentStates) {
+            createRaportView.getStateCb().addItem(equipmentState.getDescription());
+        }
+        for (EquipmentTypeDTO equipmentType : equipmentTypes) {
+            createRaportView.getTypeCb().addItem(equipmentType.getDescription());
+        }
+    }
+
+    public void onAddDevice() {
+        List<EquipmentStateDTO> equipmentStates = roomManagementFacade.getEquipmentStates();
+        List<EquipmentTypeDTO> equipmentTypes = roomManagementFacade.getEquipmentTypes();
+        Integer selectedTypeIndex = createRaportView.getTypeCb().getSelectedIndex();
+        Integer selectedStateIndex = createRaportView.getStateCb().getSelectedIndex();
+        EquipmentStateDTO selectedState = equipmentStates.get(selectedStateIndex);
+        EquipmentTypeDTO selectedType = equipmentTypes.get(selectedTypeIndex);
+        String equipmentQuantityString = createRaportView.getNumberTf().getText();
+        String equipmentName = createRaportView.getNameTf().getText();
+        Integer equipmentQuantity = Integer.parseInt(equipmentQuantityString);
+        //roomManagementFacade.addEquipment(0, equipmentName, 0, 0, 0);
+    }
+    
+    public void onAddState(){
+        String newState = createRaportView.getNameTf().getText();
+        roomManagementFacade.addEquipmentState(newState);
+    }
+    
+    public void onAddType(){
     }
 
 }
