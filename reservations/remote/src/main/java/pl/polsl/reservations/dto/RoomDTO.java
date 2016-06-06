@@ -15,17 +15,17 @@ public class RoomDTO implements Serializable {
 
     private String department;
 
-    private String keeper;
+    private Long keeperId;
 
     private String type;
 
     private Integer numberOfSeats;
 
-    public RoomDTO(Long id, Integer number, String department, String keeper, String type, Integer numberOfSeats) {
+    public RoomDTO(Long id, Integer number, String department, Long keeperId, String type, Integer numberOfSeats) {
         this.id = id;
         this.number = number;
         this.department = department;
-        this.keeper = keeper;
+        this.keeperId = keeperId;
         this.type = type;
         this.numberOfSeats = numberOfSeats;
     }
@@ -58,12 +58,12 @@ public class RoomDTO implements Serializable {
         this.department = department;
     }
 
-    public String getKeeper() {
-        return keeper;
+    public Long getKeeperId() {
+        return keeperId;
     }
 
-    public void setKeeper(String keeper) {
-        this.keeper = keeper;
+    public void setKeeperId(Long keeperId) {
+        this.keeperId = keeperId;
     }
 
     public String getType() {
