@@ -144,13 +144,13 @@ public class WeekDataView extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
-                    Integer column = planTable.getSelectedColumn();
+                    Integer column = planTable.columnAtPoint(e.getPoint());
                     if (column != 0) {
                         Calendar cal = startDate;
                         cal.add(Calendar.DATE, column - 1);
                         // if (row == 0) {
 
-                        window.setView(new DayDataViewMediator().createView(window, cal.get(Calendar.DAY_OF_WEEK))); //sprawdziæ czy dobry dzieñ tygodnia
+                        window.setView(new DayDataViewMediator().createView(window, cal)); //sprawdziæ czy dobry dzieñ tygodnia
                         //} else {
                         //    new AddEditViewMediator().createView(window);
                         // }

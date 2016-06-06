@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.Calendar;
 import javax.swing.*;
 import pl.polsl.reservations.client.mediators.DayDataViewMediator;
 import pl.polsl.reservations.client.mediators.WeekDataViewMediator;
@@ -19,8 +20,8 @@ public class DayDataView extends javax.swing.JPanel {
 
     private static final long serialVersionUID = 649020928680112340L;
 
-    MainView window;
-    Object date;
+    private final MainView window;
+    private final Calendar date;
 
     private JComboBox chooseRoomDropdown;
     private JButton chooseButton;
@@ -32,9 +33,9 @@ public class DayDataView extends javax.swing.JPanel {
 
     private final transient DayDataViewMediator dayDataViewMediator;
 
-    public DayDataView(MainView window, Object i, DayDataViewMediator dayDataViewMediator) {
+    public DayDataView(MainView window, Calendar date, DayDataViewMediator dayDataViewMediator) {
         this.window = window;
-        this.date = i;
+        this.date = date;
         this.dayDataViewMediator = dayDataViewMediator;
         initComponents();
 
@@ -125,7 +126,7 @@ public class DayDataView extends javax.swing.JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            window.setView(new DayDataViewMediator().createView(window, index));
+            window.setView(new DayDataViewMediator().createView(window, date));
         }
     }
 

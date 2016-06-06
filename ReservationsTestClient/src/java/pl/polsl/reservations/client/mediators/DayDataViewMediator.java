@@ -3,6 +3,7 @@ package pl.polsl.reservations.client.mediators;
 import java.awt.Color;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -28,7 +29,7 @@ public class DayDataViewMediator {
     private final ScheduleFacade scheduleFacade;
     private final RoomManagementFacade roomManagementFacade;
     private final UserManagementFacade userManagementFacade;
-    private Object date;
+    private Calendar date;
     private DayDataView dayDataView;
     private HashMap<Color, List<Integer>> reservationCellsRendererMap;
     private List<Integer> startQuarters;
@@ -41,7 +42,7 @@ public class DayDataViewMediator {
         reservationCellsRendererMap = new HashMap<>();
     }
 
-    public DayDataView createView(MainView parent, Object date) {
+    public DayDataView createView(MainView parent, Calendar date) {
         dayDataView = new DayDataView(parent, date, this);
 
         this.date = date;
@@ -56,16 +57,51 @@ public class DayDataViewMediator {
         reservationCellsRendererMap = new HashMap<>();
         startQuarters = new ArrayList<>();
         endQuarters = new ArrayList<>();
-        List<ReservationDTO> roomSchedule = scheduleFacade.getRoomSchedule((Integer) dayDataView.getChooseRoomDropdown().getSelectedItem(), 2016, true);
 
         DefaultTableModel defaultTableModel = new DayTableModel(32, 3);
 
+        Calendar calendar = date;
+        int weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
+        int weekOfSemester = 1;
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+
+        boolean semester = true;
+
+        if (month >= 10 || month <= 2) {
+            semester = false;
+            Calendar cal = calendar;
+            cal.set(Calendar.MONTH, Calendar.OCTOBER);
+            cal.set(Calendar.DATE, 1);
+
+            if (month >= 10 && month <= 12) {
+                weekOfSemester = weekOfYear - cal.get(Calendar.WEEK_OF_YEAR) + 1;
+            } else {   //sprawdziæ zachowanie jak sylwester nie jest w niedzielê
+                Calendar calPom = Calendar.getInstance();
+                cal.set(Calendar.YEAR, cal.get(Calendar.YEAR) - 1);
+                calPom.set(Calendar.YEAR, calPom.get(Calendar.YEAR) - 1);
+                calPom.set(Calendar.MONTH, Calendar.DECEMBER);
+                calPom.set(Calendar.DATE, 31);
+
+                weekOfSemester = calPom.get(Calendar.WEEK_OF_YEAR) - cal.get(Calendar.WEEK_OF_YEAR);
+                calPom.set(calendar.get(Calendar.YEAR), Calendar.JANUARY, 1);
+                weekOfSemester += calendar.get(Calendar.WEEK_OF_YEAR) - calPom.get(Calendar.WEEK_OF_YEAR);
+            }
+
+        }
+        List<ReservationDTO> roomSchedule = scheduleFacade.getDetailedRoomSchedule((Integer) dayDataView.getChooseRoomDropdown().getSelectedItem(), calendar.get(Calendar.YEAR), weekOfSemester, semester);
         for (ReservationDTO reservation : roomSchedule) {
             int endDay = reservation.getEndTime() / 96;
             int startDay = reservation.getStartTime() / 96;
             int numberOfEndQuarter = reservation.getEndTime() % 96;
             int numberOfStartQuarter = reservation.getStartTime() % 96;
-            if (startDay == (int) date - 1) {
+            int dayOfWeek = date.get(Calendar.DAY_OF_WEEK);
+            if (dayOfWeek == 1) {
+                dayOfWeek = 7;
+            } else {
+                dayOfWeek -= 2;
+            }
+            if (startDay == (int) dayOfWeek) {
                 startQuarters.add(numberOfStartQuarter);
                 if (numberOfEndQuarter < numberOfStartQuarter) {
                     endQuarters.add(95);

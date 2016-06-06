@@ -83,7 +83,6 @@ public class AddEditViewMediator {
         endQuarters = new ArrayList<>();
 
         Calendar calendar = date;
-        //int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         int weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
         int weekOfSemester = 1;
         int year = calendar.get(Calendar.YEAR);
