@@ -1,7 +1,6 @@
 package pl.polsl.reservations.client.views.utils;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
@@ -21,11 +20,9 @@ public class RoomComboBox extends JPanel {
     
     public RoomComboBox(){
         mainComboBox = new JComboBox();
-        mainComboBox.addActionListener(this);
         add(mainComboBox, BorderLayout.WEST);
         subComboBox = new JComboBox();
         subComboBox.setPrototypeDisplayValue("XXXXXXXXXX");
-        subComboBox.addActionListener(this);
         add(subComboBox, BorderLayout.EAST);
         previouslySelectedRoom = null;
     }

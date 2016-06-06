@@ -3,6 +3,7 @@ package pl.polsl.reservations.client.views;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
@@ -11,6 +12,8 @@ import java.util.Calendar;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import pl.polsl.reservations.client.mediators.AddEditViewMediator;
+import pl.polsl.reservations.client.mediators.DayDataViewMediator;
 import pl.polsl.reservations.client.mediators.WeekDataViewMediator;
 import pl.polsl.reservations.client.views.renderers.WeekCustomRenderer;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
@@ -28,7 +31,7 @@ public class WeekDataView extends JPanel {
     private static final long serialVersionUID = 1354395203575126802L;
 
     MainView window;
-    private JPanel chooseRoomDropdown;
+    private RoomComboBox chooseRoomDropdown;
     private JButton nextBtn;
     private JButton prevBtn;
     private JTable planTable;
@@ -62,7 +65,7 @@ public class WeekDataView extends JPanel {
         endDate = Calendar.getInstance();
         endDate.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
         dateFormat = new WeekDateFormatter().dateFormatter;
-       
+
         setDateText();
         //TODO - logika zmiany tygodnia
         try {
@@ -82,11 +85,11 @@ public class WeekDataView extends JPanel {
         nextBtn.addActionListener((ActionEvent e) -> {
             onClickBtnNext(e);
         });
-        
+
         datePicker.getDatePicker().addActionListener((ActionEvent e) -> {
             datePickerChange(e);
         });
-        
+
         initTable();
         PanelStyle.setSize(this, 800, 600);
         JPanel weekPanel = new JPanel();
@@ -104,6 +107,12 @@ public class WeekDataView extends JPanel {
         add(chooseRoomDropdown);
         add(new JScrollPane(planTable));
         keyInputDispatcher();
+        chooseRoomDropdown.addActionListener((ActionEvent e) -> {
+            if (chooseRoomDropdown.getSelectedItem() != null) {
+                chooseRoomDropdown.onAction();
+                weekDataViewMediator.getReservations();
+            }
+        });
         window.checkPrivileges();
     }
 
@@ -115,14 +124,27 @@ public class WeekDataView extends JPanel {
         planTable = new JTable(dataModel);
         planTable.setDefaultRenderer(Object.class, new WeekCustomRenderer());
 
-        planTable.addMouseListener(new MouseListenerImpl()
-        );
+        planTable.addMouseListener(new MouseListenerImpl());
+        planTable.getTableHeader().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    Integer column = planTable.columnAtPoint(e.getPoint());
+                    if (column != 0) {
+                        Calendar cal = startDate;
+                        cal.add(Calendar.DATE, column - 1);
+                        window.setView(new DayDataViewMediator().createView(window, cal));
+                    }
+                }
+            }
+        });
+
     }
 
-    private void datePickerChange(ActionEvent e){
+    private void datePickerChange(ActionEvent e) {
         weekDataViewMediator.getReservations();
     }
-    
+
     private void onClickBtnNext(ActionEvent e) {
         startDate.set(datePicker.getModel().getYear(),
                 datePicker.getModel().getMonth(),
@@ -135,7 +157,7 @@ public class WeekDataView extends JPanel {
                 startDate.get(Calendar.DATE));
         endDate.add(Calendar.DATE, 6);
         setDateText();
-        
+
         weekDataViewMediator.getReservations();
     }
 
@@ -152,7 +174,7 @@ public class WeekDataView extends JPanel {
                 startDate.get(Calendar.DATE));
         endDate.add(Calendar.DATE, 6);
         setDateText();
-        
+
         weekDataViewMediator.getReservations();
     }
 
@@ -209,11 +231,11 @@ public class WeekDataView extends JPanel {
         this.window = window;
     }
 
-    public JPanel getChooseRoomDropdown() {
+    public RoomComboBox getChooseRoomDropdown() {
         return chooseRoomDropdown;
     }
 
-    public void setChooseRoomDropdown(JPanel chooseRoomDropdown) {
+    public void setChooseRoomDropdown(RoomComboBox chooseRoomDropdown) {
         this.chooseRoomDropdown = chooseRoomDropdown;
     }
 
@@ -309,8 +331,12 @@ public class WeekDataView extends JPanel {
         public void mouseClicked(MouseEvent e) {
             if (e.getClickCount() == 2) {
                 Integer column = planTable.getSelectedColumn();
+                Integer row = planTable.getSelectedRow();
                 if (column != 0) {
-                    
+                    Calendar cal = startDate;
+                    cal.add(Calendar.DATE, column - 1);
+
+                    window.setView(new AddEditViewMediator(cal, chooseRoomDropdown.getSelectedItem()).createView(window));
                 }
 //todo:
             }
@@ -318,22 +344,22 @@ public class WeekDataView extends JPanel {
 
         @Override
         public void mousePressed(MouseEvent e) {
-            
+
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
-            
+
         }
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            
+
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
-            
+
         }
     }
 

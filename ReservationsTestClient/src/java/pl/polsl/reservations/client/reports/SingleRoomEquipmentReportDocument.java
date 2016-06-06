@@ -63,8 +63,8 @@ public class SingleRoomEquipmentReportDocument extends PDFDocument {
             Phrase roomNumber = new Phrase(roomNumberString, BOLD);
             header.add(roomNumber);
             header.add(Chunk.NEWLINE);
-            if (roomDTO.getKeeper() != null) {
-                String roomKeeperString = "Room keeper: " + roomDTO.getKeeper();
+            if (roomDTO.getKeeperId().toString() != null) {
+                String roomKeeperString = "Room keeper: " + roomDTO.getKeeperId().toString();
                 Phrase roomKeeper = new Phrase(roomKeeperString, BOLD);
                 header.add(roomKeeper);
                 header.add(Chunk.NEWLINE);

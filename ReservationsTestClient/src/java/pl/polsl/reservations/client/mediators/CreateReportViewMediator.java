@@ -83,7 +83,7 @@ public class CreateReportViewMediator {
         roomDTO.setNumber(Integer.parseInt(roomNumber));
         roomDTO.setType("TODO");
         UserDTO keeper = keepersList.get(keeperIndex);
-        roomDTO.setKeeper(keeper.getId().toString());
+        roomDTO.setKeeperId(keeper.getId());
     }
 
     private void setDeviceData() {
