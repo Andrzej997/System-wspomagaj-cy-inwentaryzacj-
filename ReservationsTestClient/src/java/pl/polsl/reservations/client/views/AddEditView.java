@@ -299,4 +299,12 @@ public class AddEditView extends JPanel {
         this.listenerList = listenerList;
     }
 
+    public DatePicker getDatepicker() {
+        return datepicker;
+    }
+
+    public void setDatepicker(DatePicker datepicker) {
+        this.datepicker = datepicker;
+    }
+
 }

@@ -13,6 +13,7 @@ import pl.polsl.reservations.client.views.AddEditView;
 import pl.polsl.reservations.client.views.DayTableModel;
 import pl.polsl.reservations.client.views.MainView;
 import pl.polsl.reservations.client.views.renderers.DayCustomRenderer;
+import pl.polsl.reservations.client.views.utils.DatePicker;
 import pl.polsl.reservations.dto.ReservationDTO;
 import pl.polsl.reservations.dto.ReservationTypeDTO;
 import pl.polsl.reservations.dto.RoomDTO;
@@ -55,15 +56,26 @@ public class AddEditViewMediator {
         userManagementFacade = (UserManagementFacade) Lookup.getRemote("UserManagementFacade");
         userFacade = (UserFacade) Lookup.getRemote("UserFacade");
         this.date = date;
+
         this.roomNumber = roomNumber;
     }
 
     public AddEditView createView(MainView parent) {
         addEditView = new AddEditView(parent, this, false);
+
         getRooms();
         getReservations();
         setWorkersData();
         setTargetData();
+
+        DatePicker datePicker = addEditView.getDatepicker();
+
+        datePicker.getModel().setYear(date.get(Calendar.YEAR));
+       datePicker.getModel().setMonth(date.get(Calendar.MONTH));
+        datePicker.getModel().setDay(date.get(Calendar.DATE));
+
+        addEditView.setDatepicker(datePicker);
+
         return addEditView;
     }
 
@@ -190,6 +202,25 @@ public class AddEditViewMediator {
 
     public Integer getStartHourFromView() {
         String selectedHour = (String) addEditView.getHourStartCb().getSelectedItem();
+        for (int i = 0; i < 96; i++) {
+            Integer hour = i / 4;
+            Integer quarter = (i % 4) * 15;
+            String hourString = hour.toString() + ":";
+            if (quarter == 0) {
+                hourString += "00";
+            } else {
+                hourString += quarter.toString();
+            }
+            if (selectedHour.equals(hourString)) {
+                return i;
+            }
+        }
+        return null;
+    }
+
+    public Integer getEndHourFromView() {
+        String selectedHour = (String) addEditView.getHourStopCb().getSelectedItem();
+
         for (int i = 0; i < 96; i++) {
             Integer hour = i / 4;
             Integer quarter = (i % 4) * 15;
