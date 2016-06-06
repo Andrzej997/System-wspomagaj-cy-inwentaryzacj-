@@ -92,6 +92,7 @@ public class DTOBuilder {
         userDTO.setRoomNumber(worker.getRoom().getRoomNumber());
         userDTO.setSurname(worker.getSurname());
         userDTO.setUserName(user.getUsername());
+        userDTO.setGrade(worker.getGrade());
         return userDTO;
     }
 

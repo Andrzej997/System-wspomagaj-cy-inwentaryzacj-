@@ -105,6 +105,7 @@ public class AddEditUserViewMediator {
             user.setSurname(userDetails.getSurname());
         }
         user.setUserName(addEditUserView.getUsernameContentLabel().getText());
+        user.setId(userDetails.getId());
         userFacade.changeUserDetails(user);
     }
 }
