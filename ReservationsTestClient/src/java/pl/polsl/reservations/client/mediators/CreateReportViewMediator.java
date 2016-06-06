@@ -6,6 +6,14 @@ import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.views.CreateRaportView;
 import pl.polsl.reservations.client.views.MainView;
 import pl.polsl.reservations.client.views.utils.AddTypeEnum;
+import pl.polsl.reservations.dto.DepartamentDTO;
+import pl.polsl.reservations.dto.EquipmentStateDTO;
+import pl.polsl.reservations.dto.EquipmentTypeDTO;
+import pl.polsl.reservations.dto.RoomDTO;
+import pl.polsl.reservations.dto.UserDTO;
+import pl.polsl.reservations.ejb.remote.RoomManagementFacade;
+import pl.polsl.reservations.ejb.remote.UserFacade;
+import pl.polsl.reservations.ejb.remote.UserManagementFacade;
 
 /**
  *
@@ -25,18 +33,18 @@ public class CreateReportViewMediator {
         userFacade = (UserFacade) Lookup.getRemote("UserFacade");
     }
 
-    public CreateRaportView createView(MainView view, int option) {
+    public CreateRaportView createView(MainView view, AddTypeEnum option) {
         createRaportView = new CreateRaportView(view, option, this);
         switch (option) {
-            case 1:
+            case ROOM:
                 setAddRoomData();
                 break;
-            case 2:
+            case DEVICE:
                 setDeviceData();
                 break;
-            case 3:
+            case STATE:
                 break;
-            case 4:
+            case TYPE:
                 break;
         }
 

@@ -38,20 +38,6 @@ public class CreateRaportView extends JPanel {
     private final int NORMAL_HEIGHT = 30;
 
     private MainView window;
-    private int option;
-
-/**
- *
- * @author abienioszek
- */
-public class CreateRaportView extends JPanel {
-
-    private static final long serialVersionUID = -2093933144982918107L;
-
-    private final int NORMAL_WIDTH = 200;
-    private final int NORMAL_HEIGHT = 30;
-
-    private MainView window;
     private AddTypeEnum option;
 
     private JTextField roomIdTf;
@@ -139,16 +125,16 @@ public class CreateRaportView extends JPanel {
                 return;
             }
             switch (option) {
-                case 1:
+                case ROOM:
                     createReportViewMediator.onAddRoom();
                     break;
-                case 2:
+                case DEVICE:
                     createReportViewMediator.onAddDevice();
                     break;
-                case 3:
+                case STATE:
                     createReportViewMediator.onAddState();
                     break;
-                case 4:
+                case TYPE:
                     createReportViewMediator.onAddType();
                     break;
             }
@@ -263,16 +249,16 @@ public class CreateRaportView extends JPanel {
     private Boolean validateAll() {
         Boolean validationFlag = true;
         switch (option) {
-            case 1:
+            case ROOM:
                 validationFlag = validateAddRoom();
                 break;
-            case 2:
+            case DEVICE:
                 validationFlag = validateAddDevice();
                 break;
-            case 3:
+            case STATE:
                 validationFlag = validateAddState();
                 break;
-            case 4:
+            case TYPE:
                 validationFlag = validateAddType();
                 break;
         }
@@ -494,5 +480,4 @@ public class CreateRaportView extends JPanel {
     public void setOkButton(JButton okButton) {
         this.okButton = okButton;
     }
-
 }

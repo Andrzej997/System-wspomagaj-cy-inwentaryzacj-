@@ -18,17 +18,9 @@ public class RoomComboBox extends JPanel {
     private final Hashtable subItems = new Hashtable();
     private String previouslySelectedRoom;
 
-    public RoomComboBox() {
-        mainComboBox = new JComboBox();
-        add(mainComboBox, BorderLayout.WEST);
-        subComboBox = new JComboBox();
-        subComboBox.setPrototypeDisplayValue("XXXXXXXXXX");
-        add(subComboBox, BorderLayout.EAST);
-        previouslySelectedRoom = null;
-    }
     
     public RoomComboBox(){
-         mainComboBox = new JComboBox();
+        mainComboBox = new JComboBox();
         mainComboBox.addActionListener(this);
         add(mainComboBox, BorderLayout.WEST);
         subComboBox = new JComboBox();

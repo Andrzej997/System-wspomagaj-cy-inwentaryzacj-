@@ -50,7 +50,7 @@ public class WeekDataView extends JPanel {
     }
 
     private void initComponents() {
-        chooseRoomDropdown = new RoomComboBox(weekDataViewMediator);
+        chooseRoomDropdown = new RoomComboBox();
         nextBtn = new JButton();
         prevBtn = new JButton();
         calendarBtn = new JButton();
