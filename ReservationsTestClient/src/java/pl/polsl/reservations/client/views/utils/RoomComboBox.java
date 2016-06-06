@@ -1,58 +1,59 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pl.polsl.reservations.client.views.utils;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
-import pl.polsl.reservations.client.mediators.WeekDataViewMediator;
 
-public class RoomComboBox extends JPanel implements ActionListener {
+public class RoomComboBox extends JPanel {
 
     private final JComboBox mainComboBox;
     private final JComboBox subComboBox;
     private final Hashtable subItems = new Hashtable();
     private String previouslySelectedRoom;
-    private WeekDataViewMediator weekDataViewMediator;
 
-    public RoomComboBox(WeekDataViewMediator weekDataViewMediator) {
-        this.weekDataViewMediator=weekDataViewMediator;
+    public RoomComboBox() {
         mainComboBox = new JComboBox();
-        mainComboBox.addActionListener(this);
         add(mainComboBox, BorderLayout.WEST);
         subComboBox = new JComboBox();
         subComboBox.setPrototypeDisplayValue("XXXXXXXXXX");
-        subComboBox.addActionListener(this);
         add(subComboBox, BorderLayout.EAST);
         previouslySelectedRoom = null;
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
+    public Boolean onAction() {
         String item = (String) mainComboBox.getSelectedItem();
         Object o = subItems.get(item);
         previouslySelectedRoom = (String) subComboBox.getSelectedItem();
         if (o == null) {
             subComboBox.setModel(new DefaultComboBoxModel());
-        } else if(o instanceof Object[]) {
+        } else if (o instanceof Object[]) {
             subComboBox.setModel(new DefaultComboBoxModel((Object[]) o));
-            for(Object element : (Object[]) o){
-                if(element instanceof String && element.equals(previouslySelectedRoom))
+            for (Object element : (Object[]) o) {
+                if (element instanceof String && element.equals(previouslySelectedRoom)) {
                     subComboBox.setSelectedItem(element);
+                }
             }
-             weekDataViewMediator.getReservations();
+            return true;
         }
-        
-       
+        return false;
+
+    }
+
+    public void addActionListener(ActionListener l) {
+        mainComboBox.addActionListener(l);
+        subComboBox.addActionListener(l);
+    }
+    
+    public void addItemListener(ItemListener l){
+        mainComboBox.addItemListener(l);
+        subComboBox.addItemListener(l);
     }
 
     public void setFloors(List<Integer> floors) {
@@ -78,21 +79,28 @@ public class RoomComboBox extends JPanel implements ActionListener {
         }
         mainComboBox.setSelectedItem(floor.toString());
         Object selectedItem = subItems.get(floor.toString());
-        if (selectedItem instanceof String[]) {
-            String[] selectedStrings = (String[]) selectedItem;
-            for (String item : selectedStrings) {
-                if (item.equals(roomNumber.toString())) {
+        if (selectedItem instanceof Object[]) {
+            Object[] selectedStrings = (Object[]) selectedItem;
+            for (Object item : selectedStrings) {
+                String stringItem = (String)item;
+                if (stringItem.equals(roomNumber.toString())) {
                     subComboBox.setModel(new DefaultComboBoxModel(selectedStrings));
-                    subComboBox.setSelectedItem(item);
+                    subComboBox.setSelectedItem(stringItem);
                 }
             }
         }
     }
-    
-    public Integer getSelectedItem(){
-        String selectedFloor = (String)mainComboBox.getSelectedItem();
+
+    public Integer getSelectedItem() {
+        String selectedFloor = (String) mainComboBox.getSelectedItem();
+        if(selectedFloor == null){
+            return null;
+        }
         Integer selectedFloorNumber = Integer.parseInt(selectedFloor);
         String selectedRoom = (String) subComboBox.getSelectedItem();
+        if(selectedRoom == null){
+            return null;
+        }
         Integer selectedRoomNumber = Integer.parseInt(selectedRoom);
         return (selectedFloorNumber * 100 + selectedRoomNumber);
     }
