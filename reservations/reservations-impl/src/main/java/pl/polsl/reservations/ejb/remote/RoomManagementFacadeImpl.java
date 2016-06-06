@@ -56,10 +56,11 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
 
     @Override
     @RequiredPrivilege(PrivilegeEnum.EQUIPMENT_MANAGEMENT_OWN)
-    public void addEquipmentState(String definition) {
+    public Boolean addEquipmentState(String definition) {
         EqupmentState state = new EqupmentState();
         state.setStateDefinition(definition);
         equipmentStateDAO.create(state);
+        return true;
     }
 
     @Override
@@ -71,11 +72,12 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
 
     @Override
     @RequiredPrivilege(PrivilegeEnum.EQUIPMENT_MANAGEMENT_OWN)
-    public void addEquipmentType(String shortDescription, String longDescription) {
+    public Boolean addEquipmentType(String shortDescription, String longDescription) {
         EquipmentType type = new EquipmentType();
         type.setShortDescription(shortDescription);
         type.setLongDescription(longDescription);
         equipmentTypeDAO.create(type);
+        return true;
     }
 
     @Override
@@ -97,7 +99,7 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
 
     @Override
     @RequiredPrivilege(PrivilegeEnum.EQUIPMENT_MANAGEMENT_OWN)
-    public void addEquipment(int roomId, String name, int quantity, short stateId, short typeId) throws UnauthorizedAccessException {
+    public Boolean addEquipment(int roomId, String name, int quantity, short stateId, short typeId) throws UnauthorizedAccessException {
         Equipment newEquipment = new Equipment();
         newEquipment.setEquipmentName(name);
         newEquipment.setQuantity(quantity);
@@ -115,6 +117,7 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
         } else {
             throw new UnauthorizedAccessException("No access to room with ID: " + roomId);
         }
+        return true;
 
     }
 

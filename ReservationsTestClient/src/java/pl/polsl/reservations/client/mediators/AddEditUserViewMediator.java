@@ -46,7 +46,7 @@ public class AddEditUserViewMediator {
         }
     }
 
-    public void onAddUser() {
+    public Boolean onAddUser() {
         UserDTO newUser = new UserDTO();
         newUser.setAddress(addEditUserView.getAddressTf().getText());
         newUser.setDepartment((String) addEditUserView.getDepartmentCb().getSelectedItem());
@@ -57,7 +57,7 @@ public class AddEditUserViewMediator {
         newUser.setPhoneNumber(addEditUserView.getPhoneTf().getText());
         newUser.setSurname(addEditUserView.getSurnameTf().getText());
         newUser.setUserName(addEditUserView.getUsernameTf().getText());
-        userManagementFacade.registerUser(newUser, "");
+        return userManagementFacade.registerUser(newUser, "");
     }
 
     public void getSelectedUserData() {
@@ -73,7 +73,7 @@ public class AddEditUserViewMediator {
         addEditUserView.getUsernameContentLabel().setText(userDetails.getUserName());
     }
 
-    public void onChangeUserData() {
+    public Boolean onChangeUserData() {
         UserDTO userDetails = userManagementFacade.getUserDetails(ClientContext.getUsername());
         UserDTO user = new UserDTO();
         if (!addEditUserView.getAddressTf().getText().isEmpty()) {
@@ -106,6 +106,6 @@ public class AddEditUserViewMediator {
         }
         user.setUserName(addEditUserView.getUsernameContentLabel().getText());
         user.setId(userDetails.getId());
-        userFacade.changeUserDetails(user);
+        return userFacade.changeUserDetails(user);
     }
 }

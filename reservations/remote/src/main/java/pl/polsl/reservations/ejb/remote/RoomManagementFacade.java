@@ -10,7 +10,7 @@ import pl.polsl.reservations.dto.*;
 @Remote
 public interface RoomManagementFacade extends AbstractBusinessFacade{
 
-    void addEquipment(int roomId, String name, int quantity, short stateId, short typeId) throws UnauthorizedAccessException;
+    Boolean addEquipment(int roomId, String name, int quantity, short stateId, short typeId) throws UnauthorizedAccessException;
     void removeEquipment(int equipmentId) throws UnauthorizedAccessException;
     void moveEquipment(int equipmentId, int roomToId) throws UnauthorizedAccessException;
     List<RoomDTO> getRoomsList();
@@ -22,9 +22,9 @@ public interface RoomManagementFacade extends AbstractBusinessFacade{
     void assignUserToRoom(int roomId, int workerId);
     void assignKeeperToRoom(int roomId, int workerId);
     UserDTO getRoomKeeper(int roomId);
-    void addEquipmentType(String shortDescription, String longDescription);
+    Boolean addEquipmentType(String shortDescription, String longDescription);
     void removeEquipmentType(int typeId);
-    void addEquipmentState(String definition);
+    Boolean addEquipmentState(String definition);
     void removeEquipmentState(int stateId);
     List<RoomDTO> getRoomsWithNumberOfSeatsHigherEqualThan(Number numberOfSeats);
 

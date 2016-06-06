@@ -21,6 +21,7 @@ import javax.swing.border.EmptyBorder;
 import pl.polsl.reservations.client.mediators.AddEditUserViewMediator;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
 import pl.polsl.reservations.client.views.utils.PanelStyle;
+import pl.polsl.reservations.client.views.utils.ValidationErrorMessanger;
 
 /**
  *
@@ -192,9 +193,13 @@ public class AddEditUserView extends JPanel {
         okButton = new JButton();
         okButton.addActionListener((ActionEvent e) -> {
             if (editUser) {
-                addEditUserViewMediator.onChangeUserData();
+                if (this.nameTf.getText().isEmpty()) {
+                    ValidationErrorMessanger.showErrorMessage(this.nameTf, "Name field cannot be empty");
+                } else {
+                    addEditUserViewMediator.onChangeUserData();
+                }
             } else {
-                
+
                 //TODO metoda waliduj¹ca pola
                 addEditUserViewMediator.onAddUser();
             }
@@ -612,6 +617,17 @@ public class AddEditUserView extends JPanel {
 
     public void setWindow(MainView window) {
         this.window = window;
+    }
+    
+    public Boolean validateFields(){
+        if(editUser){
+            if(addressTf.getText().isEmpty()){
+                
+            }
+        } else {
+            
+        }
+        return true;
     }
 
 }

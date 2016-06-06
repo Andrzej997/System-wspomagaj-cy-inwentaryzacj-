@@ -109,12 +109,15 @@ public class CreateReportViewMediator {
         //roomManagementFacade.addEquipment(0, equipmentName, 0, 0, 0);
     }
     
-    public void onAddState(){
+    public Boolean onAddState(){
         String newState = createRaportView.getNameTf().getText();
-        roomManagementFacade.addEquipmentState(newState);
+        return roomManagementFacade.addEquipmentState(newState);
     }
     
-    public void onAddType(){
+    public Boolean onAddType(){
+        
+        //return roomManagementFacade.addEquipmentType(shortDescription, longDescription);
+        return true;
     }
 
 }
