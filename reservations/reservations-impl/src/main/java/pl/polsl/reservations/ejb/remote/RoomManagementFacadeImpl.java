@@ -202,7 +202,7 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
 
     @Override
     public Boolean addRoom(int roomNumber, Long keeperId, Long departamentId, Long roomTypeId, int numberOfSeats) {
-        if(roomsDAO.getRoomByNumber(roomNumber) == null){
+        if(roomsDAO.getRoomByNumber(roomNumber) != null){
             return false;
         }
         Room room = new Room();
