@@ -181,13 +181,15 @@ public class MainView extends JFrame {
                     if (retrival == JFileChooser.APPROVE_OPTION) {
                         String pathToFile = chooser.getSelectedFile().toString() + ".pdf";
                         DocumentGenerator documentGenerator = new DocumentGenerator(pathToFile);
-                        documentGenerator.generateSingleRoomEquipmentReport(101);
+                        Integer userRoom = mainViewMediator.getUserRoomNumber();
+                        documentGenerator.generateSingleRoomEquipmentReport(userRoom);
                     }
                 } else if (item.equals(departmentRaportMenuItem)) {
                     if (retrival == JFileChooser.APPROVE_OPTION) {
                         String pathToFile = chooser.getSelectedFile().toString() + ".pdf";
                         DocumentGenerator documentGenerator = new DocumentGenerator(pathToFile);
-                        documentGenerator.generateDepartamentRoomsEquipmentReport("");
+                        String departament = mainViewMediator.getUserDepartament();
+                        documentGenerator.generateDepartamentRoomsEquipmentReport(departament);
                     }
                 } else if (item.equals(allRaportMenuItem)) {
                     if (retrival == JFileChooser.APPROVE_OPTION) {

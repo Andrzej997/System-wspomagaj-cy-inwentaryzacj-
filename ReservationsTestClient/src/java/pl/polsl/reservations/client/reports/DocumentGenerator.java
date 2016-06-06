@@ -84,6 +84,11 @@ public class DocumentGenerator {
             List<EquipmentDTO> roomEquipment = roomManagementFacade.getRoomEquipment(room.getId().intValue());
             SingleRoomEquipmentReportDocument reportDocument
                     = new SingleRoomEquipmentReportDocument(pathToFile, PageSize.A4, room, roomEquipment);
+            try {
+                reportDocument.generatePDF();
+            } catch (DocumentException | FileNotFoundException ex) {
+                Logger.getLogger(DocumentGenerator.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         runDocumentReader();
     }
