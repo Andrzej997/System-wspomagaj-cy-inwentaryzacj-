@@ -1,20 +1,23 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pl.polsl.reservations.client.views;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Properties;
+import javafx.scene.control.DatePicker;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
+import pl.polsl.reservations.client.mediators.AddEditViewMediator;
 import pl.polsl.reservations.client.mediators.DayDataViewMediator;
 import pl.polsl.reservations.client.mediators.WeekDataViewMediator;
 
@@ -24,164 +27,376 @@ import pl.polsl.reservations.client.mediators.WeekDataViewMediator;
  */
 public class WeekDataView extends JPanel {
 
-    private static final long serialVersionUID = 29987884996505785L;
+    private static final long serialVersionUID = 1354395203575126802L;
 
     MainView window;
-    private JComboBox chooseRoomDropdown;
-    private JButton chooseButton;
-    private JButton nextWeek;
-    private JButton prevWeek;
-    private JTable planView;
-    private JPanel buttonPanel;
-    private JLabel weekTv;
-
+    private RoomComboBox chooseRoomDropdown;
+    private JButton nextBtn;
+    private JButton prevBtn;
+    private JTable planTable;
+    private JButton calendarBtn;
+    private Calendar startDate;
+    private Calendar endDate;
     private final Object selectedItem;
+    private SimpleDateFormat dateFormat;
+    private DatePicker datePicker;
+    private final transient WeekDataViewMediator weekDataViewMediator;
 
-    private transient final WeekDataViewMediator weekDataViewMediator;
-
-    public WeekDataView(MainView window, Object selectedItem, WeekDataViewMediator weekDataViewMediator) {
+    public WeekDataView(MainView window, Object selectedItem,
+            WeekDataViewMediator weekDataViewMediator) {
         this.window = window;
         this.weekDataViewMediator = weekDataViewMediator;
         initComponents();
         this.selectedItem = selectedItem;
+        datePicker = DatePicker.getInstance();
+
     }
 
     private void initComponents() {
-        chooseRoomDropdown = new JComboBox();
-        chooseButton = new JButton();
-        nextWeek = new JButton();
-        prevWeek = new JButton();
-        planView = new JTable();
-        buttonPanel = new JPanel(new GridLayout(1, 8));
-        weekTv = new JLabel();
+        chooseRoomDropdown = new RoomComboBox();
+        nextBtn = new JButton();
+        prevBtn = new JButton();
+        calendarBtn = new JButton();
+        planTable = new JTable();
 
+        model = new UtilDateModel();
+        Properties p = new Properties();
+        p.put("text.today", "Today");
+        p.put("text.month", "Month");
+        p.put("text.year", "Year");
+        startDate = Calendar.getInstance();
+        startDate.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        endDate = Calendar.getInstance();
+        endDate.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        dateFormat = new DateLabelFormatter().dateFormatter;
+        datePanel = new JDatePanelImpl(model, p);
+        datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+        PanelStyle.setSize(datePanel, 220, 200);
+        setDateText();
         //TODO - logika zmiany tygodnia
-        nextWeek.setText("NEXT WEEK");
-        prevWeek.setText("PREV WEEK");
-        weekTv.setText("POCZATEK DATA - KONIEC DATA");
-        chooseButton.setText("OK");
-        chooseButton.setPreferredSize(new Dimension(200, 30));
+        try {
+            Image img = ImageIO.read(getClass().getResource("/resources/left.png"));
+            ButtonStyle.setStyle(prevBtn, img);
+            Image img2 = ImageIO.read(getClass().getResource("/resources/right.png"));
+            ButtonStyle.setStyle(nextBtn, img2);
+            Image img3 = ImageIO.read(getClass().getResource("/resources/calendar.png"));
+            ButtonStyle.setStyle(calendarBtn, img3);
+        } catch (IOException ex) {
+            System.out.println("RESOURCE ERROR: " + ex.toString());
+        }
+
+        prevBtn.addActionListener((ActionEvent e) -> {
+            onClickBtnPrevious(e);
+        });
+        nextBtn.addActionListener((ActionEvent e) -> {
+            onClickBtnNext(e);
+        });
+
+        datePicker.addActionListener((ActionEvent e) -> {
+            datePickerChange(e);
+        });
+
         initTable();
-        initHeaders();
+        PanelStyle.setSize(this, 800, 600);
+        JPanel weekPanel = new JPanel();
+        PanelStyle.setSize(weekPanel, 350, 40);
+        BoxLayout weekLayout = new BoxLayout(weekPanel, BoxLayout.X_AXIS);
+        weekPanel.setLayout(weekLayout);
+        weekPanel.add(prevBtn);
+        weekPanel.add(datePicker);
+        weekPanel.add(nextBtn);
 
-        setMaximumSize(new java.awt.Dimension(800, 600));
-        setMinimumSize(new java.awt.Dimension(800, 600));
-        setPreferredSize(new java.awt.Dimension(800, 600));
-        JPanel weekPanel = new JPanel(new BorderLayout());
-        weekPanel.add(prevWeek, BorderLayout.WEST);
-        weekPanel.add(weekTv, BorderLayout.CENTER);
-        weekPanel.add(nextWeek, BorderLayout.EAST);
-        JPanel navPanel = new JPanel(new BorderLayout());
-        navPanel.add(chooseRoomDropdown, BorderLayout.WEST);
-        navPanel.add(chooseButton, BorderLayout.CENTER);
-        navPanel.add(weekPanel, BorderLayout.EAST);
-        JPanel dataLayout = new JPanel(new BorderLayout());
-        dataLayout.add(navPanel, BorderLayout.NORTH);
-        dataLayout.add(buttonPanel, BorderLayout.CENTER);
-        dataLayout.add(planView, BorderLayout.SOUTH);
+        BoxLayout boxlayout = new BoxLayout(this, BoxLayout.Y_AXIS);
+        setLayout(boxlayout);
 
-        JPanel mainLayout = new JPanel(new GridBagLayout());
-        GridBagConstraints position = new GridBagConstraints();
-        mainLayout.add(dataLayout, position);
-        add(mainLayout, BorderLayout.CENTER);
-
+        add(weekPanel);
+        add(chooseRoomDropdown);
+        add(new JScrollPane(planTable));
+        keyInputDispatcher();
         chooseRoomDropdown.addActionListener((ActionEvent e) -> {
             if (chooseRoomDropdown.getSelectedItem() != null) {
+                chooseRoomDropdown.onAction();
                 weekDataViewMediator.getReservations();
             }
         });
-        chooseButton.addActionListener((ActionEvent e) -> {
-            if (chooseRoomDropdown.getSelectedItem() != null) {
-                weekDataViewMediator.getReservations();
-            }
-        });
-
+        window.checkPrivileges();
     }
 
     private void initTable() {
-        TableModel dataModel = new DefaultTableModel() {
-            @Override
-            public int getColumnCount() {
-                return 7;
-            }
+        DefaultTableModel dataModel = new DefaultTableModelImpl();
+        String[] days = new String[]{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+        dataModel.setColumnIdentifiers(days);
 
-            @Override
-            public int getRowCount() {
-                return 32;
-            }
+        planTable = new JTable(dataModel);
+        planTable.setDefaultRenderer(Object.class, new WeekCustomRenderer());
 
+        planTable.addMouseListener(new MouseListenerImpl()
+        );
+        planTable.getTableHeader().addMouseListener(new MouseAdapter() {
             @Override
-            public Object getValueAt(int row, int column) {
-                return row;
-            }
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    Integer column = planTable.columnAtPoint(e.getPoint());
+                    if (column != 0) {
+                        Calendar cal = startDate;
+                        cal.add(Calendar.DATE, column - 1);
+                        // if (row == 0) {
 
+                        window.setView(new DayDataViewMediator().createView(window, cal)); //sprawdzi? czy dobry dzie? tygodnia
+                        //} else {
+                        //    new AddEditViewMediator().createView(window);
+                        // }
+
+                    }
+                }
+            }
+        });
+    }
+
+    private void datePickerChange(ActionEvent e) {
+        weekDataViewMediator.getReservations();
+    }
+
+    private void onClickBtnNext(ActionEvent e) {
+        startDate.set(datePicker.getModel().getYear(),
+                datePicker.getModel().getMonth(),
+                datePicker.getModel().getDay());
+        startDate.add(Calendar.DATE, 7);
+        int dayOfWeek = startDate.get(Calendar.DAY_OF_WEEK);
+        dayOfWeek -= 2;
+        startDate.add(Calendar.DAY_OF_MONTH, -dayOfWeek);
+        endDate.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH),
+                startDate.get(Calendar.DATE));
+        endDate.add(Calendar.DATE, 6);
+        setDateText();
+
+        weekDataViewMediator.getReservations();
+    }
+
+    private void onClickBtnPrevious(ActionEvent e) {
+        startDate.set(datePicker.getModel().getYear(),
+                datePicker.getModel().getMonth(),
+                datePicker.getModel().getDay());
+        startDate.add(Calendar.DAY_OF_MONTH, -7);
+        int dayOfWeek = startDate.get(Calendar.DAY_OF_WEEK);
+        dayOfWeek -= 2;
+        startDate.add(Calendar.DAY_OF_MONTH, -dayOfWeek);
+
+        endDate.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH),
+                startDate.get(Calendar.DATE));
+        endDate.add(Calendar.DATE, 6);
+        setDateText();
+
+        weekDataViewMediator.getReservations();
+    }
+
+    private void setDateText() {
+        datePicker.getModel().setDay(startDate.get(Calendar.DAY_OF_MONTH));
+        datePicker.getModel().setMonth(startDate.get(Calendar.MONTH));
+        datePicker.getModel().setYear(startDate.get(Calendar.YEAR));
+        datePicker
+                .getJFormattedTextField()
+                .setText(dateFormat
+                        .format(startDate
+                                .getTime()) + " - "
+                        + dateFormat
+                        .format(endDate.getTime()));
+    }
+
+    private void keyInputDispatcher() {
+
+        InputMap inputMap = this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = this.getActionMap();
+
+        AbstractAction nextAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                WeekDataView.this.onClickBtnNext(e);
+            }
         };
-        planView = new JTable(dataModel);
-    }
-
-    private void initHeaders() {
-        for (int i = 0; i < 7; i++) {
-
-            JButton temp = new JButton(String.valueOf(i + 1));
-            temp.addActionListener(new ButtonColumnListener(i));
-            temp.setPreferredSize(new Dimension(40, 40));
-            buttonPanel.add(temp);
-        }
-        buttonPanel.setPreferredSize(new Dimension(800, 40));
-    }
-
-    private class ButtonColumnListener implements ActionListener {
-
-        private int index;
-
-        public ButtonColumnListener(int i) {
-            index = i + 1;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            window.setView(new DayDataViewMediator().createView(window, index));
-        }
-    }
-
-    public void setPlanView(JTable planView) {
-        this.planView = planView;
+        AbstractAction previousAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                WeekDataView.this.onClickBtnPrevious(e);
+            }
+        };
+        AbstractAction escapeAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                WeekDataView.this.getWindow().dispose();
+                System.exit(0);
+            }
+        };
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "next");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "previous");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "escape");
+        actionMap.put("next", nextAction);
+        actionMap.put("previous", previousAction);
+        actionMap.put("escape", escapeAction);
     }
 
     public MainView getWindow() {
         return window;
     }
 
-    public JComboBox getChooseRoomDropdown() {
+    public void setWindow(MainView window) {
+        this.window = window;
+    }
+
+    public RoomComboBox getChooseRoomDropdown() {
         return chooseRoomDropdown;
     }
 
-    public JButton getChooseButton() {
-        return chooseButton;
+    public void setChooseRoomDropdown(RoomComboBox chooseRoomDropdown) {
+        this.chooseRoomDropdown = chooseRoomDropdown;
     }
 
-    public JButton getNextWeek() {
-        return nextWeek;
+    public JButton getNextBtn() {
+        return nextBtn;
     }
 
-    public JButton getPrevWeek() {
-        return prevWeek;
+    public void setNextBtn(JButton nextBtn) {
+        this.nextBtn = nextBtn;
     }
 
-    public JTable getPlanView() {
-        return planView;
+    public JButton getPrevBtn() {
+        return prevBtn;
     }
 
-    public JPanel getButtonPanel() {
-        return buttonPanel;
+    public void setPrevBtn(JButton prevBtn) {
+        this.prevBtn = prevBtn;
     }
 
-    public JLabel getWeekTv() {
-        return weekTv;
+    public JTable getPlanTable() {
+        return planTable;
     }
 
-    public Object getSelectedItem() {
-        return selectedItem;
+    public void setPlanTable(JTable planTable) {
+        this.planTable = planTable;
+    }
+
+    public JButton getCalendarBtn() {
+        return calendarBtn;
+    }
+
+    public void setCalendarBtn(JButton calendarBtn) {
+        this.calendarBtn = calendarBtn;
+    }
+
+    public Calendar getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Calendar startDate) {
+        this.startDate = startDate;
+    }
+
+    public Calendar getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Calendar endDate) {
+        this.endDate = endDate;
+    }
+
+    public JDatePanelImpl getDatePanel() {
+        return datePanel;
+    }
+
+    public void setDatePanel(JDatePanelImpl datePanel) {
+        this.datePanel = datePanel;
+    }
+
+    public JDatePickerImpl getDatePicker() {
+        return datePicker;
+    }
+
+    public void setDatePicker(JDatePickerImpl datePicker) {
+        this.datePicker = datePicker;
+    }
+
+    public UtilDateModel getModel() {
+        return model;
+    }
+
+    public void setModel(UtilDateModel model) {
+        this.model = model;
+    }
+
+    public SimpleDateFormat getDateFormat() {
+        return dateFormat;
+    }
+
+    public void setDateFormat(SimpleDateFormat dateFormat) {
+        this.dateFormat = dateFormat;
+    }
+
+    private static class DefaultTableModelImpl extends DefaultTableModel {
+
+        public DefaultTableModelImpl() {
+        }
+        private static final long serialVersionUID = 7434377947963338162L;
+
+        @Override
+        public int getColumnCount() {
+            return 8;
+        }
+
+        @Override
+        public int getRowCount() {
+            return 32;
+        }
+
+        @Override
+        public Object getValueAt(int row, int column) {
+            return row;
+        }
+
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    }
+
+    private class MouseListenerImpl implements MouseListener {
+
+        public MouseListenerImpl() {
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            if (e.getClickCount() == 2) {
+                Integer column = planTable.getSelectedColumn();
+                Integer row = planTable.getSelectedRow();
+                if (column != 0) {
+                    Calendar cal = startDate;
+                    cal.add(Calendar.DATE, column - 1);
+
+                    window.setView(new AddEditViewMediator(cal, chooseRoomDropdown.getSelectedItem()).createView(window));
+                }
+//todo:
+            }
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+
+        }
     }
 
 }

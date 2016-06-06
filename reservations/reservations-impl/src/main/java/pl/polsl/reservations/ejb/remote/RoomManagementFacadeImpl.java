@@ -201,7 +201,10 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
-    public void addRoom(int roomNumber, Long keeperId, Long departamentId, Long roomTypeId, int numberOfSeats) {
+    public Boolean addRoom(int roomNumber, Long keeperId, Long departamentId, Long roomTypeId, int numberOfSeats) {
+        if(roomsDAO.getRoomByNumber(roomNumber) == null){
+            return false;
+        }
         Room room = new Room();
         room.setRoomNumber(roomNumber);
         room.setKeeper(workersDAO.find(keeperId));
@@ -209,6 +212,7 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
         room.setRoomType(roomTypeDAO.find(roomTypeId));
         room.setNumberOfSeats(numberOfSeats);
         roomsDAO.create(room);
+        return true;
     }
 
     @Override
@@ -219,7 +223,17 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
         }
         return result;
     }
-
+    
+    @Override
+    public List<RoomTypesDTO> getRoomTypes(){
+        List<RoomTypes> findAll = roomTypeDAO.findAll();
+        List<RoomTypesDTO> results = new ArrayList<>();
+        for(RoomTypes roomTypes : findAll){
+            results.add(DTOBuilder.buildRoomTypesDTO(roomTypes));
+        }
+        return results;
+    }
+    
     @Override
     public List<EquipmentTypeDTO> getEquipmentTypes() {
         List<EquipmentTypeDTO> result = new ArrayList<>();
@@ -281,6 +295,7 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
         equipmentTypeDAO.setUserContext(certificate);
         workersDAO.setUserContext(certificate);
         equipmentDAO.setUserContext(certificate);
+        roomTypeDAO.setUserContext(certificate);
         return certificateBean;
     }
 

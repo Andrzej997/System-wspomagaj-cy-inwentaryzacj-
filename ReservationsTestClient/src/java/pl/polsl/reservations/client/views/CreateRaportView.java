@@ -48,6 +48,7 @@ public class CreateRaportView extends JPanel {
     private JComboBox stateCb;
     private JComboBox roomTypeCb;
     private RoomComboBox roomCb;
+
     private JTextField nameTf;
     private JTextField descriptionTf;
 
@@ -82,7 +83,7 @@ public class CreateRaportView extends JPanel {
     }
 
     private void setupView() {
-        if ((option==AddTypeEnum.STATE)||(option==AddTypeEnum.TYPE)) {
+        if ((option == AddTypeEnum.STATE) || (option == AddTypeEnum.TYPE)) {
             labelPanel.add(nameLabel);
             labelPanel.add(descriptionLabel);
             dataPanel.add(nameTf);
@@ -170,13 +171,13 @@ public class CreateRaportView extends JPanel {
         PanelStyle.setSize(descriptionLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(roomCb, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(roomTypeCb, NORMAL_WIDTH, NORMAL_HEIGHT);
-       if ((option==AddTypeEnum.ROOM)||(option==AddTypeEnum.DEVICE)) {
+        if ((option == AddTypeEnum.ROOM) || (option == AddTypeEnum.DEVICE)) {
             PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 160);
-                        PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 160);
+            PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 160);
             PanelStyle.setSize(mainPanel, 2 * NORMAL_WIDTH, 160);
             PanelStyle.setSize(this, 2 * NORMAL_WIDTH, 200);
         } else {
-           PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 60);
+            PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 60);
             PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 60);
             PanelStyle.setSize(mainPanel, 2 * NORMAL_WIDTH, 60);
             PanelStyle.setSize(this, 2 * NORMAL_WIDTH, 120);
@@ -198,24 +199,32 @@ public class CreateRaportView extends JPanel {
         roomTypeCb = new JComboBox();
         nameTf = new JTextField();
         roomTypeLabel = new JLabel("Room type: ");
-         if(option==AddTypeEnum.DEVICE) roomLabel = new JLabel("Room: ");
-         else roomLabel = new JLabel("Room ID: ");
-        if(option==AddTypeEnum.ROOM) numberLabel = new JLabel("Number of seats: ");
-        else numberLabel = new JLabel("Amount: ");
+        if (option == AddTypeEnum.DEVICE) {
+            roomLabel = new JLabel("Room: ");
+        } else {
+            roomLabel = new JLabel("Room ID: ");
+        }
+        if (option == AddTypeEnum.ROOM) {
+            numberLabel = new JLabel("Number of seats: ");
+        } else {
+            numberLabel = new JLabel("Amount: ");
+        }
         typeLabel = new JLabel("Type: ");
         keeperLabel = new JLabel("Keeper: ");
         departmentLabel = new JLabel("Department: ");
         stateLabel = new JLabel("State:");
-        if(null!=option)switch (option) {
-            case STATE:
-                nameLabel = new JLabel("New state name:");
-                break;
-            case TYPE:
-                nameLabel = new JLabel("New type name: ");
-                break;
-            default:
-                nameLabel = new JLabel("Name: ");
-                break;
+        if (null != option) {
+            switch (option) {
+                case STATE:
+                    nameLabel = new JLabel("New state name:");
+                    break;
+                case TYPE:
+                    nameLabel = new JLabel("New type name: ");
+                    break;
+                default:
+                    nameLabel = new JLabel("Name: ");
+                    break;
+            }
         }
         mainPanel = new JPanel(new GridLayout(1, 2));
         dataPanel = new JPanel();
@@ -267,7 +276,7 @@ public class CreateRaportView extends JPanel {
 
     private Boolean validateAddRoom() {
         Boolean validationFlag = true;
-        if (NumberFormatUtils.isInteger(numberTf.getText())) {
+        if (!NumberFormatUtils.isInteger(numberTf.getText())) {
             ValidationErrorMessanger.showErrorMessage(numberTf, "Number of seats is not a number");
             validationFlag = false;
         }
@@ -284,7 +293,7 @@ public class CreateRaportView extends JPanel {
 
     private Boolean validateAddDevice() {
         Boolean validationFlag = true;
-        if (NumberFormatUtils.isInteger(numberTf.getText())) {
+        if (!NumberFormatUtils.isInteger(numberTf.getText())) {
             ValidationErrorMessanger.showErrorMessage(numberTf, "Equipment quantity is not a number");
             validationFlag = false;
         }
@@ -333,7 +342,7 @@ public class CreateRaportView extends JPanel {
         return option;
     }
 
-    public void setOption(AddTypeEnum  option) {
+    public void setOption(AddTypeEnum option) {
         this.option = option;
     }
 
@@ -479,5 +488,29 @@ public class CreateRaportView extends JPanel {
 
     public void setOkButton(JButton okButton) {
         this.okButton = okButton;
+    }
+
+    public JComboBox getRoomTypeCb() {
+        return roomTypeCb;
+    }
+
+    public void setRoomTypeCb(JComboBox roomTypeCb) {
+        this.roomTypeCb = roomTypeCb;
+    }
+
+    public RoomComboBox getRoomCb() {
+        return roomCb;
+    }
+
+    public void setRoomCb(RoomComboBox roomCb) {
+        this.roomCb = roomCb;
+    }
+
+    public JTextField getDescriptionTf() {
+        return descriptionTf;
+    }
+
+    public void setDescriptionTf(JTextField descriptionTf) {
+        this.descriptionTf = descriptionTf;
     }
 }

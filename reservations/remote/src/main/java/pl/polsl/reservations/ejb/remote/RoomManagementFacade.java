@@ -15,7 +15,7 @@ public interface RoomManagementFacade extends AbstractBusinessFacade{
     void moveEquipment(int equipmentId, int roomToId) throws UnauthorizedAccessException;
     List<RoomDTO> getRoomsList();
     RoomDTO getRoom(int roomNumber);
-    void addRoom(int roomNumber, Long keeperId, Long departamentId, Long roomTypeId, int numberOfSeats);
+    Boolean addRoom(int roomNumber, Long keeperId, Long departamentId, Long roomTypeId, int numberOfSeats);
     List<EquipmentDTO> getRoomEquipment(int roomId);
     List<EquipmentDTO> getDepartmentEquipment(int departmentId);
     List<EquipmentStateDTO> getEquipmentStates();
@@ -32,4 +32,6 @@ public interface RoomManagementFacade extends AbstractBusinessFacade{
     //TODO implementacja jak będzie wiadomo jak ma działać
     default void findRoom() {
     }
+
+    List<RoomTypesDTO> getRoomTypes();
 }

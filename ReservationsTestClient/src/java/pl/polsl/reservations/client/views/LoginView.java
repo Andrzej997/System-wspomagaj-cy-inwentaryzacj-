@@ -68,7 +68,6 @@ public class LoginView extends JPanel {
     }
 
     private void onClickLogin(java.awt.event.ActionEvent evt) {
-        if (passwordEditText.getText().length() > 0 && loginEditText.getText().length() > 0) {
             if(!validateAll()){
                 return;
             }
@@ -80,9 +79,6 @@ public class LoginView extends JPanel {
             } else {
                 JOptionPane.showMessageDialog(this, "Wrong login or password!!.");
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "Login and password required.");
-        }
     }
 
     private void onClickRegister(ActionEvent evt) {

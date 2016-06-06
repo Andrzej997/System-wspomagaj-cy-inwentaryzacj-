@@ -108,4 +108,12 @@ public class DTOBuilder {
     public static PrivilegeRequestDTO buildPrivilegeRequestDTO(PrivilegeRequest pr) {
         return new PrivilegeRequestDTO(pr.getPrivilegeLevel(), pr.getUserID(), pr.getReason());
     }
+    
+    public static RoomTypesDTO buildRoomTypesDTO(RoomTypes roomTypes){
+        RoomTypesDTO roomTypesDTO = new RoomTypesDTO();
+        roomTypesDTO.setId(roomTypes.getRoomType().intValue());
+        roomTypesDTO.setLongDescription(roomTypes.getLongDescription());
+        roomTypesDTO.setShortDescription(roomTypes.getShortDescription());
+        return roomTypesDTO;
+    }
 }
