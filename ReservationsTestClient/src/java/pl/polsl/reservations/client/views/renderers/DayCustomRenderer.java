@@ -82,11 +82,34 @@ public class DayCustomRenderer extends DefaultTableCellRenderer {
         return false;
     }
 
+    
+    private void drawTimeBorders(int row, JComponent c) {
+        Border b;
+
+        b = BorderFactory.createCompoundBorder();
+        if (row%4==0) {
+            b = BorderFactory.createCompoundBorder(b, BorderFactory.createMatteBorder(2, 0, 0, 0, Color.GRAY));
+        }else{
+             b = BorderFactory.createCompoundBorder(b, BorderFactory.createMatteBorder(1, 0, 0, 0, Color.GRAY));
+        }
+        if ((row+1)%4==0) {
+            b = BorderFactory.createCompoundBorder(b, BorderFactory.createMatteBorder(0, 0, 2, 0, Color.GRAY));
+        }else{
+            b = BorderFactory.createCompoundBorder(b, BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
+        }
+        b = BorderFactory.createCompoundBorder(b, BorderFactory.createMatteBorder(0, 1, 0, 0, Color.GRAY));
+        b = BorderFactory.createCompoundBorder(b, BorderFactory.createMatteBorder(0, 0, 0, 1, Color.GRAY));
+
+        c.setBorder(b);
+    }
+    
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column) {
         JComponent c = (JComponent) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
+        drawTimeBorders(row, c);
+        
         if (paintCell(row, column, c)) {
             c.setFont(Font.getFont("ArialBlack"));
         } else {

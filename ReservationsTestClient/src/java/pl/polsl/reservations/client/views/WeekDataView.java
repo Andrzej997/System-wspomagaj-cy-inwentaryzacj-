@@ -5,11 +5,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Properties;
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -17,6 +19,8 @@ import javax.swing.table.DefaultTableModel;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
+import pl.polsl.reservations.client.mediators.AddEditViewMediator;
+import pl.polsl.reservations.client.mediators.DayDataViewMediator;
 import pl.polsl.reservations.client.mediators.WeekDataViewMediator;
 import pl.polsl.reservations.client.views.renderers.WeekCustomRenderer;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
@@ -136,6 +140,25 @@ public class WeekDataView extends JPanel {
 
         planTable.addMouseListener(new MouseListenerImpl()
         );
+        planTable.getTableHeader().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    Integer column = planTable.getSelectedColumn();
+                    if (column != 0) {
+                        Calendar cal = startDate;
+                        cal.add(Calendar.DATE, column - 1);
+                        // if (row == 0) {
+
+                        window.setView(new DayDataViewMediator().createView(window, cal.get(Calendar.DAY_OF_WEEK))); //sprawdziæ czy dobry dzieñ tygodnia
+                        //} else {
+                        //    new AddEditViewMediator().createView(window);
+                        // }
+
+                    }
+                }
+            }
+        });
     }
 
     private void datePickerChange(ActionEvent e) {
@@ -352,8 +375,12 @@ public class WeekDataView extends JPanel {
         public void mouseClicked(MouseEvent e) {
             if (e.getClickCount() == 2) {
                 Integer column = planTable.getSelectedColumn();
+                Integer row = planTable.getSelectedRow();
                 if (column != 0) {
-
+                    Calendar cal = startDate;
+                    cal.add(Calendar.DATE, column - 1);
+                    
+                    window.setView(new AddEditViewMediator(cal,chooseRoomDropdown.getSelectedItem()).createView(window)); 
                 }
 //todo:
             }

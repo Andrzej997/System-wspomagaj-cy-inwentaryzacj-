@@ -35,6 +35,7 @@ public class AddEditViewMediator {
     private AddEditView addEditView;
     private Calendar date;
     private HashMap<Color, List<Integer>> reservationCellsRendererMap;
+    private Integer roomNumber;
 
     private List<Integer> startQuarters;
     private List<Integer> endQuarters;
@@ -46,6 +47,15 @@ public class AddEditViewMediator {
         userFacade = (UserFacade) Lookup.getRemote("UserFacade");
         date = Calendar.getInstance();
 
+    }
+    
+    public AddEditViewMediator(Calendar date,Integer roomNumber){
+        scheduleFacade = (ScheduleFacade) Lookup.getRemote("ScheduleFacade");
+        roomManagementFacade = (RoomManagementFacade) Lookup.getRemote("RoomManagementFacade");
+        userManagementFacade = (UserManagementFacade) Lookup.getRemote("UserManagementFacade");
+        userFacade = (UserFacade) Lookup.getRemote("UserFacade");
+        this.date = date;
+        this.roomNumber=roomNumber;
     }
 
     public AddEditView createView(MainView parent) {
@@ -61,6 +71,9 @@ public class AddEditViewMediator {
         List<RoomDTO> roomsList = roomManagementFacade.getRoomsList();
         roomsList.stream().forEach((room) -> {
             addEditView.getRoomCb().addItem(room.getNumber());
+            if(roomNumber!=null&&roomNumber.equals(room.getNumber())){
+                addEditView.getRoomCb().setSelectedItem(room.getNumber());
+            }
         });
     }
 
@@ -69,7 +82,46 @@ public class AddEditViewMediator {
         startQuarters = new ArrayList<>();
         endQuarters = new ArrayList<>();
 
-        List<ReservationDTO> roomSchedule = scheduleFacade.getRoomSchedule((Integer) addEditView.getRoomCb().getSelectedItem(), 2016, true);
+        Calendar calendar = date;
+        //int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        int weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
+        int weekOfSemester = 1;
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+
+        boolean semester = true;
+
+        if (month >= 10 || month <= 2) {
+            semester = false;
+            Calendar cal = calendar;
+            cal.set(Calendar.MONTH, Calendar.OCTOBER);
+            cal.set(Calendar.DATE, 1);
+
+            if (month >= 10 && month <= 12) {
+                weekOfSemester = weekOfYear - cal.get(Calendar.WEEK_OF_YEAR) + 1;
+            } else {   //sprawdziæ zachowanie jak sylwester nie jest w niedzielê
+                Calendar calPom = Calendar.getInstance();
+                cal.set(Calendar.YEAR, cal.get(Calendar.YEAR) - 1);
+                calPom.set(Calendar.YEAR, calPom.get(Calendar.YEAR) - 1);
+                calPom.set(Calendar.MONTH, Calendar.DECEMBER);
+                calPom.set(Calendar.DATE, 31);
+
+                weekOfSemester = calPom.get(Calendar.WEEK_OF_YEAR) - cal.get(Calendar.WEEK_OF_YEAR);
+                calPom.set(calendar.get(Calendar.YEAR), Calendar.JANUARY, 1);
+                weekOfSemester += calendar.get(Calendar.WEEK_OF_YEAR) - calPom.get(Calendar.WEEK_OF_YEAR);
+            }
+
+        } else {
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.MONTH, Calendar.MARCH);
+            cal.set(Calendar.DATE, 1);
+
+            weekOfSemester = weekOfYear - cal.get(Calendar.WEEK_OF_YEAR) + 1;
+        }
+
+        List<ReservationDTO> roomSchedule
+                // = scheduleFacade.getRoomSchedule(chooseRoomDropdown.getSelectedItem(), calendar.get(Calendar.YEAR), semester);
+                = scheduleFacade.getDetailedRoomSchedule(roomNumber, calendar.get(Calendar.YEAR), weekOfSemester, semester);
 
         DefaultTableModel defaultTableModel = new DayTableModel(32, 3);
 
