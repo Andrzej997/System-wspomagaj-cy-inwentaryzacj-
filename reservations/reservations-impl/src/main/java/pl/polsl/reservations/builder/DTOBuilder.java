@@ -72,7 +72,7 @@ public class DTOBuilder {
         RoomDTO roomDTO = new RoomDTO();
         roomDTO.setDepartment(room.getDepartament().getDepratamentName());
         roomDTO.setId(room.getId());
-        roomDTO.setKeeper(room.getKeeper().getWorkerName());
+        roomDTO.setKeeperId(room.getKeeper().getId());
         roomDTO.setNumber(room.getRoomNumber());
         roomDTO.setNumberOfSeats(room.getNumberOfSeats());
         roomDTO.setType(room.getRoomType().getShortDescription());

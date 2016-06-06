@@ -43,6 +43,9 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     @EJB
     EquipmentDao equipmentDAO;
 
+    @EJB
+    RoomTypesDao roomTypeDAO;
+
     public RoomManagementFacadeImpl() {
         super();
     }
@@ -192,6 +195,17 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
         } else {
             throw new UnauthorizedAccessException("No access to room with ID: " + roomToId + " or " + roomFrom.getId());
         }
+    }
+
+    @Override
+    public void addRoom(int roomNumber, Long keeperId, Long departamentId, Long roomTypeId, int numberOfSeats) {
+        Room room = new Room();
+        room.setRoomNumber(roomNumber);
+        room.setKeeper(workersDAO.find(keeperId));
+        room.setDepartament(departmentDAO.find(departamentId));
+        room.setRoomType(roomTypeDAO.find(roomTypeId));
+        room.setNumberOfSeats(numberOfSeats);
+        roomsDAO.create(room);
     }
 
     @Override
