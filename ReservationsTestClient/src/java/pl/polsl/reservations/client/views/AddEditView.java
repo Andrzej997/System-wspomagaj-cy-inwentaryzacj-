@@ -18,7 +18,6 @@ import pl.polsl.reservations.client.views.utils.PanelStyle;
  *
  * @author Ola
  */
-
 public class AddEditView extends JPanel {
 
     private static final long serialVersionUID = -6676295764328716585L;
@@ -56,7 +55,7 @@ public class AddEditView extends JPanel {
     private JLabel teacherLabel;
 
     private Date date;
-    
+
     private boolean edit;
 
     private final transient AddEditViewMediator addEditViewMediator;
@@ -105,7 +104,10 @@ public class AddEditView extends JPanel {
 
     private void initListeners() {
         roomCb.addActionListener((ActionEvent e) -> {
-            addEditViewMediator.getReservations();
+            if (roomCb.getSelectedItem() != null) {
+                addEditViewMediator.setRoomNumber((Integer)roomCb.getSelectedItem());
+                addEditViewMediator.getReservations();
+            }
         });
     }
 
@@ -145,7 +147,7 @@ public class AddEditView extends JPanel {
         teacherLabel = new JLabel("Teacher: ");
         titleLabel = new JLabel("Title: ");
         roomLabel = new JLabel("Room ID: ");
-        
+
         addButton = new JButton();
         editButton = new JButton();
         discardButton = new JButton();
@@ -155,18 +157,17 @@ public class AddEditView extends JPanel {
         try {
             Image img = ImageIO.read(getClass().getResource("/resources/add.png"));
             ButtonStyle.setStyle(addButton, img);
-             Image img2 = ImageIO.read(getClass().getResource("/resources/ok.png"));
+            Image img2 = ImageIO.read(getClass().getResource("/resources/ok.png"));
             ButtonStyle.setStyle(editButton, img2);
             Image img3 = ImageIO.read(getClass().getResource("/resources/error.png"));
             ButtonStyle.setStyle(discardButton, img3);
-            if(edit) {
-            navigatePanel.add(editButton);
-            navigatePanel.add(discardButton);
-            }
-            else {
+            if (edit) {
+                navigatePanel.add(editButton);
+                navigatePanel.add(discardButton);
+            } else {
                 navigatePanel.add(addButton);
             }
-                
+
         } catch (IOException ex) {
             System.out.println("RESOURCE ERROR: " + ex.toString());
         }

@@ -48,14 +48,14 @@ public class AddEditViewMediator {
         date = Calendar.getInstance();
 
     }
-    
-    public AddEditViewMediator(Calendar date,Integer roomNumber){
+
+    public AddEditViewMediator(Calendar date, Integer roomNumber) {
         scheduleFacade = (ScheduleFacade) Lookup.getRemote("ScheduleFacade");
         roomManagementFacade = (RoomManagementFacade) Lookup.getRemote("RoomManagementFacade");
         userManagementFacade = (UserManagementFacade) Lookup.getRemote("UserManagementFacade");
         userFacade = (UserFacade) Lookup.getRemote("UserFacade");
         this.date = date;
-        this.roomNumber=roomNumber;
+        this.roomNumber = roomNumber;
     }
 
     public AddEditView createView(MainView parent) {
@@ -71,7 +71,7 @@ public class AddEditViewMediator {
         List<RoomDTO> roomsList = roomManagementFacade.getRoomsList();
         roomsList.stream().forEach((room) -> {
             addEditView.getRoomCb().addItem(room.getNumber());
-            if(roomNumber!=null&&roomNumber.equals(room.getNumber())){
+            if (roomNumber != null && roomNumber.equals(room.getNumber())) {
                 addEditView.getRoomCb().setSelectedItem(room.getNumber());
             }
         });
@@ -136,7 +136,7 @@ public class AddEditViewMediator {
             if (dayOfWeek == 1) {
                 dayOfWeek = 7;
             } else {
-                dayOfWeek-=2;
+                dayOfWeek -= 2;
             }
             if (startDay == (int) dayOfWeek) {
                 startQuarters.add(numberOfStartQuarter);
@@ -222,6 +222,14 @@ public class AddEditViewMediator {
         for (ReservationTypeDTO reservationTypeDTO : reservationTypes) {
             addEditView.getGroupCb().addItem(reservationTypeDTO.getShortDescription());
         }
+    }
+
+    public Integer getRoomNumber() {
+        return roomNumber;
+    }
+
+    public void setRoomNumber(Integer roomNumber) {
+        this.roomNumber = roomNumber;
     }
 
 }

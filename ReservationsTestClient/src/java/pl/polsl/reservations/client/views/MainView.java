@@ -39,14 +39,14 @@ public class MainView extends JFrame {
     private JMenuItem allRaportMenuItem;
     private JMenuItem roomRaportMenuItem;
     private JMenuItem departmentRaportMenuItem;
-    
+
     private JMenu fileMenu;
     private JMenu helpMenu;
     private JMenu accountMenu;
     private JMenu createRaportMenu;
     private JMenu adminMenu;
     private JMenu generateMenu;
-     
+
     private JPanel contentView;
 
     private JMenuBar menuBar;
@@ -85,7 +85,7 @@ public class MainView extends JFrame {
         roomRaportMenuItem.setForeground(fg);
         allRaportMenuItem.setForeground(fg);
         departmentRaportMenuItem.setForeground(fg);
-        
+
     }
 
     private void initComponents() {
@@ -175,10 +175,27 @@ public class MainView extends JFrame {
             JFileChooser chooser = new JFileChooser();
             chooser.addChoosableFileFilter(new FileNameExtensionFilter(".pdf", "pdf"));
             int retrival = chooser.showSaveDialog(null);
-            if (retrival == JFileChooser.APPROVE_OPTION) {
-                String pathToFile = chooser.getSelectedFile().toString() + ".pdf";
-                DocumentGenerator documentGenerator = new DocumentGenerator(pathToFile);
-                documentGenerator.generateAllRoomsEquipmentReport();
+            if (evt.getSource() instanceof JMenuItem) {
+                JMenuItem item = (JMenuItem) evt.getSource();
+                if (item.equals(roomRaportMenuItem)) {
+                    if (retrival == JFileChooser.APPROVE_OPTION) {
+                        String pathToFile = chooser.getSelectedFile().toString() + ".pdf";
+                        DocumentGenerator documentGenerator = new DocumentGenerator(pathToFile);
+                        documentGenerator.generateSingleRoomEquipmentReport(101);
+                    }
+                } else if (item.equals(departmentRaportMenuItem)) {
+                    if (retrival == JFileChooser.APPROVE_OPTION) {
+                        String pathToFile = chooser.getSelectedFile().toString() + ".pdf";
+                        DocumentGenerator documentGenerator = new DocumentGenerator(pathToFile);
+                        documentGenerator.generateDepartamentRoomsEquipmentReport("");
+                    }
+                } else if (item.equals(allRaportMenuItem)) {
+                    if (retrival == JFileChooser.APPROVE_OPTION) {
+                        String pathToFile = chooser.getSelectedFile().toString() + ".pdf";
+                        DocumentGenerator documentGenerator = new DocumentGenerator(pathToFile);
+                        documentGenerator.generateAllRoomsEquipmentReport();
+                    }
+                }
             }
         }
     }
@@ -238,22 +255,22 @@ public class MainView extends JFrame {
         addMenuItem.addActionListener((ActionEvent evt) -> {
             addMenuItemActionPerformed(evt);
         });
-        
+
         fileMenu.add(addMenuItem);
-        
+
         adminMenu.setText("Admin action");
         adminMenu.setForeground(new java.awt.Color(153, 153, 153));
-        
+
         fileMenu.add(adminMenu);
-        
+
         allRaportMenuItem.setText("Full raport");
         departmentRaportMenuItem.setText("Department raport");
         roomRaportMenuItem.setText("Room raport");
-        
+
         allRaportMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         roomRaportMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         departmentRaportMenuItem.setForeground(new java.awt.Color(153, 153, 153));
-        
+
         allRaportMenuItem.addActionListener((ActionEvent evt) -> {
             generateMenuItemActionPerformed(evt);
         });
@@ -263,7 +280,7 @@ public class MainView extends JFrame {
         departmentRaportMenuItem.addActionListener((ActionEvent evt) -> {
             generateMenuItemActionPerformed(evt);
         });
-        
+
         generateMenu.setForeground(new java.awt.Color(153, 153, 153));
         generateMenu.setText("Generate raport");
         generateMenu.add(roomRaportMenuItem);
@@ -328,7 +345,7 @@ public class MainView extends JFrame {
         editDataMenuItem.addActionListener((ActionEvent evt) -> {
             editUserActionPerformed(evt);
         });
-        
+
         adminMenu.add(addUserMenuItem);
         accountMenu.add(editDataMenuItem);
 
