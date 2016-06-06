@@ -105,7 +105,7 @@ public class AddEditView extends JPanel {
     private void initListeners() {
         roomCb.addActionListener((ActionEvent e) -> {
             if (roomCb.getSelectedItem() != null) {
-                addEditViewMediator.setRoomNumber((Integer)roomCb.getSelectedItem());
+                addEditViewMediator.setRoomNumber((Integer) roomCb.getSelectedItem());
                 addEditViewMediator.getReservations();
             }
         });
@@ -128,7 +128,7 @@ public class AddEditView extends JPanel {
         navigatePanel.setLayout(new BoxLayout(navigatePanel, BoxLayout.X_AXIS));
         dayTablePanel = new JPanel();
         addButton = new JButton();
-        addButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+        addButton.addActionListener((ActionEvent evt) -> {
             onOkClick(evt);
         });
         dayTable = new JTable(new DayTableModel(32, 3));
@@ -148,7 +148,7 @@ public class AddEditView extends JPanel {
         titleLabel = new JLabel("Title: ");
         roomLabel = new JLabel("Room ID: ");
 
-        addButton = new JButton();
+        // addButton = new JButton();
         editButton = new JButton();
         discardButton = new JButton();
     }
@@ -174,7 +174,7 @@ public class AddEditView extends JPanel {
     }
 
     private void onOkClick(ActionEvent evt) {
-        JOptionPane.showMessageDialog(this, "Not supported yet");
+        addEditViewMediator.addReservation();
     }
 
     private void setSize() {

@@ -7,6 +7,7 @@ package pl.polsl.reservations.client.views.utils;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 import java.util.Properties;
 import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
@@ -23,42 +24,42 @@ public class DatePicker extends JPanel {
 
     private static DatePicker weekDatepicker;
     private static DatePicker dayDatepicker;
-    private final JDatePanelImpl datePanel;
-    private final JDatePickerImpl datePicker;
-    private final UtilDateModel model;
+    private JDatePanelImpl datePanel;
+    private JDatePickerImpl datePicker;
+    private UtilDateModel model;
+    private boolean day;
 
     public DatePicker(boolean day) {
+        this.day = day;
+
         model = new UtilDateModel();
         Properties p = new Properties();
         p.put("text.today", "Today");
         p.put("text.month", "Month");
         p.put("text.year", "Year");
         datePanel = new JDatePanelImpl(model, p);
-       if(!day)
-        {
-        datePicker = new JDatePickerImpl(datePanel, new WeekDateFormatter());
-        PanelStyle.setSize(datePanel, 220, 200);
-        add(datePicker);
-        weekDatepicker = this;
+        if (!day) {
+            datePicker = new JDatePickerImpl(datePanel, new WeekDateFormatter());
+            PanelStyle.setSize(datePanel, 220, 200);
+            add(datePicker);
+            weekDatepicker = this;
+        } else {
+            datePicker = new JDatePickerImpl(datePanel, new DayDateFormatter());
+            PanelStyle.setSize(datePanel, 220, 200);
+            PanelStyle.setSize(datePicker, 150, 30);
+            add(datePicker);
+            dayDatepicker = this;
         }
-       else {
-        datePicker = new JDatePickerImpl(datePanel, new DayDateFormatter());
-        PanelStyle.setSize(datePanel, 220, 200);
-        PanelStyle.setSize(datePicker, 150,30);
-        add(datePicker);
-        dayDatepicker = this; 
-       }
-        
+
     }
 
     public static DatePicker getInstance() {
         return weekDatepicker;
     }
-    
-     public static DatePicker getDayInstance() {
+
+    public static DatePicker getDayInstance() {
         return dayDatepicker;
     }
-    
 
     public DateModel<?> getModel() {
         return datePicker.getModel();
@@ -67,11 +68,32 @@ public class DatePicker extends JPanel {
     public JFormattedTextField getJFormattedTextField() {
         return datePicker.getJFormattedTextField();
     }
-    
-    public JDatePickerImpl getDatePicker(){
+
+    public JDatePickerImpl getDatePicker() {
         return this.datePicker;
     }
 
-    
+    public void setDate(Calendar date) {
+        model = new UtilDateModel();
+        model.setDate(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DATE));
+        Properties p = new Properties();
+        p.put("text.today", "Today");
+        p.put("text.month", "Month");
+        p.put("text.year", "Year");
+        datePanel = new JDatePanelImpl(model, p);
+
+        if (!day) {
+            datePicker = new JDatePickerImpl(datePanel, new WeekDateFormatter());
+            PanelStyle.setSize(datePanel, 220, 200);
+            add(datePicker);
+            weekDatepicker = this;
+        } else {
+            datePicker = new JDatePickerImpl(datePanel, new DayDateFormatter());
+            PanelStyle.setSize(datePanel, 220, 200);
+            PanelStyle.setSize(datePicker, 150, 30);
+            add(datePicker);
+            dayDatepicker = this;
+        }
+    }
 
 }
