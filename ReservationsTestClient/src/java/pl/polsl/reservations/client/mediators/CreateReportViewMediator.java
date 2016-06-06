@@ -5,14 +5,7 @@ import java.util.List;
 import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.views.CreateRaportView;
 import pl.polsl.reservations.client.views.MainView;
-import pl.polsl.reservations.dto.DepartamentDTO;
-import pl.polsl.reservations.dto.EquipmentStateDTO;
-import pl.polsl.reservations.dto.EquipmentTypeDTO;
-import pl.polsl.reservations.dto.RoomDTO;
-import pl.polsl.reservations.dto.UserDTO;
-import pl.polsl.reservations.ejb.remote.RoomManagementFacade;
-import pl.polsl.reservations.ejb.remote.UserFacade;
-import pl.polsl.reservations.ejb.remote.UserManagementFacade;
+import pl.polsl.reservations.client.views.utils.AddTypeEnum;
 
 /**
  *

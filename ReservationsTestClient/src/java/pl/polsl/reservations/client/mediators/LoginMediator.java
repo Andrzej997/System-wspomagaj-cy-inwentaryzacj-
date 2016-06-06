@@ -33,12 +33,8 @@ public class LoginMediator {
 
         return roomsList.get(0).getNumber();
     }
-
     public LoginView createView(MainView parent) {
         loginWindow = new LoginView(parent, this);
-        if (userFacade.getUserPriviligeLevel().getPrivilegeLevel() != 1l) {
-            loginWindow.getRegisterButton().setVisible(false);
-        }
         return loginWindow;
     }
 }

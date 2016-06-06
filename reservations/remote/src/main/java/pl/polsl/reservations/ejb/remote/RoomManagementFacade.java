@@ -15,6 +15,7 @@ public interface RoomManagementFacade extends AbstractBusinessFacade{
     void moveEquipment(int equipmentId, int roomToId) throws UnauthorizedAccessException;
     List<RoomDTO> getRoomsList();
     RoomDTO getRoom(int roomNumber);
+    void addRoom(int roomNumber, Long keeperId, Long departamentId, Long roomTypeId, int numberOfSeats);
     List<EquipmentDTO> getRoomEquipment(int roomId);
     List<EquipmentDTO> getDepartmentEquipment(int departmentId);
     List<EquipmentStateDTO> getEquipmentStates();

@@ -13,6 +13,8 @@ import pl.polsl.reservations.client.mediators.CreateReportViewMediator;
 import pl.polsl.reservations.client.mediators.LoginMediator;
 import pl.polsl.reservations.client.mediators.MainViewMediator;
 import pl.polsl.reservations.client.reports.DocumentGenerator;
+import pl.polsl.reservations.client.views.utils.AddTypeEnum;
+import pl.polsl.reservations.client.views.utils.DatePicker;
 import pl.polsl.reservations.client.views.utils.FrameStyle;
 
 public class MainView extends JFrame {
@@ -26,7 +28,6 @@ public class MainView extends JFrame {
     private JMenuItem addMenuItem;
     private JMenuItem logoutMenuItem;
     private JMenuItem tutorialMenuItem;
-    private JMenuItem generateMenuItem;
     private JMenuItem exitMenuItem;
     private JMenuItem changePasswordItem;
     private JMenuItem editDataMenuItem;
@@ -35,10 +36,17 @@ public class MainView extends JFrame {
     private JMenuItem addDeviceMenuItem;
     private JMenuItem addStateMenuItem;
     private JMenuItem addTypeMenuItem;
+    private JMenuItem allRaportMenuItem;
+    private JMenuItem roomRaportMenuItem;
+    private JMenuItem departmentRaportMenuItem;
+    
     private JMenu fileMenu;
     private JMenu helpMenu;
     private JMenu accountMenu;
     private JMenu createRaportMenu;
+    private JMenu adminMenu;
+    private JMenu generateMenu;
+     
     private JPanel contentView;
 
     private JMenuBar menuBar;
@@ -48,7 +56,8 @@ public class MainView extends JFrame {
     public MainView(MainViewMediator mainViewMediator) {
         this.mainViewMediator = mainViewMediator;
         initComponents();
-
+        new DatePicker(true);
+        new DatePicker(false);
     }
 
     public void setView(JPanel view) {
@@ -60,7 +69,8 @@ public class MainView extends JFrame {
 
     public void setOptionsAvailable(Color fg) {
         addMenuItem.setForeground(fg);
-        generateMenuItem.setForeground(fg);
+        generateMenu.setForeground(fg);
+        adminMenu.setForeground(fg);
         createRaportMenu.setForeground(fg);
         logoutMenuItem.setForeground(fg);
         accountMenu.setForeground(fg);
@@ -72,6 +82,10 @@ public class MainView extends JFrame {
         addDeviceMenuItem.setForeground(fg);
         addStateMenuItem.setForeground(fg);
         addTypeMenuItem.setForeground(fg);
+        roomRaportMenuItem.setForeground(fg);
+        allRaportMenuItem.setForeground(fg);
+        departmentRaportMenuItem.setForeground(fg);
+        
     }
 
     private void initComponents() {
@@ -93,8 +107,9 @@ public class MainView extends JFrame {
         contentView = new JPanel();
         menuBar = new JMenuBar();
         fileMenu = new JMenu();
+        adminMenu = new JMenu();
         addMenuItem = new JMenuItem();
-        generateMenuItem = new JMenuItem();
+        generateMenu = new JMenu();
         accountMenu = new JMenu();
         logoutMenuItem = new JMenuItem();
         exitMenuItem = new JMenuItem();
@@ -109,6 +124,9 @@ public class MainView extends JFrame {
         addDeviceMenuItem = new JMenuItem();
         addStateMenuItem = new JMenuItem();
         addTypeMenuItem = new JMenuItem();
+        allRaportMenuItem = new JMenuItem();
+        departmentRaportMenuItem = new JMenuItem();
+        roomRaportMenuItem = new JMenuItem();
 
     }
 
@@ -130,25 +148,25 @@ public class MainView extends JFrame {
 
     private void addRoomMenuItemActionPerformed(ActionEvent evt) {
         if (isLoggedIn) {
-            FrameStyle.dialogStyle(new CreateReportViewMediator().createView(this, 1), "Add room");
+            FrameStyle.dialogStyle(new CreateReportViewMediator().createView(this, AddTypeEnum.ROOM), "Add room");
         }
     }
 
     private void addDeviceMenuItemActionPerformed(ActionEvent evt) {
         if (isLoggedIn) {
-            FrameStyle.dialogStyle(new CreateReportViewMediator().createView(this, 2), "Add device");
+            FrameStyle.dialogStyle(new CreateReportViewMediator().createView(this, AddTypeEnum.DEVICE), "Add device");
         }
     }
 
     private void addStateMenuItemActionPerformed(ActionEvent evt) {
         if (isLoggedIn) {
-            FrameStyle.dialogStyle(new CreateReportViewMediator().createView(this, 3), "Add state");
+            FrameStyle.dialogStyle(new CreateReportViewMediator().createView(this, AddTypeEnum.STATE), "Add state");
         }
     }
 
     private void addTypeMenuItemActionPerformed(ActionEvent evt) {
         if (isLoggedIn) {
-            FrameStyle.dialogStyle(new CreateReportViewMediator().createView(this, 4), "Add type");
+            FrameStyle.dialogStyle(new CreateReportViewMediator().createView(this, AddTypeEnum.TYPE), "Add type");
         }
     }
 
@@ -162,13 +180,6 @@ public class MainView extends JFrame {
                 DocumentGenerator documentGenerator = new DocumentGenerator(pathToFile);
                 documentGenerator.generateAllRoomsEquipmentReport();
             }
-        }
-    }
-
-    private void checkRaportMenuItemActionPerformed(ActionEvent evt) {
-        if (isLoggedIn) {
-            JOptionPane.showMessageDialog(this, "Not supported yet");
-            //  setView(new CheckRaportView(window));
         }
     }
 
@@ -227,13 +238,38 @@ public class MainView extends JFrame {
         addMenuItem.addActionListener((ActionEvent evt) -> {
             addMenuItemActionPerformed(evt);
         });
+        
         fileMenu.add(addMenuItem);
-        generateMenuItem.setForeground(new java.awt.Color(153, 153, 153));
-        generateMenuItem.setText("Generate raport");
-        generateMenuItem.addActionListener((ActionEvent evt) -> {
+        
+        adminMenu.setText("Admin action");
+        adminMenu.setForeground(new java.awt.Color(153, 153, 153));
+        
+        fileMenu.add(adminMenu);
+        
+        allRaportMenuItem.setText("Full raport");
+        departmentRaportMenuItem.setText("Department raport");
+        roomRaportMenuItem.setText("Room raport");
+        
+        allRaportMenuItem.setForeground(new java.awt.Color(153, 153, 153));
+        roomRaportMenuItem.setForeground(new java.awt.Color(153, 153, 153));
+        departmentRaportMenuItem.setForeground(new java.awt.Color(153, 153, 153));
+        
+        allRaportMenuItem.addActionListener((ActionEvent evt) -> {
             generateMenuItemActionPerformed(evt);
         });
-        fileMenu.add(generateMenuItem);
+        roomRaportMenuItem.addActionListener((ActionEvent evt) -> {
+            generateMenuItemActionPerformed(evt);
+        });
+        departmentRaportMenuItem.addActionListener((ActionEvent evt) -> {
+            generateMenuItemActionPerformed(evt);
+        });
+        
+        generateMenu.setForeground(new java.awt.Color(153, 153, 153));
+        generateMenu.setText("Generate raport");
+        generateMenu.add(roomRaportMenuItem);
+        generateMenu.add(departmentRaportMenuItem);
+        generateMenu.add(allRaportMenuItem);
+        fileMenu.add(generateMenu);
 
         createRaportMenu.setForeground(new java.awt.Color(153, 153, 153));
         createRaportMenu.setText("Create raport");
@@ -258,7 +294,7 @@ public class MainView extends JFrame {
         addStateMenuItem.addActionListener((ActionEvent evt) -> {
             addStateMenuItemActionPerformed(evt);
         });
-        createRaportMenu.add(addStateMenuItem);
+        adminMenu.add(addStateMenuItem);
 
         //TYLKO ADMIN:
         addTypeMenuItem.setForeground(new java.awt.Color(153, 153, 153));
@@ -266,15 +302,13 @@ public class MainView extends JFrame {
         addTypeMenuItem.addActionListener((ActionEvent evt) -> {
             addTypeMenuItemActionPerformed(evt);
         });
-        createRaportMenu.add(addTypeMenuItem);
+        adminMenu.add(addTypeMenuItem);
 
         fileMenu.add(createRaportMenu);
 
         accountMenu.setForeground(new java.awt.Color(153, 153, 153));
         accountMenu.setText("My account");
         accountMenu.add(changePasswordItem);
-        accountMenu.add(addUserMenuItem);
-        accountMenu.add(editDataMenuItem);
 
         changePasswordItem.setText("Change password");
         changePasswordItem.setForeground(new java.awt.Color(153, 153, 153));
@@ -282,7 +316,7 @@ public class MainView extends JFrame {
             changePasswordActionPerformed(evt);
         });
 
-        //TYLKO DLA ADMINISTRATORÓW - DODAJ IFA :D
+        //TODO: TYLKO DLA ADMINISTRATORÓW - DODAJ IFA :D
         addUserMenuItem.setText("Add user");
         addUserMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         addUserMenuItem.addActionListener((ActionEvent evt) -> {
@@ -294,6 +328,9 @@ public class MainView extends JFrame {
         editDataMenuItem.addActionListener((ActionEvent evt) -> {
             editUserActionPerformed(evt);
         });
+        
+        adminMenu.add(addUserMenuItem);
+        accountMenu.add(editDataMenuItem);
 
         fileMenu.add(accountMenu);
         logoutMenuItem.setForeground(new java.awt.Color(153, 153, 153));
@@ -321,7 +358,7 @@ public class MainView extends JFrame {
         }
         if (!ClientContext.checkUserPrivilegesToAction("TECHNICAL_WORKER")) {
             addMenuItem.setEnabled(false);
-            generateMenuItem.setEnabled(false);
+            generateMenu.setEnabled(false);
             editDataMenuItem.setEnabled(false);
         }
     }
@@ -390,11 +427,11 @@ public class MainView extends JFrame {
     }
 
     public JMenuItem getGenerateMenuItem() {
-        return generateMenuItem;
+        return generateMenu;
     }
 
-    public void setGenerateMenuItem(JMenuItem generateMenuItem) {
-        this.generateMenuItem = generateMenuItem;
+    public void setGenerateMenuItem(JMenu generateMenuItem) {
+        this.generateMenu = generateMenuItem;
     }
 
     public JMenuItem getExitMenuItem() {

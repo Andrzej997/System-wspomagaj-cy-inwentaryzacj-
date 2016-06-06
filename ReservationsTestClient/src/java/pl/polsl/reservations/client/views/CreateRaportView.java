@@ -19,9 +19,11 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 import pl.polsl.reservations.client.mediators.CreateReportViewMediator;
+import pl.polsl.reservations.client.views.utils.AddTypeEnum;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
 import pl.polsl.reservations.client.views.utils.NumberFormatUtils;
 import pl.polsl.reservations.client.views.utils.PanelStyle;
+import pl.polsl.reservations.client.views.utils.RoomComboBox;
 import pl.polsl.reservations.client.views.utils.ValidationErrorMessanger;
 
 /**
@@ -38,13 +40,30 @@ public class CreateRaportView extends JPanel {
     private MainView window;
     private int option;
 
+/**
+ *
+ * @author abienioszek
+ */
+public class CreateRaportView extends JPanel {
+
+    private static final long serialVersionUID = -2093933144982918107L;
+
+    private final int NORMAL_WIDTH = 200;
+    private final int NORMAL_HEIGHT = 30;
+
+    private MainView window;
+    private AddTypeEnum option;
+
     private JTextField roomIdTf;
     private JTextField numberTf;
     private JComboBox typeCb;
     private JComboBox keeperCb;
     private JComboBox departmentCb;
     private JComboBox stateCb;
+    private JComboBox roomTypeCb;
+    private RoomComboBox roomCb;
     private JTextField nameTf;
+    private JTextField descriptionTf;
 
     private JLabel roomLabel;
     private JLabel numberLabel;
@@ -53,6 +72,8 @@ public class CreateRaportView extends JPanel {
     private JLabel departmentLabel;
     private JLabel stateLabel;
     private JLabel nameLabel;
+    private JLabel descriptionLabel;
+    private JLabel roomTypeLabel;
 
     private JPanel mainPanel;
     private JPanel dataPanel;
@@ -62,7 +83,7 @@ public class CreateRaportView extends JPanel {
 
     private final CreateReportViewMediator createReportViewMediator;
 
-    public CreateRaportView(MainView window, int option, CreateReportViewMediator createReportViewMediator) {
+    public CreateRaportView(MainView window, AddTypeEnum option, CreateReportViewMediator createReportViewMediator) {
         this.window = window;
         this.option = option;
         this.createReportViewMediator = createReportViewMediator;
@@ -75,26 +96,32 @@ public class CreateRaportView extends JPanel {
     }
 
     private void setupView() {
-        if (option > 2) {
+        if ((option==AddTypeEnum.STATE)||(option==AddTypeEnum.TYPE)) {
             labelPanel.add(nameLabel);
+            labelPanel.add(descriptionLabel);
             dataPanel.add(nameTf);
-        } else if (option == 1) {
+            dataPanel.add(descriptionTf);
+        } else if (option == AddTypeEnum.ROOM) {
             labelPanel.add(roomLabel);
             labelPanel.add(numberLabel);
+            labelPanel.add(roomTypeLabel);
             labelPanel.add(departmentLabel);
             labelPanel.add(keeperLabel);
             labelPanel.add(typeLabel);
             dataPanel.add(roomIdTf);
             dataPanel.add(numberTf);
+            dataPanel.add(roomTypeCb);
             dataPanel.add(departmentCb);
             dataPanel.add(keeperCb);
             dataPanel.add(typeCb);
 
-        } else if (option == 2) {
+        } else if (option == AddTypeEnum.DEVICE) {
+            labelPanel.add(roomLabel);
             labelPanel.add(typeLabel);
             labelPanel.add(numberLabel);
             labelPanel.add(nameLabel);
             labelPanel.add(stateLabel);
+            dataPanel.add(roomCb);
             dataPanel.add(typeCb);
             dataPanel.add(numberTf);
             dataPanel.add(nameTf);
@@ -153,14 +180,19 @@ public class CreateRaportView extends JPanel {
         PanelStyle.setSize(departmentCb, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(keeperCb, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(nameTf, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 120);
-        if (option < 3) {
-            PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 120);
-            PanelStyle.setSize(mainPanel, 2 * NORMAL_WIDTH, 120);
-            PanelStyle.setSize(this, 2 * NORMAL_WIDTH, 190);
+        PanelStyle.setSize(descriptionTf, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(descriptionLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(roomCb, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(roomTypeCb, NORMAL_WIDTH, NORMAL_HEIGHT);
+       if ((option==AddTypeEnum.ROOM)||(option==AddTypeEnum.DEVICE)) {
+            PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 160);
+                        PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 160);
+            PanelStyle.setSize(mainPanel, 2 * NORMAL_WIDTH, 160);
+            PanelStyle.setSize(this, 2 * NORMAL_WIDTH, 200);
         } else {
-            PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 50);
-            PanelStyle.setSize(mainPanel, 2 * NORMAL_WIDTH, 50);
+           PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 60);
+            PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 60);
+            PanelStyle.setSize(mainPanel, 2 * NORMAL_WIDTH, 60);
             PanelStyle.setSize(this, 2 * NORMAL_WIDTH, 120);
         }
 
@@ -170,22 +202,29 @@ public class CreateRaportView extends JPanel {
         okButton = new JButton();
         roomIdTf = new JTextField();
         numberTf = new JTextField();
+        descriptionTf = new JTextField();
+        descriptionLabel = new JLabel("Description: ");
         typeCb = new JComboBox();
         keeperCb = new JComboBox();
         departmentCb = new JComboBox();
         stateCb = new JComboBox();
+        roomCb = new RoomComboBox();
+        roomTypeCb = new JComboBox();
         nameTf = new JTextField();
-        roomLabel = new JLabel("Room ID: ");
-        numberLabel = new JLabel("Number of seats: ");
+        roomTypeLabel = new JLabel("Room type: ");
+         if(option==AddTypeEnum.DEVICE) roomLabel = new JLabel("Room: ");
+         else roomLabel = new JLabel("Room ID: ");
+        if(option==AddTypeEnum.ROOM) numberLabel = new JLabel("Number of seats: ");
+        else numberLabel = new JLabel("Amount: ");
         typeLabel = new JLabel("Type: ");
         keeperLabel = new JLabel("Keeper: ");
         departmentLabel = new JLabel("Department: ");
         stateLabel = new JLabel("State:");
-        switch (option) {
-            case 3:
+        if(null!=option)switch (option) {
+            case STATE:
                 nameLabel = new JLabel("New state name:");
                 break;
-            case 4:
+            case TYPE:
                 nameLabel = new JLabel("New type name: ");
                 break;
             default:
@@ -304,11 +343,11 @@ public class CreateRaportView extends JPanel {
         this.window = window;
     }
 
-    public int getOption() {
+    public AddTypeEnum getOption() {
         return option;
     }
 
-    public void setOption(int option) {
+    public void setOption(AddTypeEnum  option) {
         this.option = option;
     }
 

@@ -14,25 +14,30 @@ public class MainView extends JFrame {
     private MainView window;
     private boolean isLoggedIn = false;
 
+    private JMenuBar menuBar;
+
+    private JMenu helpMenu;
+    private JMenu fileMenu;
+    private JMenu generateMenuItem;
+
+    private JMenuItem roomRaportMenuItem;
+    private JMenuItem departmentRaportMenuItem;
+    private JMenuItem allRaportMenuItem;
     private JMenuItem aboutMenuItem;
     private JMenuItem accountMenuItem;
     private JMenuItem addMenuItem;
     private JMenuItem checkRaportMenuItem;
     private JMenuItem exitMenuItem;
-    private JMenu fileMenu;
-    private JMenuItem generateMenuItem;
-    private JMenu helpMenu;
-    private JPanel contentView;
     private JMenuItem logoutMenuItem;
-    private JMenuBar menuBar;
     private JMenuItem tutorialMenuItem;
-    
+
+    private JPanel contentView;
+
     private transient final MainViewMediator mainViewMediator;
 
     public MainView(MainViewMediator mainViewMediator) {
         this.mainViewMediator = mainViewMediator;
         initComponents();
-
     }
 
     public void setView(JPanel view) {
@@ -69,7 +74,10 @@ public class MainView extends JFrame {
         menuBar = new JMenuBar();
         fileMenu = new JMenu();
         addMenuItem = new JMenuItem();
-        generateMenuItem = new JMenuItem();
+        generateMenuItem = new JMenu();
+        roomRaportMenuItem = new JMenuItem();
+        allRaportMenuItem = new JMenuItem();
+        departmentRaportMenuItem = new JMenuItem();
         accountMenuItem = new JMenuItem();
         logoutMenuItem = new JMenuItem();
         exitMenuItem = new JMenuItem();
@@ -80,8 +88,8 @@ public class MainView extends JFrame {
     }
 
     private void tutorialMenuItemActionPerformed(ActionEvent evt) {
-           JOptionPane.showMessageDialog(this, "Not supported yet");
-      //  setView(new TutorialView(window));
+        JOptionPane.showMessageDialog(this, "Not supported yet");
+        //  setView(new TutorialView(window));
     }
 
     private void exitMenuItemActionPerformed(ActionEvent evt) {
@@ -92,20 +100,6 @@ public class MainView extends JFrame {
     private void addMenuItemActionPerformed(ActionEvent evt) {
         if (isLoggedIn) {
             setView(new AddEditViewMediator().createView(this));
-        }
-    }
-
-    private void generateMenuItemActionPerformed(ActionEvent evt) {
-        if (isLoggedIn) {
-             JOptionPane.showMessageDialog(this, "Not supported yet");
-      //      setView(new GenerateRaportView(window));
-        }
-    }
-
-    private void checkRaportMenuItemActionPerformed(ActionEvent evt) {
-        if (isLoggedIn) {
-             JOptionPane.showMessageDialog(this, "Not supported yet");
-          //  setView(new CheckRaportView(window));
         }
     }
 
@@ -126,7 +120,8 @@ public class MainView extends JFrame {
     }
 
     private void aboutMenuItemActionPerformed(ActionEvent evt) {
-    JOptionPane.showMessageDialog(this, "Not supported yet");   }
+        JOptionPane.showMessageDialog(this, "Not supported yet");
+    }
 
     public void setLogged(boolean value) {
         isLoggedIn = value;
@@ -140,6 +135,7 @@ public class MainView extends JFrame {
 
     private void generateMenu() {
         fileMenu.setText("File");
+        
         addMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         addMenuItem.setText("Add");
         addMenuItem.addActionListener((ActionEvent evt) -> {
@@ -148,16 +144,10 @@ public class MainView extends JFrame {
         fileMenu.add(addMenuItem);
         generateMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         generateMenuItem.setText("Generate");
-        generateMenuItem.addActionListener((ActionEvent evt) -> {
-            generateMenuItemActionPerformed(evt);
-        });
         fileMenu.add(generateMenuItem);
 
         checkRaportMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         checkRaportMenuItem.setText("Check raport");
-        checkRaportMenuItem.addActionListener((ActionEvent evt) -> {
-            checkRaportMenuItemActionPerformed(evt);
-        });
         fileMenu.add(checkRaportMenuItem);
 
         accountMenuItem.setForeground(new java.awt.Color(153, 153, 153));
@@ -166,8 +156,8 @@ public class MainView extends JFrame {
             accountMenuItemActionPerformed(evt);
         });
         fileMenu.add(accountMenuItem);
+        
         logoutMenuItem.setForeground(new java.awt.Color(153, 153, 153));
-        logoutMenuItem.setMnemonic('a');
         logoutMenuItem.setText("Logout");
         logoutMenuItem.addActionListener((ActionEvent evt) -> {
             logoutMenuItemActionPerformed(evt);
@@ -251,5 +241,5 @@ public class MainView extends JFrame {
     public JMenuItem getTutorialMenuItem() {
         return tutorialMenuItem;
     }
-        
+
 }

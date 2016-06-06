@@ -26,6 +26,17 @@ public class RoomComboBox extends JPanel {
         add(subComboBox, BorderLayout.EAST);
         previouslySelectedRoom = null;
     }
+    
+    public RoomComboBox(){
+         mainComboBox = new JComboBox();
+        mainComboBox.addActionListener(this);
+        add(mainComboBox, BorderLayout.WEST);
+        subComboBox = new JComboBox();
+        subComboBox.setPrototypeDisplayValue("XXXXXXXXXX");
+        subComboBox.addActionListener(this);
+        add(subComboBox, BorderLayout.EAST);
+        previouslySelectedRoom = null;
+    }
 
     public Boolean onAction() {
         String item = (String) mainComboBox.getSelectedItem();

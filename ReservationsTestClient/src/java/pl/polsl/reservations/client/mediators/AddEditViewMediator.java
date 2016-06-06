@@ -59,7 +59,7 @@ public class AddEditViewMediator {
     }
 
     public AddEditView createView(MainView parent) {
-        addEditView = new AddEditView(parent, this);
+        addEditView = new AddEditView(parent, this, false);
         getRooms();
         getReservations();
         setWorkersData();

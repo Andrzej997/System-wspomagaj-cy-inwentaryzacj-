@@ -22,10 +22,10 @@ public class FrameStyle {
     public static void dialogStyle(JPanel panel, String title){
          JDialog mFrame = new JDialog();
          mFrame.setResizable(false);
-            mFrame.setContentPane(panel);
-            mFrame.setVisible(true);
-            mFrame.pack();
-            centreWindow(mFrame);
+         mFrame.setContentPane(panel);
+         mFrame.setVisible(true);
+         mFrame.pack();
+         centreWindow(mFrame);
     }
     
     public static void centreWindow(Window frame) {
