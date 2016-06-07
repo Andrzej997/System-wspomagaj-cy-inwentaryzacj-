@@ -16,6 +16,7 @@ import pl.polsl.reservations.client.views.renderers.DayCustomRenderer;
 import pl.polsl.reservations.dto.ReservationDTO;
 import pl.polsl.reservations.dto.ReservationTypeDTO;
 import pl.polsl.reservations.dto.RoomDTO;
+import pl.polsl.reservations.dto.RoomTypesDTO;
 import pl.polsl.reservations.dto.UserDTO;
 import pl.polsl.reservations.ejb.remote.RoomManagementFacade;
 import pl.polsl.reservations.ejb.remote.ScheduleFacade;
@@ -45,7 +46,7 @@ public class AddEditViewMediator {
         roomManagementFacade = (RoomManagementFacade) Lookup.getRemote("RoomManagementFacade");
         userManagementFacade = (UserManagementFacade) Lookup.getRemote("UserManagementFacade");
         userFacade = (UserFacade) Lookup.getRemote("UserFacade");
-        date = Calendar.getInstance();
+        date = null;
 
     }
 
@@ -55,16 +56,24 @@ public class AddEditViewMediator {
         userManagementFacade = (UserManagementFacade) Lookup.getRemote("UserManagementFacade");
         userFacade = (UserFacade) Lookup.getRemote("UserFacade");
         this.date = date;
+
         this.roomNumber = roomNumber;
     }
 
+    //Data do widoku przekazywana jest tak ze dla wejscia z tabeli bieze i ustawia kalendarz
+    //a dla wejscia z File -> add, data jest brana ze statycznego datepickera
     public AddEditView createView(MainView parent) {
         addEditView = new AddEditView(parent, this, false);
-        setStartDate();
+        if (date != null) {
+            setSelectedDate();
+        } else {
+            date = addEditView.getDatepicker().getDate();
+        }
         getRooms();
         getReservations();
         setWorkersData();
         setTargetData();
+
         return addEditView;
     }
 
@@ -76,6 +85,68 @@ public class AddEditViewMediator {
                 addEditView.getRoomCb().setSelectedItem(room.getNumber());
             }
         });
+    }
+
+    public boolean addReservation() {
+        Integer roomID = roomManagementFacade.getRoom((Integer) addEditView.getRoomCb().getSelectedItem()).getId().intValue();
+
+        Integer weekDay = date.get(Calendar.DAY_OF_WEEK);
+
+        if (weekDay == 1) {
+            weekDay = 6;
+        } else {
+            weekDay -= 2;
+        }
+
+        Integer startTime = getStartHourFromView() + weekDay * 96;
+        Integer endTime = getEndHourFromView() + weekDay * 96;
+
+        Calendar calendar = date;
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        int weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
+        int weekOfSemester = 1;
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+
+        boolean semester = true;
+
+        if (month >= 10 || month <= 2) {
+            semester = false;
+            Calendar cal = calendar;
+            cal.set(Calendar.MONTH, Calendar.OCTOBER);
+            cal.set(Calendar.DATE, 1);
+
+            if (month >= 10 && month <= 12) {
+                weekOfSemester = weekOfYear - cal.get(Calendar.WEEK_OF_YEAR) + 1;
+            } else {   //sprawdziæ zachowanie jak sylwester nie jest w niedzielê
+                Calendar calPom = Calendar.getInstance();
+                cal.set(Calendar.YEAR, cal.get(Calendar.YEAR) - 1);
+                calPom.set(Calendar.YEAR, calPom.get(Calendar.YEAR) - 1);
+                calPom.set(Calendar.MONTH, Calendar.DECEMBER);
+                calPom.set(Calendar.DATE, 31);
+
+                weekOfSemester = calPom.get(Calendar.WEEK_OF_YEAR) - cal.get(Calendar.WEEK_OF_YEAR);
+                calPom.set(calendar.get(Calendar.YEAR), Calendar.JANUARY, 1);
+                weekOfSemester += calendar.get(Calendar.WEEK_OF_YEAR) - calPom.get(Calendar.WEEK_OF_YEAR);
+            }
+
+        } else {
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.MONTH, Calendar.MARCH);
+            cal.set(Calendar.DATE, 1);
+
+            weekOfSemester = weekOfYear - cal.get(Calendar.WEEK_OF_YEAR) + 1;
+        }
+
+        Integer typeId = getType().getId();
+
+        Integer userId = getWorkersData().getId().intValue();
+
+        scheduleFacade.createReservation(roomID, startTime, endTime, weekOfSemester, date.get(Calendar.YEAR), semester, typeId, userId);
+
+        getReservations();
+
+        return true;
     }
 
     public void getReservations() {
@@ -207,6 +278,32 @@ public class AddEditViewMediator {
         return null;
     }
 
+    public Integer getEndHourFromView() {
+        String selectedHour = (String) addEditView.getHourStopCb().getSelectedItem();
+
+        for (int i = 0; i < 96; i++) {
+            Integer hour = i / 4;
+            Integer quarter = (i % 4) * 15;
+            String hourString = hour.toString() + ":";
+            if (quarter == 0) {
+                hourString += "00";
+            } else {
+                hourString += quarter.toString();
+            }
+            if (selectedHour.equals(hourString)) {
+                return i;
+            }
+        }
+        return null;
+    }
+
+    public UserDTO getWorkersData() {
+        int selectedIndex = addEditView.getTeacherCb().getSelectedIndex();
+        List<UserDTO> userDetailsList = userFacade.getUsersWithLowerPrivilegeLevel();
+        UserDTO selectedUser = userDetailsList.get(selectedIndex);
+        return selectedUser;
+    }
+
     public void setWorkersData() {
         UserDTO currentUserDetails = userManagementFacade.getUserDetails(ClientContext.getUsername());
         List<UserDTO> userDetailsList = userFacade.getUsersWithLowerPrivilegeLevel();
@@ -218,15 +315,23 @@ public class AddEditViewMediator {
         addEditView.getTeacherCb().setSelectedItem(name);
     }
 
+    public RoomTypesDTO getType() {
+        Integer selectedIndex = addEditView.getGroupCb().getSelectedIndex();
+
+        List<RoomTypesDTO> roomTypes = roomManagementFacade.getRoomTypes();
+
+        return roomTypes.get(selectedIndex);
+    }
+
     public void setTargetData() {
         List<ReservationTypeDTO> reservationTypes = scheduleFacade.getReservationTypes();
         for (ReservationTypeDTO reservationTypeDTO : reservationTypes) {
             addEditView.getGroupCb().addItem(reservationTypeDTO.getShortDescription());
         }
     }
-    
-    private void setStartDate(){
-        addEditView.getDatepicker().setDate(date, false);
+
+    private void setSelectedDate() {
+        addEditView.getDatepicker().setDate(date);
     }
 
     public Integer getRoomNumber() {

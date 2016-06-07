@@ -132,7 +132,6 @@ public class WeekDataView extends JPanel {
                     Integer column = planTable.columnAtPoint(e.getPoint());
                     if (column != 0) {
                         Calendar cal = startDate;
-                        cal.add(Calendar.DATE, column - 1);
                         window.setView(new DayDataViewMediator().createView(window, cal));
                     }
                 }
@@ -142,6 +141,13 @@ public class WeekDataView extends JPanel {
     }
 
     private void datePickerChange(ActionEvent e) {
+        Calendar date = datePicker.getDate();
+        if (date != null) {
+            startDate.set(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DATE));
+            startDate.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+            endDate.set(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DATE));
+            endDate.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        }
         weekDataViewMediator.getReservations();
     }
 
@@ -334,8 +340,6 @@ public class WeekDataView extends JPanel {
                 Integer row = planTable.getSelectedRow();
                 if (column != 0) {
                     Calendar cal = startDate;
-                    cal.add(Calendar.DATE, column - 1);
-
                     window.setView(new AddEditViewMediator(cal, chooseRoomDropdown.getSelectedItem()).createView(window));
                 }
 //todo:
