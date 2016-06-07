@@ -60,6 +60,7 @@ public class AddEditViewMediator {
 
     public AddEditView createView(MainView parent) {
         addEditView = new AddEditView(parent, this, false);
+        setStartDate();
         getRooms();
         getReservations();
         setWorkersData();
@@ -222,6 +223,10 @@ public class AddEditViewMediator {
         for (ReservationTypeDTO reservationTypeDTO : reservationTypes) {
             addEditView.getGroupCb().addItem(reservationTypeDTO.getShortDescription());
         }
+    }
+    
+    private void setStartDate(){
+        addEditView.getDatepicker().setDate(date, false);
     }
 
     public Integer getRoomNumber() {

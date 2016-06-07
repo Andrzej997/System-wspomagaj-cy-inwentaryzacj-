@@ -319,14 +319,14 @@ public class CreateRaportView extends JPanel {
 
     private Boolean validateAddType() {
         Boolean validationFlag = true;
-        /* if (nameTf.getText().isEmpty()) {
-            ValidationErrorMessanger.showErrorMessage(nameTf, "Equipment name field cannot be empty");
+        if (nameTf.getText().isEmpty()) {
+            ValidationErrorMessanger.showErrorMessage(nameTf, "Name field cannot be empty");
             validationFlag = false;
         }
-        if (numberTf.getText().isEmpty()) {
-            ValidationErrorMessanger.showErrorMessage(numberTf, "Equipment quantity field cannot be empty");
+        if (descriptionTf.getText().isEmpty()) {
+            ValidationErrorMessanger.showErrorMessage(descriptionTf, "Description field cannot be empty");
             validationFlag = false;
-        }*/
+        }
         return validationFlag;
     }
 

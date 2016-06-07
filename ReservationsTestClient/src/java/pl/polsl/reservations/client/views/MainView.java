@@ -56,8 +56,6 @@ public class MainView extends JFrame {
     public MainView(MainViewMediator mainViewMediator) {
         this.mainViewMediator = mainViewMediator;
         initComponents();
-        new DatePicker(true);
-        new DatePicker(false);
     }
 
     public void setView(JPanel view) {

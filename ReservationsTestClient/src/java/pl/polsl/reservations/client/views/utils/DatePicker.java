@@ -19,6 +19,7 @@ public class DatePicker extends JPanel {
 
     private static final DatePicker weekDatepicker = new DatePicker(true);
     private static final DatePicker dayDatepicker = new DatePicker(false);
+    private static final long serialVersionUID = 3512548187838571101L;
     private JDatePanelImpl datePanel;
     private JDatePickerImpl datePicker;
     private UtilDateModel model;

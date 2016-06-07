@@ -165,9 +165,9 @@ public class CreateReportViewMediator {
     }
 
     public Boolean onAddType() {
-
-        //return roomManagementFacade.addEquipmentType(shortDescription, longDescription);
-        return true;
+        String shortDescription = createRaportView.getNameTf().getText();
+        String longDescription = createRaportView.getDescriptionTf().getText();
+        return roomManagementFacade.addEquipmentType(shortDescription, longDescription);
     }
 
 }

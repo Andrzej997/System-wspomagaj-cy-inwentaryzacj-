@@ -234,7 +234,7 @@ public class AddEditUserView extends JPanel {
     private Boolean validateFields() {
         Boolean validationFlag = true;
         if (editUser) {
-            if (NumberFormatUtils.isInteger(phoneTf.getText())) {
+            if (!NumberFormatUtils.isInteger(phoneTf.getText())) {
                 ValidationErrorMessanger.showErrorMessage(phoneTf, "Phone is not a number");
                 validationFlag = false;
             }
@@ -276,7 +276,7 @@ public class AddEditUserView extends JPanel {
                 ValidationErrorMessanger.showErrorMessage(peselTf, "Phone field cannot be empty");
                 validationFlag = false;
             }
-            if (NumberFormatUtils.isInteger(phoneTf.getText())) {
+            if (!NumberFormatUtils.isInteger(phoneTf.getText())) {
                 ValidationErrorMessanger.showErrorMessage(phoneTf, "Phone is not a number");
                 validationFlag = false;
             }

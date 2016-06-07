@@ -289,7 +289,10 @@ public class UserManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     @Override
     public boolean checkUserExistence(UserDTO user) {
         Users userDB;
-        userDB = usersFacade.getReference(user.getId());
+        if (user.getId() == null) {
+            return false;
+        }
+        userDB = usersFacade.find(user.getId());
         if (userDB != null) {
             return true;
         }
@@ -307,6 +310,7 @@ public class UserManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     @Override
     @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
     public boolean registerUser(UserDTO user, String password) {
+        Users admin = getCurrentUserContext().getUser();
         if (checkUserExistence(user)) {
             return false;
         }
@@ -322,9 +326,10 @@ public class UserManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
         PriviligeLevels level = priviligeLevelsFacade.getPrivligeLevelsEntityByLevelValue(user.getPrivilegeLevel());
         if (level != null) {
             userDB.setPriviligeLevel(level);
+        } else {
+            level = priviligeLevelsFacade.getPrivligeLevelsEntityByLevelValue(6l);
+            userDB.setPriviligeLevel(level);
         }
-
-        usersFacade.create(userDB);
 
         Workers workerDB = new Workers();
 
@@ -333,13 +338,19 @@ public class UserManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
         workerDB.setPesel(user.getPesel());
         workerDB.setSurname(user.getSurname());
         workerDB.setWorkerName(user.getName());
-
         Departaments departaments = departamentsFacade.getDepartamentByName(user.getDepartment());
         if (departaments != null) {
             workerDB.setDepartament(departaments);
         }
 
         workersFacade.create(workerDB);
+        List<Workers> workerByPesel = workersFacade.getWorkerByPesel(workerDB.getPesel());
+        userDB.setWorkers(workerByPesel.get(0));
+        usersFacade.create(userDB);
+        List<Users> usersCollection = level.getUsersCollection();
+        usersCollection.add(usersFacade.getUserByUsername(user.getUserName()));
+        level.setUsersCollection(usersCollection);
+        priviligeLevelsFacade.merge(level);
 
         return true;
     }
@@ -371,10 +382,10 @@ public class UserManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
 
         Users u = usersFacade.find(pr.getUserID());
         changePrivilegeLevel(u.getUsername(), pr.getPrivilegeLevel());
-        
+
         //TODO
         TimerSession timerSession;
-        
+
         return true;
     }
 

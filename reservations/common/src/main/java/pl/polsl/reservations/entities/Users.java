@@ -25,7 +25,7 @@ public class Users implements Serializable {
     @Column(name = "USER_ID", updatable = true, insertable = true, nullable = false)
     private Long id;
 
-    @Column(name = "PASSWORD", updatable = true, insertable = true, nullable = false)
+    @Column(name = "PASSWORD", updatable = true, insertable = true, nullable = true)
     private String password;
 
     @OneToMany(targetEntity = Reservations.class, cascade = CascadeType.ALL)

@@ -24,7 +24,7 @@ public class AddEditView extends JPanel {
     private final int NORMAL_WIDTH = 150;
     private final int NORMAL_HEIGHT = 30;
 
-    MainView window;
+    private MainView window;
     private JPanel mainPanel;
     private JPanel addPanel;
     private JPanel dayTablePanel;
@@ -231,72 +231,383 @@ public class AddEditView extends JPanel {
         actionMap.put("escape", escapeAction);
     }
 
+    /**
+     * @return the window
+     */
     public MainView getWindow() {
         return window;
     }
 
+    /**
+     * @param window the window to set
+     */
+    public void setWindow(MainView window) {
+        this.window = window;
+    }
+
+    /**
+     * @return the mainPanel
+     */
     public JPanel getMainPanel() {
         return mainPanel;
     }
 
+    /**
+     * @param mainPanel the mainPanel to set
+     */
+    public void setMainPanel(JPanel mainPanel) {
+        this.mainPanel = mainPanel;
+    }
+
+    /**
+     * @return the addPanel
+     */
     public JPanel getAddPanel() {
         return addPanel;
     }
 
+    /**
+     * @param addPanel the addPanel to set
+     */
+    public void setAddPanel(JPanel addPanel) {
+        this.addPanel = addPanel;
+    }
+
+    /**
+     * @return the dayTablePanel
+     */
     public JPanel getDayTablePanel() {
         return dayTablePanel;
     }
 
-    public JButton getOkButton() {
-        return addButton;
+    /**
+     * @param dayTablePanel the dayTablePanel to set
+     */
+    public void setDayTablePanel(JPanel dayTablePanel) {
+        this.dayTablePanel = dayTablePanel;
     }
 
-    public JTable getDayTable() {
-        return dayTable;
-    }
-
-    public JPanel getAddLabelPanel() {
+    /**
+     * @return the labelPanel
+     */
+    public JPanel getLabelPanel() {
         return labelPanel;
     }
 
-    public JPanel getAddDataPanel() {
+    /**
+     * @param labelPanel the labelPanel to set
+     */
+    public void setLabelPanel(JPanel labelPanel) {
+        this.labelPanel = labelPanel;
+    }
+
+    /**
+     * @return the dataPanel
+     */
+    public JPanel getDataPanel() {
         return dataPanel;
     }
 
+    /**
+     * @param dataPanel the dataPanel to set
+     */
+    public void setDataPanel(JPanel dataPanel) {
+        this.dataPanel = dataPanel;
+    }
+
+    /**
+     * @return the hourPanel
+     */
     public JPanel getHourPanel() {
         return hourPanel;
     }
 
+    /**
+     * @param hourPanel the hourPanel to set
+     */
+    public void setHourPanel(JPanel hourPanel) {
+        this.hourPanel = hourPanel;
+    }
+
+    /**
+     * @return the navigatePanel
+     */
+    public JPanel getNavigatePanel() {
+        return navigatePanel;
+    }
+
+    /**
+     * @param navigatePanel the navigatePanel to set
+     */
+    public void setNavigatePanel(JPanel navigatePanel) {
+        this.navigatePanel = navigatePanel;
+    }
+
+    /**
+     * @return the datepicker
+     */
+    public DatePicker getDatepicker() {
+        return datepicker;
+    }
+
+    /**
+     * @param datepicker the datepicker to set
+     */
+    public void setDatepicker(DatePicker datepicker) {
+        this.datepicker = datepicker;
+    }
+
+    /**
+     * @return the addButton
+     */
+    public JButton getAddButton() {
+        return addButton;
+    }
+
+    /**
+     * @param addButton the addButton to set
+     */
+    public void setAddButton(JButton addButton) {
+        this.addButton = addButton;
+    }
+
+    /**
+     * @return the editButton
+     */
+    public JButton getEditButton() {
+        return editButton;
+    }
+
+    /**
+     * @param editButton the editButton to set
+     */
+    public void setEditButton(JButton editButton) {
+        this.editButton = editButton;
+    }
+
+    /**
+     * @return the discardButton
+     */
+    public JButton getDiscardButton() {
+        return discardButton;
+    }
+
+    /**
+     * @param discardButton the discardButton to set
+     */
+    public void setDiscardButton(JButton discardButton) {
+        this.discardButton = discardButton;
+    }
+
+    /**
+     * @return the dayTable
+     */
+    public JTable getDayTable() {
+        return dayTable;
+    }
+
+    /**
+     * @param dayTable the dayTable to set
+     */
+    public void setDayTable(JTable dayTable) {
+        this.dayTable = dayTable;
+    }
+
+    /**
+     * @return the roomCb
+     */
     public JComboBox getRoomCb() {
         return roomCb;
     }
 
+    /**
+     * @param roomCb the roomCb to set
+     */
+    public void setRoomCb(JComboBox roomCb) {
+        this.roomCb = roomCb;
+    }
+
+    /**
+     * @return the groupCb
+     */
     public JComboBox getGroupCb() {
         return groupCb;
     }
 
+    /**
+     * @param groupCb the groupCb to set
+     */
+    public void setGroupCb(JComboBox groupCb) {
+        this.groupCb = groupCb;
+    }
+
+    /**
+     * @return the hourStartCb
+     */
     public JComboBox getHourStartCb() {
         return hourStartCb;
     }
 
+    /**
+     * @param hourStartCb the hourStartCb to set
+     */
+    public void setHourStartCb(JComboBox hourStartCb) {
+        this.hourStartCb = hourStartCb;
+    }
+
+    /**
+     * @return the hourStopCb
+     */
     public JComboBox getHourStopCb() {
         return hourStopCb;
     }
 
+    /**
+     * @param hourStopCb the hourStopCb to set
+     */
+    public void setHourStopCb(JComboBox hourStopCb) {
+        this.hourStopCb = hourStopCb;
+    }
+
+    /**
+     * @return the titleTf
+     */
     public JTextField getTitleTf() {
         return titleTf;
     }
 
+    /**
+     * @param titleTf the titleTf to set
+     */
+    public void setTitleTf(JTextField titleTf) {
+        this.titleTf = titleTf;
+    }
+
+    /**
+     * @return the teacherCb
+     */
     public JComboBox getTeacherCb() {
         return teacherCb;
     }
 
-    public EventListenerList getListenerList() {
-        return listenerList;
+    /**
+     * @param teacherCb the teacherCb to set
+     */
+    public void setTeacherCb(JComboBox teacherCb) {
+        this.teacherCb = teacherCb;
     }
 
-    public void setListenerList(EventListenerList listenerList) {
-        this.listenerList = listenerList;
+    /**
+     * @return the roomLabel
+     */
+    public JLabel getRoomLabel() {
+        return roomLabel;
     }
 
+    /**
+     * @param roomLabel the roomLabel to set
+     */
+    public void setRoomLabel(JLabel roomLabel) {
+        this.roomLabel = roomLabel;
+    }
+
+    /**
+     * @return the groupLabel
+     */
+    public JLabel getGroupLabel() {
+        return groupLabel;
+    }
+
+    /**
+     * @param groupLabel the groupLabel to set
+     */
+    public void setGroupLabel(JLabel groupLabel) {
+        this.groupLabel = groupLabel;
+    }
+
+    /**
+     * @return the hourLabel
+     */
+    public JLabel getHourLabel() {
+        return hourLabel;
+    }
+
+    /**
+     * @param hourLabel the hourLabel to set
+     */
+    public void setHourLabel(JLabel hourLabel) {
+        this.hourLabel = hourLabel;
+    }
+
+    /**
+     * @return the dateLabel
+     */
+    public JLabel getDateLabel() {
+        return dateLabel;
+    }
+
+    /**
+     * @param dateLabel the dateLabel to set
+     */
+    public void setDateLabel(JLabel dateLabel) {
+        this.dateLabel = dateLabel;
+    }
+
+    /**
+     * @return the titleLabel
+     */
+    public JLabel getTitleLabel() {
+        return titleLabel;
+    }
+
+    /**
+     * @param titleLabel the titleLabel to set
+     */
+    public void setTitleLabel(JLabel titleLabel) {
+        this.titleLabel = titleLabel;
+    }
+
+    /**
+     * @return the teacherLabel
+     */
+    public JLabel getTeacherLabel() {
+        return teacherLabel;
+    }
+
+    /**
+     * @param teacherLabel the teacherLabel to set
+     */
+    public void setTeacherLabel(JLabel teacherLabel) {
+        this.teacherLabel = teacherLabel;
+    }
+
+    /**
+     * @return the date
+     */
+    public Date getDate() {
+        return date;
+    }
+
+    /**
+     * @param date the date to set
+     */
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    /**
+     * @return the edit
+     */
+    public boolean isEdit() {
+        return edit;
+    }
+
+    /**
+     * @param edit the edit to set
+     */
+    public void setEdit(boolean edit) {
+        this.edit = edit;
+    }
+    
+    
 }
