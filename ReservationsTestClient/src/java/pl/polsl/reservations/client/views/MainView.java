@@ -14,7 +14,6 @@ import pl.polsl.reservations.client.mediators.LoginMediator;
 import pl.polsl.reservations.client.mediators.MainViewMediator;
 import pl.polsl.reservations.client.reports.DocumentGenerator;
 import pl.polsl.reservations.client.views.utils.AddTypeEnum;
-import pl.polsl.reservations.client.views.utils.DatePicker;
 import pl.polsl.reservations.client.views.utils.FrameStyle;
 
 public class MainView extends JFrame {
@@ -50,6 +49,14 @@ public class MainView extends JFrame {
     private JPanel contentView;
 
     private JMenuBar menuBar;
+
+    private JDialog passwordFrame;
+    private JDialog addUserFrame;
+    private JDialog addRoomFrame;
+    private JDialog addDeviceFrame;
+    private JDialog addTypeFrame;
+    private JDialog addStateFrame;
+    private JDialog editUserFrame;
 
     private transient final MainViewMediator mainViewMediator;
 
@@ -145,26 +152,26 @@ public class MainView extends JFrame {
     }
 
     private void addRoomMenuItemActionPerformed(ActionEvent evt) {
-        if (isLoggedIn) {
-            FrameStyle.dialogStyle(new CreateReportViewMediator().createView(this, AddTypeEnum.ROOM), "Add room");
+        if (isLoggedIn && addRoomFrame == null) {
+            addRoomFrame = FrameStyle.dialogStyle(new CreateReportViewMediator().createView(this, AddTypeEnum.ROOM), "Add room");
         }
     }
 
     private void addDeviceMenuItemActionPerformed(ActionEvent evt) {
-        if (isLoggedIn) {
-            FrameStyle.dialogStyle(new CreateReportViewMediator().createView(this, AddTypeEnum.DEVICE), "Add device");
+        if (isLoggedIn && addDeviceFrame == null) {
+            addDeviceFrame = FrameStyle.dialogStyle(new CreateReportViewMediator().createView(this, AddTypeEnum.DEVICE), "Add device");
         }
     }
 
     private void addStateMenuItemActionPerformed(ActionEvent evt) {
-        if (isLoggedIn) {
-            FrameStyle.dialogStyle(new CreateReportViewMediator().createView(this, AddTypeEnum.STATE), "Add state");
+        if (isLoggedIn && addStateFrame == null) {
+            addStateFrame = FrameStyle.dialogStyle(new CreateReportViewMediator().createView(this, AddTypeEnum.STATE), "Add state");
         }
     }
 
     private void addTypeMenuItemActionPerformed(ActionEvent evt) {
-        if (isLoggedIn) {
-            FrameStyle.dialogStyle(new CreateReportViewMediator().createView(this, AddTypeEnum.TYPE), "Add type");
+        if (isLoggedIn && addTypeFrame == null) {
+            addTypeFrame = FrameStyle.dialogStyle(new CreateReportViewMediator().createView(this, AddTypeEnum.TYPE), "Add type");
         }
     }
 
@@ -173,48 +180,42 @@ public class MainView extends JFrame {
             JFileChooser chooser = new JFileChooser();
             chooser.addChoosableFileFilter(new FileNameExtensionFilter(".pdf", "pdf"));
             int retrival = chooser.showSaveDialog(null);
-            if (evt.getSource() instanceof JMenuItem) {
+            if (retrival == JFileChooser.APPROVE_OPTION && evt.getSource() instanceof JMenuItem) {
                 JMenuItem item = (JMenuItem) evt.getSource();
                 if (item.equals(roomRaportMenuItem)) {
-                    if (retrival == JFileChooser.APPROVE_OPTION) {
-                        String pathToFile = chooser.getSelectedFile().toString() + ".pdf";
-                        DocumentGenerator documentGenerator = new DocumentGenerator(pathToFile);
-                        Integer userRoom = mainViewMediator.getUserRoomNumber();
-                        documentGenerator.generateSingleRoomEquipmentReport(userRoom);
-                    }
+                    String pathToFile = chooser.getSelectedFile().toString() + ".pdf";
+                    DocumentGenerator documentGenerator = new DocumentGenerator(pathToFile);
+                    Integer userRoom = mainViewMediator.getUserRoomNumber();
+                    documentGenerator.generateSingleRoomEquipmentReport(userRoom);
                 } else if (item.equals(departmentRaportMenuItem)) {
-                    if (retrival == JFileChooser.APPROVE_OPTION) {
-                        String pathToFile = chooser.getSelectedFile().toString() + ".pdf";
-                        DocumentGenerator documentGenerator = new DocumentGenerator(pathToFile);
-                        String departament = mainViewMediator.getUserDepartament();
-                        documentGenerator.generateDepartamentRoomsEquipmentReport(departament);
-                    }
+                    String pathToFile = chooser.getSelectedFile().toString() + ".pdf";
+                    DocumentGenerator documentGenerator = new DocumentGenerator(pathToFile);
+                    String departament = mainViewMediator.getUserDepartament();
+                    documentGenerator.generateDepartamentRoomsEquipmentReport(departament);
                 } else if (item.equals(allRaportMenuItem)) {
-                    if (retrival == JFileChooser.APPROVE_OPTION) {
-                        String pathToFile = chooser.getSelectedFile().toString() + ".pdf";
-                        DocumentGenerator documentGenerator = new DocumentGenerator(pathToFile);
-                        documentGenerator.generateAllRoomsEquipmentReport();
-                    }
+                    String pathToFile = chooser.getSelectedFile().toString() + ".pdf";
+                    DocumentGenerator documentGenerator = new DocumentGenerator(pathToFile);
+                    documentGenerator.generateAllRoomsEquipmentReport();
                 }
             }
         }
     }
 
     private void changePasswordActionPerformed(ActionEvent evt) {
-        if (isLoggedIn) {
-            FrameStyle.dialogStyle(new ChangePasswordViewMediator().createView(this), "Change password");
+        if (isLoggedIn && passwordFrame == null) {
+            passwordFrame = FrameStyle.dialogStyle(new ChangePasswordViewMediator().createView(this), "Change password");
         }
     }
 
     private void addUserActionPerformed(ActionEvent evt) {
-        if (isLoggedIn) {
-            FrameStyle.dialogStyle(new AddEditUserViewMediator().createView(this, false), "Add user");
+        if (isLoggedIn && addUserFrame == null) {
+            addUserFrame = FrameStyle.dialogStyle(new AddEditUserViewMediator().createView(this, false), "Add user");
         }
     }
 
     private void editUserActionPerformed(ActionEvent evt) {
-        if (isLoggedIn) {
-            FrameStyle.dialogStyle(new AddEditUserViewMediator().createView(this, true), "Edit user");
+        if (isLoggedIn && editUserFrame == null) {
+            editUserFrame = FrameStyle.dialogStyle(new AddEditUserViewMediator().createView(this, true), "Edit user");
         }
     }
 
@@ -245,32 +246,68 @@ public class MainView extends JFrame {
     public void create() {
         setView(new LoginMediator().createView(this));
         setResizable(false);
-
     }
 
     private void generateMenu() {
         fileMenu.setText("File");
         addMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         addMenuItem.setText("Add");
-        addMenuItem.addActionListener((ActionEvent evt) -> {
-            addMenuItemActionPerformed(evt);
-        });
-
         fileMenu.add(addMenuItem);
-
         adminMenu.setText("Admin action");
         adminMenu.setForeground(new java.awt.Color(153, 153, 153));
-
         fileMenu.add(adminMenu);
-
         allRaportMenuItem.setText("Full raport");
         departmentRaportMenuItem.setText("Department raport");
         roomRaportMenuItem.setText("Room raport");
-
         allRaportMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         roomRaportMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         departmentRaportMenuItem.setForeground(new java.awt.Color(153, 153, 153));
+        generateMenu.setForeground(new java.awt.Color(153, 153, 153));
+        generateMenu.setText("Generate raport");
+        generateMenu.add(roomRaportMenuItem);
+        generateMenu.add(departmentRaportMenuItem);
+        generateMenu.add(allRaportMenuItem);
+        fileMenu.add(generateMenu);
+        createRaportMenu.setForeground(new java.awt.Color(153, 153, 153));
+        createRaportMenu.setText("Create raport");
+        addRoomMenuItem.setForeground(new java.awt.Color(153, 153, 153));
+        addRoomMenuItem.setText("Add room");
+        createRaportMenu.add(addRoomMenuItem);
+        addDeviceMenuItem.setForeground(new java.awt.Color(153, 153, 153));
+        addDeviceMenuItem.setText("Add device");
+        createRaportMenu.add(addDeviceMenuItem);
+        //TYLKO ADMIN:
+        addStateMenuItem.setForeground(new java.awt.Color(153, 153, 153));
+        addStateMenuItem.setText("Add state");
+        adminMenu.add(addStateMenuItem);
+        //TYLKO ADMIN:
+        addTypeMenuItem.setForeground(new java.awt.Color(153, 153, 153));
+        addTypeMenuItem.setText("Add type");
+        adminMenu.add(addTypeMenuItem);
+        fileMenu.add(createRaportMenu);
+        accountMenu.setForeground(new java.awt.Color(153, 153, 153));
+        accountMenu.setText("My account");
+        accountMenu.add(changePasswordItem);
+        changePasswordItem.setText("Change password");
+        changePasswordItem.setForeground(new java.awt.Color(153, 153, 153));
+        //TODO: TYLKO DLA ADMINISTRATORÓW - DODAJ IFA :D
+        addUserMenuItem.setText("Add user");
+        addUserMenuItem.setForeground(new java.awt.Color(153, 153, 153));
+        editDataMenuItem.setText("Edit user data");
+        editDataMenuItem.setForeground(new java.awt.Color(153, 153, 153));
+        adminMenu.add(addUserMenuItem);
+        accountMenu.add(editDataMenuItem);
+        fileMenu.add(accountMenu);
+        logoutMenuItem.setForeground(new java.awt.Color(153, 153, 153));
+        logoutMenuItem.setMnemonic('a');
+        logoutMenuItem.setText("Logout");
+        fileMenu.add(logoutMenuItem);
+        exitMenuItem.setText("Exit");
+        fileMenu.add(exitMenuItem);
+        addMenuListeners();
+    }
 
+    private void addMenuListeners() {
         allRaportMenuItem.addActionListener((ActionEvent evt) -> {
             generateMenuItemActionPerformed(evt);
         });
@@ -280,119 +317,66 @@ public class MainView extends JFrame {
         departmentRaportMenuItem.addActionListener((ActionEvent evt) -> {
             generateMenuItemActionPerformed(evt);
         });
-
-        generateMenu.setForeground(new java.awt.Color(153, 153, 153));
-        generateMenu.setText("Generate raport");
-        generateMenu.add(roomRaportMenuItem);
-        generateMenu.add(departmentRaportMenuItem);
-        generateMenu.add(allRaportMenuItem);
-        fileMenu.add(generateMenu);
-
-        createRaportMenu.setForeground(new java.awt.Color(153, 153, 153));
-        createRaportMenu.setText("Create raport");
-
-        addRoomMenuItem.setForeground(new java.awt.Color(153, 153, 153));
-        addRoomMenuItem.setText("Add room");
+        addMenuItem.addActionListener((ActionEvent evt) -> {
+            addMenuItemActionPerformed(evt);
+        });
         addRoomMenuItem.addActionListener((ActionEvent evt) -> {
             addRoomMenuItemActionPerformed(evt);
         });
-        createRaportMenu.add(addRoomMenuItem);
-
-        addDeviceMenuItem.setForeground(new java.awt.Color(153, 153, 153));
-        addDeviceMenuItem.setText("Add device");
         addDeviceMenuItem.addActionListener((ActionEvent evt) -> {
             addDeviceMenuItemActionPerformed(evt);
         });
-        createRaportMenu.add(addDeviceMenuItem);
-
-        //TYLKO ADMIN:
-        addStateMenuItem.setForeground(new java.awt.Color(153, 153, 153));
-        addStateMenuItem.setText("Add state");
-        addStateMenuItem.addActionListener((ActionEvent evt) -> {
-            addStateMenuItemActionPerformed(evt);
-        });
-        adminMenu.add(addStateMenuItem);
-
-        //TYLKO ADMIN:
-        addTypeMenuItem.setForeground(new java.awt.Color(153, 153, 153));
-        addTypeMenuItem.setText("Add type");
-        addTypeMenuItem.addActionListener((ActionEvent evt) -> {
-            addTypeMenuItemActionPerformed(evt);
-        });
-        adminMenu.add(addTypeMenuItem);
-
-        fileMenu.add(createRaportMenu);
-
-        accountMenu.setForeground(new java.awt.Color(153, 153, 153));
-        accountMenu.setText("My account");
-        accountMenu.add(changePasswordItem);
-
-        changePasswordItem.setText("Change password");
-        changePasswordItem.setForeground(new java.awt.Color(153, 153, 153));
-        changePasswordItem.addActionListener((ActionEvent evt) -> {
-            changePasswordActionPerformed(evt);
-        });
-
-        //TODO: TYLKO DLA ADMINISTRATORÓW - DODAJ IFA :D
-        addUserMenuItem.setText("Add user");
-        addUserMenuItem.setForeground(new java.awt.Color(153, 153, 153));
-        addUserMenuItem.addActionListener((ActionEvent evt) -> {
-            addUserActionPerformed(evt);
-        });
-
-        editDataMenuItem.setText("Edit user data");
-        editDataMenuItem.setForeground(new java.awt.Color(153, 153, 153));
-        editDataMenuItem.addActionListener((ActionEvent evt) -> {
-            editUserActionPerformed(evt);
-        });
-
-        adminMenu.add(addUserMenuItem);
-        accountMenu.add(editDataMenuItem);
-
-        fileMenu.add(accountMenu);
-        logoutMenuItem.setForeground(new java.awt.Color(153, 153, 153));
-        logoutMenuItem.setMnemonic('a');
-        logoutMenuItem.setText("Logout");
         logoutMenuItem.addActionListener((ActionEvent evt) -> {
             logoutMenuItemActionPerformed(evt);
         });
-        fileMenu.add(logoutMenuItem);
-        exitMenuItem.setText("Exit");
         exitMenuItem.addActionListener((ActionEvent evt) -> {
             exitMenuItemActionPerformed(evt);
         });
-        fileMenu.add(exitMenuItem);
+        editDataMenuItem.addActionListener((ActionEvent evt) -> {
+            editUserActionPerformed(evt);
+        });
+        addUserMenuItem.addActionListener((ActionEvent evt) -> {
+            addUserActionPerformed(evt);
+        });
+        changePasswordItem.addActionListener((ActionEvent evt) -> {
+            changePasswordActionPerformed(evt);
+        });
+        addTypeMenuItem.addActionListener((ActionEvent evt) -> {
+            addTypeMenuItemActionPerformed(evt);
+        });
+        addStateMenuItem.addActionListener((ActionEvent evt) -> {
+            addStateMenuItemActionPerformed(evt);
+        });
     }
 
     public void checkPrivileges() {
 
         if (!ClientContext.checkUserPrivilegesToAction("ADMIN")) {
-            addDeviceMenuItem.setEnabled(false);
-            addStateMenuItem.setEnabled(false);
-            addTypeMenuItem.setEnabled(false);
-            addUserMenuItem.setEnabled(false);
-            addRoomMenuItem.setEnabled(false);
+            addDeviceMenuItem.setVisible(false);
+            addStateMenuItem.setVisible(false);
+            addTypeMenuItem.setVisible(false);
+            addUserMenuItem.setVisible(false);
+            addRoomMenuItem.setVisible(false);
         }
         if (!ClientContext.checkUserPrivilegesToAction("TECHNICAL_WORKER")) {
-            addMenuItem.setEnabled(false);
-            generateMenu.setEnabled(false);
-            editDataMenuItem.setEnabled(false);
+            addMenuItem.setVisible(false);
+            generateMenu.setVisible(false);
+            editDataMenuItem.setVisible(false);
         }
     }
 
     private void generateHelpMenu() {
         helpMenu.setText("Help");
         tutorialMenuItem.setText("Tutorial");
+        helpMenu.add(tutorialMenuItem);
+        aboutMenuItem.setText("About");
+        helpMenu.add(aboutMenuItem);
         tutorialMenuItem.addActionListener((ActionEvent evt) -> {
             tutorialMenuItemActionPerformed(evt);
         });
-        helpMenu.add(tutorialMenuItem);
-
-        aboutMenuItem.setText("About");
         aboutMenuItem.addActionListener((ActionEvent evt) -> {
             aboutMenuItemActionPerformed(evt);
         });
-        helpMenu.add(aboutMenuItem);
     }
 
     public MainView getWindow() {
@@ -561,6 +545,62 @@ public class MainView extends JFrame {
 
     public void setMenuBar(JMenuBar menuBar) {
         this.menuBar = menuBar;
+    }
+
+    public JDialog getPasswordFrame() {
+        return passwordFrame;
+    }
+
+    public JDialog getAddUserFrame() {
+        return addUserFrame;
+    }
+
+    public JDialog getAddRoomFrame() {
+        return addRoomFrame;
+    }
+
+    public JDialog getAddDeviceFrame() {
+        return addDeviceFrame;
+    }
+
+    public JDialog getAddTypeFrame() {
+        return addTypeFrame;
+    }
+
+    public JDialog getAddStateFrame() {
+        return addStateFrame;
+    }
+
+    public JDialog getEditUserFrame() {
+        return editUserFrame;
+    }
+
+    public void setPasswordFrame(JDialog passwordFrame) {
+        this.passwordFrame = passwordFrame;
+    }
+
+    public void setAddUserFrame(JDialog addUserFrame) {
+        this.addUserFrame = addUserFrame;
+    }
+
+    public void setAddRoomFrame(JDialog addRoomFrame) {
+        this.addRoomFrame = addRoomFrame;
+    }
+
+    public void setAddDeviceFrame(JDialog addDeviceFrame) {
+        this.addDeviceFrame = addDeviceFrame;
+    }
+
+    public void setAddTypeFrame(JDialog addTypeFrame) {
+        this.addTypeFrame = addTypeFrame;
+    }
+
+    public void setAddStateFrame(JDialog addStateFrame) {
+        this.addStateFrame = addStateFrame;
+    }
+
+    public void setEditUserFrame(JDialog editUserFrame) {
+        this.editUserFrame = editUserFrame;
     }
 
 }

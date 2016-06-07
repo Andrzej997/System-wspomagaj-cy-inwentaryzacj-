@@ -64,7 +64,6 @@ public class DatePicker extends JPanel {
             });
             add(datePicker);
         }
-
     }
 
     public static DatePicker getInstance() {

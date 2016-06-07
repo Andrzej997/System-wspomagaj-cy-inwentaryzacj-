@@ -7,6 +7,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import pl.polsl.reservations.client.ClientContext;
+import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.mediators.LoginMediator;
 import pl.polsl.reservations.client.mediators.WeekDataViewMediator;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
@@ -163,6 +164,7 @@ public class LoginView extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 LoginView.this.getWindow().dispose();
+                Lookup.removeUserCertificate();
                 System.exit(0);
             }
         };

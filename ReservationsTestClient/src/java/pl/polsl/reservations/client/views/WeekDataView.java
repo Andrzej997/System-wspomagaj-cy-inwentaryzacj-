@@ -12,6 +12,7 @@ import java.util.Calendar;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.mediators.AddEditViewMediator;
 import pl.polsl.reservations.client.mediators.DayDataViewMediator;
 import pl.polsl.reservations.client.mediators.WeekDataViewMediator;
@@ -218,6 +219,7 @@ public class WeekDataView extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 WeekDataView.this.getWindow().dispose();
+                Lookup.removeUserCertificate();
                 System.exit(0);
             }
         };

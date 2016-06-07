@@ -9,6 +9,7 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
+import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.mediators.CheckReportViewMediator;
 
 /**
@@ -43,6 +44,7 @@ public class CheckRaportView extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CheckRaportView.this.getWindow().dispose();
+                Lookup.removeUserCertificate();
                 System.exit(0);
             }
         };

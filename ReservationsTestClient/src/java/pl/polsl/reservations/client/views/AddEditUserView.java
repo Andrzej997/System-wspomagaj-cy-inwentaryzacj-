@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
+import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.mediators.AddEditUserViewMediator;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
 import pl.polsl.reservations.client.views.utils.NumberFormatUtils;
@@ -84,7 +85,6 @@ public class AddEditUserView extends JPanel {
         initializeObjects();
         prepareObjects();
         setupView();
-
     }
 
     private void setupView() {
@@ -198,8 +198,12 @@ public class AddEditUserView extends JPanel {
             }
             if (editUser) {
                 addEditUserViewMediator.onChangeUserData();
+                window.getEditUserFrame().dispose();
+                window.setEditUserFrame(null);
             } else {
                 addEditUserViewMediator.onAddUser();
+                window.getAddUserFrame().dispose();
+                window.setAddUserFrame(null);
             }
         });
         mainPanel = new JPanel(new GridLayout(1, 2));
@@ -224,6 +228,7 @@ public class AddEditUserView extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 AddEditUserView.this.getWindow().dispose();
+                Lookup.removeUserCertificate();
                 System.exit(0);
             }
         };

@@ -20,6 +20,7 @@ import pl.polsl.reservations.dto.RoomDTO;
 import pl.polsl.reservations.ejb.remote.RoomManagementFacade;
 import pl.polsl.reservations.ejb.remote.ScheduleFacade;
 import pl.polsl.reservations.client.views.renderers.WeekCustomRenderer;
+import pl.polsl.reservations.client.views.utils.DateUtils;
 import pl.polsl.reservations.client.views.utils.Pair;
 import pl.polsl.reservations.dto.ReservationTypeDTO;
 import pl.polsl.reservations.ejb.remote.UserManagementFacade;
@@ -49,14 +50,11 @@ public class WeekDataViewMediator {
 
     public WeekDataView createView(MainView parent, Object selectedItem) {
         weekDataView = new WeekDataView(parent, selectedItem, this);
-
         if (selectedItem instanceof Integer) {
             this.selectedItem = (Integer) selectedItem;
         }
-
         getRooms();
         getReservations();
-
         return weekDataView;
     }
 
@@ -64,82 +62,45 @@ public class WeekDataViewMediator {
 
         startQuarters = new ArrayList<>();
         endQuarters = new ArrayList<>();
-
         reservationCellsRendererMap = new HashMap<>();
+
         Calendar calendar = weekDataView.getStartDate();
-        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        int weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
-        int weekOfSemester = 1;
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-
-        boolean semester = true;
-
-        if (month >= 10 || month <= 2) {
-            semester = false;
-            Calendar cal = calendar;
-            cal.set(Calendar.MONTH, Calendar.OCTOBER);
-            cal.set(Calendar.DATE, 1);
-
-            if (month >= 10 && month <= 12) {
-                weekOfSemester = weekOfYear - cal.get(Calendar.WEEK_OF_YEAR) + 1;
-            } else {   //sprawdziæ zachowanie jak sylwester nie jest w niedzielê
-                Calendar calPom = Calendar.getInstance();
-                cal.set(Calendar.YEAR, cal.get(Calendar.YEAR) - 1);
-                calPom.set(Calendar.YEAR, calPom.get(Calendar.YEAR) - 1);
-                calPom.set(Calendar.MONTH, Calendar.DECEMBER);
-                calPom.set(Calendar.DATE, 31);
-
-                weekOfSemester = calPom.get(Calendar.WEEK_OF_YEAR) - cal.get(Calendar.WEEK_OF_YEAR);
-                calPom.set(calendar.get(Calendar.YEAR), Calendar.JANUARY, 1);
-                weekOfSemester += calendar.get(Calendar.WEEK_OF_YEAR) - calPom.get(Calendar.WEEK_OF_YEAR);
-            }
-
-        } else {
-            Calendar cal = Calendar.getInstance();
-            cal.set(Calendar.MONTH, Calendar.MARCH);
-            cal.set(Calendar.DATE, 1);
-
-            weekOfSemester = weekOfYear - cal.get(Calendar.WEEK_OF_YEAR) + 1;
-        }
-
         RoomComboBox chooseRoomDropdown = (RoomComboBox) weekDataView.getChooseRoomDropdown();
         List<ReservationDTO> roomSchedule
-                // = scheduleFacade.getRoomSchedule(chooseRoomDropdown.getSelectedItem(), calendar.get(Calendar.YEAR), semester);
-                = scheduleFacade.getDetailedRoomSchedule(chooseRoomDropdown.getSelectedItem(), calendar.get(Calendar.YEAR), weekOfSemester, semester);
+                = scheduleFacade.getDetailedRoomSchedule(chooseRoomDropdown.getSelectedItem(),
+                        calendar.get(Calendar.YEAR), DateUtils.getWeekOfSemester(calendar), DateUtils.getSemesterFromDate(calendar));
 
+        weekDataView.getPlanTable().setModel(fillTable(roomSchedule));
+
+        weekDataView.getPlanTable().setDefaultRenderer(Object.class, new WeekCustomRenderer(reservationCellsRendererMap, startQuarters, endQuarters));
+
+    }
+
+    private DefaultTableModel fillTable(List<ReservationDTO> roomSchedule) {
         DefaultTableModel defaultTableModel = new DefaultTableModelImpl(32, 8);
 
-        for (ReservationDTO reservation : roomSchedule) {
+        roomSchedule.stream().forEach((reservation) -> {
             int endDay = reservation.getEndTime() / 96;
             int startDay = reservation.getStartTime() / 96;
             int numberOfEndQuarter = reservation.getEndTime() % 96 - 32; //rï¿½znica miï¿½dzy godzinami w bazie i tabeli
             int numberOfStartQuarter = reservation.getStartTime() % 96 - 32;
+            if (!(numberOfEndQuarter > 31 || numberOfEndQuarter < 0)) {
+                if (!(numberOfStartQuarter > 31 || numberOfStartQuarter < 0)) {
+                    Pair startEntry = new Pair(startDay, numberOfStartQuarter);
+                    Pair endEntry = new Pair(endDay, numberOfEndQuarter);
 
-            if (numberOfEndQuarter > 31 || numberOfEndQuarter < 0) {
-                continue;
+                    startQuarters.add(startEntry);
+                    endQuarters.add(endEntry);
+
+                    defaultTableModel.setValueAt(reservation.getType(), numberOfStartQuarter, startDay + 1);
+                    defaultTableModel.setValueAt(userManagementFacade.getUserDetails(reservation.getUserId().intValue()).getName() + " " + userManagementFacade.getUserDetails(reservation.getUserId().intValue()).getSurname(), numberOfStartQuarter + 1, startDay + 1);
+
+                    createReservationsRendererList(endDay, startDay,
+                            numberOfStartQuarter, numberOfEndQuarter, reservation);
+                }
             }
-
-            if (numberOfStartQuarter > 31 || numberOfStartQuarter < 0) {
-                continue;
-            }
-
-            Pair startEntry = new Pair(startDay, numberOfStartQuarter);
-            Pair endEntry = new Pair(endDay, numberOfEndQuarter);
-
-            startQuarters.add(startEntry);
-            endQuarters.add(endEntry);
-
-            defaultTableModel.setValueAt(reservation.getType(), numberOfStartQuarter, startDay + 1);
-            defaultTableModel.setValueAt(userManagementFacade.getUserDetails(reservation.getUserId().intValue()).getName() + " " + userManagementFacade.getUserDetails(reservation.getUserId().intValue()).getSurname(), numberOfStartQuarter + 1, startDay + 1);
-
-            createReservationsRendererList(endDay, startDay,
-                    numberOfStartQuarter, numberOfEndQuarter, reservation);
-        }
-        weekDataView.getPlanTable().setModel(defaultTableModel);
-
-        weekDataView.getPlanTable().setDefaultRenderer(Object.class, new WeekCustomRenderer(reservationCellsRendererMap, startQuarters, endQuarters));
-
+        });
+        return defaultTableModel;
     }
 
     public void getRooms() {
@@ -177,19 +138,7 @@ public class WeekDataViewMediator {
         if (!Objects.equals(startDay, endDay)) {
             return;
         }
-        //TODO get dane o kolorze z bazy
-        Color color = null;
-        List<ReservationTypeDTO> reservationTypes = scheduleFacade.getReservationTypes();
-        for (ReservationTypeDTO reservationType : reservationTypes) {
-            if (reservationType.getShortDescription().equals(reservation.getType())) {
-                try {
-                    Field field = Color.class.getField(reservationType.getReservationColor());
-                    color = (Color) field.get(null);
-                } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
-                    color = null; // Not defined
-                }
-            }
-        }
+        Color color = getColorData(reservation);
         if (color != null) {
             for (Integer i = numberOfStartQuarter; i <= numberOfEndQuarter; i++) {
                 if (reservationCellsRendererMap.containsKey(color)) {
@@ -203,6 +152,22 @@ public class WeekDataViewMediator {
                 }
             }
         }
+    }
+
+    private Color getColorData(ReservationDTO reservation) {
+        Color color = null;
+        List<ReservationTypeDTO> reservationTypes = scheduleFacade.getReservationTypes();
+        for (ReservationTypeDTO reservationType : reservationTypes) {
+            if (reservationType.getShortDescription().equals(reservation.getType())) {
+                try {
+                    Field field = Color.class.getField(reservationType.getReservationColor());
+                    color = (Color) field.get(null);
+                } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+                    color = null;
+                }
+            }
+        }
+        return color;
     }
 
     private static class DefaultTableModelImpl extends DefaultTableModel {

@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
+import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.mediators.CreateReportViewMediator;
 import pl.polsl.reservations.client.views.utils.AddTypeEnum;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
@@ -128,15 +129,23 @@ public class CreateRaportView extends JPanel {
             switch (option) {
                 case ROOM:
                     createReportViewMediator.onAddRoom();
+                    window.getAddRoomFrame().dispose();
+                    window.setAddRoomFrame(null);
                     break;
                 case DEVICE:
                     createReportViewMediator.onAddDevice();
+                    window.getAddDeviceFrame().dispose();
+                    window.setAddDeviceFrame(null);
                     break;
                 case STATE:
                     createReportViewMediator.onAddState();
+                    window.getAddStateFrame().dispose();
+                    window.setAddStateFrame(null);
                     break;
                 case TYPE:
                     createReportViewMediator.onAddType();
+                    window.getAddTypeFrame().dispose();
+                    window.setAddTypeFrame(null);
                     break;
             }
         });
@@ -248,6 +257,7 @@ public class CreateRaportView extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CreateRaportView.this.getWindow().dispose();
+                Lookup.removeUserCertificate();
                 System.exit(0);
             }
         };

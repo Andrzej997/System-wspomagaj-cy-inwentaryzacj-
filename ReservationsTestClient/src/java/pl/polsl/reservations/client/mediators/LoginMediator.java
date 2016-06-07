@@ -18,7 +18,6 @@ public class LoginMediator {
     private final UserFacade userFacade;
     private LoginView loginWindow;
     private final RoomManagementFacade roomManagementFacade = (RoomManagementFacade) Lookup.getRemote("RoomManagementFacade");
-    private UserDTO userDTO;
 
     public LoginMediator() {
         userFacade = (UserFacade) Lookup.getRemote("UserFacade");

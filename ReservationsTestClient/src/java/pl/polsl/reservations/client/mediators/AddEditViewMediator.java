@@ -13,6 +13,7 @@ import pl.polsl.reservations.client.views.AddEditView;
 import pl.polsl.reservations.client.views.DayTableModel;
 import pl.polsl.reservations.client.views.MainView;
 import pl.polsl.reservations.client.views.renderers.DayCustomRenderer;
+import pl.polsl.reservations.client.views.utils.DateUtils;
 import pl.polsl.reservations.dto.ReservationDTO;
 import pl.polsl.reservations.dto.ReservationTypeDTO;
 import pl.polsl.reservations.dto.RoomDTO;
@@ -89,63 +90,20 @@ public class AddEditViewMediator {
 
     public boolean addReservation() {
         Integer roomID = roomManagementFacade.getRoom((Integer) addEditView.getRoomCb().getSelectedItem()).getId().intValue();
-
         Integer weekDay = date.get(Calendar.DAY_OF_WEEK);
-
         if (weekDay == 1) {
             weekDay = 6;
         } else {
             weekDay -= 2;
         }
-
         Integer startTime = getStartHourFromView() + weekDay * 96;
         Integer endTime = getEndHourFromView() + weekDay * 96;
-
         Calendar calendar = date;
-        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        int weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
-        int weekOfSemester = 1;
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-
-        boolean semester = true;
-
-        if (month >= 10 || month <= 2) {
-            semester = false;
-            Calendar cal = calendar;
-            cal.set(Calendar.MONTH, Calendar.OCTOBER);
-            cal.set(Calendar.DATE, 1);
-
-            if (month >= 10 && month <= 12) {
-                weekOfSemester = weekOfYear - cal.get(Calendar.WEEK_OF_YEAR) + 1;
-            } else {   //sprawdziæ zachowanie jak sylwester nie jest w niedzielê
-                Calendar calPom = Calendar.getInstance();
-                cal.set(Calendar.YEAR, cal.get(Calendar.YEAR) - 1);
-                calPom.set(Calendar.YEAR, calPom.get(Calendar.YEAR) - 1);
-                calPom.set(Calendar.MONTH, Calendar.DECEMBER);
-                calPom.set(Calendar.DATE, 31);
-
-                weekOfSemester = calPom.get(Calendar.WEEK_OF_YEAR) - cal.get(Calendar.WEEK_OF_YEAR);
-                calPom.set(calendar.get(Calendar.YEAR), Calendar.JANUARY, 1);
-                weekOfSemester += calendar.get(Calendar.WEEK_OF_YEAR) - calPom.get(Calendar.WEEK_OF_YEAR);
-            }
-
-        } else {
-            Calendar cal = Calendar.getInstance();
-            cal.set(Calendar.MONTH, Calendar.MARCH);
-            cal.set(Calendar.DATE, 1);
-
-            weekOfSemester = weekOfYear - cal.get(Calendar.WEEK_OF_YEAR) + 1;
-        }
-
         Integer typeId = getType().getId();
-
         Integer userId = getWorkersData().getId().intValue();
-
-        scheduleFacade.createReservation(roomID, startTime, endTime, weekOfSemester, date.get(Calendar.YEAR), semester, typeId, userId);
+        scheduleFacade.createReservation(roomID, startTime, endTime, DateUtils.getWeekOfSemester(date), date.get(Calendar.YEAR), DateUtils.getSemesterFromDate(date), typeId, userId);
 
         getReservations();
-
         return true;
     }
 
@@ -155,45 +113,14 @@ public class AddEditViewMediator {
         endQuarters = new ArrayList<>();
 
         Calendar calendar = date;
-        int weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
-        int weekOfSemester = 1;
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-
-        boolean semester = true;
-
-        if (month >= 10 || month <= 2) {
-            semester = false;
-            Calendar cal = calendar;
-            cal.set(Calendar.MONTH, Calendar.OCTOBER);
-            cal.set(Calendar.DATE, 1);
-
-            if (month >= 10 && month <= 12) {
-                weekOfSemester = weekOfYear - cal.get(Calendar.WEEK_OF_YEAR) + 1;
-            } else {   //sprawdziæ zachowanie jak sylwester nie jest w niedzielê
-                Calendar calPom = Calendar.getInstance();
-                cal.set(Calendar.YEAR, cal.get(Calendar.YEAR) - 1);
-                calPom.set(Calendar.YEAR, calPom.get(Calendar.YEAR) - 1);
-                calPom.set(Calendar.MONTH, Calendar.DECEMBER);
-                calPom.set(Calendar.DATE, 31);
-
-                weekOfSemester = calPom.get(Calendar.WEEK_OF_YEAR) - cal.get(Calendar.WEEK_OF_YEAR);
-                calPom.set(calendar.get(Calendar.YEAR), Calendar.JANUARY, 1);
-                weekOfSemester += calendar.get(Calendar.WEEK_OF_YEAR) - calPom.get(Calendar.WEEK_OF_YEAR);
-            }
-
-        } else {
-            Calendar cal = Calendar.getInstance();
-            cal.set(Calendar.MONTH, Calendar.MARCH);
-            cal.set(Calendar.DATE, 1);
-
-            weekOfSemester = weekOfYear - cal.get(Calendar.WEEK_OF_YEAR) + 1;
-        }
-
         List<ReservationDTO> roomSchedule
-                // = scheduleFacade.getRoomSchedule(chooseRoomDropdown.getSelectedItem(), calendar.get(Calendar.YEAR), semester);
-                = scheduleFacade.getDetailedRoomSchedule(roomNumber, calendar.get(Calendar.YEAR), weekOfSemester, semester);
+                = scheduleFacade.getDetailedRoomSchedule(roomNumber, calendar.get(Calendar.YEAR),
+                        DateUtils.getWeekOfSemester(date), DateUtils.getSemesterFromDate(date));
 
+        addEditView.getDayTable().setModel(fillTable(roomSchedule));
+    }
+
+    private DefaultTableModel fillTable(List<ReservationDTO> roomSchedule) {
         DefaultTableModel defaultTableModel = new DayTableModel(32, 3);
 
         for (ReservationDTO reservation : roomSchedule) {
@@ -227,24 +154,12 @@ public class AddEditViewMediator {
             addEditView.getDayTable().setDefaultRenderer(Object.class,
                     new DayCustomRenderer(reservationCellsRendererMap, startQuarters, endQuarters));
         }
-
-        addEditView.getDayTable().setModel(defaultTableModel);
+        return defaultTableModel;
     }
 
     private void createReservationsRendererList(Integer numberOfStartQuarter,
             Integer numberOfEndQuarter, ReservationDTO reservation) {
-        Color color = null;
-        List<ReservationTypeDTO> reservationTypes = scheduleFacade.getReservationTypes();
-        for (ReservationTypeDTO reservationType : reservationTypes) {
-            if (reservationType.getShortDescription().equals(reservation.getType())) {
-                try {
-                    Field field = Color.class.getField(reservationType.getReservationColor());
-                    color = (Color) field.get(null);
-                } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
-                    color = null;
-                }
-            }
-        }
+        Color color = getColor(reservation);
         if (color != null) {
             for (Integer i = numberOfStartQuarter; i <= numberOfEndQuarter; i++) {
                 if (reservationCellsRendererMap.containsKey(color)) {
@@ -258,6 +173,22 @@ public class AddEditViewMediator {
                 }
             }
         }
+    }
+
+    private Color getColor(ReservationDTO reservation) {
+        Color color = null;
+        List<ReservationTypeDTO> reservationTypes = scheduleFacade.getReservationTypes();
+        for (ReservationTypeDTO reservationType : reservationTypes) {
+            if (reservationType.getShortDescription().equals(reservation.getType())) {
+                try {
+                    Field field = Color.class.getField(reservationType.getReservationColor());
+                    color = (Color) field.get(null);
+                } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+                    color = null;
+                }
+            }
+        }
+        return color;
     }
 
     public Integer getStartHourFromView() {
@@ -317,9 +248,7 @@ public class AddEditViewMediator {
 
     public RoomTypesDTO getType() {
         Integer selectedIndex = addEditView.getGroupCb().getSelectedIndex();
-
         List<RoomTypesDTO> roomTypes = roomManagementFacade.getRoomTypes();
-
         return roomTypes.get(selectedIndex);
     }
 

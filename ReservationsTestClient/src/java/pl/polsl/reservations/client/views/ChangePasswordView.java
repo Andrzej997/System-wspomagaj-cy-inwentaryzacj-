@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
+import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.mediators.ChangePasswordViewMediator;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
 import pl.polsl.reservations.client.views.utils.PanelStyle;
@@ -113,6 +114,9 @@ public class ChangePasswordView extends JPanel {
                 JOptionPane.showMessageDialog(this, "Error !!! \n Second password is not the same as first");
             } else if (!changePasswordViewMediator.onChangePassword()) {
                 JOptionPane.showMessageDialog(this, "Error !!! \n Old password is invalid");
+            } else {
+                window.getPasswordFrame().dispose();
+                window.setPasswordFrame(null);
             }
         });
         keyInputDispatcher();
@@ -127,6 +131,7 @@ public class ChangePasswordView extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ChangePasswordView.this.getWindow().dispose();
+                Lookup.removeUserCertificate();
                 System.exit(0);
             }
         };

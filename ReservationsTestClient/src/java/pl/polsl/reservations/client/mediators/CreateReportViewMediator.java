@@ -47,10 +47,6 @@ public class CreateReportViewMediator {
             case DEVICE:
                 setDeviceData();
                 break;
-            case STATE:
-                break;
-            case TYPE:
-                break;
         }
 
         return createRaportView;

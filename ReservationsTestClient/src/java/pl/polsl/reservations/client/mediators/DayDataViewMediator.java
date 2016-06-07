@@ -12,6 +12,7 @@ import pl.polsl.reservations.client.views.DayDataView;
 import pl.polsl.reservations.client.views.DayTableModel;
 import pl.polsl.reservations.client.views.MainView;
 import pl.polsl.reservations.client.views.renderers.DayCustomRenderer;
+import pl.polsl.reservations.client.views.utils.DateUtils;
 import pl.polsl.reservations.dto.ReservationDTO;
 import pl.polsl.reservations.dto.ReservationTypeDTO;
 import pl.polsl.reservations.dto.RoomDTO;
@@ -44,12 +45,9 @@ public class DayDataViewMediator {
 
     public DayDataView createView(MainView parent, Calendar date) {
         dayDataView = new DayDataView(parent, date, this);
-
         this.date = date;
-
         getRooms();
         getReservations();
-
         return dayDataView;
     }
 
@@ -58,38 +56,17 @@ public class DayDataViewMediator {
         startQuarters = new ArrayList<>();
         endQuarters = new ArrayList<>();
 
-        DefaultTableModel defaultTableModel = new DayTableModel(32, 3);
-
         Calendar calendar = date;
-        int weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
-        int weekOfSemester = 1;
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
+        List<ReservationDTO> roomSchedule
+                = scheduleFacade.getDetailedRoomSchedule((Integer) dayDataView.getChooseRoomDropdown().getSelectedItem(),
+                        calendar.get(Calendar.YEAR), DateUtils.getWeekOfSemester(date),
+                        DateUtils.getSemesterFromDate(date));
 
-        boolean semester = true;
+        dayDataView.getPlanView().setModel(fillTable(roomSchedule));
+    }
 
-        if (month >= 10 || month <= 2) {
-            semester = false;
-            Calendar cal = calendar;
-            cal.set(Calendar.MONTH, Calendar.OCTOBER);
-            cal.set(Calendar.DATE, 1);
-
-            if (month >= 10 && month <= 12) {
-                weekOfSemester = weekOfYear - cal.get(Calendar.WEEK_OF_YEAR) + 1;
-            } else {   //sprawdziæ zachowanie jak sylwester nie jest w niedzielê
-                Calendar calPom = Calendar.getInstance();
-                cal.set(Calendar.YEAR, cal.get(Calendar.YEAR) - 1);
-                calPom.set(Calendar.YEAR, calPom.get(Calendar.YEAR) - 1);
-                calPom.set(Calendar.MONTH, Calendar.DECEMBER);
-                calPom.set(Calendar.DATE, 31);
-
-                weekOfSemester = calPom.get(Calendar.WEEK_OF_YEAR) - cal.get(Calendar.WEEK_OF_YEAR);
-                calPom.set(calendar.get(Calendar.YEAR), Calendar.JANUARY, 1);
-                weekOfSemester += calendar.get(Calendar.WEEK_OF_YEAR) - calPom.get(Calendar.WEEK_OF_YEAR);
-            }
-
-        }
-        List<ReservationDTO> roomSchedule = scheduleFacade.getDetailedRoomSchedule((Integer) dayDataView.getChooseRoomDropdown().getSelectedItem(), calendar.get(Calendar.YEAR), weekOfSemester, semester);
+    private DefaultTableModel fillTable(List<ReservationDTO> roomSchedule) {
+        DefaultTableModel defaultTableModel = new DayTableModel(32, 3);
         for (ReservationDTO reservation : roomSchedule) {
             int endDay = reservation.getEndTime() / 96;
             int startDay = reservation.getStartTime() / 96;
@@ -118,8 +95,7 @@ public class DayDataViewMediator {
             dayDataView.getPlanView().setDefaultRenderer(Object.class,
                     new DayCustomRenderer(reservationCellsRendererMap, startQuarters, endQuarters));
         }
-
-        dayDataView.getPlanView().setModel(defaultTableModel);
+        return defaultTableModel;
     }
 
     public void getRooms() {
@@ -131,18 +107,7 @@ public class DayDataViewMediator {
 
     private void createReservationsRendererList(Integer numberOfStartQuarter,
             Integer numberOfEndQuarter, ReservationDTO reservation) {
-        Color color = null;
-        List<ReservationTypeDTO> reservationTypes = scheduleFacade.getReservationTypes();
-        for (ReservationTypeDTO reservationType : reservationTypes) {
-            if (reservationType.getShortDescription().equals(reservation.getType())) {
-                try {
-                    Field field = Color.class.getField(reservationType.getReservationColor());
-                    color = (Color) field.get(null);
-                } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
-                    color = null;
-                }
-            }
-        }
+        Color color = getColorData(reservation);
         if (color != null) {
             for (Integer i = numberOfStartQuarter; i <= numberOfEndQuarter; i++) {
                 if (reservationCellsRendererMap.containsKey(color)) {
@@ -158,4 +123,19 @@ public class DayDataViewMediator {
         }
     }
 
+    private Color getColorData(ReservationDTO reservation) {
+        Color color = null;
+        List<ReservationTypeDTO> reservationTypes = scheduleFacade.getReservationTypes();
+        for (ReservationTypeDTO reservationType : reservationTypes) {
+            if (reservationType.getShortDescription().equals(reservation.getType())) {
+                try {
+                    Field field = Color.class.getField(reservationType.getReservationColor());
+                    color = (Color) field.get(null);
+                } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+                    color = null;
+                }
+            }
+        }
+        return color;
+    }
 }
