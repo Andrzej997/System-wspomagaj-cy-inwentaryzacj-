@@ -7,7 +7,6 @@
     <version>0.7</version>
     <packaging>pom</packaging>
     <modules>
-        <module>test-client</module>
         <module>reservations</module>
     </modules>
     <properties>

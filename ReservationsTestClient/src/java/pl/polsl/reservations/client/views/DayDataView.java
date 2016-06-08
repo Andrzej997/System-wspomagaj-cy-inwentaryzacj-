@@ -4,13 +4,23 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import pl.polsl.reservations.client.mediators.DayDataViewMediator;
 import pl.polsl.reservations.client.mediators.WeekDataViewMediator;
+import pl.polsl.reservations.client.views.utils.ButtonStyle;
+import pl.polsl.reservations.client.views.utils.DatePicker;
+import pl.polsl.reservations.client.views.utils.PanelStyle;
+import pl.polsl.reservations.client.views.utils.RoomComboBox;
+import pl.polsl.reservations.client.views.utils.WeekDateFormatter;
 
 /**
  *
@@ -22,14 +32,17 @@ public class DayDataView extends javax.swing.JPanel {
 
     private final MainView window;
     private final Calendar date;
-
-    private JComboBox chooseRoomDropdown;
-    private JButton chooseButton;
-    private JButton nextWeek;
-    private JButton prevWeek;
-    private JButton backButton;
-    private JTable planView;
-    private JLabel weekTv;
+ 
+    private RoomComboBox chooseRoomDropdown;
+    private JButton nextBtn;
+    private JButton prevBtn;
+    private JButton backBtn;
+    private JTable planTable;
+    private JButton calendarBtn;
+    private Calendar startDate;
+    private Calendar endDate;
+    private SimpleDateFormat dateFormat;
+    private DatePicker datePicker;
 
     private final transient DayDataViewMediator dayDataViewMediator;
 
@@ -42,111 +55,99 @@ public class DayDataView extends javax.swing.JPanel {
     }
 
     private void initComponents() {
-        initFields();
-        initRoomDropdown();
-        initButtons();
-        planView = new JTable(new DayTableModel(32,3));
-
-        setSize();
-        JPanel weekPanel = new JPanel(new BorderLayout());
-        weekPanel.add(prevWeek, BorderLayout.WEST);
-        weekPanel.add(weekTv, BorderLayout.CENTER);
-        weekPanel.add(nextWeek, BorderLayout.EAST);
-        JPanel navPanel = new JPanel(new BorderLayout());
-        navPanel.add(chooseRoomDropdown, BorderLayout.WEST);
-        navPanel.add(chooseButton, BorderLayout.CENTER);
-        navPanel.add(weekPanel, BorderLayout.EAST);
-        JPanel dataLayout = new JPanel(new BorderLayout());
-        dataLayout.add(navPanel, BorderLayout.NORTH);
-        dataLayout.add(backButton, BorderLayout.CENTER);
-        dataLayout.add(new JScrollPane(planView), BorderLayout.SOUTH);
-
-        JPanel mainLayout = new JPanel(new GridBagLayout());
-        GridBagConstraints position = new GridBagConstraints();
-        mainLayout.add(dataLayout, position);
-        add(mainLayout, BorderLayout.CENTER);
+        initializeObjects();
+        setupButtons();
+        addListeners();
+        setBorder(new EmptyBorder(10, 10, 30, 10));
+        PanelStyle.setSize(this, 800, 600);
+        setupLayouts();
         keyInputDispatcher();
+        chooseRoomDropdown.addActionListener((ActionEvent e) -> {
+            if (chooseRoomDropdown.getSelectedItem() != null) {
+                chooseRoomDropdown.onAction();
+                dayDataViewMediator.getReservations();
+            }
+        });
+        window.checkPrivileges();
     }
+    
+    private void setupLayouts(){
+        BoxLayout boxlayout = new BoxLayout(this, BoxLayout.Y_AXIS);
+        setLayout(boxlayout);
 
-    private void initFields() {
-        chooseRoomDropdown = new JComboBox();
-        chooseButton = new JButton();
+        JPanel emptyPanel = new JPanel();
+        PanelStyle.setSize(emptyPanel, 225, 40);
+        JPanel emptyPanel2 = new JPanel();
+        PanelStyle.setSize(emptyPanel2, 145, 40);
 
-        nextWeek = new JButton();
-        prevWeek = new JButton();
-        planView = new JTable();
-        weekTv = new JLabel();
-        backButton = new JButton();
+        JPanel weekPanel = new JPanel();
+        PanelStyle.setSize(weekPanel, 350, 40);
+        weekPanel.setLayout(new BoxLayout(weekPanel, BoxLayout.X_AXIS));
+        weekPanel.add(prevBtn);
+        weekPanel.add(datePicker);
+        weekPanel.add(nextBtn);
+
+        JPanel navPanel = new JPanel();
+        PanelStyle.setSize(navPanel, 800, 40);
+        navPanel.setLayout(new BoxLayout(navPanel, BoxLayout.X_AXIS));
+
+        navPanel.add(backBtn);
+        navPanel.add(emptyPanel2);
+        navPanel.add(weekPanel);
+        navPanel.add(emptyPanel);
+
+        add(navPanel);
+        add(chooseRoomDropdown);
+        add(new JScrollPane(planTable));
     }
-
-    private void initRoomDropdown() {
-    }
-
-    private void fillTable() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private void initButtons() {
-        backButton.addActionListener((java.awt.event.ActionEvent evt) -> {
-            onBackClick(evt);
+    
+    private void addListeners(){
+        backBtn.addActionListener((ActionEvent e) -> {
+      //      window.setView(new WeekDataViewMediator().createView(window, dayDataViewMediator.getFirstRoom());
+        });
+        
+        prevBtn.addActionListener((ActionEvent e) -> {
+            onClickBtnPrevious(e);
+        });
+        nextBtn.addActionListener((ActionEvent e) -> {
+            onClickBtnNext(e);
         });
 
-        //TODO - logika zmiany dnia 
-        nextWeek.setText("NEXT DAY");
-        prevWeek.setText("PREV DAY");
-        prevWeek.addActionListener((java.awt.event.ActionEvent evt) -> {
-            onPrevClick(evt);
+        datePicker.getDatePicker().addActionListener((ActionEvent e) -> {
+            datePickerChange(e);
         });
-        nextWeek.addActionListener((java.awt.event.ActionEvent evt) -> {
-            onNextClick(evt);
-        });
-        backButton.setText("BACK");
-        weekTv.setText("DATA");
-
-        chooseButton.setText("OK");
-        chooseButton.addActionListener((java.awt.event.ActionEvent evt) -> {
-            onOkClick(evt);
-        });
-        chooseButton.setPreferredSize(new Dimension(200, 30));
     }
 
-    private void setSize() {
-        setMaximumSize(new java.awt.Dimension(800, 600));
-        setMinimumSize(new java.awt.Dimension(800, 600));
-        setPreferredSize(new java.awt.Dimension(800, 600));
-    }
-
-    private class ButtonColumnListener implements ActionListener {
-
-        private final int index;
-
-        public ButtonColumnListener(int i) {
-            index = i + 1;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            window.setView(new DayDataViewMediator().createView(window, date));
-        }
-    }
-
-    private void onBackClick(ActionEvent evt) {
-        window.setView(new WeekDataViewMediator().createView(window, chooseRoomDropdown.getSelectedItem()));
-    }
-
-    private void onNextClick(ActionEvent evt) {
-        JOptionPane.showMessageDialog(this, "Not supported yet"); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private void onPrevClick(ActionEvent evt) {
-        JOptionPane.showMessageDialog(this, "Not supported yet"); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private void onOkClick(ActionEvent evt) {
-        if (chooseRoomDropdown.getSelectedItem() != null) {
-            dayDataViewMediator.getReservations();
+    private void setupButtons() {
+        try {
+            Image img = ImageIO.read(getClass().getResource("/resources/left.png"));
+            ButtonStyle.setStyle(prevBtn, img);
+            Image img2 = ImageIO.read(getClass().getResource("/resources/right.png"));
+            ButtonStyle.setStyle(nextBtn, img2);
+            Image img3 = ImageIO.read(getClass().getResource("/resources/calendar.png"));
+            ButtonStyle.setStyle(calendarBtn, img3);
+            Image img4 = ImageIO.read(getClass().getResource("/resources/back.png"));
+            ButtonStyle.setStyle(backBtn, img4);
+        } catch (IOException ex) {
+            System.out.println("RESOURCE ERROR: " + ex.toString());
         }
     }
+
+    private void initializeObjects() {
+        chooseRoomDropdown = new RoomComboBox();
+        nextBtn = new JButton();
+        prevBtn = new JButton();
+        calendarBtn = new JButton();
+        planTable = new JTable(new DayTableModel(32,3));
+        datePicker = DatePicker.getInstance();
+        backBtn = new JButton();
+        startDate = Calendar.getInstance();
+        startDate.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        endDate = Calendar.getInstance();
+        endDate.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        dateFormat = new WeekDateFormatter().dateFormatter;
+    }
+
 
     private void keyInputDispatcher() {
 
@@ -164,6 +165,63 @@ public class DayDataView extends javax.swing.JPanel {
         actionMap.put("escape", escapeAction);
     }
 
+    
+    private void datePickerChange(ActionEvent e) {
+        Calendar date = datePicker.getDate();
+        if (date != null) {
+            startDate.set(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DATE));
+            startDate.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+            endDate.set(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DATE));
+            endDate.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        }
+        dayDataViewMediator.getReservations();
+    }
+
+    private void onClickBtnNext(ActionEvent e) {
+        startDate.set(datePicker.getModel().getYear(),
+                datePicker.getModel().getMonth(),
+                datePicker.getModel().getDay());
+        startDate.add(Calendar.DATE, 7);
+        int dayOfWeek = startDate.get(Calendar.DAY_OF_WEEK);
+        dayOfWeek -= 2;
+        startDate.add(Calendar.DAY_OF_MONTH, -dayOfWeek);
+        endDate.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH),
+                startDate.get(Calendar.DATE));
+        endDate.add(Calendar.DATE, 6);
+        setDateText();
+
+        dayDataViewMediator.getReservations();
+    }
+
+    private void onClickBtnPrevious(ActionEvent e) {
+        startDate.set(datePicker.getModel().getYear(),
+                datePicker.getModel().getMonth(),
+                datePicker.getModel().getDay());
+        startDate.add(Calendar.DAY_OF_MONTH, -7);
+        int dayOfWeek = startDate.get(Calendar.DAY_OF_WEEK);
+        dayOfWeek -= 2;
+        startDate.add(Calendar.DAY_OF_MONTH, -dayOfWeek);
+
+        endDate.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH),
+                startDate.get(Calendar.DATE));
+        endDate.add(Calendar.DATE, 6);
+        setDateText();
+
+        dayDataViewMediator.getReservations();
+    }
+
+    private void setDateText() {
+        datePicker.getModel().setDay(startDate.get(Calendar.DAY_OF_MONTH));
+        datePicker.getModel().setMonth(startDate.get(Calendar.MONTH));
+        datePicker.getModel().setYear(startDate.get(Calendar.YEAR));
+        datePicker
+                .getJFormattedTextField()
+                .setText(dateFormat
+                        .format(startDate
+                                .getTime()) + " - "
+                        + dateFormat
+                        .format(endDate.getTime()));
+    }
     public MainView getWindow() {
         return window;
     }
@@ -172,32 +230,21 @@ public class DayDataView extends javax.swing.JPanel {
         return date;
     }
 
-    public JComboBox getChooseRoomDropdown() {
-        return chooseRoomDropdown;
-    }
-
-    public JButton getChooseButton() {
-        return chooseButton;
-    }
-
     public JButton getNextWeek() {
-        return nextWeek;
+        return nextBtn;
     }
 
     public JButton getPrevWeek() {
-        return prevWeek;
+        return prevBtn;
     }
 
     public JButton getBackButton() {
-        return backButton;
+        return backBtn;
     }
 
     public JTable getPlanView() {
-        return planView;
+        return planTable;
     }
 
-    public JLabel getWeekTv() {
-        return weekTv;
-    }
 
 }

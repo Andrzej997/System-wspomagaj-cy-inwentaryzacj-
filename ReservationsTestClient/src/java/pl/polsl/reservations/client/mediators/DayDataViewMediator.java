@@ -57,12 +57,12 @@ public class DayDataViewMediator {
         endQuarters = new ArrayList<>();
 
         Calendar calendar = date;
-        List<ReservationDTO> roomSchedule
-                = scheduleFacade.getDetailedRoomSchedule((Integer) dayDataView.getChooseRoomDropdown().getSelectedItem(),
-                        calendar.get(Calendar.YEAR), DateUtils.getWeekOfSemester(date),
-                        DateUtils.getSemesterFromDate(date));
+      //  List<ReservationDTO> roomSchedule
+//                = scheduleFacade.getDetailedRoomSchedule((Integer) dayDataView.getChooseRoomDropdown().getSelectedItem(),
+       //                 calendar.get(Calendar.YEAR), DateUtils.getWeekOfSemester(date),
+         //               DateUtils.getSemesterFromDate(date));
 
-        dayDataView.getPlanView().setModel(fillTable(roomSchedule));
+     //   dayDataView.getPlanView().setModel(fillTable(roomSchedule));
     }
 
     private DefaultTableModel fillTable(List<ReservationDTO> roomSchedule) {
@@ -91,9 +91,9 @@ public class DayDataViewMediator {
                 String userString = userDetails.getName() + " " + userDetails.getSurname();
                 defaultTableModel.setValueAt(userString, numberOfStartQuarter % 32 + 1, numberOfStartQuarter / 32);
             }
-            dayDataView.getPlanView().setModel(defaultTableModel);
-            dayDataView.getPlanView().setDefaultRenderer(Object.class,
-                    new DayCustomRenderer(reservationCellsRendererMap, startQuarters, endQuarters));
+           // dayDataView.getPlanView().setModel(defaultTableModel);
+         //   dayDataView.getPlanView().setDefaultRenderer(Object.class,
+              //      new DayCustomRenderer(reservationCellsRendererMap, startQuarters, endQuarters));
         }
         return defaultTableModel;
     }
@@ -101,7 +101,7 @@ public class DayDataViewMediator {
     public void getRooms() {
         List<RoomDTO> roomsList = roomManagementFacade.getRoomsList();
         roomsList.stream().forEach((room) -> {
-            dayDataView.getChooseRoomDropdown().addItem(room.getNumber());
+           // dayDataView.getChooseRoomDropdown().addItem(room.getNumber());
         });
     }
 
