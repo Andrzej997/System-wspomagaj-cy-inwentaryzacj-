@@ -47,7 +47,6 @@ public class CreateRaportView extends JPanel {
     private JComboBox keeperCb;
     private JComboBox departmentCb;
     private JComboBox stateCb;
-    private JComboBox roomTypeCb;
     private RoomComboBox roomCb;
 
     private JTextField nameTf;
@@ -61,7 +60,6 @@ public class CreateRaportView extends JPanel {
     private JLabel stateLabel;
     private JLabel nameLabel;
     private JLabel descriptionLabel;
-    private JLabel roomTypeLabel;
 
     private JPanel mainPanel;
     private JPanel dataPanel;
@@ -84,36 +82,43 @@ public class CreateRaportView extends JPanel {
     }
 
     private void setupView() {
-        if ((option == AddTypeEnum.STATE) || (option == AddTypeEnum.TYPE)) {
-            labelPanel.add(nameLabel);
-            labelPanel.add(descriptionLabel);
-            dataPanel.add(nameTf);
-            dataPanel.add(descriptionTf);
-        } else if (option == AddTypeEnum.ROOM) {
-            labelPanel.add(roomLabel);
-            labelPanel.add(numberLabel);
-            labelPanel.add(roomTypeLabel);
-            labelPanel.add(departmentLabel);
-            labelPanel.add(keeperLabel);
-            labelPanel.add(typeLabel);
-            dataPanel.add(roomIdTf);
-            dataPanel.add(numberTf);
-            dataPanel.add(roomTypeCb);
-            dataPanel.add(departmentCb);
-            dataPanel.add(keeperCb);
-            dataPanel.add(typeCb);
-
-        } else if (option == AddTypeEnum.DEVICE) {
-            labelPanel.add(roomLabel);
-            labelPanel.add(typeLabel);
-            labelPanel.add(numberLabel);
-            labelPanel.add(nameLabel);
-            labelPanel.add(stateLabel);
-            dataPanel.add(roomCb);
-            dataPanel.add(typeCb);
-            dataPanel.add(numberTf);
-            dataPanel.add(nameTf);
-            dataPanel.add(stateCb);
+        if (null != option) switch (option) {
+            case TYPE:
+                labelPanel.add(nameLabel);
+                labelPanel.add(descriptionLabel);
+                dataPanel.add(nameTf);
+                dataPanel.add(descriptionTf);
+                break;
+            case STATE:
+                labelPanel.add(nameLabel);
+                dataPanel.add(nameTf);
+                break;
+            case ROOM:
+                labelPanel.add(roomLabel);
+                labelPanel.add(numberLabel);
+                labelPanel.add(departmentLabel);
+                labelPanel.add(keeperLabel);
+                labelPanel.add(typeLabel);
+                dataPanel.add(roomIdTf);
+                dataPanel.add(numberTf);
+                dataPanel.add(departmentCb);
+                dataPanel.add(keeperCb);
+                dataPanel.add(typeCb);
+                break;
+            case DEVICE:
+                labelPanel.add(roomLabel);
+                labelPanel.add(typeLabel);
+                labelPanel.add(numberLabel);
+                labelPanel.add(nameLabel);
+                labelPanel.add(stateLabel);
+                dataPanel.add(roomCb);
+                dataPanel.add(typeCb);
+                dataPanel.add(numberTf);
+                dataPanel.add(nameTf);
+                dataPanel.add(stateCb);
+                break;
+            default:
+                break;
         }
         mainPanel.add(labelPanel);
         mainPanel.add(dataPanel);
@@ -179,12 +184,11 @@ public class CreateRaportView extends JPanel {
         PanelStyle.setSize(descriptionTf, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(descriptionLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(roomCb, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(roomTypeCb, NORMAL_WIDTH, NORMAL_HEIGHT);
         if ((option == AddTypeEnum.ROOM) || (option == AddTypeEnum.DEVICE)) {
             PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 160);
             PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 160);
             PanelStyle.setSize(mainPanel, 2 * NORMAL_WIDTH, 160);
-            PanelStyle.setSize(this, 2 * NORMAL_WIDTH, 200);
+            PanelStyle.setSize(this, 2 * NORMAL_WIDTH, 230);
         } else {
             PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 60);
             PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 60);
@@ -205,9 +209,7 @@ public class CreateRaportView extends JPanel {
         departmentCb = new JComboBox();
         stateCb = new JComboBox();
         roomCb = new RoomComboBox();
-        roomTypeCb = new JComboBox();
         nameTf = new JTextField();
-        roomTypeLabel = new JLabel("Room type: ");
         if (option == AddTypeEnum.DEVICE) {
             roomLabel = new JLabel("Room: ");
         } else {
@@ -498,14 +500,6 @@ public class CreateRaportView extends JPanel {
 
     public void setOkButton(JButton okButton) {
         this.okButton = okButton;
-    }
-
-    public JComboBox getRoomTypeCb() {
-        return roomTypeCb;
-    }
-
-    public void setRoomTypeCb(JComboBox roomTypeCb) {
-        this.roomTypeCb = roomTypeCb;
     }
 
     public RoomComboBox getRoomCb() {

@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.mediators.AddEditViewMediator;
@@ -35,6 +36,7 @@ public class WeekDataView extends JPanel {
     private RoomComboBox chooseRoomDropdown;
     private JButton nextBtn;
     private JButton prevBtn;
+    private JButton backBtn;
     private JTable planTable;
     private JButton calendarBtn;
     private Calendar startDate;
@@ -54,33 +56,55 @@ public class WeekDataView extends JPanel {
     }
 
     private void initComponents() {
-        chooseRoomDropdown = new RoomComboBox();
-        nextBtn = new JButton();
-        prevBtn = new JButton();
-        calendarBtn = new JButton();
-        planTable = new JTable();
-        datePicker = DatePicker.getInstance();
+        initializeObjects();
+        setupButtons();
+        addListeners();
+        initTable();
+        setBorder(new EmptyBorder(10, 10, 30, 10));
+        PanelStyle.setSize(this, 800, 600);
+        setupLayouts();
+        keyInputDispatcher();
+        chooseRoomDropdown.addActionListener((ActionEvent e) -> {
+            if (chooseRoomDropdown.getSelectedItem() != null) {
+                chooseRoomDropdown.onAction();
+                weekDataViewMediator.getReservations();
+            }
+        });
+        window.checkPrivileges();
+    }
+    
+    private void setupLayouts(){
+        BoxLayout boxlayout = new BoxLayout(this, BoxLayout.Y_AXIS);
+        setLayout(boxlayout);
 
-        startDate = Calendar.getInstance();
-        startDate.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        endDate = Calendar.getInstance();
-        endDate.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-        dateFormat = new WeekDateFormatter().dateFormatter;
+        JPanel emptyPanel = new JPanel();
+        PanelStyle.setSize(emptyPanel, 225, 40);
+        JPanel emptyPanel2 = new JPanel();
+        PanelStyle.setSize(emptyPanel2, 145, 40);
 
-        setDateText();
-        //TODO - logika zmiany tygodnia
-        try {
-            Image img = ImageIO.read(getClass().getResource("/resources/left.png"));
-            ButtonStyle.setStyle(prevBtn, img);
-            Image img2 = ImageIO.read(getClass().getResource("/resources/right.png"));
-            ButtonStyle.setStyle(nextBtn, img2);
-            Image img3 = ImageIO.read(getClass().getResource("/resources/calendar.png"));
-            ButtonStyle.setStyle(calendarBtn, img3);
-        } catch (IOException ex) {
-            System.out.println("RESOURCE ERROR: " + ex.toString());
-        }
+        JPanel weekPanel = new JPanel();
+        PanelStyle.setSize(weekPanel, 350, 40);
+        weekPanel.setLayout(new BoxLayout(weekPanel, BoxLayout.X_AXIS));
+        weekPanel.add(prevBtn);
+        weekPanel.add(datePicker);
+        weekPanel.add(nextBtn);
 
-        prevBtn.addActionListener((ActionEvent e) -> {
+        JPanel navPanel = new JPanel();
+        PanelStyle.setSize(navPanel, 800, 40);
+        navPanel.setLayout(new BoxLayout(navPanel, BoxLayout.X_AXIS));
+
+        navPanel.add(backBtn);
+        navPanel.add(emptyPanel2);
+        navPanel.add(weekPanel);
+        navPanel.add(emptyPanel);
+
+        add(navPanel);
+        add(chooseRoomDropdown);
+        add(new JScrollPane(planTable));
+    }
+    
+    private void addListeners(){
+         prevBtn.addActionListener((ActionEvent e) -> {
             onClickBtnPrevious(e);
         });
         nextBtn.addActionListener((ActionEvent e) -> {
@@ -90,31 +114,36 @@ public class WeekDataView extends JPanel {
         datePicker.getDatePicker().addActionListener((ActionEvent e) -> {
             datePickerChange(e);
         });
+    }
 
-        initTable();
-        PanelStyle.setSize(this, 800, 600);
-        JPanel weekPanel = new JPanel();
-        PanelStyle.setSize(weekPanel, 350, 40);
-        BoxLayout weekLayout = new BoxLayout(weekPanel, BoxLayout.X_AXIS);
-        weekPanel.setLayout(weekLayout);
-        weekPanel.add(prevBtn);
-        weekPanel.add(datePicker);
-        weekPanel.add(nextBtn);
+    private void setupButtons() {
+        try {
+            Image img = ImageIO.read(getClass().getResource("/resources/left.png"));
+            ButtonStyle.setStyle(prevBtn, img);
+            Image img2 = ImageIO.read(getClass().getResource("/resources/right.png"));
+            ButtonStyle.setStyle(nextBtn, img2);
+            Image img3 = ImageIO.read(getClass().getResource("/resources/calendar.png"));
+            ButtonStyle.setStyle(calendarBtn, img3);
+            Image img4 = ImageIO.read(getClass().getResource("/resources/back.png"));
+            ButtonStyle.setStyle(backBtn, img4);
+        } catch (IOException ex) {
+            System.out.println("RESOURCE ERROR: " + ex.toString());
+        }
+    }
 
-        BoxLayout boxlayout = new BoxLayout(this, BoxLayout.Y_AXIS);
-        setLayout(boxlayout);
-
-        add(weekPanel);
-        add(chooseRoomDropdown);
-        add(new JScrollPane(planTable));
-        keyInputDispatcher();
-        chooseRoomDropdown.addActionListener((ActionEvent e) -> {
-            if (chooseRoomDropdown.getSelectedItem() != null) {
-                chooseRoomDropdown.onAction();
-                weekDataViewMediator.getReservations();
-            }
-        });
-        window.checkPrivileges();
+    private void initializeObjects() {
+        chooseRoomDropdown = new RoomComboBox();
+        nextBtn = new JButton();
+        prevBtn = new JButton();
+        calendarBtn = new JButton();
+        planTable = new JTable();
+        datePicker = DatePicker.getInstance();
+        backBtn = new JButton();
+        startDate = Calendar.getInstance();
+        startDate.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        endDate = Calendar.getInstance();
+        endDate.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        dateFormat = new WeekDateFormatter().dateFormatter;
     }
 
     private void initTable() {

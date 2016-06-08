@@ -37,6 +37,7 @@ public class AddEditView extends JPanel {
     private JButton addButton;
     private JButton editButton;
     private JButton discardButton;
+    private JButton backBtn;
 
     private JTable dayTable;
 
@@ -96,10 +97,11 @@ public class AddEditView extends JPanel {
         labelPanel.add(teacherLabel);
         addPanel.add(labelPanel);
         addPanel.add(dataPanel);
+        mainPanel.add(backBtn);
         mainPanel.add(addPanel);
-        mainPanel.add(dayTablePanel);
+        mainPanel.add(navigatePanel);
         add(mainPanel);
-        add(navigatePanel);
+        add(dayTablePanel);
     }
 
     private void initListeners() {
@@ -113,9 +115,9 @@ public class AddEditView extends JPanel {
 
     private void initFields() {
         date = new Date();
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         addPanel = new JPanel();
         addPanel.setLayout(new BoxLayout(addPanel, BoxLayout.X_AXIS));
         dataPanel = new JPanel();
@@ -132,7 +134,9 @@ public class AddEditView extends JPanel {
             onOkClick(evt);
         });
         dayTable = new JTable(new DayTableModel(32, 3));
-        dayTablePanel.add(new JScrollPane(dayTable));
+        JScrollPane tableScrollPanel = new JScrollPane(dayTable);
+        PanelStyle.setSize(tableScrollPanel, 480, 550);
+        dayTablePanel.add(tableScrollPanel);
         roomCb = new JComboBox();
         datepicker = DatePicker.getDayInstance();
         groupCb = new JComboBox();
@@ -151,6 +155,7 @@ public class AddEditView extends JPanel {
         addButton = new JButton();
         editButton = new JButton();
         discardButton = new JButton();
+        backBtn = new JButton();
     }
 
     private void setText() {
@@ -161,6 +166,9 @@ public class AddEditView extends JPanel {
             ButtonStyle.setStyle(editButton, img2);
             Image img3 = ImageIO.read(getClass().getResource("/resources/error.png"));
             ButtonStyle.setStyle(discardButton, img3);
+            Image img4 = ImageIO.read(getClass().getResource("/resources/back.png"));
+            ButtonStyle.setStyle(backBtn, img4);
+            backBtn.setBorder(new EmptyBorder(0,0,0,260));
             if (edit) {
                 navigatePanel.add(editButton);
                 navigatePanel.add(discardButton);
@@ -180,8 +188,8 @@ public class AddEditView extends JPanel {
     private void setSize() {
         setBorder(new EmptyBorder(10, 10, 10, 10));
         PanelStyle.setSize(this, 800, 600);
-        PanelStyle.setSize(addPanel, 300, 530);
-        PanelStyle.setSize(dayTablePanel, 500, 530);
+        PanelStyle.setSize(addPanel, 300, 480);
+        PanelStyle.setSize(dayTablePanel, 480, 550);
         PanelStyle.setSize(roomLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(teacherLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(titleLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
