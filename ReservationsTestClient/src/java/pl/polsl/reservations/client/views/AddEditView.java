@@ -149,6 +149,12 @@ public class AddEditView extends JPanel {
         
         datepicker = DatePicker.getDayInstance();
         
+        datepicker.getDatePicker().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               addEditViewMediator.getReservations();
+            }
+        });
         
         groupCb = new JComboBox();
         hourStartCb = new JComboBox();
