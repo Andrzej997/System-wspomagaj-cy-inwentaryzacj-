@@ -6,25 +6,29 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import pl.polsl.reservations.client.ClientContext;
 import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.mediators.LoginMediator;
 import pl.polsl.reservations.client.mediators.WeekDataViewMediator;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
+import pl.polsl.reservations.client.views.utils.PanelStyle;
 import pl.polsl.reservations.client.views.utils.ValidationErrorMessanger;
 
 public class LoginView extends JPanel {
 
+    private final int NORMAL_WIDTH = 130;
+    private final int NORMAL_HEIGHT = 30;
     private static final long serialVersionUID = 7390610748297788567L;
 
     private final MainView window;
 
     private JButton loginButton;
     private JButton guestButton;
-    private JFormattedTextField loginEditText;
+    private JTextField loginTf;
     private JLabel loginLabel;
     private JLabel passwordLabel;
-    private JPasswordField passwordEditText;
+    private JPasswordField passwordTf;
 
     private final transient LoginMediator loginMediator;
 
@@ -37,49 +41,52 @@ public class LoginView extends JPanel {
 
     private void initComponents() {
         initialize();
-
-        setSize();
+        PanelStyle.setSize(this, 300, 200);
+        setBorder(new EmptyBorder(20, 20, 20, 20));
         initLoginFields();
         initButtons();
 
-        JPanel loginLayout = new JPanel(new BorderLayout());
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        loginLayout.add(loginLabel, BorderLayout.WEST);
-        loginLayout.add(loginEditText, BorderLayout.EAST);
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
 
-        JPanel passwordLayout = new JPanel(new BorderLayout());
+        JPanel labelPanel = new JPanel();
+        labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS));
+        JPanel dataPanel = new JPanel();
+        dataPanel.setLayout(new BoxLayout(dataPanel, BoxLayout.Y_AXIS));
+        labelPanel.add(loginLabel);
+        dataPanel.add(loginTf);
+        labelPanel.add(passwordLabel);
+        dataPanel.add(passwordTf);
 
-        passwordLayout.add(passwordLabel, BorderLayout.WEST);
-        passwordLayout.add(passwordEditText, BorderLayout.EAST);
+        PanelStyle.setSize(loginLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
 
-        JPanel navLayout = new JPanel(new BorderLayout());
-        navLayout.add(loginButton, BorderLayout.NORTH);
-        navLayout.add(guestButton, BorderLayout.SOUTH);
+        PanelStyle.setSize(passwordLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(loginTf, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(passwordTf, NORMAL_WIDTH, NORMAL_HEIGHT);
 
-        JPanel dataLayout = new JPanel(new BorderLayout());
-        dataLayout.add(loginLayout, BorderLayout.NORTH);
-        dataLayout.add(passwordLayout, BorderLayout.CENTER);
-        dataLayout.add(navLayout, BorderLayout.SOUTH);
+        mainPanel.add(labelPanel);
+        mainPanel.add(dataPanel);
+        add(mainPanel);
+        add(loginButton);
+        add(guestButton);
 
-        JPanel mainLayout = new JPanel(new GridBagLayout());
-        GridBagConstraints position = new GridBagConstraints();
-        mainLayout.add(dataLayout, position);
-        add(mainLayout, BorderLayout.CENTER);
         keyInputDispatcher();
     }
 
     private void onClickLogin(java.awt.event.ActionEvent evt) {
-            if(!validateAll()){
-                return;
-            }
-            if (loginMediator.getUserData(loginEditText.getText(), passwordEditText.getText())) {
-                window.setOptionsAvailable(Color.black);
-                ClientContext.setUsername(loginEditText.getText());
-                window.setView(new WeekDataViewMediator().createView(window, loginMediator.getFirstRoom()));
-                window.setLogged(true);
-            } else {
-                JOptionPane.showMessageDialog(this, "Wrong login or password!!.");
-            }
+        if (!validateAll()) {
+            return;
+        }
+        if (loginMediator.getUserData(loginTf.getText(), passwordTf.getText())) {
+            window.setOptionsAvailable(Color.black);
+            ClientContext.setUsername(loginTf.getText());
+            window.setView(new WeekDataViewMediator().createView(window, loginMediator.getFirstRoom()));
+            window.setLogged(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Wrong login or password!!.");
+        }
     }
 
     private void onClickRegister(ActionEvent evt) {
@@ -93,31 +100,22 @@ public class LoginView extends JPanel {
     }
 
     private void initialize() {
-        loginEditText = new JFormattedTextField();
-        passwordEditText = new JPasswordField();
+        loginTf = new JFormattedTextField();
+        passwordTf = new JPasswordField();
         loginLabel = new JLabel();
         passwordLabel = new JLabel();
         loginButton = new JButton();
         guestButton = new JButton();
     }
 
-    private void setSize() {
-        setMaximumSize(new Dimension(300, 200));
-        setMinimumSize(new Dimension(300, 200));
-        setPreferredSize(new Dimension(300, 200));
-    }
 
     private void initLoginFields() {
-        loginEditText.setToolTipText("You username");
-        loginEditText.setPreferredSize(new Dimension(200, 30));
-        passwordEditText.setToolTipText("Your password");
-        passwordEditText.setPreferredSize(new Dimension(200, 30));
 
         loginLabel.setText("Login: ");
         passwordLabel.setText("Password: ");
 
         loginButton.addActionListener((java.awt.event.ActionEvent evt) -> {
-            if(!validateAll()){
+            if (!validateAll()) {
                 return;
             }
             onClickLogin(evt);
@@ -178,8 +176,8 @@ public class LoginView extends JPanel {
 
     private Boolean validateAll() {
         Boolean validationFlag = true;
-        if (loginEditText.getText().isEmpty()) {
-            ValidationErrorMessanger.showErrorMessage(loginEditText, "Username field cannot be empty");
+        if (loginTf.getText().isEmpty()) {
+            ValidationErrorMessanger.showErrorMessage(loginTf, "Username field cannot be empty");
             validationFlag = false;
         }
         return validationFlag;
@@ -197,8 +195,8 @@ public class LoginView extends JPanel {
         return guestButton;
     }
 
-    public JFormattedTextField getLoginEditText() {
-        return loginEditText;
+    public JTextField getLoginEditText() {
+        return loginTf;
     }
 
     public JLabel getLoginLabel() {
@@ -210,7 +208,7 @@ public class LoginView extends JPanel {
     }
 
     public JPasswordField getPasswordEditText() {
-        return passwordEditText;
+        return passwordTf;
     }
 
 }

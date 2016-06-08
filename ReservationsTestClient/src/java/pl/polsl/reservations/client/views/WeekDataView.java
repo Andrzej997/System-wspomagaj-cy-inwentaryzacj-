@@ -100,7 +100,10 @@ public class WeekDataView extends JPanel {
 
         add(navPanel);
         add(chooseRoomDropdown);
-        add(new JScrollPane(planTable));
+        JScrollPane tableScrollPanel = new JScrollPane(planTable);
+        PanelStyle.setSize(tableScrollPanel,780,500);
+        PanelStyle.setSize(planTable,780,500);
+        add(tableScrollPanel);
     }
     
     private void addListeners(){
