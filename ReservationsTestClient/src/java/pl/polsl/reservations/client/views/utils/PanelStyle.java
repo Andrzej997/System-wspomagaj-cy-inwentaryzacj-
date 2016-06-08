@@ -1,5 +1,6 @@
 package pl.polsl.reservations.client.views.utils;
 
+import java.awt.Color;
 import javax.swing.JComponent;
 
 /**

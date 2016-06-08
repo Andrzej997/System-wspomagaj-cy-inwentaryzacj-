@@ -50,7 +50,7 @@ public class DatePicker extends JPanel {
         } else {
             datePicker = new JDatePickerImpl(datePanel, new DayDateFormatter());
             PanelStyle.setSize(datePanel, 220, 200);
-            PanelStyle.setSize(datePicker, 150, 30);
+            PanelStyle.setSize(datePicker, 170, 30);
             datePicker.addActionListener((ActionEvent e) -> {
                 Date dat = (Date) datePicker.getModel().getValue();
                 if (dat != null) {

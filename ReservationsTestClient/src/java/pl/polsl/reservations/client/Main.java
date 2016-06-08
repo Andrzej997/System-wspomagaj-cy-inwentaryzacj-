@@ -1,6 +1,10 @@
 package pl.polsl.reservations.client;
 
-import java.util.List;
+import com.itextpdf.text.Font;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics2D;
+import javax.swing.Painter;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import pl.polsl.reservations.client.mediators.MainViewMediator;
@@ -17,7 +21,7 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-   /* public static void main(String[] args) {
+    /* public static void main(String[] args) {
 
         //pobranie lookupem dostępnych dla klienta fasad
         //generalnie pobierajcie wedle potrzeb tu macie przykład jak pobrać wszystkie
@@ -46,12 +50,12 @@ public class Main {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }*/
-
     public static void main(String args[]) {
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     UIManager.setLookAndFeel(info.getClassName());
+                    setStyle();
                     break;
                 }
             }
@@ -63,5 +67,28 @@ public class Main {
             MainView window = new MainView(mainViewMediator);
             mainViewMediator.createView();
         });
+    }
+
+    private static void setStyle() {
+        Painter<Component> p = new Painter<Component>() {
+            public void paint(Graphics2D g, Component c, int width, int height) {
+                g.setColor(new Color(247, 248, 250));
+        }
+        };
+        UIManager.getLookAndFeelDefaults().put("InternalFrameTitlePane.background", new Color(230, 230, 250));
+        UIManager.getLookAndFeelDefaults().put("background", new Color(230, 230, 250));
+        UIManager.getLookAndFeelDefaults().put("Table.font",
+                new javax.swing.plaf.FontUIResource("Arial", Font.NORMAL, 13));
+        UIManager.getLookAndFeelDefaults().put("TableHeader.foreground", new Color(255, 255, 255));
+        UIManager.getLookAndFeelDefaults().put("defaultFont",
+                new javax.swing.plaf.FontUIResource("Arial", Font.BOLD, 13));
+        UIManager.getLookAndFeelDefaults().put("ComboBox.foreground", new Color(247, 248, 250));
+        
+        UIManager.getLookAndFeelDefaults().put("TextField.background", new Color(247, 248, 250));
+        UIManager.getLookAndFeelDefaults().put("FormattedTextField.background", new Color(247, 248, 250));
+        UIManager.getLookAndFeelDefaults().put("PasswordField.background", new Color(247, 248, 250));
+        UIManager.getLookAndFeelDefaults().put("Button.foreground", new Color(247, 248, 250));
+        UIManager.getLookAndFeelDefaults().put("InternalFrame.background", new Color(247, 248, 250));
+
     }
 }

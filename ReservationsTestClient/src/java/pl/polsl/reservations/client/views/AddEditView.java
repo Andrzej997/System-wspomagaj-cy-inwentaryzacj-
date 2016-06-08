@@ -136,7 +136,7 @@ public class AddEditView extends JPanel {
         });
         dayTable = new JTable(new DayTableModel(32, 3));
         JScrollPane tableScrollPanel = new JScrollPane(dayTable);
-        PanelStyle.setSize(tableScrollPanel, 480, 550);
+        PanelStyle.setSize(tableScrollPanel, 450, 550);
         dayTablePanel.add(tableScrollPanel);
         roomCb = new JComboBox();
         
@@ -205,20 +205,20 @@ public class AddEditView extends JPanel {
     private void setSize() {
         setBorder(new EmptyBorder(10, 10, 10, 10));
         PanelStyle.setSize(this, 800, 600);
-        PanelStyle.setSize(addPanel, 300, 480);
-        PanelStyle.setSize(dayTablePanel, 480, 550);
+        PanelStyle.setSize(addPanel, 330, 480);
+        PanelStyle.setSize(dayTablePanel, 450, 550);
         PanelStyle.setSize(roomLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(teacherLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(titleLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(groupLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(dateLabel, NORMAL_WIDTH, 40);
         PanelStyle.setSize(hourLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(roomCb, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(datepicker, NORMAL_WIDTH, 40);
-        PanelStyle.setSize(hourPanel, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(teacherCb, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(groupCb, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(titleTf, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(roomCb, NORMAL_WIDTH+20, NORMAL_HEIGHT);
+        PanelStyle.setSize(datepicker, NORMAL_WIDTH+20, 40);
+        PanelStyle.setSize(hourPanel, NORMAL_WIDTH+20, NORMAL_HEIGHT);
+        PanelStyle.setSize(teacherCb, NORMAL_WIDTH+20, NORMAL_HEIGHT);
+        PanelStyle.setSize(groupCb, NORMAL_WIDTH+20, NORMAL_HEIGHT);
+        PanelStyle.setSize(titleTf, NORMAL_WIDTH+20, NORMAL_HEIGHT);
     }
 
     private void setDataHourCb() {
