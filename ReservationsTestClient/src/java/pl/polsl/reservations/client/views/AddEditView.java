@@ -2,6 +2,7 @@ package pl.polsl.reservations.client.views;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.Date;
@@ -138,7 +139,17 @@ public class AddEditView extends JPanel {
         PanelStyle.setSize(tableScrollPanel, 450, 550);
         dayTablePanel.add(tableScrollPanel);
         roomCb = new JComboBox();
+        
+        roomCb.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addEditViewMediator.getReservations();
+            }
+        });
+        
         datepicker = DatePicker.getDayInstance();
+        
+        
         groupCb = new JComboBox();
         hourStartCb = new JComboBox();
         hourStopCb = new JComboBox();
@@ -152,7 +163,7 @@ public class AddEditView extends JPanel {
         titleLabel = new JLabel("Title: ");
         roomLabel = new JLabel("Room ID: ");
 
-        addButton = new JButton();
+        //addButton = new JButton();
         editButton = new JButton();
         discardButton = new JButton();
         backBtn = new JButton();
@@ -182,7 +193,7 @@ public class AddEditView extends JPanel {
     }
 
     private void onOkClick(ActionEvent evt) {
-        JOptionPane.showMessageDialog(this, "Not supported yet");
+        addEditViewMediator.addReservation();
     }
 
     private void setSize() {

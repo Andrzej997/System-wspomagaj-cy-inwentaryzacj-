@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import pl.polsl.reservations.client.ClientContext;
 import pl.polsl.reservations.client.Lookup;
@@ -88,6 +89,29 @@ public class AddEditViewMediator {
         });
     }
 
+    private boolean checkIfReservationAvaliable(int startTime, int endTime) {
+        Calendar calendar = date;
+        List<ReservationDTO> roomSchedule
+                = scheduleFacade.getDetailedRoomSchedule(roomNumber, calendar.get(Calendar.YEAR),
+                        DateUtils.getWeekOfSemester(date), DateUtils.getSemesterFromDate(date));
+        for (ReservationDTO room : roomSchedule) {
+            Integer roomStart = room.getStartTime();
+            Integer roomEnd = room.getEndTime();
+
+            if (startTime < roomStart && endTime > roomStart) {
+                return false;
+            }
+            if (startTime < roomEnd && endTime > roomEnd) {
+                return false;
+            }
+            if (startTime > roomStart && endTime < roomEnd) {
+                return false;
+            }
+
+        }
+        return true;
+    }
+
     public boolean addReservation() {
         Integer roomID = roomManagementFacade.getRoom((Integer) addEditView.getRoomCb().getSelectedItem()).getId().intValue();
         Integer weekDay = date.get(Calendar.DAY_OF_WEEK);
@@ -98,13 +122,25 @@ public class AddEditViewMediator {
         }
         Integer startTime = getStartHourFromView() + weekDay * 96;
         Integer endTime = getEndHourFromView() + weekDay * 96;
-        Calendar calendar = date;
-        Integer typeId = getType().getId();
-        Integer userId = getWorkersData().getId().intValue();
-        scheduleFacade.createReservation(roomID, startTime, endTime, DateUtils.getWeekOfSemester(date), date.get(Calendar.YEAR), DateUtils.getSemesterFromDate(date), typeId, userId);
 
-        getReservations();
-        return true;
+        if (startTime < endTime) {
+            if (checkIfReservationAvaliable(startTime, endTime)) {
+
+                Calendar calendar = date;
+                Integer typeId = getType().getId();
+                Integer userId = getWorkersData().getId().intValue();
+                scheduleFacade.createReservation(roomID, startTime, endTime, DateUtils.getWeekOfSemester(date), date.get(Calendar.YEAR), DateUtils.getSemesterFromDate(date), typeId, userId);
+
+                getReservations();
+                return true;
+            } else {
+                JOptionPane.showMessageDialog(addEditView, "There is a reservation in selected time", "ERROR", JOptionPane.WARNING_MESSAGE);
+                return false;
+            }
+        } else {
+            JOptionPane.showMessageDialog(addEditView, "Start date after end date", "ERROR", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
     }
 
     public void getReservations() {
@@ -150,10 +186,11 @@ public class AddEditViewMediator {
                 String userString = userDetails.getName() + " " + userDetails.getSurname();
                 defaultTableModel.setValueAt(userString, numberOfStartQuarter % 32 + 1, numberOfStartQuarter / 32);
             }
-            addEditView.getDayTable().setModel(defaultTableModel);
-            addEditView.getDayTable().setDefaultRenderer(Object.class,
-                    new DayCustomRenderer(reservationCellsRendererMap, startQuarters, endQuarters));
+
         }
+        addEditView.getDayTable().setModel(defaultTableModel);
+        addEditView.getDayTable().setDefaultRenderer(Object.class,
+                new DayCustomRenderer(reservationCellsRendererMap, startQuarters, endQuarters));
         return defaultTableModel;
     }
 
