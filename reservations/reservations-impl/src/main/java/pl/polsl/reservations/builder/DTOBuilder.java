@@ -78,8 +78,8 @@ public class DTOBuilder {
         roomDTO.setType(room.getRoomType().getShortDescription());
         return roomDTO;
     }
-    
-    public static UserDTO buildUserDTO(Users user, Workers worker){
+
+    public static UserDTO buildUserDTO(Users user, Workers worker) {
         UserDTO userDTO = new UserDTO();
         userDTO.setAddress(worker.getAdress());
         userDTO.setDepartment(worker.getDepartament().getDepratamentName());
@@ -89,14 +89,16 @@ public class DTOBuilder {
         userDTO.setPesel(worker.getPesel());
         userDTO.setPhoneNumber(user.getPhoneNumber().toString());
         userDTO.setPrivilegeLevel(user.getPriviligeLevel().getPriviligeLevel());
-        userDTO.setRoomNumber(worker.getRoom().getRoomNumber());
+        if (worker.getRoom() != null) {
+            userDTO.setRoomNumber(worker.getRoom().getRoomNumber());
+        }
         userDTO.setSurname(worker.getSurname());
         userDTO.setUserName(user.getUsername());
         userDTO.setGrade(worker.getGrade());
         return userDTO;
     }
 
-    public static ReservationTypeDTO buildReservationTypeDTO(ReservationTypes reservationType){
+    public static ReservationTypeDTO buildReservationTypeDTO(ReservationTypes reservationType) {
         ReservationTypeDTO reservationTypeDTO = new ReservationTypeDTO();
         reservationTypeDTO.setShortDescription(reservationType.getTypeShortDescription());
         reservationTypeDTO.setLongDescription(reservationType.getTypeLongDescription());
@@ -108,8 +110,8 @@ public class DTOBuilder {
     public static PrivilegeRequestDTO buildPrivilegeRequestDTO(PrivilegeRequest pr) {
         return new PrivilegeRequestDTO(pr.getPrivilegeLevel(), pr.getUserID(), pr.getReason());
     }
-    
-    public static RoomTypesDTO buildRoomTypesDTO(RoomTypes roomTypes){
+
+    public static RoomTypesDTO buildRoomTypesDTO(RoomTypes roomTypes) {
         RoomTypesDTO roomTypesDTO = new RoomTypesDTO();
         roomTypesDTO.setId(roomTypes.getRoomType().intValue());
         roomTypesDTO.setLongDescription(roomTypes.getLongDescription());

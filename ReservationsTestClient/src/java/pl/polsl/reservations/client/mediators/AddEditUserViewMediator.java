@@ -7,6 +7,7 @@ import pl.polsl.reservations.client.views.AddEditUserView;
 import pl.polsl.reservations.client.views.MainView;
 import pl.polsl.reservations.client.views.utils.AddUserEnum;
 import pl.polsl.reservations.dto.DepartamentDTO;
+import pl.polsl.reservations.dto.PrivilegeLevelDTO;
 import pl.polsl.reservations.dto.UserDTO;
 import pl.polsl.reservations.ejb.remote.UserFacade;
 import pl.polsl.reservations.ejb.remote.UserManagementFacade;
@@ -32,6 +33,8 @@ public class AddEditUserViewMediator {
         setDepartaments();
               if (option==AddUserEnum.EDIT){
             getSelectedUserData();
+        } else {
+            setPrivilegeLevels();
         }
         return addEditUserView;
     }
@@ -47,6 +50,20 @@ public class AddEditUserViewMediator {
         }
     }
 
+    public void setPrivilegeLevels() {
+        List<PrivilegeLevelDTO> allPrivilegeLevels = userManagementFacade.getAllPrivilegeLevels();
+        for (PrivilegeLevelDTO privilegeLevel : allPrivilegeLevels) {
+            addEditUserView.getPermissionCb().addItem(privilegeLevel.getDescription());
+        }
+        addEditUserView.getPermissionCb().setSelectedIndex(5);
+    }
+    
+    private Long getSelectedPrivilegeLevel(){
+        List<PrivilegeLevelDTO> allPrivilegeLevels = userManagementFacade.getAllPrivilegeLevels();
+        int selectedIndex = addEditUserView.getPermissionCb().getSelectedIndex();
+        return allPrivilegeLevels.get(selectedIndex).getPrivilegeLevel();
+    }
+
     public Boolean onAddUser() {
         UserDTO newUser = new UserDTO();
         newUser.setAddress(addEditUserView.getAddressTf().getText());
@@ -58,6 +75,7 @@ public class AddEditUserViewMediator {
         newUser.setPhoneNumber(addEditUserView.getPhoneTf().getText());
         newUser.setSurname(addEditUserView.getSurnameTf().getText());
         newUser.setUserName(addEditUserView.getUsernameTf().getText());
+        newUser.setPrivilegeLevel(getSelectedPrivilegeLevel());
         return userManagementFacade.registerUser(newUser, "");
     }
 
@@ -72,6 +90,8 @@ public class AddEditUserViewMediator {
         addEditUserView.getPhoneTf().setText(userDetails.getPhoneNumber());
         addEditUserView.getSurnameTf().setText(userDetails.getSurname());
         addEditUserView.getUsernameContentLabel().setText(userDetails.getUserName());
+        PrivilegeLevelDTO usersPrivilegeLevel = userManagementFacade.getUsersPrivilegeLevel(userDetails.getId().intValue());
+        addEditUserView.getPermissionContentLabel().setText(usersPrivilegeLevel.getDescription());
     }
 
     public Boolean onChangeUserData() {
