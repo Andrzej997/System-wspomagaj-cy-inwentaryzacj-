@@ -39,11 +39,24 @@ public class AddEditUserViewMediator {
     public AddEditUserView createView(MainView view, AddUserEnum option) {
         addEditUserView = new AddEditUserView(view, option, this);
         setDepartaments();
-        if (option == AddUserEnum.EDIT) {
-            getSelectedUserData();
-        } else {
-            getRooms();
-            setPrivilegeLevels();
+        if (null != option) {
+            switch (option) {
+                case EDIT:
+                    getSelectedUserData();
+                    break;
+                case ADD:
+                    getRooms();
+                    setPrivilegeLevels();
+                    break;
+                case ADMIN:
+                    getRooms();
+                    getUsers();
+                    setPrivilegeLevels();
+                    getEditedUserData();
+                    break;
+                default:
+                    break;
+            }
         }
         return addEditUserView;
     }
@@ -81,7 +94,7 @@ public class AddEditUserViewMediator {
         }
         roomComboBox.selectItem(1, 1);
     }
-    
+
     public void setPrivilegeLevels() {
         List<PrivilegeLevelDTO> allPrivilegeLevels = userManagementFacade.getAllPrivilegeLevels();
         for (PrivilegeLevelDTO privilegeLevel : allPrivilegeLevels) {
@@ -110,8 +123,8 @@ public class AddEditUserViewMediator {
         newUser.setPrivilegeLevel(getSelectedPrivilegeLevel());
         return userManagementFacade.registerUser(newUser, "");
     }
-    
-    public Boolean assignUserToRoom(){
+
+    public Boolean assignUserToRoom() {
         Integer selectedRoom = addEditUserView.getRoomCb().getSelectedItem();
         return userManagementFacade.assignUserToRoom(addEditUserView.getUsernameTf().getText(), selectedRoom);
     }
@@ -166,5 +179,62 @@ public class AddEditUserViewMediator {
         user.setId(userDetails.getId());
         return userFacade.changeUserDetails(user);
     }
-    
+
+    private void getUsers() {
+        List<UserDTO> users = userFacade.getUsersWithLowerPrivilegeLevel();
+        addEditUserView.getUserCb().removeAllItems();
+        for (UserDTO user : users) {
+            addEditUserView.getUserCb().addItem(user.getId() + ". " + user.getName() + " " + user.getSurname());
+        }
+        addEditUserView.getUserCb().setSelectedIndex(0);
+    }
+
+    private void getChiefs() {
+
+    }
+
+    private void getEditedUserData() {
+        Integer selectedIndex = addEditUserView.getUserCb().getSelectedIndex();
+        if (selectedIndex != null) {
+            List<UserDTO> usersWithLowerPrivilegeLevel = userFacade.getUsersWithLowerPrivilegeLevel();
+            UserDTO userDetails = usersWithLowerPrivilegeLevel.get(selectedIndex);
+            addEditUserView.getAddressTf().setText(userDetails.getAddress());
+            addEditUserView.getDepartmentContentLabel().setText(userDetails.getDepartment());
+            addEditUserView.getEmailTf().setText(userDetails.getEmail());
+            addEditUserView.getGradeTf().setText(userDetails.getGrade());
+            addEditUserView.getNameTf().setText(userDetails.getName());
+            addEditUserView.getPeselTf().setText(userDetails.getPesel());
+            addEditUserView.getPhoneTf().setText(userDetails.getPhoneNumber());
+            addEditUserView.getSurnameTf().setText(userDetails.getSurname());
+            addEditUserView.getUsernameTf().setText(userDetails.getUserName());
+        }
+    }
+
+    public void onEditUser() {
+        Integer selectedIndex = addEditUserView.getUserCb().getSelectedIndex();
+        if (selectedIndex != null) {
+            List<UserDTO> usersWithLowerPrivilegeLevel = userFacade.getUsersWithLowerPrivilegeLevel();
+            UserDTO userDetails = usersWithLowerPrivilegeLevel.get(selectedIndex);
+            userDetails.setAddress(addEditUserView.getAddressTf().getText());
+            userDetails.setDepartment((String) addEditUserView.getDepartmentCb().getSelectedItem());
+            userDetails.setEmail(addEditUserView.getEmailTf().getText());
+            userDetails.setGrade(addEditUserView.getGradeTf().getText());
+            userDetails.setName(addEditUserView.getNameTf().getText());
+            userDetails.setPesel(addEditUserView.getPeselTf().getText());
+            userDetails.setPhoneNumber(addEditUserView.getPhoneTf().getText());
+            userDetails.setSurname(addEditUserView.getSurnameTf().getText());
+            userDetails.setUserName(addEditUserView.getUsernameTf().getText());
+            userDetails.setPrivilegeLevel(getSelectedPrivilegeLevel());
+            userFacade.changeUserDetails(userDetails);
+        }
+    }
+
+    public void onDeleteUser() {
+        Integer selectedIndex = addEditUserView.getUserCb().getSelectedIndex();
+        if (selectedIndex != null) {
+            List<UserDTO> usersWithLowerPrivilegeLevel = userFacade.getUsersWithLowerPrivilegeLevel();
+            UserDTO userDetails = usersWithLowerPrivilegeLevel.get(selectedIndex);
+        }
+    }
+
 }

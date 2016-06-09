@@ -290,9 +290,16 @@ public class CreateReportViewMediator {
         String equipmentName = createRaportView.getNameTf().getText();
         Integer equipmentQuantity = Integer.parseInt(createRaportView.getNumberTf().getText());
         if (!Objects.equals(targetRoomIndex, selectedRoomIndex)) {
-
+            roomManagementFacade.editEquipment(oldEqiupment.getId(), equipmentName, equipmentQuantity,
+                    equipmentState.getId().shortValue(), equipmentType.getId().shortValue());
+            try {
+                roomManagementFacade.moveEquipment(oldEqiupment.getId().intValue(), targetRoom.getId().intValue());
+            } catch (UnauthorizedAccessException ex) {
+                Logger.getLogger(CreateReportViewMediator.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
-
+            roomManagementFacade.editEquipment(oldEqiupment.getId(), equipmentName, equipmentQuantity,
+                    equipmentState.getId().shortValue(), equipmentType.getId().shortValue());
         }
     }
 

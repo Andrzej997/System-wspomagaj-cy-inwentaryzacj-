@@ -142,7 +142,9 @@ public class AddEditUserView extends JPanel {
             dataPanel.add(peselTf);
             dataPanel.add(chiefCb);
         }
-        if(option==AddUserEnum.ADMIN) add(userCb);
+        if (option == AddUserEnum.ADMIN) {
+            add(userCb);
+        }
         mainPanel.add(labelPanel);
         mainPanel.add(dataPanel);
         add(mainPanel);
@@ -208,7 +210,7 @@ public class AddEditUserView extends JPanel {
         PanelStyle.setSize(chiefContentLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(chiefLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(chiefCb, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(userCb, 2*NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(userCb, 2 * NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 270);
         PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 270);
         PanelStyle.setSize(mainPanel, 2 * NORMAL_WIDTH, 330);
@@ -255,22 +257,39 @@ public class AddEditUserView extends JPanel {
             if (!validateFields()) {
                 return;
             }
-            if (option == AddUserEnum.EDIT) {
-                addEditUserViewMediator.onChangeUserData();
-                window.getEditUserFrame().dispose();
-            } else if(option == AddUserEnum.ADD) {
-                addEditUserViewMediator.onAddUser();
-                addEditUserViewMediator.assignUserToRoom();
-                window.getAddUserFrame().dispose();
-            } else if (option == AddUserEnum.ADMIN) {
-                
+            if (null != option) {
+                switch (option) {
+                    case EDIT:
+                        addEditUserViewMediator.onChangeUserData();
+                        window.getEditUserFrame().dispose();
+                        break;
+                    case ADD:
+                        addEditUserViewMediator.onAddUser();
+                        addEditUserViewMediator.assignUserToRoom();
+                        window.getAddUserFrame().dispose();
+                        break;
+                    case ADMIN:
+                        break;
+                    default:
+                        break;
+                }
             }
         });
         mainPanel = new JPanel(new GridLayout(1, 2));
         dataPanel = new JPanel();
         labelPanel = new JPanel();
         editButton = new JButton();
+        editButton.addActionListener((ActionEvent e) -> {
+            if (option == AddUserEnum.ADMIN) {
+                addEditUserViewMediator.onEditUser();
+            }
+        });
         deleteButton = new JButton();
+        deleteButton.addActionListener((ActionEvent e) -> {
+            if (option == AddUserEnum.ADMIN) {
+                addEditUserViewMediator.onAddUser();
+            }
+        });
         keyInputDispatcher();
     }
 
@@ -818,7 +837,37 @@ public class AddEditUserView extends JPanel {
     public void setDeleteButton(JButton deleteButton) {
         this.deleteButton = deleteButton;
     }
-    
-    
+
+    public JLabel getChiefLabel() {
+        return chiefLabel;
+    }
+
+    public void setChiefLabel(JLabel chiefLabel) {
+        this.chiefLabel = chiefLabel;
+    }
+
+    public JComboBox getUserCb() {
+        return userCb;
+    }
+
+    public void setUserCb(JComboBox userCb) {
+        this.userCb = userCb;
+    }
+
+    public JComboBox getChiefCb() {
+        return chiefCb;
+    }
+
+    public void setChiefCb(JComboBox chiefCb) {
+        this.chiefCb = chiefCb;
+    }
+
+    public JLabel getChiefContentLabel() {
+        return chiefContentLabel;
+    }
+
+    public void setChiefContentLabel(JLabel chiefContentLabel) {
+        this.chiefContentLabel = chiefContentLabel;
+    }
 
 }
