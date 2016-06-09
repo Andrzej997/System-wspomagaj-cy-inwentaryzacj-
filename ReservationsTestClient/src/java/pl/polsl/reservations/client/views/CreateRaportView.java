@@ -47,6 +47,8 @@ public class CreateRaportView extends JPanel {
     private JComboBox keeperCb;
     private JComboBox departmentCb;
     private JComboBox stateCb;
+    private JComboBox deviceCb;
+    private RoomComboBox editedRoomCb;
     private RoomComboBox roomCb;
 
     private JTextField nameTf;
@@ -66,6 +68,8 @@ public class CreateRaportView extends JPanel {
     private JPanel labelPanel;
 
     private JButton okButton;
+    private JButton editButton;
+    private JButton deleteButton;
 
     private final CreateReportViewMediator createReportViewMediator;
 
@@ -82,48 +86,72 @@ public class CreateRaportView extends JPanel {
     }
 
     private void setupView() {
-        if (null != option) switch (option) {
-            case TYPE:
-                labelPanel.add(nameLabel);
-                labelPanel.add(descriptionLabel);
-                dataPanel.add(nameTf);
-                dataPanel.add(descriptionTf);
-                break;
-            case STATE:
-                labelPanel.add(nameLabel);
-                dataPanel.add(nameTf);
-                break;
-            case ROOM:
-                labelPanel.add(roomLabel);
-                labelPanel.add(numberLabel);
-                labelPanel.add(departmentLabel);
-                labelPanel.add(keeperLabel);
-                labelPanel.add(typeLabel);
-                dataPanel.add(roomIdTf);
-                dataPanel.add(numberTf);
-                dataPanel.add(departmentCb);
-                dataPanel.add(keeperCb);
-                dataPanel.add(typeCb);
-                break;
-            case DEVICE:
-                labelPanel.add(roomLabel);
-                labelPanel.add(typeLabel);
-                labelPanel.add(numberLabel);
-                labelPanel.add(nameLabel);
-                labelPanel.add(stateLabel);
-                dataPanel.add(roomCb);
-                dataPanel.add(typeCb);
-                dataPanel.add(numberTf);
-                dataPanel.add(nameTf);
-                dataPanel.add(stateCb);
-                break;
-            default:
-                break;
+        if (null != option) {
+            switch (option) {
+                case TYPE:
+                    labelPanel.add(nameLabel);
+                    labelPanel.add(descriptionLabel);
+                    dataPanel.add(nameTf);
+                    dataPanel.add(descriptionTf);
+                    break;
+                case STATE:
+                    labelPanel.add(nameLabel);
+                    dataPanel.add(nameTf);
+                    break;
+                case ROOM:
+                    labelPanel.add(roomLabel);
+                    labelPanel.add(numberLabel);
+                    labelPanel.add(departmentLabel);
+                    labelPanel.add(keeperLabel);
+                    labelPanel.add(typeLabel);
+                    dataPanel.add(roomIdTf);
+                    dataPanel.add(numberTf);
+                    dataPanel.add(departmentCb);
+                    dataPanel.add(keeperCb);
+                    dataPanel.add(typeCb);
+                    break;
+                case DEVICE:
+                    labelPanel.add(roomLabel);
+                    labelPanel.add(typeLabel);
+                    labelPanel.add(numberLabel);
+                    labelPanel.add(nameLabel);
+                    labelPanel.add(stateLabel);
+                    dataPanel.add(roomCb);
+                    dataPanel.add(typeCb);
+                    dataPanel.add(numberTf);
+                    dataPanel.add(nameTf);
+                    dataPanel.add(stateCb);
+                    break;
+                case DEVICE_EDIT:
+                    add(editedRoomCb);
+                    add(deviceCb);
+                    labelPanel.add(roomLabel);
+                    labelPanel.add(typeLabel);
+                    labelPanel.add(numberLabel);
+                    labelPanel.add(nameLabel);
+                    labelPanel.add(stateLabel);
+                    dataPanel.add(roomCb);
+                    dataPanel.add(typeCb);
+                    dataPanel.add(numberTf);
+                    dataPanel.add(nameTf);
+                    dataPanel.add(stateCb);
+                    break;
+                default:
+                    break;
+            }
         }
         mainPanel.add(labelPanel);
         mainPanel.add(dataPanel);
         add(mainPanel);
-        add(okButton);
+        if (option != AddTypeEnum.DEVICE_EDIT) {
+            add(okButton);
+        } else {
+            JPanel buttonPanel = new JPanel();
+            buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+            buttonPanel.add(editButton);
+            buttonPanel.add(deleteButton);
+            add(buttonPanel);
+        }
     }
 
     private void setupListeners() {
@@ -158,8 +186,12 @@ public class CreateRaportView extends JPanel {
 
     private void setupButton() {
         try {
-            Image img = ImageIO.read(getClass().getResource("/resources/ok.png"));
+            Image img = ImageIO.read(getClass().getResource("/resources/add.png"));
             ButtonStyle.setStyle(okButton, img);
+            Image img2 = ImageIO.read(getClass().getResource("/resources/ok.png"));
+            ButtonStyle.setStyle(editButton, img2);
+            Image img3 = ImageIO.read(getClass().getResource("/resources/error.png"));
+            ButtonStyle.setStyle(deleteButton, img3);
         } catch (IOException ex) {
             System.out.println("RESOURCE ERROR: " + ex.toString());
         }
@@ -167,6 +199,8 @@ public class CreateRaportView extends JPanel {
 
     private void setupSize() {
         setBorder(new EmptyBorder(10, 10, 10, 10));
+        PanelStyle.setSize(editedRoomCb, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(deviceCb, 400, NORMAL_HEIGHT);
         PanelStyle.setSize(roomLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(numberLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(typeLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
@@ -184,11 +218,18 @@ public class CreateRaportView extends JPanel {
         PanelStyle.setSize(descriptionTf, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(descriptionLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(roomCb, NORMAL_WIDTH, NORMAL_HEIGHT);
-        if ((option == AddTypeEnum.ROOM) || (option == AddTypeEnum.DEVICE)) {
+        if ((option == AddTypeEnum.ROOM)
+                || (option == AddTypeEnum.DEVICE)) {
             PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 160);
             PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 160);
             PanelStyle.setSize(mainPanel, 2 * NORMAL_WIDTH, 160);
-            PanelStyle.setSize(this, 2 * NORMAL_WIDTH, 230);
+            PanelStyle.setSize(this, 2 * NORMAL_WIDTH, 220);
+        } else if (option == AddTypeEnum.DEVICE_EDIT) {
+            PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 160);
+            PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 160);
+            PanelStyle.setSize(mainPanel, 2 * NORMAL_WIDTH, 160);
+            PanelStyle.setSize(this, 2 * NORMAL_WIDTH, 280);
+
         } else {
             PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 60);
             PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 60);
@@ -240,6 +281,10 @@ public class CreateRaportView extends JPanel {
         mainPanel = new JPanel(new GridLayout(1, 2));
         dataPanel = new JPanel();
         labelPanel = new JPanel();
+        deleteButton = new JButton();
+        editButton = new JButton();
+        deviceCb = new JComboBox();
+        editedRoomCb = new RoomComboBox();
         keyInputDispatcher();
     }
 

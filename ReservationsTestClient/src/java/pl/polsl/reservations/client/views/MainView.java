@@ -36,6 +36,7 @@ public class MainView extends JFrame {
     private JMenuItem addStateMenuItem;
     private JMenuItem addTypeMenuItem;
     private JMenuItem allRaportMenuItem;
+    private JMenuItem editRoomEquipmentMenuItem;
     private JMenuItem roomRaportMenuItem;
     private JMenuItem departmentRaportMenuItem;
 
@@ -89,6 +90,7 @@ public class MainView extends JFrame {
         addTypeMenuItem.setForeground(fg);
         roomRaportMenuItem.setForeground(fg);
         allRaportMenuItem.setForeground(fg);
+        editRoomEquipmentMenuItem.setForeground(fg);
         departmentRaportMenuItem.setForeground(fg);
 
     }
@@ -127,6 +129,7 @@ public class MainView extends JFrame {
         editDataMenuItem = new JMenuItem();
         addRoomMenuItem = new JMenuItem();
         addDeviceMenuItem = new JMenuItem();
+        editRoomEquipmentMenuItem = new JMenuItem();
         addStateMenuItem = new JMenuItem();
         addTypeMenuItem = new JMenuItem();
         allRaportMenuItem = new JMenuItem();
@@ -160,6 +163,12 @@ public class MainView extends JFrame {
     private void addDeviceMenuItemActionPerformed(ActionEvent evt) {
         if (isLoggedIn && addDeviceFrame == null) {
             addDeviceFrame = FrameStyle.dialogStyle(new CreateReportViewMediator().createView(this, AddTypeEnum.DEVICE), "Add device");
+        }
+    }
+    
+     private void editRoomEquipmentMenuItemActionPerformed(ActionEvent evt) {
+        if (isLoggedIn && addDeviceFrame == null) {
+            addDeviceFrame = FrameStyle.dialogStyle(new CreateReportViewMediator().createView(this, AddTypeEnum.DEVICE_EDIT), "Edit device");
         }
     }
 
@@ -276,6 +285,10 @@ public class MainView extends JFrame {
         addDeviceMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         addDeviceMenuItem.setText("Add device");
         createRaportMenu.add(addDeviceMenuItem);
+        editRoomEquipmentMenuItem.setText("Edit room equipment");
+        editRoomEquipmentMenuItem.setForeground(new java.awt.Color(153, 153, 153));
+        createRaportMenu.add(editRoomEquipmentMenuItem);
+        
         //TYLKO ADMIN:
         addStateMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         addStateMenuItem.setText("Add state");
@@ -346,6 +359,9 @@ public class MainView extends JFrame {
         });
         addStateMenuItem.addActionListener((ActionEvent evt) -> {
             addStateMenuItemActionPerformed(evt);
+        });
+            editRoomEquipmentMenuItem.addActionListener((ActionEvent evt) -> {
+            editRoomEquipmentMenuItemActionPerformed(evt);
         });
     }
 
