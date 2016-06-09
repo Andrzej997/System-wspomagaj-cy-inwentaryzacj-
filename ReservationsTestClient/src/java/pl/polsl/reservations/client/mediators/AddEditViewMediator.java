@@ -105,9 +105,13 @@ public class AddEditViewMediator {
             addEditView.getRoomCb().setRooms(floorEntry.getValue(), floorEntry.getKey());
         }
 
-        Integer floor = roomNumber / 100;
-        Integer number = roomNumber % 100;
-        addEditView.getRoomCb().selectItem(floor, number);
+        if (roomNumber != null) {
+            Integer floor = roomNumber / 100;
+            Integer number = roomNumber % 100;
+            addEditView.getRoomCb().selectItem(floor, number);
+        } else {
+            addEditView.getRoomCb().selectItem(1, 1);
+        }
     }
 
     private boolean checkIfReservationAvaliable(int startTime, int endTime) {

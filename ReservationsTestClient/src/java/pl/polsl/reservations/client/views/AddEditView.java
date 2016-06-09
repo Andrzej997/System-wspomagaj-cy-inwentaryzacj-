@@ -110,7 +110,8 @@ public class AddEditView extends JPanel {
     private void initListeners() {
         roomCb.addActionListener((ActionEvent e) -> {
             if (roomCb.getSelectedItem() != null) {
-                addEditViewMediator.setRoomNumber((Integer)roomCb.getSelectedItem());
+                roomCb.onAction();
+                addEditViewMediator.setRoomNumber(roomCb.getSelectedItem());
                 addEditViewMediator.getReservations();
             }
         });
@@ -120,6 +121,7 @@ public class AddEditView extends JPanel {
                 datePickerChange(e);
             }
         });
+        
     }
 
     private void datePickerChange(ActionEvent e) {
@@ -152,31 +154,16 @@ public class AddEditView extends JPanel {
         navigatePanel.setLayout(new BoxLayout(navigatePanel, BoxLayout.X_AXIS));
         dayTablePanel = new JPanel();
         addButton = new JButton();
+        roomCb = new RoomComboBox();
         addButton.addActionListener((java.awt.event.ActionEvent evt) -> {
             onOkClick(evt);
         });
         dayTable = new JTable(new DayTableModel(32, 3));
         JScrollPane tableScrollPanel = new JScrollPane(dayTable);
         PanelStyle.setSize(tableScrollPanel, 450, 550);
-        dayTablePanel.add(tableScrollPanel);
-        roomCb = new RoomComboBox();
-        
-        roomCb.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                addEditViewMediator.getReservations();
-            }
-        });
-        
+        dayTablePanel.add(tableScrollPanel);        
         datepicker = CustomDatePicker.getDayInstance();
-        
-        datepicker.getDatePicker().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-               addEditViewMediator.getReservations();
-            }
-        });
-        
+               
         groupCb = new JComboBox();
         hourStartCb = new JComboBox();
         hourStopCb = new JComboBox();
@@ -234,7 +221,7 @@ public class AddEditView extends JPanel {
         PanelStyle.setSize(groupLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(dateLabel, NORMAL_WIDTH, 40);
         PanelStyle.setSize(hourLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(roomCb, NORMAL_WIDTH+20, NORMAL_HEIGHT);
+        PanelStyle.setSize(roomCb, NORMAL_WIDTH+30, NORMAL_HEIGHT);
         PanelStyle.setSize(datepicker, NORMAL_WIDTH+20, 40);
         PanelStyle.setSize(hourPanel, NORMAL_WIDTH+20, NORMAL_HEIGHT);
         PanelStyle.setSize(teacherCb, NORMAL_WIDTH+20, NORMAL_HEIGHT);
