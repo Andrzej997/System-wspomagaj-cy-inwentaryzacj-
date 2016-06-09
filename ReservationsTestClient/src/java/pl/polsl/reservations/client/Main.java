@@ -75,6 +75,7 @@ public class Main {
                 g.setColor(new Color(247, 248, 250));
         }
         };
+           UIManager.getLookAndFeelDefaults().put("FileChooser.background", new Color(214,217,223));
         UIManager.getLookAndFeelDefaults().put("InternalFrameTitlePane.background", new Color(230, 230, 250));
         UIManager.getLookAndFeelDefaults().put("background", new Color(230, 230, 250));
         UIManager.getLookAndFeelDefaults().put("Table.font",
