@@ -14,6 +14,7 @@ import pl.polsl.reservations.client.mediators.AddEditViewMediator;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
 import pl.polsl.reservations.client.views.utils.CustomDatePicker;
 import pl.polsl.reservations.client.views.utils.PanelStyle;
+import pl.polsl.reservations.client.views.utils.RoomComboBox;
 
 /**
  *
@@ -42,7 +43,7 @@ public class AddEditView extends JPanel {
 
     private JTable dayTable;
 
-    private JComboBox roomCb;
+    private RoomComboBox roomCb;
     private JComboBox groupCb;
     private JComboBox hourStartCb;
     private JComboBox hourStopCb;
@@ -138,7 +139,7 @@ public class AddEditView extends JPanel {
         JScrollPane tableScrollPanel = new JScrollPane(dayTable);
         PanelStyle.setSize(tableScrollPanel, 450, 550);
         dayTablePanel.add(tableScrollPanel);
-        roomCb = new JComboBox();
+        roomCb = new RoomComboBox();
         
         roomCb.addActionListener(new ActionListener() {
             @Override
@@ -436,14 +437,14 @@ public class AddEditView extends JPanel {
     /**
      * @return the roomCb
      */
-    public JComboBox getRoomCb() {
+    public RoomComboBox getRoomCb() {
         return roomCb;
     }
 
     /**
      * @param roomCb the roomCb to set
      */
-    public void setRoomCb(JComboBox roomCb) {
+    public void setRoomCb(RoomComboBox roomCb) {
         this.roomCb = roomCb;
     }
 

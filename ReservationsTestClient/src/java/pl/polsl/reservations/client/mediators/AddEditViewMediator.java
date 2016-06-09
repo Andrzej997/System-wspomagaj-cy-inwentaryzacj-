@@ -81,12 +81,12 @@ public class AddEditViewMediator {
 
     public void getRooms() {
         List<RoomDTO> roomsList = roomManagementFacade.getRoomsList();
-        roomsList.stream().forEach((room) -> {
-            addEditView.getRoomCb().addItem(room.getNumber());
-            if (roomNumber != null && roomNumber.equals(room.getNumber())) {
-                addEditView.getRoomCb().setSelectedItem(room.getNumber());
-            }
-        });
+   //     roomsList.stream().forEach((room) -> {
+     //       addEditView.getRoomCb().addItem(room.getNumber());
+       //     if (roomNumber != null && roomNumber.equals(room.getNumber())) {
+       //         addEditView.getRoomCb().setSelectedItem(room.getNumber());
+       //     }
+    //    });
     }
 
     private boolean checkIfReservationAvaliable(int startTime, int endTime) {
