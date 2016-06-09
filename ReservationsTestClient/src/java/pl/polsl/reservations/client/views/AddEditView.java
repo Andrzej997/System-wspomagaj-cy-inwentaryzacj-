@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -14,6 +15,7 @@ import pl.polsl.reservations.client.mediators.AddEditViewMediator;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
 import pl.polsl.reservations.client.views.utils.CustomDatePicker;
 import pl.polsl.reservations.client.views.utils.PanelStyle;
+import pl.polsl.reservations.client.views.utils.RoomComboBox;
 
 /**
  *
@@ -42,7 +44,7 @@ public class AddEditView extends JPanel {
 
     private JTable dayTable;
 
-    private JComboBox roomCb;
+    private RoomComboBox roomCb;
     private JComboBox groupCb;
     private JComboBox hourStartCb;
     private JComboBox hourStopCb;
@@ -112,8 +114,27 @@ public class AddEditView extends JPanel {
                 addEditViewMediator.getReservations();
             }
         });
+        datepicker.getDatePicker().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                datePickerChange(e);
+            }
+        });
     }
 
+    private void datePickerChange(ActionEvent e) {
+        //Calendar date = datepicker.getDate();
+       // if (date != null) {
+           // set(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DATE));
+           // startDate.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+           // endDate.set(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DATE));
+           // endDate.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+           
+       // }
+       addEditViewMediator.setDate(datepicker.getDate());
+       addEditViewMediator.getReservations();
+    }
+    
     private void initFields() {
         date = new Date();
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
@@ -138,7 +159,7 @@ public class AddEditView extends JPanel {
         JScrollPane tableScrollPanel = new JScrollPane(dayTable);
         PanelStyle.setSize(tableScrollPanel, 450, 550);
         dayTablePanel.add(tableScrollPanel);
-        roomCb = new JComboBox();
+        roomCb = new RoomComboBox();
         
         roomCb.addActionListener(new ActionListener() {
             @Override
@@ -149,6 +170,12 @@ public class AddEditView extends JPanel {
         
         datepicker = CustomDatePicker.getDayInstance();
         
+        datepicker.getDatePicker().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               addEditViewMediator.getReservations();
+            }
+        });
         
         groupCb = new JComboBox();
         hourStartCb = new JComboBox();
@@ -436,14 +463,14 @@ public class AddEditView extends JPanel {
     /**
      * @return the roomCb
      */
-    public JComboBox getRoomCb() {
+    public RoomComboBox getRoomCb() {
         return roomCb;
     }
 
     /**
      * @param roomCb the roomCb to set
      */
-    public void setRoomCb(JComboBox roomCb) {
+    public void setRoomCb(RoomComboBox roomCb) {
         this.roomCb = roomCb;
     }
 

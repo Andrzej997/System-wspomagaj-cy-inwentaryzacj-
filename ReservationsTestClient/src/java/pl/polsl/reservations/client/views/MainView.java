@@ -146,7 +146,6 @@ public class MainView extends JFrame {
     }
 
     private void tutorialMenuItemActionPerformed(ActionEvent evt) {
-        JOptionPane.showMessageDialog(this, "Not supported yet");
         if (isLoggedIn) {
             tutorialFrame = FrameStyle.dialogStyle(new TutorialViewMediator().createView(this), "Tutorial");
         }

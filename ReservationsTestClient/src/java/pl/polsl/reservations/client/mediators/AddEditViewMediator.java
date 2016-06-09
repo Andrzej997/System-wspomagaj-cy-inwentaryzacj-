@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import pl.polsl.reservations.client.ClientContext;
@@ -15,6 +16,7 @@ import pl.polsl.reservations.client.views.DayTableModel;
 import pl.polsl.reservations.client.views.MainView;
 import pl.polsl.reservations.client.views.renderers.DayCustomRenderer;
 import pl.polsl.reservations.client.views.utils.DateUtils;
+import pl.polsl.reservations.client.views.utils.RoomComboBox;
 import pl.polsl.reservations.dto.ReservationDTO;
 import pl.polsl.reservations.dto.ReservationTypeDTO;
 import pl.polsl.reservations.dto.RoomDTO;
@@ -81,12 +83,31 @@ public class AddEditViewMediator {
 
     public void getRooms() {
         List<RoomDTO> roomsList = roomManagementFacade.getRoomsList();
-        roomsList.stream().forEach((room) -> {
-            addEditView.getRoomCb().addItem(room.getNumber());
-            if (roomNumber != null && roomNumber.equals(room.getNumber())) {
-                addEditView.getRoomCb().setSelectedItem(room.getNumber());
+        HashMap<Integer, List<Integer>> numbersMap = new HashMap<>();
+        List<Integer> floors = new ArrayList<>();
+        for (RoomDTO room : roomsList) {
+            Integer roomNumber = room.getNumber();
+            Integer floor = roomNumber / 100;
+            Integer number = roomNumber % 100;
+            if (numbersMap.containsKey(floor)) {
+                List<Integer> numbers = numbersMap.get(floor);
+                numbers.add(number);
+                numbersMap.put(floor, numbers);
+            } else {
+                List<Integer> numbers = new ArrayList<>();
+                numbers.add(number);
+                numbersMap.put(floor, numbers);
+                floors.add(floor);
             }
-        });
+        }
+        addEditView.getRoomCb().setFloors(floors);
+        for (Map.Entry<Integer, List<Integer>> floorEntry : numbersMap.entrySet()) {
+            addEditView.getRoomCb().setRooms(floorEntry.getValue(), floorEntry.getKey());
+        }
+
+        Integer floor = roomNumber / 100;
+        Integer number = roomNumber % 100;
+        addEditView.getRoomCb().selectItem(floor, number);
     }
 
     private boolean checkIfReservationAvaliable(int startTime, int endTime) {
@@ -104,7 +125,7 @@ public class AddEditViewMediator {
             if (startTime < roomEnd && endTime > roomEnd) {
                 return false;
             }
-            if (startTime > roomStart && endTime < roomEnd) {
+            if (startTime >= roomStart && endTime <= roomEnd) {
                 return false;
             }
 
@@ -129,7 +150,7 @@ public class AddEditViewMediator {
                 Calendar calendar = date;
                 Integer typeId = getType().getId();
                 Integer userId = getWorkersData().getId().intValue();
-                scheduleFacade.createReservation(roomID, startTime, endTime, DateUtils.getWeekOfSemester(date), date.get(Calendar.YEAR), DateUtils.getSemesterFromDate(date), typeId, userId);
+                //scheduleFacade.createReservation(roomID, startTime, endTime, DateUtils.getWeekOfSemester(date), date.get(Calendar.YEAR), DateUtils.getSemesterFromDate(date), typeId, userId);
 
                 getReservations();
                 return true;
@@ -303,6 +324,10 @@ public class AddEditViewMediator {
 
     public void setRoomNumber(Integer roomNumber) {
         this.roomNumber = roomNumber;
+    }
+
+    public void setDate(Calendar date) {
+        this.date = date;
     }
 
 }

@@ -72,8 +72,8 @@ public class WeekDataView extends JPanel {
         });
         window.checkPrivileges();
     }
-    
-    private void setupLayouts(){
+
+    private void setupLayouts() {
         BoxLayout boxlayout = new BoxLayout(this, BoxLayout.Y_AXIS);
         setLayout(boxlayout);
 
@@ -101,13 +101,13 @@ public class WeekDataView extends JPanel {
         add(navPanel);
         add(chooseRoomDropdown);
         JScrollPane tableScrollPanel = new JScrollPane(planTable);
-        PanelStyle.setSize(tableScrollPanel,780,500);
-        PanelStyle.setSize(planTable,780,500);
+        PanelStyle.setSize(tableScrollPanel, 780, 500);
+        PanelStyle.setSize(planTable, 780, 500);
         add(tableScrollPanel);
     }
-    
-    private void addListeners(){
-         prevBtn.addActionListener((ActionEvent e) -> {
+
+    private void addListeners() {
+        prevBtn.addActionListener((ActionEvent e) -> {
             onClickBtnPrevious(e);
         });
         nextBtn.addActionListener((ActionEvent e) -> {
@@ -115,7 +115,7 @@ public class WeekDataView extends JPanel {
         });
 
         datePicker.getDatePicker().addActionListener((ActionEvent e) -> {
-            datePickerChange(e);
+            datePickerChange();
         });
     }
 
@@ -147,6 +147,8 @@ public class WeekDataView extends JPanel {
         endDate = Calendar.getInstance();
         endDate.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
         dateFormat = new WeekDateFormatter().dateFormatter;
+
+        datePicker.setDate(Calendar.getInstance());
     }
 
     private void initTable() {
@@ -173,7 +175,7 @@ public class WeekDataView extends JPanel {
 
     }
 
-    private void datePickerChange(ActionEvent e) {
+    private void datePickerChange() {
         Calendar date = datePicker.getDate();
         if (date != null) {
             startDate.set(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DATE));
@@ -374,6 +376,7 @@ public class WeekDataView extends JPanel {
                 Integer row = planTable.getSelectedRow();
                 if (column != 0) {
                     Calendar cal = startDate;
+                    cal.add(Calendar.DATE, column - 1);
                     window.setView(new AddEditViewMediator(cal, chooseRoomDropdown.getSelectedItem()).createView(window));
                 }
 //todo:

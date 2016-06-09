@@ -53,6 +53,7 @@ public class AddEditUserView extends JPanel {
     private JLabel peselLabel;
     private JLabel roomLabel;
     private JLabel permissionLabel;
+    private JLabel chiefLabel;
 
     private JTextField usernameTf;
     private JTextField nameTf;
@@ -64,7 +65,9 @@ public class AddEditUserView extends JPanel {
     private JComboBox departmentCb;
     private RoomComboBox roomCb;
     private JComboBox permissionCb;
+    private JComboBox userCb;
     private JTextField gradeTf;
+    private JComboBox chiefCb;
 
     private JLabel peselContentLabel;
     private JLabel departmentContentLabel;
@@ -72,6 +75,7 @@ public class AddEditUserView extends JPanel {
     private JLabel gradeContentLabel;
     private JLabel permissionContentLabel;
     private JLabel roomContentLabel;
+    private JLabel chiefContentLabel;
 
     private JPanel labelPanel;
     private JPanel dataPanel;
@@ -110,6 +114,7 @@ public class AddEditUserView extends JPanel {
         labelPanel.add(roomLabel);
         labelPanel.add(permissionLabel);
         labelPanel.add(peselLabel);
+        labelPanel.add(chiefLabel);
 
         if (option == AddUserEnum.EDIT) {
             dataPanel.add(usernameContentLabel);
@@ -128,14 +133,16 @@ public class AddEditUserView extends JPanel {
             dataPanel.add(roomContentLabel);
             dataPanel.add(permissionContentLabel);
             dataPanel.add(peselContentLabel);
+            dataPanel.add(chiefContentLabel);
         } else {
             dataPanel.add(departmentCb);
             dataPanel.add(gradeTf);
             dataPanel.add(roomCb);
             dataPanel.add(permissionCb);
             dataPanel.add(peselTf);
+            dataPanel.add(chiefCb);
         }
-
+        if(option==AddUserEnum.ADMIN) add(userCb);
         mainPanel.add(labelPanel);
         mainPanel.add(dataPanel);
         add(mainPanel);
@@ -198,6 +205,10 @@ public class AddEditUserView extends JPanel {
         PanelStyle.setSize(permissionContentLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(permissionLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(permissionCb, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(chiefContentLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(chiefLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(chiefCb, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(userCb, 2*NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 270);
         PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 270);
         PanelStyle.setSize(mainPanel, 2 * NORMAL_WIDTH, 330);
@@ -214,12 +225,14 @@ public class AddEditUserView extends JPanel {
         gradeLabel = new JLabel("Grade: ");
         peselLabel = new JLabel("Pesel: ");
         permissionLabel = new JLabel("Permission: ");
+        chiefLabel = new JLabel("Chief: ");
 
         usernameContentLabel = new JLabel();
         departmentContentLabel = new JLabel();
         gradeContentLabel = new JLabel();
         peselContentLabel = new JLabel();
         permissionContentLabel = new JLabel();
+        chiefContentLabel = new JLabel();
 
         usernameTf = new JTextField();
         nameTf = new JTextField();
@@ -234,6 +247,8 @@ public class AddEditUserView extends JPanel {
         roomLabel = new JLabel("Room");
         roomContentLabel = new JLabel();
         roomCb = new RoomComboBox();
+        userCb = new JComboBox();
+        chiefCb = new JComboBox();
 
         addButton = new JButton();
         addButton.addActionListener((ActionEvent e) -> {
