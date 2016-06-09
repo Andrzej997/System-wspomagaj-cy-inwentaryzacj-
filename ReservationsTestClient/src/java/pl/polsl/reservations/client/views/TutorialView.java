@@ -43,7 +43,7 @@ public class TutorialView extends JPanel {
     public TutorialView(MainView window, TutorialViewMediator tutorialViewMediator) {
         this.window = window;
         this.tutorialViewMediator = tutorialViewMediator;
-
+        initComponents();
     }
 
     private void initComponents() {
@@ -60,7 +60,9 @@ public class TutorialView extends JPanel {
         setSize();
         setListeners();
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        add(prevBtn);
         add(picLabel);
+        add(nextBtn);
         keyInputDispatcher();
     }
     
@@ -85,18 +87,18 @@ public class TutorialView extends JPanel {
     
     private void setSize(){
         setBorder(new EmptyBorder(10, 10, 10, 10));
-        PanelStyle.setSize(this, 500, 500);
-        PanelStyle.setSize(picLabel, 400, 400);
+        PanelStyle.setSize(this, 500,400);
+
     }
 
     private void setupTutorial() throws IOException {
-        String path = "";
+        Image myPicture;
         switch(counter){
-            case 0:
+         /*   case 0:
                 path = "/resources/login.png";
                 break;
             case 1:
-                  path = "/resources/add.png";
+                path = "/resources/add.png";
                 break;
             case 2:
                 break;
@@ -107,15 +109,20 @@ public class TutorialView extends JPanel {
             case 5:
                 break;
             case 6:
+                break;*/
+            default:
+                myPicture = ImageIO.read(getClass().getResource("/resources/login.png"));
                 break;
         }
-        BufferedImage myPicture = ImageIO.read(new File(path));
         picLabel = new JLabel(new ImageIcon(myPicture));
+        PanelStyle.setSize(picLabel, 350, 350);
         picLabel.repaint();
     }
 
     private void initObjects() {
-
+        picLabel = new JLabel();
+        prevBtn = new JButton();
+        nextBtn = new JButton();
     }
 
     private void keyInputDispatcher() {
