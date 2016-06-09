@@ -243,9 +243,12 @@ public class AddEditUserView extends JPanel {
             if (option == AddUserEnum.EDIT) {
                 addEditUserViewMediator.onChangeUserData();
                 window.getEditUserFrame().dispose();
-            } else {
+            } else if(option == AddUserEnum.ADD) {
                 addEditUserViewMediator.onAddUser();
+                addEditUserViewMediator.assignUserToRoom();
                 window.getAddUserFrame().dispose();
+            } else if (option == AddUserEnum.ADMIN) {
+                
             }
         });
         mainPanel = new JPanel(new GridLayout(1, 2));
@@ -736,5 +739,71 @@ public class AddEditUserView extends JPanel {
     public void setPermissionContentLabel(JLabel permissionContentLabel) {
         this.permissionContentLabel = permissionContentLabel;
     }
+
+    public AddUserEnum getOption() {
+        return option;
+    }
+
+    public void setOption(AddUserEnum option) {
+        this.option = option;
+    }
+
+    public JLabel getRoomLabel() {
+        return roomLabel;
+    }
+
+    public void setRoomLabel(JLabel roomLabel) {
+        this.roomLabel = roomLabel;
+    }
+
+    public JLabel getPermissionLabel() {
+        return permissionLabel;
+    }
+
+    public void setPermissionLabel(JLabel permissionLabel) {
+        this.permissionLabel = permissionLabel;
+    }
+
+    public RoomComboBox getRoomCb() {
+        return roomCb;
+    }
+
+    public void setRoomCb(RoomComboBox roomCb) {
+        this.roomCb = roomCb;
+    }
+
+    public JLabel getRoomContentLabel() {
+        return roomContentLabel;
+    }
+
+    public void setRoomContentLabel(JLabel roomContentLabel) {
+        this.roomContentLabel = roomContentLabel;
+    }
+
+    public JButton getAddButton() {
+        return addButton;
+    }
+
+    public void setAddButton(JButton addButton) {
+        this.addButton = addButton;
+    }
+
+    public JButton getEditButton() {
+        return editButton;
+    }
+
+    public void setEditButton(JButton editButton) {
+        this.editButton = editButton;
+    }
+
+    public JButton getDeleteButton() {
+        return deleteButton;
+    }
+
+    public void setDeleteButton(JButton deleteButton) {
+        this.deleteButton = deleteButton;
+    }
+    
+    
 
 }

@@ -3,11 +3,13 @@ package pl.polsl.reservations.client.views;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.BoxLayout;
 import javax.swing.InputMap;
@@ -179,6 +181,23 @@ public class CreateRaportView extends JPanel {
                     break;
             }
         });
+        editedRoomCb.addActionListener((ActionEvent e) -> {
+            editedRoomCb.onAction();
+            createReportViewMediator.onRoomChange();
+        });
+        deviceCb.addActionListener((ActionEvent e) -> {
+            createReportViewMediator.onEquipmentSelectionChange();
+        });
+        editButton.addActionListener((ActionEvent e) -> {
+            if (!validateAll()) {
+                return;
+            }
+        });
+        deleteButton.addActionListener((ActionEvent e) -> {
+            if (!validateAll()) {
+                return;
+            }
+        });
     }
 
     private void setupButton() {
@@ -324,6 +343,9 @@ public class CreateRaportView extends JPanel {
             case TYPE:
                 validationFlag = validateAddType();
                 break;
+            case DEVICE_EDIT:
+                validationFlag = validateDeviceEdit();
+                break;
         }
         return validationFlag;
     }
@@ -379,6 +401,23 @@ public class CreateRaportView extends JPanel {
         }
         if (descriptionTf.getText().isEmpty()) {
             ValidationErrorMessanger.showErrorMessage(descriptionTf, "Description field cannot be empty");
+            validationFlag = false;
+        }
+        return validationFlag;
+    }
+
+    private Boolean validateDeviceEdit() {
+        Boolean validationFlag = true;
+        if (!NumberFormatUtils.isInteger(numberTf.getText())) {
+            ValidationErrorMessanger.showErrorMessage(numberTf, "Amount is not a number");
+            validationFlag = false;
+        }
+        if (numberTf.getText().isEmpty()) {
+            ValidationErrorMessanger.showErrorMessage(numberTf, "Amount cannot be empty");
+            validationFlag = false;
+        }
+        if (nameTf.getText().isEmpty()) {
+            ValidationErrorMessanger.showErrorMessage(nameTf, "Name cannot be empty");
             validationFlag = false;
         }
         return validationFlag;
@@ -559,4 +598,45 @@ public class CreateRaportView extends JPanel {
     public void setDescriptionTf(JTextField descriptionTf) {
         this.descriptionTf = descriptionTf;
     }
+
+    public JComboBox getDeviceCb() {
+        return deviceCb;
+    }
+
+    public void setDeviceCb(JComboBox deviceCb) {
+        this.deviceCb = deviceCb;
+    }
+
+    public RoomComboBox getEditedRoomCb() {
+        return editedRoomCb;
+    }
+
+    public void setEditedRoomCb(RoomComboBox editedRoomCb) {
+        this.editedRoomCb = editedRoomCb;
+    }
+
+    public JLabel getDescriptionLabel() {
+        return descriptionLabel;
+    }
+
+    public void setDescriptionLabel(JLabel descriptionLabel) {
+        this.descriptionLabel = descriptionLabel;
+    }
+
+    public JButton getEditButton() {
+        return editButton;
+    }
+
+    public void setEditButton(JButton editButton) {
+        this.editButton = editButton;
+    }
+
+    public JButton getDeleteButton() {
+        return deleteButton;
+    }
+
+    public void setDeleteButton(JButton deleteButton) {
+        this.deleteButton = deleteButton;
+    }
+
 }

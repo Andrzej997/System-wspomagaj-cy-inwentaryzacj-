@@ -1,14 +1,20 @@
 package pl.polsl.reservations.client.mediators;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import pl.polsl.reservations.client.ClientContext;
 import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.views.AddEditUserView;
 import pl.polsl.reservations.client.views.MainView;
 import pl.polsl.reservations.client.views.utils.AddUserEnum;
+import pl.polsl.reservations.client.views.utils.RoomComboBox;
 import pl.polsl.reservations.dto.DepartamentDTO;
 import pl.polsl.reservations.dto.PrivilegeLevelDTO;
+import pl.polsl.reservations.dto.RoomDTO;
 import pl.polsl.reservations.dto.UserDTO;
+import pl.polsl.reservations.ejb.remote.RoomManagementFacade;
 import pl.polsl.reservations.ejb.remote.UserFacade;
 import pl.polsl.reservations.ejb.remote.UserManagementFacade;
 
@@ -22,25 +28,24 @@ public class AddEditUserViewMediator {
 
     private final UserFacade userFacade;
     private final UserManagementFacade userManagementFacade;
+    private final RoomManagementFacade roomManagementFacade;
 
     public AddEditUserViewMediator() {
         userFacade = (UserFacade) Lookup.getRemote("UserFacade");
         userManagementFacade = (UserManagementFacade) Lookup.getRemote("UserManagementFacade");
+        roomManagementFacade = (RoomManagementFacade) Lookup.getRemote("RoomManagementFacade");
     }
 
     public AddEditUserView createView(MainView view, AddUserEnum option) {
         addEditUserView = new AddEditUserView(view, option, this);
         setDepartaments();
-              if (option==AddUserEnum.EDIT){
+        if (option == AddUserEnum.EDIT) {
             getSelectedUserData();
         } else {
+            getRooms();
             setPrivilegeLevels();
         }
         return addEditUserView;
-    }
-
-    public void getUsersList() {
-        List<UserDTO> usersWithLowerPrivilegeLevel = userFacade.getUsersWithLowerPrivilegeLevel();
     }
 
     public void setDepartaments() {
@@ -50,6 +55,33 @@ public class AddEditUserViewMediator {
         }
     }
 
+    public void getRooms() {
+        List<RoomDTO> roomsList = roomManagementFacade.getRoomsList();
+        HashMap<Integer, List<Integer>> numbersMap = new HashMap<>();
+        RoomComboBox roomComboBox = (RoomComboBox) addEditUserView.getRoomCb();
+        List<Integer> floors = new ArrayList<>();
+        for (RoomDTO room : roomsList) {
+            Integer roomNumber = room.getNumber();
+            Integer floor = roomNumber / 100;
+            Integer number = roomNumber % 100;
+            if (numbersMap.containsKey(floor)) {
+                List<Integer> numbers = numbersMap.get(floor);
+                numbers.add(number);
+                numbersMap.put(floor, numbers);
+            } else {
+                List<Integer> numbers = new ArrayList<>();
+                numbers.add(number);
+                numbersMap.put(floor, numbers);
+                floors.add(floor);
+            }
+        }
+        roomComboBox.setFloors(floors);
+        for (Map.Entry<Integer, List<Integer>> floorEntry : numbersMap.entrySet()) {
+            roomComboBox.setRooms(floorEntry.getValue(), floorEntry.getKey());
+        }
+        roomComboBox.selectItem(1, 1);
+    }
+    
     public void setPrivilegeLevels() {
         List<PrivilegeLevelDTO> allPrivilegeLevels = userManagementFacade.getAllPrivilegeLevels();
         for (PrivilegeLevelDTO privilegeLevel : allPrivilegeLevels) {
@@ -57,8 +89,8 @@ public class AddEditUserViewMediator {
         }
         addEditUserView.getPermissionCb().setSelectedIndex(5);
     }
-    
-    private Long getSelectedPrivilegeLevel(){
+
+    private Long getSelectedPrivilegeLevel() {
         List<PrivilegeLevelDTO> allPrivilegeLevels = userManagementFacade.getAllPrivilegeLevels();
         int selectedIndex = addEditUserView.getPermissionCb().getSelectedIndex();
         return allPrivilegeLevels.get(selectedIndex).getPrivilegeLevel();
@@ -77,6 +109,11 @@ public class AddEditUserViewMediator {
         newUser.setUserName(addEditUserView.getUsernameTf().getText());
         newUser.setPrivilegeLevel(getSelectedPrivilegeLevel());
         return userManagementFacade.registerUser(newUser, "");
+    }
+    
+    public Boolean assignUserToRoom(){
+        Integer selectedRoom = addEditUserView.getRoomCb().getSelectedItem();
+        return userManagementFacade.assignUserToRoom(addEditUserView.getUsernameTf().getText(), selectedRoom);
     }
 
     public void getSelectedUserData() {
@@ -129,4 +166,5 @@ public class AddEditUserViewMediator {
         user.setId(userDetails.getId());
         return userFacade.changeUserDetails(user);
     }
+    
 }

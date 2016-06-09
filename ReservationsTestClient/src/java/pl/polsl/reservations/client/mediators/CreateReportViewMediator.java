@@ -10,6 +10,7 @@ import pl.polsl.reservations.client.views.MainView;
 import pl.polsl.reservations.client.views.utils.AddTypeEnum;
 import pl.polsl.reservations.client.views.utils.RoomComboBox;
 import pl.polsl.reservations.dto.DepartamentDTO;
+import pl.polsl.reservations.dto.EquipmentDTO;
 import pl.polsl.reservations.dto.EquipmentStateDTO;
 import pl.polsl.reservations.dto.EquipmentTypeDTO;
 import pl.polsl.reservations.dto.RoomDTO;
@@ -46,6 +47,9 @@ public class CreateReportViewMediator {
                 break;
             case DEVICE:
                 setDeviceData();
+                break;
+            case DEVICE_EDIT:
+                setDeviceDataToEdit();
                 break;
         }
 
@@ -133,7 +137,34 @@ public class CreateReportViewMediator {
         for (Map.Entry<Integer, List<Integer>> floorEntry : numbersMap.entrySet()) {
             roomComboBox.setRooms(floorEntry.getValue(), floorEntry.getKey());
         }
-        roomComboBox.selectItem(1,1);
+        roomComboBox.selectItem(1, 1);
+    }
+
+    private void setEditedRooms() {
+        List<RoomDTO> roomsList = roomManagementFacade.getRoomsList();
+        HashMap<Integer, List<Integer>> numbersMap = new HashMap<>();
+        RoomComboBox roomComboBox = (RoomComboBox) createRaportView.getEditedRoomCb();
+        List<Integer> floors = new ArrayList<>();
+        for (RoomDTO room : roomsList) {
+            Integer roomNumber = room.getNumber();
+            Integer floor = roomNumber / 100;
+            Integer number = roomNumber % 100;
+            if (numbersMap.containsKey(floor)) {
+                List<Integer> numbers = numbersMap.get(floor);
+                numbers.add(number);
+                numbersMap.put(floor, numbers);
+            } else {
+                List<Integer> numbers = new ArrayList<>();
+                numbers.add(number);
+                numbersMap.put(floor, numbers);
+                floors.add(floor);
+            }
+        }
+        roomComboBox.setFloors(floors);
+        for (Map.Entry<Integer, List<Integer>> floorEntry : numbersMap.entrySet()) {
+            roomComboBox.setRooms(floorEntry.getValue(), floorEntry.getKey());
+        }
+        roomComboBox.selectItem(1, 1);
     }
 
     public void onAddDevice() {
@@ -155,6 +186,40 @@ public class CreateReportViewMediator {
         }
     }
 
+    private void setDeviceDataToEdit() {
+        setEditedRooms();
+        setRooms();
+        getRoomEquipment();
+    }
+
+    private void getRoomEquipment() {
+        RoomDTO room = roomManagementFacade.getRoom(createRaportView.getEditedRoomCb().getSelectedItem());
+        List<EquipmentDTO> roomEquipment = roomManagementFacade.getRoomEquipment(room.getId().intValue());
+        if (roomEquipment != null && !roomEquipment.isEmpty()) {
+            createRaportView.getDeviceCb().removeAllItems();
+            for (EquipmentDTO equipment : roomEquipment) {
+                createRaportView.getDeviceCb().addItem(equipment.getName());
+            }
+            createRaportView.getDeviceCb().setSelectedIndex(0);
+            List<EquipmentTypeDTO> equipmentTypes = roomManagementFacade.getEquipmentTypes();
+            for (EquipmentTypeDTO equipmentType : equipmentTypes) {
+                createRaportView.getTypeCb().addItem(equipmentType.getDescription());
+            }
+            EquipmentDTO equipment = roomEquipment.get(0);
+            if (equipmentTypes != null && !equipmentTypes.isEmpty()) {
+                createRaportView.getTypeCb().setSelectedItem(equipment.getType());
+            }
+            createRaportView.getNumberTf().setText(equipment.getQuantity().toString());
+            createRaportView.getNameTf().setText(equipment.getName());
+            List<EquipmentStateDTO> equipmentStates = roomManagementFacade.getEquipmentStates();
+            for (EquipmentStateDTO equipmentStateDTO : equipmentStates) {
+                createRaportView.getStateCb().addItem(equipmentStateDTO.getDescription());
+            }
+            createRaportView.getStateCb().setSelectedItem(equipment.getState());
+        }
+
+    }
+
     public Boolean onAddState() {
         String newState = createRaportView.getNameTf().getText();
         return roomManagementFacade.addEquipmentState(newState);
@@ -165,5 +230,61 @@ public class CreateReportViewMediator {
         String longDescription = createRaportView.getDescriptionTf().getText();
         return roomManagementFacade.addEquipmentType(shortDescription, longDescription);
     }
+
+    public void onRoomChange() {
+        Integer selectedItem = createRaportView.getEditedRoomCb().getSelectedItem();
+        if (selectedItem != null) {
+            RoomDTO room = roomManagementFacade.getRoom(selectedItem);
+            List<EquipmentDTO> roomEquipment = roomManagementFacade.getRoomEquipment(room.getId().intValue());
+            createRaportView.getDeviceCb().removeAllItems();
+            if (roomEquipment != null && !roomEquipment.isEmpty()) {
+                for (EquipmentDTO equipment : roomEquipment) {
+                    createRaportView.getDeviceCb().addItem(equipment.getName());
+                }
+                createRaportView.getDeviceCb().setSelectedIndex(0);
+                EquipmentDTO equipment = roomEquipment.get(0);
+                createRaportView.getTypeCb().setSelectedItem(equipment.getType());
+                createRaportView.getNumberTf().setText(equipment.getQuantity().toString());
+                createRaportView.getNameTf().setText(equipment.getName());
+                createRaportView.getStateCb().setSelectedItem(equipment.getState());
+            }
+        }
+    }
+
+    public void onEquipmentSelectionChange() {
+        Integer selectedItem = createRaportView.getEditedRoomCb().getSelectedItem();
+        RoomDTO room = roomManagementFacade.getRoom(selectedItem);
+        List<EquipmentDTO> roomEquipment = roomManagementFacade.getRoomEquipment(room.getId().intValue());
+        int selectedIndex = createRaportView.getDeviceCb().getSelectedIndex();
+        EquipmentDTO equipment = null;
+        try {
+            equipment = roomEquipment.get(selectedIndex);
+        } catch (ArrayIndexOutOfBoundsException ex) {
+
+        }
+        if (equipment != null) {
+            createRaportView.getTypeCb().setSelectedItem(equipment.getType());
+            createRaportView.getNumberTf().setText(equipment.getQuantity().toString());
+            createRaportView.getNameTf().setText(equipment.getName());
+            createRaportView.getStateCb().setSelectedItem(equipment.getState());
+        }
+    }
+    
+    public void onEditAction(){
+        Integer selectedRoomIndex = createRaportView.getEditedRoomCb().getSelectedItem();
+        RoomDTO selectedRoom = roomManagementFacade.getRoom(selectedRoomIndex);
+        Integer targetRoomIndex = createRaportView.getRoomCb().getSelectedItem();
+        RoomDTO targetRoom = roomManagementFacade.getRoom(targetRoomIndex);
+        int selectedDeviceIndex = createRaportView.getDeviceCb().getSelectedIndex();
+        List<EquipmentDTO> roomEquipment = roomManagementFacade.getRoomEquipment(selectedRoom.getId().intValue());
+        EquipmentDTO oldEqiupment = roomEquipment.get(selectedDeviceIndex);
+        
+        if(targetRoomIndex != selectedRoomIndex){
+            
+        } else {
+            
+        }
+    }
+    
 
 }
