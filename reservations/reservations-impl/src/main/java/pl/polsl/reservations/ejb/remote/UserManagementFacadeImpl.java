@@ -310,7 +310,6 @@ public class UserManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     @Override
     @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
     public boolean registerUser(UserDTO user, String password) {
-        Users admin = getCurrentUserContext().getUser();
         if (checkUserExistence(user)) {
             return false;
         }

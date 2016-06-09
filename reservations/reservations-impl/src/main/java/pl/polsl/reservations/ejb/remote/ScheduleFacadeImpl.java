@@ -65,7 +65,6 @@ public class ScheduleFacadeImpl extends AbstractBusinessFacadeImpl implements Sc
     }
 
     @Override
-    @RequiredPrivilege(PrivilegeEnum.SCHEDULE_LOOKUP)
     public List<ReservationDTO> getDetailedRoomSchedule(int roomId, int year, int week, boolean semester) {
         return scheduleFactory.createSchedule(
                 new DetailedScheduleStrategyDecorator(week, new RoomScheduleStrategy()),
@@ -105,13 +104,13 @@ public class ScheduleFacadeImpl extends AbstractBusinessFacadeImpl implements Sc
         newReservaton.setUser(usersDAO.find(userId));
 
         reservationsDAO.create(newReservaton);
-        List<Reservations> reservationsCollection = schedule.getReservationsCollection();
         if (schedule.getId() != null) {
+            List<Reservations> reservationsCollection = schedule.getReservationsCollection();
             reservationsCollection.add(newReservaton);
             schedule.setReservationsCollection(reservationsCollection);
             roomScheduleDAO.merge(schedule);
         } else {
-            reservationsCollection = new ArrayList<>();
+            List<Reservations>reservationsCollection = new ArrayList<>();
             reservationsCollection.add(newReservaton);
             schedule.setReservationsCollection(reservationsCollection);
             roomScheduleDAO.create(schedule);

@@ -72,7 +72,7 @@ public abstract class AbstractDaoImpl<T> implements Serializable, AbstractDao<T>
     }
 
     @Override
-    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    @Transactional(Transactional.TxType.REQUIRED)
     public void create(T entity) {
         PrivilegeLevelEnum level = userContext.getPrivilegeLevel();
         EntityManager em = level.getEntityManager();
@@ -81,7 +81,7 @@ public abstract class AbstractDaoImpl<T> implements Serializable, AbstractDao<T>
     }
 
     @Override
-    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    @Transactional(Transactional.TxType.REQUIRED)
     public void edit(T entity) {
         PrivilegeLevelEnum level = userContext.getPrivilegeLevel();
         EntityManager em = level.getEntityManager();
@@ -90,7 +90,7 @@ public abstract class AbstractDaoImpl<T> implements Serializable, AbstractDao<T>
     }
 
     @Override
-    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    @Transactional(Transactional.TxType.REQUIRED)
     public void remove(T entity) {
         PrivilegeLevelEnum level = userContext.getPrivilegeLevel();
         EntityManager em = level.getEntityManager();
@@ -99,7 +99,7 @@ public abstract class AbstractDaoImpl<T> implements Serializable, AbstractDao<T>
     }
 
     @Override
-    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    @Transactional(Transactional.TxType.REQUIRED)
     public void merge(T entity) {
         PrivilegeLevelEnum level = userContext.getPrivilegeLevel();
         EntityManager em = level.getEntityManager();
