@@ -4,6 +4,7 @@ import com.itextpdf.text.Font;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
+import javax.swing.JFileChooser;
 import javax.swing.Painter;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -73,23 +74,27 @@ public class Main {
         Painter<Component> p = new Painter<Component>() {
             public void paint(Graphics2D g, Component c, int width, int height) {
                 g.setColor(new Color(247, 248, 250));
-        }
+            }
         };
-           UIManager.getLookAndFeelDefaults().put("FileChooser.background", new Color(214,217,223));
-        UIManager.getLookAndFeelDefaults().put("InternalFrameTitlePane.background", new Color(230, 230, 250));
+        UIManager.getLookAndFeelDefaults().put("FileChooser[Enabled].backgroundPainter",
+                new Painter<JFileChooser>() {
+            @Override
+            public void paint(Graphics2D g, JFileChooser object, int width, int height) {
+                g.setColor(new Color(230, 230, 250));
+                g.draw(object.getBounds());
+
+            }
+        });
         UIManager.getLookAndFeelDefaults().put("background", new Color(230, 230, 250));
+        UIManager.put("ScrollPane.background", new Color(230, 230, 250));
         UIManager.getLookAndFeelDefaults().put("Table.font",
                 new javax.swing.plaf.FontUIResource("Arial", Font.NORMAL, 13));
         UIManager.getLookAndFeelDefaults().put("TableHeader.foreground", new Color(255, 255, 255));
         UIManager.getLookAndFeelDefaults().put("defaultFont",
                 new javax.swing.plaf.FontUIResource("Arial", Font.BOLD, 13));
         UIManager.getLookAndFeelDefaults().put("ComboBox.foreground", new Color(247, 248, 250));
-        
         UIManager.getLookAndFeelDefaults().put("TextField.background", new Color(247, 248, 250));
         UIManager.getLookAndFeelDefaults().put("FormattedTextField.background", new Color(247, 248, 250));
         UIManager.getLookAndFeelDefaults().put("PasswordField.background", new Color(247, 248, 250));
-        UIManager.getLookAndFeelDefaults().put("Button.foreground", new Color(247, 248, 250));
-        UIManager.getLookAndFeelDefaults().put("InternalFrame.background", new Color(247, 248, 250));
-
     }
 }
