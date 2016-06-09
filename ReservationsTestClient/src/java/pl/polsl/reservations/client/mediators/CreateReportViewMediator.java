@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.views.CreateRaportView;
 import pl.polsl.reservations.client.views.MainView;
@@ -269,8 +272,8 @@ public class CreateReportViewMediator {
             createRaportView.getStateCb().setSelectedItem(equipment.getState());
         }
     }
-    
-    public void onEditAction(){
+
+    public void onEditAction() {
         Integer selectedRoomIndex = createRaportView.getEditedRoomCb().getSelectedItem();
         RoomDTO selectedRoom = roomManagementFacade.getRoom(selectedRoomIndex);
         Integer targetRoomIndex = createRaportView.getRoomCb().getSelectedItem();
@@ -278,13 +281,32 @@ public class CreateReportViewMediator {
         int selectedDeviceIndex = createRaportView.getDeviceCb().getSelectedIndex();
         List<EquipmentDTO> roomEquipment = roomManagementFacade.getRoomEquipment(selectedRoom.getId().intValue());
         EquipmentDTO oldEqiupment = roomEquipment.get(selectedDeviceIndex);
-        
-        if(targetRoomIndex != selectedRoomIndex){
-            
+        int selectedTypeIndex = createRaportView.getTypeCb().getSelectedIndex();
+        List<EquipmentTypeDTO> equipmentTypes = roomManagementFacade.getEquipmentTypes();
+        EquipmentTypeDTO equipmentType = equipmentTypes.get(selectedTypeIndex);
+        int selectedStateIndex = createRaportView.getStateCb().getSelectedIndex();
+        List<EquipmentStateDTO> equipmentStates = roomManagementFacade.getEquipmentStates();
+        EquipmentStateDTO equipmentState = equipmentStates.get(selectedStateIndex);
+        String equipmentName = createRaportView.getNameTf().getText();
+        Integer equipmentQuantity = Integer.parseInt(createRaportView.getNumberTf().getText());
+        if (!Objects.equals(targetRoomIndex, selectedRoomIndex)) {
+
         } else {
-            
+
         }
     }
-    
+
+    public void onDeleteAction() {
+        Integer selectedRoomIndex = createRaportView.getEditedRoomCb().getSelectedItem();
+        RoomDTO selectedRoom = roomManagementFacade.getRoom(selectedRoomIndex);
+        int selectedDeviceIndex = createRaportView.getDeviceCb().getSelectedIndex();
+        List<EquipmentDTO> roomEquipment = roomManagementFacade.getRoomEquipment(selectedRoom.getId().intValue());
+        EquipmentDTO oldEqiupment = roomEquipment.get(selectedDeviceIndex);
+        try {
+            roomManagementFacade.removeEquipment(oldEqiupment.getId().intValue());
+        } catch (UnauthorizedAccessException ex) {
+            Logger.getLogger(CreateReportViewMediator.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
 }

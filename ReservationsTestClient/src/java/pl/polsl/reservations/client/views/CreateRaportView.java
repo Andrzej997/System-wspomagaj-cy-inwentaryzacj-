@@ -197,6 +197,7 @@ public class CreateRaportView extends JPanel {
             if (!validateAll()) {
                 return;
             }
+            createReportViewMediator.onDeleteAction();
         });
     }
 
