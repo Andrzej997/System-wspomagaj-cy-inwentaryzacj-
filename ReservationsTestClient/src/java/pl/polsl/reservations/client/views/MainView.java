@@ -251,7 +251,7 @@ public class MainView extends JFrame {
     private void generateMenu() {
         fileMenu.setText("File");
         addMenuItem.setForeground(new java.awt.Color(153, 153, 153));
-        addMenuItem.setText("Add");
+        addMenuItem.setText("Add reservation");
         fileMenu.add(addMenuItem);
         adminMenu.setText("Admin action");
         adminMenu.setForeground(new java.awt.Color(153, 153, 153));

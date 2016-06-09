@@ -15,16 +15,16 @@ import org.jdatepicker.impl.UtilDateModel;
  *
  * @author abienioszek
  */
-public class DatePicker extends JPanel {
+public class CustomDatePicker extends JPanel {
 
-    private static DatePicker weekDatepicker;
-    private static DatePicker dayDatepicker;
+    private static CustomDatePicker weekDatepicker;
+    private static CustomDatePicker dayDatepicker;
     private static final long serialVersionUID = 3512548187838571101L;
     private final JDatePanelImpl datePanel;
     private final JDatePickerImpl datePicker;
     private final UtilDateModel model;
 
-    private DatePicker(boolean day) {
+    private CustomDatePicker(boolean day) {
         model = new UtilDateModel();
         Properties p = new Properties();
         p.put("text.today", "Today");
@@ -66,21 +66,21 @@ public class DatePicker extends JPanel {
         }
     }
 
-    public static DatePicker getInstance() {
+    public static CustomDatePicker getInstance() {
         if (weekDatepicker == null) {
-            weekDatepicker = new DatePicker(false);
+            weekDatepicker = new CustomDatePicker(false);
             if (dayDatepicker == null) {
-                dayDatepicker = new DatePicker(true);
+                dayDatepicker = new CustomDatePicker(true);
             }
         }
         return weekDatepicker;
     }
 
-    public static DatePicker getDayInstance() {
+    public static CustomDatePicker getDayInstance() {
         if (dayDatepicker == null) {
-            dayDatepicker = new DatePicker(true);
+            dayDatepicker = new CustomDatePicker(true);
             if (weekDatepicker == null) {
-                weekDatepicker = new DatePicker(false);
+                weekDatepicker = new CustomDatePicker(false);
             }
         }
         return dayDatepicker;
