@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -113,8 +114,27 @@ public class AddEditView extends JPanel {
                 addEditViewMediator.getReservations();
             }
         });
+        datepicker.getDatePicker().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                datePickerChange(e);
+            }
+        });
     }
 
+    private void datePickerChange(ActionEvent e) {
+        //Calendar date = datepicker.getDate();
+       // if (date != null) {
+           // set(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DATE));
+           // startDate.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+           // endDate.set(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DATE));
+           // endDate.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+           
+       // }
+       addEditViewMediator.setDate(datepicker.getDate());
+       addEditViewMediator.getReservations();
+    }
+    
     private void initFields() {
         date = new Date();
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
