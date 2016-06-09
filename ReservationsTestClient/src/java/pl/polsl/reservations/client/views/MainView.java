@@ -2,6 +2,8 @@ package pl.polsl.reservations.client.views;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import pl.polsl.reservations.client.ClientContext;
@@ -155,31 +157,31 @@ public class MainView extends JFrame {
     }
 
     private void addRoomMenuItemActionPerformed(ActionEvent evt) {
-        if (isLoggedIn && addRoomFrame == null) {
+        if (isLoggedIn) {
             addRoomFrame = FrameStyle.dialogStyle(new CreateReportViewMediator().createView(this, AddTypeEnum.ROOM), "Add room");
         }
     }
 
     private void addDeviceMenuItemActionPerformed(ActionEvent evt) {
-        if (isLoggedIn && addDeviceFrame == null) {
+        if (isLoggedIn) {
             addDeviceFrame = FrameStyle.dialogStyle(new CreateReportViewMediator().createView(this, AddTypeEnum.DEVICE), "Add device");
         }
     }
-    
-     private void editRoomEquipmentMenuItemActionPerformed(ActionEvent evt) {
-        if (isLoggedIn && addDeviceFrame == null) {
+
+    private void editRoomEquipmentMenuItemActionPerformed(ActionEvent evt) {
+        if (isLoggedIn) {
             addDeviceFrame = FrameStyle.dialogStyle(new CreateReportViewMediator().createView(this, AddTypeEnum.DEVICE_EDIT), "Edit device");
         }
     }
 
     private void addStateMenuItemActionPerformed(ActionEvent evt) {
-        if (isLoggedIn && addStateFrame == null) {
+        if (isLoggedIn) {
             addStateFrame = FrameStyle.dialogStyle(new CreateReportViewMediator().createView(this, AddTypeEnum.STATE), "Add state");
         }
     }
 
     private void addTypeMenuItemActionPerformed(ActionEvent evt) {
-        if (isLoggedIn && addTypeFrame == null) {
+        if (isLoggedIn) {
             addTypeFrame = FrameStyle.dialogStyle(new CreateReportViewMediator().createView(this, AddTypeEnum.TYPE), "Add type");
         }
     }
@@ -211,19 +213,19 @@ public class MainView extends JFrame {
     }
 
     private void changePasswordActionPerformed(ActionEvent evt) {
-        if (isLoggedIn && passwordFrame == null) {
+        if (isLoggedIn) {
             passwordFrame = FrameStyle.dialogStyle(new ChangePasswordViewMediator().createView(this), "Change password");
         }
     }
 
     private void addUserActionPerformed(ActionEvent evt) {
-        if (isLoggedIn && addUserFrame == null) {
+        if (isLoggedIn) {
             addUserFrame = FrameStyle.dialogStyle(new AddEditUserViewMediator().createView(this, false), "Add user");
         }
     }
 
     private void editUserActionPerformed(ActionEvent evt) {
-        if (isLoggedIn && editUserFrame == null) {
+        if (isLoggedIn) {
             editUserFrame = FrameStyle.dialogStyle(new AddEditUserViewMediator().createView(this, true), "Edit user");
         }
     }
@@ -288,7 +290,7 @@ public class MainView extends JFrame {
         editRoomEquipmentMenuItem.setText("Edit room equipment");
         editRoomEquipmentMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         createRaportMenu.add(editRoomEquipmentMenuItem);
-        
+
         //TYLKO ADMIN:
         addStateMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         addStateMenuItem.setText("Add state");
@@ -360,7 +362,7 @@ public class MainView extends JFrame {
         addStateMenuItem.addActionListener((ActionEvent evt) -> {
             addStateMenuItemActionPerformed(evt);
         });
-            editRoomEquipmentMenuItem.addActionListener((ActionEvent evt) -> {
+        editRoomEquipmentMenuItem.addActionListener((ActionEvent evt) -> {
             editRoomEquipmentMenuItemActionPerformed(evt);
         });
     }

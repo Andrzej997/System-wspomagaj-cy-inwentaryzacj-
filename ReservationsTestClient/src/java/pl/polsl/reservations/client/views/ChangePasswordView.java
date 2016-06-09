@@ -116,7 +116,6 @@ public class ChangePasswordView extends JPanel {
                 JOptionPane.showMessageDialog(this, "Error !!! \n Old password is invalid");
             } else {
                 window.getPasswordFrame().dispose();
-                window.setPasswordFrame(null);
             }
         });
         keyInputDispatcher();

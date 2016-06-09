@@ -4,6 +4,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
@@ -163,22 +164,18 @@ public class CreateRaportView extends JPanel {
                 case ROOM:
                     createReportViewMediator.onAddRoom();
                     window.getAddRoomFrame().dispose();
-                    window.setAddRoomFrame(null);
                     break;
                 case DEVICE:
                     createReportViewMediator.onAddDevice();
                     window.getAddDeviceFrame().dispose();
-                    window.setAddDeviceFrame(null);
                     break;
                 case STATE:
                     createReportViewMediator.onAddState();
                     window.getAddStateFrame().dispose();
-                    window.setAddStateFrame(null);
                     break;
                 case TYPE:
                     createReportViewMediator.onAddType();
                     window.getAddTypeFrame().dispose();
-                    window.setAddTypeFrame(null);
                     break;
             }
         });

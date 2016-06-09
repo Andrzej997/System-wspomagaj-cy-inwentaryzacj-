@@ -4,6 +4,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
@@ -166,9 +167,9 @@ public class AddEditUserView extends JPanel {
         PanelStyle.setSize(gradeTf, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(gradeLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(gradeContentLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
-          PanelStyle.setSize(permissionContentLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
-            PanelStyle.setSize(permissionLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
-              PanelStyle.setSize(permissionCb, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(permissionContentLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(permissionLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(permissionCb, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 240);
         PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 240);
         PanelStyle.setSize(mainPanel, 2 * NORMAL_WIDTH, 300);
@@ -211,11 +212,9 @@ public class AddEditUserView extends JPanel {
             if (editUser) {
                 addEditUserViewMediator.onChangeUserData();
                 window.getEditUserFrame().dispose();
-                window.setEditUserFrame(null);
             } else {
                 addEditUserViewMediator.onAddUser();
                 window.getAddUserFrame().dispose();
-                window.setAddUserFrame(null);
             }
         });
         mainPanel = new JPanel(new GridLayout(1, 2));
@@ -718,6 +717,5 @@ public class AddEditUserView extends JPanel {
     public void setPermissionContentLabel(JLabel permissionContentLabel) {
         this.permissionContentLabel = permissionContentLabel;
     }
-    
-    
+
 }
