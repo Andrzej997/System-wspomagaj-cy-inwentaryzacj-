@@ -146,8 +146,7 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
             return false;
         }
         Users newUser = new Users();
-        
-        
+
         newUser.setEmail(userDTO.getEmail());
         newUser.setPhoneNumber(Long.parseLong(userDTO.getPhoneNumber()));
         newUser.setId(user.getId());
@@ -168,8 +167,10 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
         workersFacade.edit(workerDB);
         newUser.setWorkers(workerDB);
         usersFacade.edit(user);
-        getCurrentUserContext().setUser(usersFacade.find(id));
-        
+        if (Objects.equals(id, getCurrentUserContext().getUser().getId())) {
+            getCurrentUserContext().setUser(usersFacade.find(id));
+        }
+
         return true;
     }
 

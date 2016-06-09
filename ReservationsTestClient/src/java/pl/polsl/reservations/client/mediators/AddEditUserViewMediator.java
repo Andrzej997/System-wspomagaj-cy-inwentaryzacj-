@@ -47,6 +47,7 @@ public class AddEditUserViewMediator {
                 case ADD:
                     getRooms();
                     setPrivilegeLevels();
+                    getChiefs();
                     break;
                 case ADMIN:
                     getRooms();
@@ -190,7 +191,12 @@ public class AddEditUserViewMediator {
     }
 
     private void getChiefs() {
-
+        int selectedIndex = addEditUserView.getPermissionCb().getSelectedIndex();
+        List<UserDTO> possibleChiefs = userManagementFacade.getPossibleChiefs(selectedIndex);
+        addEditUserView.getChiefCb().removeAllItems();
+        for(UserDTO user : possibleChiefs){
+            addEditUserView.getChiefCb().addItem(user.getName() + " " + user.getSurname());
+        }
     }
 
     private void getEditedUserData() {
@@ -233,7 +239,8 @@ public class AddEditUserViewMediator {
         Integer selectedIndex = addEditUserView.getUserCb().getSelectedIndex();
         if (selectedIndex != null) {
             List<UserDTO> usersWithLowerPrivilegeLevel = userFacade.getUsersWithLowerPrivilegeLevel();
-            UserDTO userDetails = usersWithLowerPrivilegeLevel.get(selectedIndex);
+            UserDTO user = usersWithLowerPrivilegeLevel.get(selectedIndex);
+            userManagementFacade.removeUser(user);
         }
     }
 
