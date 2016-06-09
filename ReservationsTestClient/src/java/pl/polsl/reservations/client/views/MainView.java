@@ -12,8 +12,10 @@ import pl.polsl.reservations.client.mediators.ChangePasswordViewMediator;
 import pl.polsl.reservations.client.mediators.CreateReportViewMediator;
 import pl.polsl.reservations.client.mediators.LoginMediator;
 import pl.polsl.reservations.client.mediators.MainViewMediator;
+import pl.polsl.reservations.client.mediators.TutorialViewMediator;
 import pl.polsl.reservations.client.reports.DocumentGenerator;
 import pl.polsl.reservations.client.views.utils.AddTypeEnum;
+import pl.polsl.reservations.client.views.utils.AddUserEnum;
 import pl.polsl.reservations.client.views.utils.FrameStyle;
 
 public class MainView extends JFrame {
@@ -39,6 +41,7 @@ public class MainView extends JFrame {
     private JMenuItem editRoomEquipmentMenuItem;
     private JMenuItem roomRaportMenuItem;
     private JMenuItem departmentRaportMenuItem;
+    private JMenuItem editUserAdminMenuItem;
 
     private JMenu fileMenu;
     private JMenu helpMenu;
@@ -58,6 +61,7 @@ public class MainView extends JFrame {
     private JDialog addTypeFrame;
     private JDialog addStateFrame;
     private JDialog editUserFrame;
+    private JDialog tutorialFrame;
 
     private transient final MainViewMediator mainViewMediator;
 
@@ -92,7 +96,7 @@ public class MainView extends JFrame {
         allRaportMenuItem.setForeground(fg);
         editRoomEquipmentMenuItem.setForeground(fg);
         departmentRaportMenuItem.setForeground(fg);
-
+        editUserAdminMenuItem.setForeground(fg);
     }
 
     private void initComponents() {
@@ -129,6 +133,7 @@ public class MainView extends JFrame {
         editDataMenuItem = new JMenuItem();
         addRoomMenuItem = new JMenuItem();
         addDeviceMenuItem = new JMenuItem();
+        editUserAdminMenuItem = new JMenuItem();
         editRoomEquipmentMenuItem = new JMenuItem();
         addStateMenuItem = new JMenuItem();
         addTypeMenuItem = new JMenuItem();
@@ -140,7 +145,9 @@ public class MainView extends JFrame {
 
     private void tutorialMenuItemActionPerformed(ActionEvent evt) {
         JOptionPane.showMessageDialog(this, "Not supported yet");
-        //  setView(new TutorialView(window));
+        if (isLoggedIn && tutorialFrame == null) {
+            tutorialFrame = FrameStyle.dialogStyle(new TutorialViewMediator().createView(this), "Tutorial");
+        }
     }
 
     private void exitMenuItemActionPerformed(ActionEvent evt) {
@@ -218,13 +225,19 @@ public class MainView extends JFrame {
 
     private void addUserActionPerformed(ActionEvent evt) {
         if (isLoggedIn && addUserFrame == null) {
-            addUserFrame = FrameStyle.dialogStyle(new AddEditUserViewMediator().createView(this, false), "Add user");
+            addUserFrame = FrameStyle.dialogStyle(new AddEditUserViewMediator().createView(this, AddUserEnum.ADD), "Add user");
         }
     }
 
     private void editUserActionPerformed(ActionEvent evt) {
         if (isLoggedIn && editUserFrame == null) {
-            editUserFrame = FrameStyle.dialogStyle(new AddEditUserViewMediator().createView(this, true), "Edit user");
+            editUserFrame = FrameStyle.dialogStyle(new AddEditUserViewMediator().createView(this, AddUserEnum.EDIT), "Edit user");
+        }
+    }
+    
+      private void editUserAdminActionPerformed(ActionEvent evt) {
+        if (isLoggedIn && editUserFrame == null) {
+            editUserFrame = FrameStyle.dialogStyle(new AddEditUserViewMediator().createView(this, AddUserEnum.ADMIN), "Edit user");
         }
     }
 
@@ -306,6 +319,9 @@ public class MainView extends JFrame {
         //TODO: TYLKO DLA ADMINISTRATORÓW - DODAJ IFA :D
         addUserMenuItem.setText("Add user");
         addUserMenuItem.setForeground(new java.awt.Color(153, 153, 153));
+              editUserAdminMenuItem.setForeground(new java.awt.Color(153, 153, 153));
+        editUserAdminMenuItem.setText("Edit user");
+        adminMenu.add(editUserAdminMenuItem);
         editDataMenuItem.setText("Edit user data");
         editDataMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         adminMenu.add(addUserMenuItem);
@@ -360,8 +376,11 @@ public class MainView extends JFrame {
         addStateMenuItem.addActionListener((ActionEvent evt) -> {
             addStateMenuItemActionPerformed(evt);
         });
-            editRoomEquipmentMenuItem.addActionListener((ActionEvent evt) -> {
+        editRoomEquipmentMenuItem.addActionListener((ActionEvent evt) -> {
             editRoomEquipmentMenuItemActionPerformed(evt);
+        });
+         editUserAdminMenuItem.addActionListener((ActionEvent evt) -> {
+          editUserAdminActionPerformed(evt);
         });
     }
 

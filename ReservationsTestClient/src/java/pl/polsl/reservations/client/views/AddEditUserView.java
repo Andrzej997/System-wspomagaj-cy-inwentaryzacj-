@@ -20,9 +20,11 @@ import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.mediators.AddEditUserViewMediator;
+import pl.polsl.reservations.client.views.utils.AddUserEnum;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
 import pl.polsl.reservations.client.views.utils.NumberFormatUtils;
 import pl.polsl.reservations.client.views.utils.PanelStyle;
+import pl.polsl.reservations.client.views.utils.RoomComboBox;
 import pl.polsl.reservations.client.views.utils.ValidationErrorMessanger;
 
 /**
@@ -38,7 +40,7 @@ public class AddEditUserView extends JPanel {
     private final int NORMAL_HEIGHT = 30;
 
     private MainView window;
-    private boolean editUser;
+    private AddUserEnum option;
     private JLabel usernameLabel;
     private JLabel surnameLabel;
     private JLabel nameLabel;
@@ -48,6 +50,7 @@ public class AddEditUserView extends JPanel {
     private JLabel departmentLabel;
     private JLabel gradeLabel;
     private JLabel peselLabel;
+    private JLabel roomLabel;
     private JLabel permissionLabel;
 
     private JTextField usernameTf;
@@ -58,6 +61,7 @@ public class AddEditUserView extends JPanel {
     private JTextField addressTf;
     private JTextField peselTf;
     private JComboBox departmentCb;
+    private RoomComboBox roomCb;
     private JComboBox permissionCb;
     private JTextField gradeTf;
 
@@ -66,19 +70,22 @@ public class AddEditUserView extends JPanel {
     private JLabel usernameContentLabel;
     private JLabel gradeContentLabel;
     private JLabel permissionContentLabel;
+    private JLabel roomContentLabel;
 
     private JPanel labelPanel;
     private JPanel dataPanel;
     private JPanel mainPanel;
 
-    private JButton okButton;
+    private JButton addButton;
+    private JButton editButton;
+    private JButton deleteButton;
 
     private final AddEditUserViewMediator addEditUserViewMediator;
 
-    public AddEditUserView(MainView window, boolean editUser, AddEditUserViewMediator addEditUserViewMediator) {
+    public AddEditUserView(MainView window, AddUserEnum option, AddEditUserViewMediator addEditUserViewMediator) {
         super();
         this.window = window;
-        this.editUser = editUser;
+        this.option = option;
         this.addEditUserViewMediator = addEditUserViewMediator;
         initComponents();
         initPanels();
@@ -99,10 +106,11 @@ public class AddEditUserView extends JPanel {
         labelPanel.add(addressLabel);
         labelPanel.add(departmentLabel);
         labelPanel.add(gradeLabel);
+        labelPanel.add(roomLabel);
         labelPanel.add(permissionLabel);
         labelPanel.add(peselLabel);
 
-        if (editUser) {
+        if (option==AddUserEnum.EDIT) {
             dataPanel.add(usernameContentLabel);
         } else {
             dataPanel.add(usernameTf);
@@ -113,14 +121,16 @@ public class AddEditUserView extends JPanel {
         dataPanel.add(emailTf);
         dataPanel.add(addressTf);
 
-        if (editUser) {
+         if (option==AddUserEnum.EDIT) {
             dataPanel.add(departmentContentLabel);
             dataPanel.add(gradeContentLabel);
+            dataPanel.add(roomContentLabel);
             dataPanel.add(permissionContentLabel);
             dataPanel.add(peselContentLabel);
         } else {
             dataPanel.add(departmentCb);
             dataPanel.add(gradeTf);
+            dataPanel.add(roomCb);
             dataPanel.add(permissionCb);
             dataPanel.add(peselTf);
         }
@@ -128,18 +138,31 @@ public class AddEditUserView extends JPanel {
         mainPanel.add(labelPanel);
         mainPanel.add(dataPanel);
         add(mainPanel);
-        add(okButton);
+        if (null!=option)  switch (option) {
+            case EDIT:
+                add(editButton);
+                break;
+            case ADD:
+                add(addButton);
+                break;
+            default:
+                JPanel buttonPanel = new JPanel();
+                buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+                buttonPanel.add(editButton);
+                buttonPanel.add(deleteButton);
+                add(buttonPanel);
+                break;
+        }
     }
 
     private void prepareObjects() {
         try {
-            Image img;
-            if (editUser) {
-                img = ImageIO.read(getClass().getResource("/resources/ok.png"));
-            } else {
-                img = ImageIO.read(getClass().getResource("/resources/add.png"));
-            }
-            ButtonStyle.setStyle(okButton, img);
+            Image img = ImageIO.read(getClass().getResource("/resources/add.png"));
+            ButtonStyle.setStyle(addButton, img);
+              Image img2 = ImageIO.read(getClass().getResource("/resources/ok.png"));
+            ButtonStyle.setStyle(editButton, img2);
+              Image img3 = ImageIO.read(getClass().getResource("/resources/error.png"));
+            ButtonStyle.setStyle(deleteButton, img3);
         } catch (IOException ex) {
             System.out.println("RESOURCE ERROR: " + ex.toString());
         }
@@ -166,12 +189,15 @@ public class AddEditUserView extends JPanel {
         PanelStyle.setSize(gradeTf, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(gradeLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(gradeContentLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(roomContentLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(roomLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(roomCb, NORMAL_WIDTH, NORMAL_HEIGHT);
           PanelStyle.setSize(permissionContentLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
             PanelStyle.setSize(permissionLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
               PanelStyle.setSize(permissionCb, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 240);
-        PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 240);
-        PanelStyle.setSize(mainPanel, 2 * NORMAL_WIDTH, 300);
+        PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 270);
+        PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 270);
+        PanelStyle.setSize(mainPanel, 2 * NORMAL_WIDTH, 330);
     }
 
     private void initializeObjects() {
@@ -202,13 +228,16 @@ public class AddEditUserView extends JPanel {
         gradeTf = new JTextField();
         peselTf = new JTextField();
         permissionCb = new JComboBox();
+        roomLabel = new JLabel("Room");
+        roomContentLabel = new JLabel();
+        roomCb = new RoomComboBox();
 
-        okButton = new JButton();
-        okButton.addActionListener((ActionEvent e) -> {
+        addButton = new JButton();
+        addButton.addActionListener((ActionEvent e) -> {
             if (!validateFields()) {
                 return;
             }
-            if (editUser) {
+                if (option==AddUserEnum.EDIT) {
                 addEditUserViewMediator.onChangeUserData();
                 window.getEditUserFrame().dispose();
                 window.setEditUserFrame(null);
@@ -221,6 +250,8 @@ public class AddEditUserView extends JPanel {
         mainPanel = new JPanel(new GridLayout(1, 2));
         dataPanel = new JPanel();
         labelPanel = new JPanel();
+        editButton = new JButton();
+        deleteButton = new JButton();
         keyInputDispatcher();
     }
 
@@ -250,7 +281,7 @@ public class AddEditUserView extends JPanel {
 
     private Boolean validateFields() {
         Boolean validationFlag = true;
-        if (editUser) {
+          if (option==AddUserEnum.EDIT){
             if (!NumberFormatUtils.isInteger(phoneTf.getText())) {
                 ValidationErrorMessanger.showErrorMessage(phoneTf, "Phone is not a number");
                 validationFlag = false;
@@ -317,19 +348,6 @@ public class AddEditUserView extends JPanel {
         return validationFlag;
     }
 
-    /**
-     * @return the editUser
-     */
-    public boolean isEditUser() {
-        return editUser;
-    }
-
-    /**
-     * @param editUser the editUser to set
-     */
-    public void setEditUser(boolean editUser) {
-        this.editUser = editUser;
-    }
 
     /**
      * @return the usernameLabel
@@ -685,14 +703,14 @@ public class AddEditUserView extends JPanel {
      * @return the okButton
      */
     public JButton getOkButton() {
-        return okButton;
+        return addButton;
     }
 
     /**
      * @param okButton the okButton to set
      */
     public void setOkButton(JButton okButton) {
-        this.okButton = okButton;
+        this.addButton = okButton;
     }
 
     public MainView getWindow() {

@@ -5,6 +5,7 @@ import pl.polsl.reservations.client.ClientContext;
 import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.views.AddEditUserView;
 import pl.polsl.reservations.client.views.MainView;
+import pl.polsl.reservations.client.views.utils.AddUserEnum;
 import pl.polsl.reservations.dto.DepartamentDTO;
 import pl.polsl.reservations.dto.UserDTO;
 import pl.polsl.reservations.ejb.remote.UserFacade;
@@ -26,10 +27,10 @@ public class AddEditUserViewMediator {
         userManagementFacade = (UserManagementFacade) Lookup.getRemote("UserManagementFacade");
     }
 
-    public AddEditUserView createView(MainView view, boolean editUser) {
-        addEditUserView = new AddEditUserView(view, editUser, this);
+    public AddEditUserView createView(MainView view, AddUserEnum option) {
+        addEditUserView = new AddEditUserView(view, option, this);
         setDepartaments();
-        if(editUser){
+              if (option==AddUserEnum.EDIT){
             getSelectedUserData();
         }
         return addEditUserView;
