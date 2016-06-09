@@ -702,4 +702,22 @@ public class AddEditUserView extends JPanel {
     public void setWindow(MainView window) {
         this.window = window;
     }
+
+    public JComboBox getPermissionCb() {
+        return permissionCb;
+    }
+
+    public void setPermissionCb(JComboBox permissionCb) {
+        this.permissionCb = permissionCb;
+    }
+
+    public JLabel getPermissionContentLabel() {
+        return permissionContentLabel;
+    }
+
+    public void setPermissionContentLabel(JLabel permissionContentLabel) {
+        this.permissionContentLabel = permissionContentLabel;
+    }
+    
+    
 }
