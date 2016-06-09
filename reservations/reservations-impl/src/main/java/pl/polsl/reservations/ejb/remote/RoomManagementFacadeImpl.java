@@ -125,6 +125,18 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
+    @RequiredPrivilege(PrivilegeEnum.EQUIPMENT_MANAGEMENT_OWN)
+    public void editEquipment(Long equipmentId, String name, int quantity, short stateId, short typeId) {
+        Equipment newEquipment = equipmentDAO.find(equipmentId);
+        newEquipment.setEquipmentName(name);
+        newEquipment.setQuantity(quantity);
+        newEquipment.setEquipmentState(equipmentStateDAO.find(stateId));
+        newEquipment.setEquipmentType(equipmentTypeDAO.find(typeId));
+
+        equipmentDAO.edit(newEquipment);
+    }
+
+    @Override
     @RequiredPrivilege(PrivilegeEnum.ROOMS_LOOKUP)
     public List<EquipmentDTO> getDepartmentEquipment(int departmentId) {
         List<Room> departmentRooms = departmentDAO.getRoomCollectionById((long) departmentId);
@@ -242,6 +254,8 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
         }
         return result;
     }
+
+
 
     @Override
     @RequiredPrivilege(PrivilegeEnum.MANAGE_TECH_CHEF_SUBORDINATES)
