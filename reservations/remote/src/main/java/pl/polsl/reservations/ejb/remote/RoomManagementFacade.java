@@ -11,6 +11,7 @@ import pl.polsl.reservations.dto.*;
 public interface RoomManagementFacade extends AbstractBusinessFacade{
 
     Boolean addEquipment(int roomId, String name, int quantity, short stateId, short typeId) throws UnauthorizedAccessException;
+    void editEquipment(Long equipmentId, String name, int quantity, short stateId, short typeId);
     void removeEquipment(int equipmentId) throws UnauthorizedAccessException;
     void moveEquipment(int equipmentId, int roomToId) throws UnauthorizedAccessException;
     List<RoomDTO> getRoomsList();
