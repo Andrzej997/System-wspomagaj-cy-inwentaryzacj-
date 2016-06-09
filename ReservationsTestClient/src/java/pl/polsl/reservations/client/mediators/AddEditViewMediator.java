@@ -123,10 +123,10 @@ public class AddEditViewMediator {
             Integer roomStart = room.getStartTime();
             Integer roomEnd = room.getEndTime();
 
-            if (startTime < roomStart && endTime > roomStart) {
+            if (startTime < roomStart && endTime >= roomStart) {
                 return false;
             }
-            if (startTime < roomEnd && endTime > roomEnd) {
+            if (startTime <= roomEnd && endTime > roomEnd) {
                 return false;
             }
             if (startTime >= roomStart && endTime <= roomEnd) {
@@ -146,7 +146,7 @@ public class AddEditViewMediator {
             weekDay -= 2;
         }
         Integer startTime = getStartHourFromView() + weekDay * 96;
-        Integer endTime = getEndHourFromView() + weekDay * 96;
+        Integer endTime = getEndHourFromView() + weekDay * 96-1;
 
         if (startTime < endTime) {
             if (checkIfReservationAvaliable(startTime, endTime)) {
@@ -154,7 +154,7 @@ public class AddEditViewMediator {
                 Calendar calendar = date;
                 Integer typeId = getType().getId();
                 Integer userId = getWorkersData().getId().intValue();
-                //scheduleFacade.createReservation(roomID, startTime, endTime, DateUtils.getWeekOfSemester(date), date.get(Calendar.YEAR), DateUtils.getSemesterFromDate(date), typeId, userId);
+              //  scheduleFacade.createReservation(roomID, startTime, endTime, DateUtils.getWeekOfSemester(date), date.get(Calendar.YEAR), DateUtils.getSemesterFromDate(date), typeId, userId);
 
                 getReservations();
                 return true;

@@ -47,4 +47,8 @@ public interface UserManagementFacade extends AbstractBusinessFacade{
     public boolean acceptPrivilegeRequest(PrivilegeRequestDTO privilegeRequestDTO);
     
     public boolean declinePrivilegeRequest(PrivilegeRequestDTO privilegeRequestDTO);
+    
+    public boolean removeUser(UserDTO user);
+    
+    public List<UserDTO> getPossibleChiefs(int privilegeLevel);
 }

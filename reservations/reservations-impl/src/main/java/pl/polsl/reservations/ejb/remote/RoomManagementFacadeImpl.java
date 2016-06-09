@@ -127,13 +127,21 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     @Override
     @RequiredPrivilege(PrivilegeEnum.EQUIPMENT_MANAGEMENT_OWN)
     public void editEquipment(Long equipmentId, String name, int quantity, short stateId, short typeId) {
-        Equipment newEquipment = equipmentDAO.find(equipmentId);
-        newEquipment.setEquipmentName(name);
-        newEquipment.setQuantity(quantity);
-        newEquipment.setEquipmentState(equipmentStateDAO.find(stateId));
-        newEquipment.setEquipmentType(equipmentTypeDAO.find(typeId));
+        Equipment equipment = equipmentDAO.find(equipmentId);
+        equipment.setEquipmentName(name);
+        equipment.setQuantity(quantity);
 
-        equipmentDAO.edit(newEquipment);
+        EquipmentType type = equipmentTypeDAO.find(typeId);
+        equipment.setEquipmentType(type);
+        type.getEquipmentCollection().add(equipment);
+        equipmentTypeDAO.edit(type);
+
+        EqupmentState state = equipmentStateDAO.find(stateId);
+        equipment.setEquipmentState(state);
+        state.getEquipmentCollection().add(equipment);
+        equipmentStateDAO.edit(state);
+
+        equipmentDAO.edit(equipment);
     }
 
     @Override

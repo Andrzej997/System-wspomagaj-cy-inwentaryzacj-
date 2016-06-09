@@ -27,6 +27,7 @@ import pl.polsl.reservations.entities.Workers;
 import pl.polsl.reservations.interceptors.PrivilegeInterceptor;
 import pl.polsl.reservations.logger.LoggerImpl;
 import pl.polsl.reservations.privileges.PrivilegeEnum;
+import pl.polsl.reservations.privileges.PrivilegeLevelEnum;
 import pl.polsl.reservations.privileges.PrivilegeRequest;
 
 /**
@@ -402,4 +403,37 @@ public class UserManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
         }
         return true;
     }
+
+    @Override
+    public boolean removeUser(UserDTO user) {
+        Users userDB = usersFacade.find(user.getId());
+        if (userDB != null) {
+            usersFacade.remove(userDB);
+        } else {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public List<UserDTO> getPossibleChiefs(int privilegeLevel) {
+        if (privilegeLevel == PrivilegeLevelEnum.ADMIN.getValue()
+                || privilegeLevel >= PrivilegeLevelEnum.STANDARD_USER.getValue()) {
+            return null;
+        }
+        List<UserDTO> listDTO = new ArrayList<>();
+        List<Users> listDB = usersFacade.findAll();
+
+        for (Users u : listDB) {
+            if (u.getPriviligeLevel().getPriviligeLevel() < privilegeLevel) {
+                listDTO.add(DTOBuilder.buildUserDTO(u, u.getWorkers()));
+            }
+        }
+
+        if (listDTO.isEmpty()) {
+            return null;
+        }
+        return listDTO;
+    }
+
 }
