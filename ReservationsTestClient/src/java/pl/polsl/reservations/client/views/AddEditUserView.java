@@ -4,6 +4,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
@@ -110,7 +111,7 @@ public class AddEditUserView extends JPanel {
         labelPanel.add(permissionLabel);
         labelPanel.add(peselLabel);
 
-        if (option==AddUserEnum.EDIT) {
+        if (option == AddUserEnum.EDIT) {
             dataPanel.add(usernameContentLabel);
         } else {
             dataPanel.add(usernameTf);
@@ -121,7 +122,7 @@ public class AddEditUserView extends JPanel {
         dataPanel.add(emailTf);
         dataPanel.add(addressTf);
 
-         if (option==AddUserEnum.EDIT) {
+        if (option == AddUserEnum.EDIT) {
             dataPanel.add(departmentContentLabel);
             dataPanel.add(gradeContentLabel);
             dataPanel.add(roomContentLabel);
@@ -138,20 +139,22 @@ public class AddEditUserView extends JPanel {
         mainPanel.add(labelPanel);
         mainPanel.add(dataPanel);
         add(mainPanel);
-        if (null!=option)  switch (option) {
-            case EDIT:
-                add(editButton);
-                break;
-            case ADD:
-                add(addButton);
-                break;
-            default:
-                JPanel buttonPanel = new JPanel();
-                buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
-                buttonPanel.add(editButton);
-                buttonPanel.add(deleteButton);
-                add(buttonPanel);
-                break;
+        if (null != option) {
+            switch (option) {
+                case EDIT:
+                    add(editButton);
+                    break;
+                case ADD:
+                    add(addButton);
+                    break;
+                default:
+                    JPanel buttonPanel = new JPanel();
+                    buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+                    buttonPanel.add(editButton);
+                    buttonPanel.add(deleteButton);
+                    add(buttonPanel);
+                    break;
+            }
         }
     }
 
@@ -159,9 +162,9 @@ public class AddEditUserView extends JPanel {
         try {
             Image img = ImageIO.read(getClass().getResource("/resources/add.png"));
             ButtonStyle.setStyle(addButton, img);
-              Image img2 = ImageIO.read(getClass().getResource("/resources/ok.png"));
+            Image img2 = ImageIO.read(getClass().getResource("/resources/ok.png"));
             ButtonStyle.setStyle(editButton, img2);
-              Image img3 = ImageIO.read(getClass().getResource("/resources/error.png"));
+            Image img3 = ImageIO.read(getClass().getResource("/resources/error.png"));
             ButtonStyle.setStyle(deleteButton, img3);
         } catch (IOException ex) {
             System.out.println("RESOURCE ERROR: " + ex.toString());
@@ -192,9 +195,9 @@ public class AddEditUserView extends JPanel {
         PanelStyle.setSize(roomContentLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(roomLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(roomCb, NORMAL_WIDTH, NORMAL_HEIGHT);
-          PanelStyle.setSize(permissionContentLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
-            PanelStyle.setSize(permissionLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
-              PanelStyle.setSize(permissionCb, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(permissionContentLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(permissionLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(permissionCb, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 270);
         PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 270);
         PanelStyle.setSize(mainPanel, 2 * NORMAL_WIDTH, 330);
@@ -237,14 +240,12 @@ public class AddEditUserView extends JPanel {
             if (!validateFields()) {
                 return;
             }
-                if (option==AddUserEnum.EDIT) {
+            if (option == AddUserEnum.EDIT) {
                 addEditUserViewMediator.onChangeUserData();
                 window.getEditUserFrame().dispose();
-                window.setEditUserFrame(null);
             } else {
                 addEditUserViewMediator.onAddUser();
                 window.getAddUserFrame().dispose();
-                window.setAddUserFrame(null);
             }
         });
         mainPanel = new JPanel(new GridLayout(1, 2));
@@ -281,7 +282,7 @@ public class AddEditUserView extends JPanel {
 
     private Boolean validateFields() {
         Boolean validationFlag = true;
-          if (option==AddUserEnum.EDIT){
+        if (option == AddUserEnum.EDIT) {
             if (!NumberFormatUtils.isInteger(phoneTf.getText())) {
                 ValidationErrorMessanger.showErrorMessage(phoneTf, "Phone is not a number");
                 validationFlag = false;
@@ -347,7 +348,6 @@ public class AddEditUserView extends JPanel {
         }
         return validationFlag;
     }
-
 
     /**
      * @return the usernameLabel
@@ -736,6 +736,5 @@ public class AddEditUserView extends JPanel {
     public void setPermissionContentLabel(JLabel permissionContentLabel) {
         this.permissionContentLabel = permissionContentLabel;
     }
-    
-    
+
 }
