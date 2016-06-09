@@ -20,7 +20,7 @@ import pl.polsl.reservations.client.mediators.WeekDataViewMediator;
 import pl.polsl.reservations.client.views.renderers.WeekCustomRenderer;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
 import pl.polsl.reservations.client.views.utils.WeekDateFormatter;
-import pl.polsl.reservations.client.views.utils.DatePicker;
+import pl.polsl.reservations.client.views.utils.CustomDatePicker;
 import pl.polsl.reservations.client.views.utils.PanelStyle;
 import pl.polsl.reservations.client.views.utils.RoomComboBox;
 
@@ -44,7 +44,7 @@ public class WeekDataView extends JPanel {
     private final Object selectedItem;
     private SimpleDateFormat dateFormat;
     private final transient WeekDataViewMediator weekDataViewMediator;
-    private DatePicker datePicker;
+    private CustomDatePicker datePicker;
 
     public WeekDataView(MainView window, Object selectedItem,
             WeekDataViewMediator weekDataViewMediator) {
@@ -140,7 +140,7 @@ public class WeekDataView extends JPanel {
         prevBtn = new JButton();
         calendarBtn = new JButton();
         planTable = new JTable();
-        datePicker = DatePicker.getInstance();
+        datePicker = CustomDatePicker.getInstance();
         backBtn = new JButton();
         startDate = Calendar.getInstance();
         startDate.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);

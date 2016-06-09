@@ -17,7 +17,7 @@ import javax.swing.border.EmptyBorder;
 import pl.polsl.reservations.client.mediators.DayDataViewMediator;
 import pl.polsl.reservations.client.mediators.WeekDataViewMediator;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
-import pl.polsl.reservations.client.views.utils.DatePicker;
+import pl.polsl.reservations.client.views.utils.CustomDatePicker;
 import pl.polsl.reservations.client.views.utils.PanelStyle;
 import pl.polsl.reservations.client.views.utils.RoomComboBox;
 import pl.polsl.reservations.client.views.utils.WeekDateFormatter;
@@ -42,7 +42,7 @@ public class DayDataView extends javax.swing.JPanel {
     private Calendar startDate;
     private Calendar endDate;
     private SimpleDateFormat dateFormat;
-    private DatePicker datePicker;
+    private CustomDatePicker datePicker;
 
     private final transient DayDataViewMediator dayDataViewMediator;
 
@@ -139,7 +139,7 @@ public class DayDataView extends javax.swing.JPanel {
         prevBtn = new JButton();
         calendarBtn = new JButton();
         planTable = new JTable(new DayTableModel(32,3));
-        datePicker = DatePicker.getInstance();
+        datePicker = CustomDatePicker.getInstance();
         backBtn = new JButton();
         startDate = Calendar.getInstance();
         startDate.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);

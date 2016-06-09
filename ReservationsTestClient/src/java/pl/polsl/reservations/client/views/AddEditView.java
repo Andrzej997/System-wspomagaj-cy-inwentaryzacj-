@@ -12,7 +12,7 @@ import javax.swing.border.EmptyBorder;
 import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.mediators.AddEditViewMediator;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
-import pl.polsl.reservations.client.views.utils.DatePicker;
+import pl.polsl.reservations.client.views.utils.CustomDatePicker;
 import pl.polsl.reservations.client.views.utils.PanelStyle;
 
 /**
@@ -33,7 +33,7 @@ public class AddEditView extends JPanel {
     private JPanel dataPanel;
     private JPanel hourPanel;
     private JPanel navigatePanel;
-    private DatePicker datepicker;
+    private CustomDatePicker datepicker;
 
     private JButton addButton;
     private JButton editButton;
@@ -147,7 +147,7 @@ public class AddEditView extends JPanel {
             }
         });
         
-        datepicker = DatePicker.getDayInstance();
+        datepicker = CustomDatePicker.getDayInstance();
         
         datepicker.getDatePicker().addActionListener(new ActionListener() {
             @Override
@@ -372,14 +372,14 @@ public class AddEditView extends JPanel {
     /**
      * @return the datepicker
      */
-    public DatePicker getDatepicker() {
+    public CustomDatePicker getDatepicker() {
         return datepicker;
     }
 
     /**
      * @param datepicker the datepicker to set
      */
-    public void setDatepicker(DatePicker datepicker) {
+    public void setDatepicker(CustomDatePicker datepicker) {
         this.datepicker = datepicker;
     }
 

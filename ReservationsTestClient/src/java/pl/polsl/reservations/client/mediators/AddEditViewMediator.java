@@ -164,9 +164,6 @@ public class AddEditViewMediator {
             int startDay = reservation.getStartTime() / 96;
             int numberOfEndQuarter = reservation.getEndTime() % 96;
             int numberOfStartQuarter = reservation.getStartTime() % 96;
-            if (numberOfEndQuarter == 39) {
-                break;
-            }
             int dayOfWeek = date.get(Calendar.DAY_OF_WEEK);
             if (dayOfWeek == 1) {
                 dayOfWeek = 7;
