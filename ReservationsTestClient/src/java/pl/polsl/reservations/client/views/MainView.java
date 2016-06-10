@@ -639,4 +639,14 @@ public class MainView extends JFrame {
         this.editUserFrame = editUserFrame;
     }
 
+    public JDialog getTutorialFrame() {
+        return tutorialFrame;
+    }
+
+    public void setTutorialFrame(JDialog tutorialFrame) {
+        this.tutorialFrame = tutorialFrame;
+    }
+    
+    
+
 }

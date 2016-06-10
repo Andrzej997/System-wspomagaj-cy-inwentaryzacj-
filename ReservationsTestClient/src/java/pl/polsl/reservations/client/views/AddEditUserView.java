@@ -282,12 +282,19 @@ public class AddEditUserView extends JPanel {
         editButton.addActionListener((ActionEvent e) -> {
             if (option == AddUserEnum.ADMIN) {
                 addEditUserViewMediator.onEditUser();
+                window.getEditUserFrame().dispose();
             }
         });
         deleteButton = new JButton();
         deleteButton.addActionListener((ActionEvent e) -> {
             if (option == AddUserEnum.ADMIN) {
-                addEditUserViewMediator.onAddUser();
+                addEditUserViewMediator.onDeleteUser();
+                window.getEditUserFrame().dispose();
+            }
+        });
+        userCb.addActionListener((ActionEvent e) ->{
+            if(option == AddUserEnum.ADMIN && userCb.getSelectedItem() != null){
+                addEditUserViewMediator.refreshUserData();
             }
         });
         keyInputDispatcher();

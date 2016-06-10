@@ -194,7 +194,7 @@ public class AddEditUserViewMediator {
         int selectedIndex = addEditUserView.getPermissionCb().getSelectedIndex();
         List<UserDTO> possibleChiefs = userManagementFacade.getPossibleChiefs(selectedIndex);
         addEditUserView.getChiefCb().removeAllItems();
-        for(UserDTO user : possibleChiefs){
+        for (UserDTO user : possibleChiefs) {
             addEditUserView.getChiefCb().addItem(user.getName() + " " + user.getSurname());
         }
     }
@@ -242,6 +242,12 @@ public class AddEditUserViewMediator {
             UserDTO user = usersWithLowerPrivilegeLevel.get(selectedIndex);
             userManagementFacade.removeUser(user);
         }
+    }
+
+    public void refreshUserData() {
+        getRooms();
+        setPrivilegeLevels();
+        getEditedUserData();
     }
 
 }

@@ -192,12 +192,15 @@ public class CreateRaportView extends JPanel {
             if (!validateAll()) {
                 return;
             }
+            createReportViewMediator.onEditAction();
+            window.getAddDeviceFrame().dispose();
         });
         deleteButton.addActionListener((ActionEvent e) -> {
             if (!validateAll()) {
                 return;
             }
             createReportViewMediator.onDeleteAction();
+            window.getAddDeviceFrame().dispose();
         });
     }
 
