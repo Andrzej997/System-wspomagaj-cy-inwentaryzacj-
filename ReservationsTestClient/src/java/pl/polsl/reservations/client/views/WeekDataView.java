@@ -377,7 +377,7 @@ public class WeekDataView extends JPanel {
                 if (column != 0) {
                     Calendar cal = startDate;
                     cal.add(Calendar.DATE, column - 1);
-                    window.setView(new AddEditViewMediator(cal, chooseRoomDropdown.getSelectedItem()).createView(window));
+                    window.setView(new AddEditViewMediator(cal, chooseRoomDropdown.getSelectedItem()).createView(window,weekDataViewMediator.ifOnReservation(row, column)));
                 }
 //todo:
             }

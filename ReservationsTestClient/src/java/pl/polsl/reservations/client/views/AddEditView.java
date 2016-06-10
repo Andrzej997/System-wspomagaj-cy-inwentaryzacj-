@@ -4,9 +4,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -16,6 +19,7 @@ import pl.polsl.reservations.client.views.utils.ButtonStyle;
 import pl.polsl.reservations.client.views.utils.CustomDatePicker;
 import pl.polsl.reservations.client.views.utils.PanelStyle;
 import pl.polsl.reservations.client.views.utils.RoomComboBox;
+import pl.polsl.reservations.dto.ReservationDTO;
 
 /**
  *
@@ -161,7 +165,8 @@ public class AddEditView extends JPanel {
         dayTable = new JTable(new DayTableModel(32, 3));
         JScrollPane tableScrollPanel = new JScrollPane(dayTable);
         PanelStyle.setSize(tableScrollPanel, 450, 550);
-        dayTablePanel.add(tableScrollPanel);        
+        dayTablePanel.add(tableScrollPanel);     
+        dayTable.addMouseListener(new MouseListenerImpl());
         datepicker = CustomDatePicker.getDayInstance();
                
         groupCb = new JComboBox();
@@ -643,5 +648,69 @@ public class AddEditView extends JPanel {
         this.edit = edit;
     }
     
+    
+    private class MouseListenerImpl implements MouseListener {
+
+        public MouseListenerImpl() {
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+                Integer column = dayTable.getSelectedColumn();
+                Integer row = dayTable.getSelectedRow();
+            if (e.getClickCount() == 2) {
+            
+                if (column != 0) {
+                    Calendar cal = datepicker.getDate();
+                    JOptionPane.showMessageDialog(mainPanel, "Double clicked Inside reservation");
+                   //todo:
+                   window.setView(new AddEditViewMediator(cal,roomCb.getSelectedItem()).createView(window, true));
+                }
+            }
+            if (e.getClickCount() == 1) {
+                List<ReservationDTO> reservations = addEditViewMediator.getReservationsList();
+                Integer dayOfWeek = datepicker.getDate().get(Calendar.DAY_OF_WEEK);
+                if(dayOfWeek==1){
+                    dayOfWeek=6;
+                }else{
+                    dayOfWeek-=2;
+                }
+                
+                Integer selectedTime=dayOfWeek*96+column*32+row;
+                
+                for(ReservationDTO reservation: reservations){
+                    Integer startTime=reservation.getStartTime();
+                    Integer endTime=reservation.getEndTime();
+                    
+                    if(selectedTime>=startTime&&selectedTime<=endTime){
+                        hourStartCb.setSelectedIndex(startTime-dayOfWeek*96);
+                        hourStopCb.setSelectedIndex(endTime-dayOfWeek*96+1);
+                       // teacherCb.setSelectedItem(reservation.getUserId());
+                       groupCb.setSelectedItem(reservation.getType());
+                    }
+                }
+            }
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+
+        }
+    }
     
 }

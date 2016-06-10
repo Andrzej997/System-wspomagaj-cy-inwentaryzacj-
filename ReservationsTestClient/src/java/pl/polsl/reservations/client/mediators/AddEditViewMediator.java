@@ -66,8 +66,8 @@ public class AddEditViewMediator {
 
     //Data do widoku przekazywana jest tak ze dla wejscia z tabeli bieze i ustawia kalendarz
     //a dla wejscia z File -> add, data jest brana ze statycznego datepickera
-    public AddEditView createView(MainView parent) {
-        addEditView = new AddEditView(parent, this, false);
+    public AddEditView createView(MainView parent,boolean edit) {
+        addEditView = new AddEditView(parent, this, edit);
         if (date != null) {
             setSelectedDate();
         } else {
@@ -167,7 +167,16 @@ public class AddEditViewMediator {
             return false;
         }
     }
+    
+   // public String getUserName(Long userID){
+   //     return userFacade
+   // }
 
+    public List<ReservationDTO> getReservationsList(){
+        return  scheduleFacade.getDetailedRoomSchedule(roomNumber, date.get(Calendar.YEAR),
+                        DateUtils.getWeekOfSemester(date), DateUtils.getSemesterFromDate(date));
+    }
+    
     public void getReservations() {
         reservationCellsRendererMap = new HashMap<>();
         startQuarters = new ArrayList<>();

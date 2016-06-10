@@ -58,6 +58,32 @@ public class WeekDataViewMediator {
         return weekDataView;
     }
 
+    public boolean ifOnReservation(Integer row, Integer column) {
+        Calendar calendar = weekDataView.getStartDate();
+        List<ReservationDTO> roomSchedule
+                = scheduleFacade.getDetailedRoomSchedule(weekDataView.getChooseRoomDropdown().getSelectedItem(),
+                        calendar.get(Calendar.YEAR), DateUtils.getWeekOfSemester(calendar), DateUtils.getSemesterFromDate(calendar));
+
+        Integer dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        if (dayOfWeek == 1) {
+            dayOfWeek = 6;
+        } else {
+            dayOfWeek -= 2;
+        }
+        Integer selectedTime =  (column-1) * 96 + row+32;
+
+        for (ReservationDTO reservation : roomSchedule) {
+            Integer startTime = reservation.getStartTime();
+            Integer endTime = reservation.getEndTime();
+
+            if (selectedTime >= startTime && selectedTime <= endTime) {
+                return true;
+            }
+
+        }
+        return false;
+    }
+
     public void getReservations() {
 
         startQuarters = new ArrayList<>();

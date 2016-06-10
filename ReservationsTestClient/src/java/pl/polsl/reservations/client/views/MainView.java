@@ -158,7 +158,7 @@ public class MainView extends JFrame {
 
     private void addMenuItemActionPerformed(ActionEvent evt) {
         if (isLoggedIn) {
-            setView(new AddEditViewMediator().createView(this));
+            setView(new AddEditViewMediator().createView(this,false));
         }
     }
 
