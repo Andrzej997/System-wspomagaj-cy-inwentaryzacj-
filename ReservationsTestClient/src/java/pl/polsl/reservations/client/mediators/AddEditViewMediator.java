@@ -432,7 +432,7 @@ public class AddEditViewMediator {
     }
 
     public void setWorkersData() {
-        UserDTO currentUserDetails = userManagementFacade.getUserDetails(ClientContext.getUsername());
+        UserDTO currentUserDetails = userManagementFacade.getUserDetails(ClientContext.getInstance().getUsername());
         List<UserDTO> userDetailsList = userFacade.getUsersWithLowerPrivilegeLevel();
         userDetailsList.stream().forEach((userDTO) -> {
             addEditView.getTeacherCb().addItem(userDTO.getName() + " " + userDTO.getSurname());

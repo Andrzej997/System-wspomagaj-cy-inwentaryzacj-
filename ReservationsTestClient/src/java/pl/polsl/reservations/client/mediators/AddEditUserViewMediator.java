@@ -131,7 +131,7 @@ public class AddEditUserViewMediator {
     }
 
     public void getSelectedUserData() {
-        UserDTO userDetails = userManagementFacade.getUserDetails(ClientContext.getUsername());
+        UserDTO userDetails = userManagementFacade.getUserDetails(ClientContext.getInstance().getUsername());
         addEditUserView.getAddressTf().setText(userDetails.getAddress());
         addEditUserView.getDepartmentContentLabel().setText(userDetails.getDepartment());
         addEditUserView.getEmailTf().setText(userDetails.getEmail());
@@ -147,7 +147,7 @@ public class AddEditUserViewMediator {
     }
 
     public Boolean onChangeUserData() {
-        UserDTO userDetails = userManagementFacade.getUserDetails(ClientContext.getUsername());
+        UserDTO userDetails = userManagementFacade.getUserDetails(ClientContext.getInstance().getUsername());
         UserDTO user = new UserDTO();
         if (!addEditUserView.getAddressTf().getText().isEmpty()) {
             user.setAddress(addEditUserView.getAddressTf().getText());

@@ -22,7 +22,7 @@ public class PrivilegeLevelRequestsQueueImpl implements PrivilegeLevelRequestsQu
     private final List<PrivilegeRequest> currentPrivilegeLevelsQueue;
     private static final PrivilegeLevelRequestsQueueImpl instance = new PrivilegeLevelRequestsQueueImpl();
 
-    public PrivilegeLevelRequestsQueueImpl() {
+    private PrivilegeLevelRequestsQueueImpl() {
         this.currentPrivilegeLevelsQueue = new ArrayList<>();
     }
 

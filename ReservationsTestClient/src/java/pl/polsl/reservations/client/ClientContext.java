@@ -31,14 +31,22 @@ public class ClientContext {
         }
     }
 
-    public static PrivilegeLevelDTO getUserPrivilegeLevel() {
+    public static ClientContext getInstance() {
+        return context;
+    }
+
+    public String getPrivilegeString(Long level) {
+        return USER_TYPES[level.intValue() - 1];
+    }
+
+    public PrivilegeLevelDTO getUserPrivilegeLevel() {
         if (userDetails == null) {
             return null;
         }
         return userFacade.getUserPriviligeLevel();
     }
 
-    public static List<RoomDTO> getAccessibleRooms() {
+    public List<RoomDTO> getAccessibleRooms() {
         if (userDetails == null) {
             return null;
         }
@@ -60,14 +68,14 @@ public class ClientContext {
         return accessibleRooms;
     }
 
-    public static Long getCurrentUserId() {
+    public Long getCurrentUserId() {
         if (userDetails == null) {
             return null;
         }
         return userDetails.getId();
     }
 
-    public static Boolean checkUserPrivilegesToAction(String requestedPrivilegeLevel) {
+    public Boolean checkUserPrivilegesToAction(String requestedPrivilegeLevel) {
         if (userDetails == null) {
             return false;
         }
@@ -80,34 +88,79 @@ public class ClientContext {
         return privilegeLevel <= requestedLevel;
     }
 
-    public static String getUsername() {
+    public String getUsername() {
         if (userDetails == null) {
             return null;
         }
         return username;
     }
 
-    public static void setUsername(String username) {
+    public void setUsername(String username) {
         ClientContext.username = username;
+        userDetails = userFacade.getUserDetails();
     }
 
-    public static Boolean isAdmin() {
-        return checkUserPrivilegesToAction("ADMIN");
+    public Boolean isAdmin() {
+        if (userDetails == null) {
+            return false;
+        }
+        return userDetails.getPrivilegeLevel() == 1l;
     }
 
-    public static Boolean isStandardUser() {
-        return checkUserPrivilegesToAction("STANDARD_USER");
+    public Boolean isStandardUser() {
+        if (userDetails == null) {
+            return false;
+        }
+        return userDetails.getPrivilegeLevel() == 6l;
     }
 
-    public static Boolean isGuest() {
-        return username.isEmpty();
+    public Boolean isGuest() {
+        return username == null || username.isEmpty();
     }
-    
-    public static Boolean canRequestHigherPrivilege(){
-        if(isGuest() || isStandardUser()){
+
+    public Boolean canRequestHigherPrivilege() {
+        if (isGuest() || isStandardUser()) {
             return false;
         }
         return !isAdmin();
     }
 
+    public Boolean isTechnicalWorker() {
+        if (userDetails == null) {
+            return false;
+        }
+        return userDetails.getPrivilegeLevel() == 5l;
+    }
+
+    public Boolean canAcceptRequests() {
+        if (!canRequestHigherPrivilege()) {
+            return false;
+        }
+        return !isTechnicalWorker();
+    }
+
+    public Boolean canRequestLevel(String definedLevel) {
+        if (!canRequestHigherPrivilege()) {
+            return false;
+        }
+        Integer definedLevelValue = 4;
+        for (int i = 0; i < 7; i++) {
+            String type = USER_TYPES[i];
+            if (type.equals(definedLevel)) {
+                definedLevelValue = i + 1;
+            }
+        }
+        if (userDetails == null) {
+            return false;
+        }
+        int currentLevel = userDetails.getPrivilegeLevel().intValue();
+        return definedLevelValue >= currentLevel - 1;
+    }
+
+    public void logout() {
+        username = null;
+        userDetails = null;
+        privilegeLevel = 6l;
+        accessibleRooms = null;
+    }
 }

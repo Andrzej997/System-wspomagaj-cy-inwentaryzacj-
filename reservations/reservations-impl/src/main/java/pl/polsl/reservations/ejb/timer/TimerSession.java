@@ -8,5 +8,5 @@ import javax.ejb.Local;
  */
 @Local
 public interface TimerSession {
-    public void crateTimer(long miliseconds, int userID);
+    public void createTimer(long miliseconds, int userID);
 }

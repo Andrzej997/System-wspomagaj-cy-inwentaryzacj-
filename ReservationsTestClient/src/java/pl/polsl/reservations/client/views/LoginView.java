@@ -12,6 +12,7 @@ import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.mediators.LoginMediator;
 import pl.polsl.reservations.client.mediators.WeekDataViewMediator;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
+import pl.polsl.reservations.client.views.utils.MessageBoxUtils;
 import pl.polsl.reservations.client.views.utils.PanelStyle;
 import pl.polsl.reservations.client.views.utils.ValidationErrorMessanger;
 
@@ -81,9 +82,10 @@ public class LoginView extends JPanel {
         }
         if (loginMediator.getUserData(loginTf.getText(), passwordTf.getText())) {
             window.setOptionsAvailable(Color.black);
-            ClientContext.setUsername(loginTf.getText());
-            window.setView(new WeekDataViewMediator().createView(window, loginMediator.getFirstRoom()));
+            ClientContext.getInstance().setUsername(loginTf.getText());
             window.setLogged(true);
+            window.setView(new WeekDataViewMediator().createView(window, loginMediator.getFirstRoom()));
+            MessageBoxUtils.createAvaliableRequestsMessage(this);
         } else {
             JOptionPane.showMessageDialog(this, "Wrong login or password!!.");
         }

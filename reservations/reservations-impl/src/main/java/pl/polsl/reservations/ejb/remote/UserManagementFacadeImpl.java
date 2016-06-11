@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
+import javax.ejb.StatefulTimeout;
 import javax.interceptor.Interceptors;
 
 import pl.polsl.reservations.annotations.RequiredPrivilege;
@@ -34,6 +35,7 @@ import pl.polsl.reservations.privileges.PrivilegeRequest;
  * Created by Krzysztof Strek on 2016-05-09.
  */
 @Stateful(mappedName = "UserManagementFacade")
+@StatefulTimeout(value = 30)
 @Interceptors({LoggerImpl.class, PrivilegeInterceptor.class})
 public class UserManagementFacadeImpl extends AbstractBusinessFacadeImpl implements UserManagementFacade {
 
@@ -49,6 +51,9 @@ public class UserManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     PriviligeLevelsDao priviligeLevelsFacade;
     @EJB
     InstitutesDao institutesFacade;
+    
+    @EJB
+    TimerSession timerSession;
 
     PrivilegeLevelRequestsQueue levelRequestsQueue;
 
@@ -381,9 +386,8 @@ public class UserManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
 
         Users u = usersFacade.find(pr.getUserID());
         changePrivilegeLevel(u.getUsername(), pr.getPrivilegeLevel());
-
-        //TODO
-        TimerSession timerSession;
+        
+        timerSession.createTimer(8*60*60*100, pr.getUserID().intValue());
 
         return true;
     }

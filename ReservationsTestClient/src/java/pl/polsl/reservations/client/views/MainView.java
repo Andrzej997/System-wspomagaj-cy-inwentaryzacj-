@@ -17,6 +17,7 @@ import pl.polsl.reservations.client.reports.DocumentGenerator;
 import pl.polsl.reservations.client.views.utils.AddTypeEnum;
 import pl.polsl.reservations.client.views.utils.AddUserEnum;
 import pl.polsl.reservations.client.views.utils.FrameStyle;
+import pl.polsl.reservations.client.views.utils.MessageBoxUtils;
 
 public class MainView extends JFrame {
 
@@ -156,7 +157,8 @@ public class MainView extends JFrame {
 
     private void addMenuItemActionPerformed(ActionEvent evt) {
         if (isLoggedIn) {
-            setView(new AddEditViewMediator().createView(this,false));
+
+            setView(new AddEditViewMediator().createView(this, false));
         }
     }
 
@@ -224,7 +226,15 @@ public class MainView extends JFrame {
 
     private void addUserActionPerformed(ActionEvent evt) {
         if (isLoggedIn) {
-            addUserFrame = FrameStyle.dialogStyle(new AddEditUserViewMediator().createView(this, AddUserEnum.ADD), "Add user");
+            if (!ClientContext.getInstance().checkUserPrivilegesToAction("TECHNICAL_WORKER")) {
+                if (!ClientContext.getInstance().canRequestLevel("TECHNICAL_WORKER")) {
+                    MessageBoxUtils.createPrivilegeErrorPane(fileMenu);
+                } else {
+                    MessageBoxUtils.createPrivilegeError(fileMenu);
+                }
+            } else {
+                addUserFrame = FrameStyle.dialogStyle(new AddEditUserViewMediator().createView(this, AddUserEnum.ADD), "Add user");
+            }
         }
     }
 
@@ -233,16 +243,25 @@ public class MainView extends JFrame {
             editUserFrame = FrameStyle.dialogStyle(new AddEditUserViewMediator().createView(this, AddUserEnum.EDIT), "Edit user");
         }
     }
-    
-      private void editUserAdminActionPerformed(ActionEvent evt) {
+
+    private void editUserAdminActionPerformed(ActionEvent evt) {
         if (isLoggedIn) {
-            editUserFrame = FrameStyle.dialogStyle(new AddEditUserViewMediator().createView(this, AddUserEnum.ADMIN), "Edit user");
+            if (!ClientContext.getInstance().checkUserPrivilegesToAction("ADMIN")) {
+                if (!ClientContext.getInstance().canRequestLevel("ADMIN")) {
+                    MessageBoxUtils.createPrivilegeErrorPane(fileMenu);
+                } else {
+                    MessageBoxUtils.createPrivilegeError(fileMenu);
+                }
+            } else {
+                editUserFrame = FrameStyle.dialogStyle(new AddEditUserViewMediator().createView(this, AddUserEnum.ADMIN), "Edit user");
+            }
         }
     }
 
     public void logoutMenuItemActionPerformed(ActionEvent evt) {
         if (isLoggedIn) {
             setOptionsAvailable(Color.gray);
+            ClientContext.getInstance().logout();
             isLoggedIn = false;
             setView(new LoginMediator().createView(this));
             JOptionPane.showMessageDialog(this, "You are logged out.");
@@ -318,7 +337,7 @@ public class MainView extends JFrame {
         //TODO: TYLKO DLA ADMINISTRATORÓW - DODAJ IFA :D
         addUserMenuItem.setText("Add user");
         addUserMenuItem.setForeground(new java.awt.Color(153, 153, 153));
-              editUserAdminMenuItem.setForeground(new java.awt.Color(153, 153, 153));
+        editUserAdminMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         editUserAdminMenuItem.setText("Edit user");
         adminMenu.add(editUserAdminMenuItem);
         editDataMenuItem.setText("Edit user data");
@@ -337,22 +356,70 @@ public class MainView extends JFrame {
 
     private void addMenuListeners() {
         allRaportMenuItem.addActionListener((ActionEvent evt) -> {
-            generateMenuItemActionPerformed(evt);
+            if (!ClientContext.getInstance().checkUserPrivilegesToAction("INSTITUTE_CHIEF")) {
+                if (!ClientContext.getInstance().canRequestLevel("INSTITUTE_CHIEF")) {
+                    MessageBoxUtils.createPrivilegeErrorPane(fileMenu);
+                } else {
+                    MessageBoxUtils.createPrivilegeError(fileMenu);
+                }
+            } else {
+                generateMenuItemActionPerformed(evt);
+            }
         });
         roomRaportMenuItem.addActionListener((ActionEvent evt) -> {
-            generateMenuItemActionPerformed(evt);
+            if (!ClientContext.getInstance().getInstance().checkUserPrivilegesToAction("TECHNICAL_CHIEF")) {
+                if (!ClientContext.getInstance().canRequestLevel("TECHNICAL_CHIEF")) {
+                    MessageBoxUtils.createPrivilegeErrorPane(fileMenu);
+                } else {
+                    MessageBoxUtils.createPrivilegeError(fileMenu);
+                }
+            } else {
+                generateMenuItemActionPerformed(evt);
+            }
         });
         departmentRaportMenuItem.addActionListener((ActionEvent evt) -> {
-            generateMenuItemActionPerformed(evt);
+            if (!ClientContext.getInstance().checkUserPrivilegesToAction("DEPARTAMENT_CHIEF")) {
+                if (!ClientContext.getInstance().canRequestLevel("DEPARTAMENT_CHIEF")) {
+                    MessageBoxUtils.createPrivilegeErrorPane(fileMenu);
+                } else {
+                    MessageBoxUtils.createPrivilegeError(fileMenu);
+                }
+            } else {
+                generateMenuItemActionPerformed(evt);
+            }
         });
         addMenuItem.addActionListener((ActionEvent evt) -> {
-            addMenuItemActionPerformed(evt);
+            if (!ClientContext.getInstance().checkUserPrivilegesToAction("TECHNICAL_WORKER")) {
+                if (!ClientContext.getInstance().canRequestLevel("TECHNICAL_WORKER")) {
+                    MessageBoxUtils.createPrivilegeErrorPane(fileMenu);
+                } else {
+                    MessageBoxUtils.createPrivilegeError(fileMenu);
+                }
+            } else {
+                addMenuItemActionPerformed(evt);
+            }
         });
         addRoomMenuItem.addActionListener((ActionEvent evt) -> {
-            addRoomMenuItemActionPerformed(evt);
+            if (!ClientContext.getInstance().checkUserPrivilegesToAction("ADMIN")) {
+                if (!ClientContext.getInstance().canRequestLevel("ADMIN")) {
+                    MessageBoxUtils.createPrivilegeErrorPane(fileMenu);
+                } else {
+                    MessageBoxUtils.createPrivilegeError(fileMenu);
+                }
+            } else {
+                addRoomMenuItemActionPerformed(evt);
+            }
         });
         addDeviceMenuItem.addActionListener((ActionEvent evt) -> {
-            addDeviceMenuItemActionPerformed(evt);
+            if (!ClientContext.getInstance().checkUserPrivilegesToAction("ADMIN")) {
+                if (!ClientContext.getInstance().canRequestLevel("ADMIN")) {
+                    MessageBoxUtils.createPrivilegeErrorPane(fileMenu);
+                } else {
+                    MessageBoxUtils.createPrivilegeError(fileMenu);
+                }
+            } else {
+                addDeviceMenuItemActionPerformed(evt);
+            }
         });
         logoutMenuItem.addActionListener((ActionEvent evt) -> {
             logoutMenuItemActionPerformed(evt);
@@ -370,33 +437,41 @@ public class MainView extends JFrame {
             changePasswordActionPerformed(evt);
         });
         addTypeMenuItem.addActionListener((ActionEvent evt) -> {
-            addTypeMenuItemActionPerformed(evt);
+            if (!ClientContext.getInstance().checkUserPrivilegesToAction("ADMIN")) {
+                if (!ClientContext.getInstance().canRequestLevel("ADMIN")) {
+                    MessageBoxUtils.createPrivilegeErrorPane(fileMenu);
+                } else {
+                    MessageBoxUtils.createPrivilegeError(fileMenu);
+                }
+            } else {
+                addTypeMenuItemActionPerformed(evt);
+            }
         });
         addStateMenuItem.addActionListener((ActionEvent evt) -> {
-            addStateMenuItemActionPerformed(evt);
+            if (!ClientContext.getInstance().checkUserPrivilegesToAction("ADMIN")) {
+                if (!ClientContext.getInstance().canRequestLevel("ADMIN")) {
+                    MessageBoxUtils.createPrivilegeErrorPane(fileMenu);
+                } else {
+                    MessageBoxUtils.createPrivilegeError(fileMenu);
+                }
+            } else {
+                addStateMenuItemActionPerformed(evt);
+            }
         });
         editRoomEquipmentMenuItem.addActionListener((ActionEvent evt) -> {
-            editRoomEquipmentMenuItemActionPerformed(evt);
+            if (!ClientContext.getInstance().checkUserPrivilegesToAction("TECHNICAL_WORKER")) {
+                if (!ClientContext.getInstance().canRequestLevel("TECHNICAL_WORKER")) {
+                    MessageBoxUtils.createPrivilegeErrorPane(fileMenu);
+                } else {
+                    MessageBoxUtils.createPrivilegeError(fileMenu);
+                }
+            } else {
+                editRoomEquipmentMenuItemActionPerformed(evt);
+            }
         });
-         editUserAdminMenuItem.addActionListener((ActionEvent evt) -> {
-          editUserAdminActionPerformed(evt);
+        editUserAdminMenuItem.addActionListener((ActionEvent evt) -> {
+            editUserAdminActionPerformed(evt);
         });
-    }
-
-    public void checkPrivileges() {
-
-        if (!ClientContext.checkUserPrivilegesToAction("ADMIN")) {
-            addDeviceMenuItem.setVisible(false);
-            addStateMenuItem.setVisible(false);
-            addTypeMenuItem.setVisible(false);
-            addUserMenuItem.setVisible(false);
-            addRoomMenuItem.setVisible(false);
-        }
-        if (!ClientContext.checkUserPrivilegesToAction("TECHNICAL_WORKER")) {
-            addMenuItem.setVisible(false);
-            generateMenu.setVisible(false);
-            editDataMenuItem.setVisible(false);
-        }
     }
 
     private void generateHelpMenu() {
@@ -644,7 +719,5 @@ public class MainView extends JFrame {
     public void setTutorialFrame(JDialog tutorialFrame) {
         this.tutorialFrame = tutorialFrame;
     }
-    
-    
 
 }

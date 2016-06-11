@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
+import javax.ejb.StatefulTimeout;
 import javax.interceptor.Interceptors;
 import pl.polsl.reservations.annotations.RequiredPrivilege;
 import pl.polsl.reservations.builder.DTOBuilder;
@@ -19,6 +20,7 @@ import pl.polsl.reservations.privileges.PrivilegeEnum;
  * Created by Krzysztof Stręk on 2016-05-09.
  */
 @Stateful(mappedName = "RoomManagementFacade")
+@StatefulTimeout(value = 30)
 @Interceptors({LoggerImpl.class, PrivilegeInterceptor.class})
 public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl implements RoomManagementFacade {
 

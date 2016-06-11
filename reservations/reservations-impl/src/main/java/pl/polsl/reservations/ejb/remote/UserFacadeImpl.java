@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
+import javax.ejb.StatefulTimeout;
 import javax.interceptor.Interceptors;
 
 import pl.polsl.reservations.builder.DTOBuilder;
@@ -25,6 +26,7 @@ import pl.polsl.reservations.privileges.PrivilegeRequest;
  * Created by Krzysztof Stręk on 2016-05-07.
  */
 @Stateful(mappedName = "UserFacade")
+@StatefulTimeout(value = 30)
 @Interceptors({LoggerImpl.class, PrivilegeInterceptor.class})
 public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFacade {
 
@@ -290,6 +292,7 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
 
     @Override
     public List<PrivilegeRequestDTO> getOperationableRequests() {
+        user = getCurrentUserContext().getUser();
         List<PrivilegeRequest> prList = levelRequestsQueue.getOperationableRequests(user.getPriviligeLevel().getPriviligeLevel());
         if (prList == null) {
             return null;

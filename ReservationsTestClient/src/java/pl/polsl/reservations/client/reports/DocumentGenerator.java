@@ -44,7 +44,7 @@ public class DocumentGenerator {
     }
 
     public void generateAllRoomsEquipmentReport() {
-        List<RoomDTO> accessibleRooms = ClientContext.getAccessibleRooms();
+        List<RoomDTO> accessibleRooms = ClientContext.getInstance().getAccessibleRooms();
         AllRoomsEquipmentReportDocument reportDocument
                 = new AllRoomsEquipmentReportDocument(accessibleRooms, pathToFile, PageSize.A4);
         try {
@@ -56,7 +56,7 @@ public class DocumentGenerator {
     }
 
     public void generateDepartamentRoomsEquipmentReport(String departamentName) {
-        List<RoomDTO> roomsList = ClientContext.getAccessibleRooms();
+        List<RoomDTO> roomsList = ClientContext.getInstance().getAccessibleRooms();
         List<RoomDTO> departamentRoomsList = new ArrayList<>();
         for (RoomDTO roomDTO : roomsList) {
             if (roomDTO.getDepartment().equals(departamentName)) {

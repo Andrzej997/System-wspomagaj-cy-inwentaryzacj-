@@ -58,7 +58,6 @@ public class DayDataView extends javax.swing.JPanel {
         PanelStyle.setSize(this, 800, 600);
         setupLayouts();
         keyInputDispatcher();
-        window.checkPrivileges();
     }
 
     private void setupLayouts() {

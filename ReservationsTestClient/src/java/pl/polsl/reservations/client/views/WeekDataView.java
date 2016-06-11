@@ -70,7 +70,6 @@ public class WeekDataView extends JPanel {
                 weekDataViewMediator.getReservations();
             }
         });
-        window.checkPrivileges();
     }
 
     private void setupLayouts() {
