@@ -75,4 +75,8 @@ public class DateUtils {
     public static Integer compareDatesWithoutTime(Calendar firstDate, Calendar secondDate){
         return compareDates(cutTime(firstDate), cutTime(secondDate));
     }
+    
+    public static Integer getYear(Calendar date){
+        return date.get(Calendar.YEAR);
+    }
 }

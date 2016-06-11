@@ -222,7 +222,7 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
 
     @Override
     public Boolean addRoom(int roomNumber, Long keeperId, Long departamentId, Long roomTypeId, int numberOfSeats) {
-        if(roomsDAO.getRoomByNumber(roomNumber) != null){
+        if (roomsDAO.getRoomByNumber(roomNumber) != null) {
             return false;
         }
         Room room = new Room();
@@ -243,17 +243,17 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
         }
         return result;
     }
-    
+
     @Override
-    public List<RoomTypesDTO> getRoomTypes(){
+    public List<RoomTypesDTO> getRoomTypes() {
         List<RoomTypes> findAll = roomTypeDAO.findAll();
         List<RoomTypesDTO> results = new ArrayList<>();
-        for(RoomTypes roomTypes : findAll){
+        for (RoomTypes roomTypes : findAll) {
             results.add(DTOBuilder.buildRoomTypesDTO(roomTypes));
         }
         return results;
     }
-    
+
     @Override
     public List<EquipmentTypeDTO> getEquipmentTypes() {
         List<EquipmentTypeDTO> result = new ArrayList<>();
@@ -262,8 +262,6 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
         }
         return result;
     }
-
-
 
     @Override
     @RequiredPrivilege(PrivilegeEnum.MANAGE_TECH_CHEF_SUBORDINATES)
@@ -305,6 +303,19 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
         } else {
             return null;
         }
+    }
+
+    @Override
+    public List<UserDTO> getRoomWorkers(Long roomId) {
+        Room room = roomsDAO.find(roomId);
+        List<Workers> workerses = room.getWorkerses();
+        List<UserDTO> users = new ArrayList<>();
+        for (Workers worker : workerses) {
+            Users user = userDAO.find(worker.getId());
+            UserDTO userDTO = DTOBuilder.buildUserDTO(user, worker);
+            users.add(userDTO);
+        }
+        return users;
     }
 
     @Override

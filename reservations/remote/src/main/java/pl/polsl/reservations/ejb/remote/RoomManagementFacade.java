@@ -35,4 +35,6 @@ public interface RoomManagementFacade extends AbstractBusinessFacade{
     }
 
     List<RoomTypesDTO> getRoomTypes();
+
+    public List<UserDTO> getRoomWorkers(Long roomId);
 }
