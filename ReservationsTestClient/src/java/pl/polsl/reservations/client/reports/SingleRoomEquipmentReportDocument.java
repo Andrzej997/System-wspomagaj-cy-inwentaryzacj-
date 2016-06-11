@@ -3,6 +3,7 @@ package pl.polsl.reservations.client.reports;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
@@ -131,7 +132,9 @@ public class SingleRoomEquipmentReportDocument extends PDFDocument {
             document.add(generateContentTable());
             document.add(Chunk.NEWLINE);
             createWorkersList();
+            document.newPage();
             document.add(Chunk.NEWLINE);
+            generateScheduleHeader();
             document.add(generateScheduleTable());
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
@@ -179,11 +182,32 @@ public class SingleRoomEquipmentReportDocument extends PDFDocument {
             Phrase worker = new Phrase(workerString, NORMAL);
             String peselString = "Pesel: " + user.getPesel();
             Phrase pesel = new Phrase(peselString, NORMAL);
+            String addressString = "Address: " + user.getAddress();
+            String phoneNumber = "Phone: " + user.getPhoneNumber();
             paragraph.add(worker);
             paragraph.add(Chunk.NEWLINE);
             paragraph.add(pesel);
             paragraph.add(Chunk.NEWLINE);
+            paragraph.add(addressString);
+            paragraph.add(Chunk.NEWLINE);
+            paragraph.add(phoneNumber);
+            paragraph.add(Chunk.NEWLINE);
         }
+        try {
+            document.add(paragraph);
+        } catch (DocumentException ex) {
+            Logger.getLogger(SingleRoomEquipmentReportDocument.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void generateScheduleHeader() {
+        Paragraph paragraph = new Paragraph();
+        Phrase title = new Phrase("Room schedule", BOLD);
+        paragraph.add(title);
+        paragraph.setAlignment(Element.ALIGN_CENTER);
+        paragraph.add(Chunk.NEWLINE);
+        paragraph.add(Chunk.NEWLINE);
+        paragraph.add(Chunk.NEWLINE);
         try {
             document.add(paragraph);
         } catch (DocumentException ex) {
@@ -260,21 +284,21 @@ public class SingleRoomEquipmentReportDocument extends PDFDocument {
             Integer column = reservation.getEndTime() / 96;
             Integer startTime = reservation.getStartTime() % 96;
             Integer endTime = reservation.getEndTime() % 96;
-            if(startTime < 24 && endTime >= 25){
+            if (startTime < 24 && endTime >= 25) {
                 startTime = 24;
             }
-            if(startTime < 70 && endTime > 71){
+            if (startTime < 70 && endTime > 71) {
                 endTime = 71;
             }
-            if(startTime < 24 || startTime > 72){
+            if (startTime < 24 || startTime > 72) {
                 continue;
             }
-            if(endTime < 24 || endTime >72){
+            if (endTime < 24 || endTime > 72) {
                 continue;
             }
             for (int k = startTime; k <= endTime; k++) {
                 PdfPCell cell = createContentTable(reservation, startTime, endTime, k);
-                if(k == startTime + 1){
+                if (k == startTime + 1) {
                     Long userId = reservation.getUserId();
                     UserDTO userDetails = userManagementFacade.getUserDetails(userId.intValue());
                     String userData = userDetails.getName() + " " + userDetails.getSurname();

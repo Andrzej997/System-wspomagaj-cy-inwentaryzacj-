@@ -25,4 +25,6 @@ public interface ScheduleFacade extends AbstractBusinessFacade{
     }
 
     public Boolean editReservation(ReservationDTO dTO);
+
+    public Long getScheduleId(int roomNumber, int year, boolean semester, int week);
 }

@@ -197,6 +197,13 @@ public class ScheduleFacadeImpl extends AbstractBusinessFacadeImpl implements Sc
     public List<ReservationDTO> getRoomSchedule(int roomId, int year, boolean semester) {
         return scheduleFactory.createSchedule(new RoomScheduleStrategy(), roomId, year, semester);
     }
+    
+    @Override
+    public Long getScheduleId(int roomNumber, int year, boolean semester, int week){
+        Room room = roomDAO.getRoomByNumber(roomNumber);
+        RoomSchedule roomSchedule = roomScheduleDAO.getCurrentDateSchedule(year, week, semester, room);
+        return roomSchedule.getId();
+    }
 
     @Override
     public Boolean certificateBean(String certificate) {
