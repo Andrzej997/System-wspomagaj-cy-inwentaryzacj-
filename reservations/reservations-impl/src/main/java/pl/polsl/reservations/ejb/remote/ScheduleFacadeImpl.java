@@ -120,7 +120,14 @@ public class ScheduleFacadeImpl extends AbstractBusinessFacadeImpl implements Sc
 
     @Override
     @RequiredPrivilege(PrivilegeEnum.MODIFY_RESERVATION_OWN)
-    public Boolean editReservation(ReservationDTO dTO) {
+    public Boolean editReservation(ReservationDTO dTO, Integer year, Boolean semester, Integer week) {
+         RoomSchedule currentDateSchedule = null;
+        if (dTO.getRoomNumber() != null) {
+            Room room = roomDAO.getRoomByNumber(dTO.getRoomNumber());
+            if (year != null && week != null && semester != null && room != null) {
+                currentDateSchedule = roomScheduleDAO.getCurrentDateSchedule(year, week, semester, room);
+            }
+        }
         Reservations newReservation = reservationsDAO.find(dTO.getId());
         if (dTO.getEndTime() != null) {
             newReservation.setEndTime(dTO.getEndTime());
@@ -143,9 +150,8 @@ public class ScheduleFacadeImpl extends AbstractBusinessFacadeImpl implements Sc
         if (reservationType != null) {
             newReservation.setReservationType(reservationType);
         }
-        RoomSchedule rs = roomScheduleDAO.find(dTO.getRoomNumber());
-        if (rs != null) {
-            newReservation.setRoomSchedule(rs);
+        if (currentDateSchedule != null) {
+            newReservation.setRoomSchedule(currentDateSchedule);
         }
         reservationsDAO.edit(newReservation);
         return true;
@@ -196,13 +202,6 @@ public class ScheduleFacadeImpl extends AbstractBusinessFacadeImpl implements Sc
     @Override
     public List<ReservationDTO> getRoomSchedule(int roomId, int year, boolean semester) {
         return scheduleFactory.createSchedule(new RoomScheduleStrategy(), roomId, year, semester);
-    }
-    
-    @Override
-    public Long getScheduleId(int roomNumber, int year, boolean semester, int week){
-        Room room = roomDAO.getRoomByNumber(roomNumber);
-        RoomSchedule roomSchedule = roomScheduleDAO.getCurrentDateSchedule(year, week, semester, room);
-        return roomSchedule.getId();
     }
 
     @Override

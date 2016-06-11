@@ -24,7 +24,5 @@ public interface ScheduleFacade extends AbstractBusinessFacade{
     default void findReservation() {
     }
 
-    public Boolean editReservation(ReservationDTO dTO);
-
-    public Long getScheduleId(int roomNumber, int year, boolean semester, int week);
+    public Boolean editReservation(ReservationDTO dTO, Integer year, Boolean semester, Integer week);
 }
