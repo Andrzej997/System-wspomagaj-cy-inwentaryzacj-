@@ -251,7 +251,7 @@ public class AddEditViewMediator {
                         reservation.setType(reservationType);
                     }
 
-                    scheduleFacade.editReservation(reservation);
+                    scheduleFacade.editReservation(reservation,date.get(Calendar.YEAR),DateUtils.getSemesterFromDate(date),DateUtils.getWeekOfSemester(date));
                     getReservations();
 
                 } else {
