@@ -242,7 +242,6 @@ public class AddEditViewMediator {
 
             if (startTime < endTime) {
                 if (checkIfReservationAvaliable(startTime, endTime)) {
-
                     reservation.setStartTime(startTime);
                     reservation.setEndTime(endTime);
                     if (userID != null) {
