@@ -34,10 +34,10 @@ import pl.polsl.reservations.ejb.remote.UserManagementFacade;
  */
 public class AddEditViewMediator {
 
-    private final ScheduleFacade scheduleFacade;
-    private final RoomManagementFacade roomManagementFacade;
-    private final UserManagementFacade userManagementFacade;
-    private final UserFacade userFacade;
+    private final ScheduleFacade scheduleFacade = Lookup.getScheduleFacade();
+    private final RoomManagementFacade roomManagementFacade = Lookup.getRoomManagementFacade();
+    private final UserManagementFacade userManagementFacade = Lookup.getUserManagementFacade();
+    private final UserFacade userFacade = Lookup.getUserFacade();
     private AddEditView addEditView;
     private Calendar date;
     private HashMap<Color, List<Integer>> reservationCellsRendererMap;
@@ -49,20 +49,12 @@ public class AddEditViewMediator {
     private ReservationDTO chosenReservation;
 
     public AddEditViewMediator() {
-        scheduleFacade = (ScheduleFacade) Lookup.getRemote("ScheduleFacade");
-        roomManagementFacade = (RoomManagementFacade) Lookup.getRemote("RoomManagementFacade");
-        userManagementFacade = (UserManagementFacade) Lookup.getRemote("UserManagementFacade");
-        userFacade = (UserFacade) Lookup.getRemote("UserFacade");
         date = null;
         chosenReservation = null;
 
     }
 
     public AddEditViewMediator(Calendar date, Integer roomNumber) {
-        scheduleFacade = (ScheduleFacade) Lookup.getRemote("ScheduleFacade");
-        roomManagementFacade = (RoomManagementFacade) Lookup.getRemote("RoomManagementFacade");
-        userManagementFacade = (UserManagementFacade) Lookup.getRemote("UserManagementFacade");
-        userFacade = (UserFacade) Lookup.getRemote("UserFacade");
         this.date = date;
 
         this.roomNumber = roomNumber;
@@ -70,10 +62,6 @@ public class AddEditViewMediator {
     }
 
     public AddEditViewMediator(Calendar date, Integer roomNumber, ReservationDTO chosenReservationDTO) {
-        scheduleFacade = (ScheduleFacade) Lookup.getRemote("ScheduleFacade");
-        roomManagementFacade = (RoomManagementFacade) Lookup.getRemote("RoomManagementFacade");
-        userManagementFacade = (UserManagementFacade) Lookup.getRemote("UserManagementFacade");
-        userFacade = (UserFacade) Lookup.getRemote("UserFacade");
         this.date = date;
 
         this.roomNumber = roomNumber;
