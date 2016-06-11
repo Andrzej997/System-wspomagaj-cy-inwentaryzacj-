@@ -11,7 +11,7 @@ import java.util.UUID;
 public class ClientSessionCertificate {
     
     private static final String randomUUID = UUID.randomUUID().toString();
-    //Singleton
+    
     private static final ClientSessionCertificate clientSessionCertificate = new ClientSessionCertificate();
     
     private ClientSessionCertificate(){}

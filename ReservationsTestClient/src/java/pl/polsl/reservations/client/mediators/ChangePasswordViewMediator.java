@@ -12,10 +12,9 @@ import pl.polsl.reservations.ejb.remote.UserFacade;
 public class ChangePasswordViewMediator {
 
     private ChangePasswordView changePasswordView;
-    private final UserFacade userFacade;
+    private final UserFacade userFacade = Lookup.getUserFacade();
 
     public ChangePasswordViewMediator() {
-        userFacade = (UserFacade) Lookup.getRemote("UserFacade");
     }
 
     public ChangePasswordView createView(MainView mainView) {

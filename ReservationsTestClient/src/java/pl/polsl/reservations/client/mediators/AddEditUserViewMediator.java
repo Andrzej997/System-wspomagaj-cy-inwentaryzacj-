@@ -26,14 +26,11 @@ public class AddEditUserViewMediator {
 
     private AddEditUserView addEditUserView;
 
-    private final UserFacade userFacade;
-    private final UserManagementFacade userManagementFacade;
-    private final RoomManagementFacade roomManagementFacade;
+    private final UserFacade userFacade = Lookup.getUserFacade();
+    private final UserManagementFacade userManagementFacade = Lookup.getUserManagementFacade();
+    private final RoomManagementFacade roomManagementFacade = Lookup.getRoomManagementFacade();
 
     public AddEditUserViewMediator() {
-        userFacade = (UserFacade) Lookup.getRemote("UserFacade");
-        userManagementFacade = (UserManagementFacade) Lookup.getRemote("UserManagementFacade");
-        roomManagementFacade = (RoomManagementFacade) Lookup.getRemote("RoomManagementFacade");
     }
 
     public AddEditUserView createView(MainView view, AddUserEnum option) {

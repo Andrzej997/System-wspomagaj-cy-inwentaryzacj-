@@ -2,6 +2,7 @@ package pl.polsl.reservations.client.reports;
 
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.PageSize;
+import com.sun.xml.ws.transport.tcp.client.ClientConnectionSession;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,6 +12,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ws.rs.client.Client;
+import pl.polsl.reservations.client.ClientContext;
 import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.dto.EquipmentDTO;
 import pl.polsl.reservations.dto.RoomDTO;
@@ -25,12 +28,10 @@ import pl.polsl.reservations.ejb.remote.UserManagementFacade;
  */
 public class DocumentGenerator {
 
-    UserManagementFacade userManagementFacadeRemote
-            = (UserManagementFacade) Lookup.getRemote("UserManagementFacade");
-    UserFacade userFacadeRemote = (UserFacade) Lookup.getRemote("UserFacade");
-    RoomManagementFacade roomManagementFacade
-            = (RoomManagementFacade) Lookup.getRemote("RoomManagementFacade");
-    ScheduleFacade scheduleFacadeRemote = (ScheduleFacade) Lookup.getRemote("ScheduleFacade");
+    UserManagementFacade userManagementFacadeRemote = Lookup.getUserManagementFacade();
+    UserFacade userFacadeRemote = Lookup.getUserFacade();
+    RoomManagementFacade roomManagementFacade = Lookup.getRoomManagementFacade();
+    ScheduleFacade scheduleFacadeRemote = Lookup.getScheduleFacade();
 
     public final String pathToFile;
 
@@ -43,9 +44,9 @@ public class DocumentGenerator {
     }
 
     public void generateAllRoomsEquipmentReport() {
-        List<RoomDTO> roomsList = roomManagementFacade.getRoomsList();
+        List<RoomDTO> accessibleRooms = ClientContext.getAccessibleRooms();
         AllRoomsEquipmentReportDocument reportDocument
-                = new AllRoomsEquipmentReportDocument(roomsList, pathToFile, PageSize.A4);
+                = new AllRoomsEquipmentReportDocument(accessibleRooms, pathToFile, PageSize.A4);
         try {
             reportDocument.generatePDF();
         } catch (DocumentException | FileNotFoundException ex) {
@@ -55,7 +56,7 @@ public class DocumentGenerator {
     }
 
     public void generateDepartamentRoomsEquipmentReport(String departamentName) {
-        List<RoomDTO> roomsList = roomManagementFacade.getRoomsList();
+        List<RoomDTO> roomsList = ClientContext.getAccessibleRooms();
         List<RoomDTO> departamentRoomsList = new ArrayList<>();
         for (RoomDTO roomDTO : roomsList) {
             if (roomDTO.getDepartment().equals(departamentName)) {

@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import javax.swing.table.DefaultTableModel;
 import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.views.DayDataView;
@@ -27,20 +29,23 @@ import pl.polsl.reservations.ejb.remote.UserManagementFacade;
  */
 public class DayDataViewMediator {
 
-    private final ScheduleFacade scheduleFacade;
-    private final RoomManagementFacade roomManagementFacade;
-    private final UserManagementFacade userManagementFacade;
+    private final ScheduleFacade scheduleFacade = Lookup.getScheduleFacade();
+    private final RoomManagementFacade roomManagementFacade = Lookup.getRoomManagementFacade();
+    private final UserManagementFacade userManagementFacade = Lookup.getUserManagementFacade();
     private Calendar date;
     private DayDataView dayDataView;
     private HashMap<Color, List<Integer>> reservationCellsRendererMap;
     private List<Integer> startQuarters;
     private List<Integer> endQuarters;
+    private Integer roomNumber;
 
     public DayDataViewMediator() {
-        scheduleFacade = (ScheduleFacade) Lookup.getRemote("ScheduleFacade");
-        roomManagementFacade = (RoomManagementFacade) Lookup.getRemote("RoomManagementFacade");
-        userManagementFacade = (UserManagementFacade) Lookup.getRemote("UserManagementFacade");
         reservationCellsRendererMap = new HashMap<>();
+    }
+
+    public DayDataViewMediator(Integer roomNumber) {
+        reservationCellsRendererMap = new HashMap<>();
+        this.roomNumber = roomNumber;
     }
 
     public DayDataView createView(MainView parent, Calendar date) {
@@ -57,12 +62,12 @@ public class DayDataViewMediator {
         endQuarters = new ArrayList<>();
 
         Calendar calendar = date;
-      //  List<ReservationDTO> roomSchedule
-//                = scheduleFacade.getDetailedRoomSchedule((Integer) dayDataView.getChooseRoomDropdown().getSelectedItem(),
-       //                 calendar.get(Calendar.YEAR), DateUtils.getWeekOfSemester(date),
-         //               DateUtils.getSemesterFromDate(date));
+        List<ReservationDTO> roomSchedule = scheduleFacade.getDetailedRoomSchedule(
+                dayDataView.getChooseRoomDropdown().getSelectedItem(),
+                calendar.get(Calendar.YEAR), DateUtils.getWeekOfSemester(date),
+                DateUtils.getSemesterFromDate(date));
 
-     //   dayDataView.getPlanView().setModel(fillTable(roomSchedule));
+        dayDataView.getPlanView().setModel(fillTable(roomSchedule));
     }
 
     private DefaultTableModel fillTable(List<ReservationDTO> roomSchedule) {
@@ -91,18 +96,47 @@ public class DayDataViewMediator {
                 String userString = userDetails.getName() + " " + userDetails.getSurname();
                 defaultTableModel.setValueAt(userString, numberOfStartQuarter % 32 + 1, numberOfStartQuarter / 32);
             }
-           // dayDataView.getPlanView().setModel(defaultTableModel);
-         //   dayDataView.getPlanView().setDefaultRenderer(Object.class,
-              //      new DayCustomRenderer(reservationCellsRendererMap, startQuarters, endQuarters));
+            dayDataView.getPlanView().setModel(defaultTableModel);
+            dayDataView.getPlanView().setDefaultRenderer(Object.class,
+                    new DayCustomRenderer(reservationCellsRendererMap, startQuarters, endQuarters));
         }
         return defaultTableModel;
     }
 
     public void getRooms() {
         List<RoomDTO> roomsList = roomManagementFacade.getRoomsList();
-        roomsList.stream().forEach((room) -> {
-           // dayDataView.getChooseRoomDropdown().addItem(room.getNumber());
-        });
+        HashMap<Integer, List<Integer>> numbersMap = new HashMap<>();
+        List<Integer> floors = new ArrayList<>();
+        for (RoomDTO room : roomsList) {
+            Integer roomNumber = room.getNumber();
+            Integer floor = roomNumber / 100;
+            Integer number = roomNumber % 100;
+            if (numbersMap.containsKey(floor)) {
+                List<Integer> numbers = numbersMap.get(floor);
+                numbers.add(number);
+                numbersMap.put(floor, numbers);
+            } else {
+                List<Integer> numbers = new ArrayList<>();
+                numbers.add(number);
+                numbersMap.put(floor, numbers);
+                floors.add(floor);
+            }
+        }
+        dayDataView.getChooseRoomDropdown().setFloors(floors);
+        for (Map.Entry<Integer, List<Integer>> floorEntry : numbersMap.entrySet()) {
+            dayDataView.getChooseRoomDropdown().setRooms(floorEntry.getValue(), floorEntry.getKey());
+        }
+
+        if (roomNumber != null) {
+            Integer floor = roomNumber / 100;
+            Integer number = roomNumber % 100;
+            dayDataView.getChooseRoomDropdown().selectItem(floor, number);
+        } else {
+            Set<Integer> keySet = numbersMap.keySet();
+            Object[] keyArray = keySet.toArray();
+            dayDataView.getChooseRoomDropdown().selectItem((Integer)keyArray[0],
+                    numbersMap.get((Integer)keyArray[0]).get(0));
+        }
     }
 
     private void createReservationsRendererList(Integer numberOfStartQuarter,
@@ -138,4 +172,22 @@ public class DayDataViewMediator {
         }
         return color;
     }
+
+    public Calendar getDate() {
+        return date;
+    }
+
+    public void setDate(Calendar date) {
+        this.date = date;
+    }
+
+    public Integer getRoomNumber() {
+        return roomNumber;
+    }
+
+    public void setRoomNumber(Integer roomNumber) {
+        this.roomNumber = roomNumber;
+    }
+    
+    
 }

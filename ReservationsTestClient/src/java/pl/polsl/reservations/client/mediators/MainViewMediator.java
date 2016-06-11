@@ -13,10 +13,9 @@ import pl.polsl.reservations.ejb.remote.UserFacade;
 public class MainViewMediator {
 
     private MainView mainView;
-    private final UserFacade userFacade;
+    private final UserFacade userFacade = Lookup.getUserFacade();
 
     public MainViewMediator() {
-        userFacade = (UserFacade) Lookup.getRemote("UserFacade");
     }
 
     public MainView createView() {

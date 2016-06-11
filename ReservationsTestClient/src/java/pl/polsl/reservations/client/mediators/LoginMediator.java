@@ -5,7 +5,6 @@ import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.views.LoginView;
 import pl.polsl.reservations.client.views.MainView;
 import pl.polsl.reservations.dto.RoomDTO;
-import pl.polsl.reservations.dto.UserDTO;
 import pl.polsl.reservations.ejb.remote.RoomManagementFacade;
 import pl.polsl.reservations.ejb.remote.UserFacade;
 
@@ -15,12 +14,11 @@ import pl.polsl.reservations.ejb.remote.UserFacade;
  */
 public class LoginMediator {
 
-    private final UserFacade userFacade;
+    private final UserFacade userFacade = Lookup.getUserFacade();
     private LoginView loginWindow;
-    private final RoomManagementFacade roomManagementFacade = (RoomManagementFacade) Lookup.getRemote("RoomManagementFacade");
+    private final RoomManagementFacade roomManagementFacade = Lookup.getRoomManagementFacade();
 
     public LoginMediator() {
-        userFacade = (UserFacade) Lookup.getRemote("UserFacade");
     }
 
     public boolean getUserData(String userName, String password) {

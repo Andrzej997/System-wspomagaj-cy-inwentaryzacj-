@@ -117,6 +117,9 @@ public class WeekDataView extends JPanel {
         datePicker.getDatePicker().addActionListener((ActionEvent e) -> {
             datePickerChange();
         });
+        backBtn.addActionListener((ActionEvent e) ->{
+            window.logoutMenuItemActionPerformed(e);
+        });
     }
 
     private void setupButtons() {
@@ -167,7 +170,9 @@ public class WeekDataView extends JPanel {
                     Integer column = planTable.columnAtPoint(e.getPoint());
                     if (column != 0) {
                         Calendar cal = startDate;
-                        window.setView(new DayDataViewMediator().createView(window, cal));
+                        cal.add(Calendar.DATE, column -1);
+                        window.setView(new DayDataViewMediator(chooseRoomDropdown.getSelectedItem())
+                                .createView(window, cal));
                     }
                 }
             }

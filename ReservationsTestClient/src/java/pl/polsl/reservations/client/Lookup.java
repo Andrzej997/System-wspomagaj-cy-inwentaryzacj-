@@ -17,7 +17,10 @@ import javax.naming.NamingException;
 import javax.rmi.PortableRemoteObject;
 import javax.sql.DataSource;
 import pl.polsl.reservations.ejb.remote.AbstractBusinessFacade;
+import pl.polsl.reservations.ejb.remote.RoomManagementFacade;
+import pl.polsl.reservations.ejb.remote.ScheduleFacade;
 import pl.polsl.reservations.ejb.remote.UserFacade;
+import pl.polsl.reservations.ejb.remote.UserManagementFacade;
 
 /**
  *
@@ -175,6 +178,22 @@ public class Lookup {
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(Lookup.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public static RoomManagementFacade getRoomManagementFacade(){
+        return (RoomManagementFacade)getRemote("RoomManagementFacade");
+    }
+    
+    public static UserFacade getUserFacade(){
+        return (UserFacade) getRemote("UserFacade");
+    }
+    
+    public static UserManagementFacade getUserManagementFacade(){
+        return (UserManagementFacade) getRemote("UserManagementFacade");
+    }
+    
+    public static ScheduleFacade getScheduleFacade(){
+        return (ScheduleFacade) getRemote("ScheduleFacade");
     }
 
 }

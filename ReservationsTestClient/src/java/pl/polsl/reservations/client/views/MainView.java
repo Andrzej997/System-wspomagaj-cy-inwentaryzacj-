@@ -240,7 +240,7 @@ public class MainView extends JFrame {
         }
     }
 
-    private void logoutMenuItemActionPerformed(ActionEvent evt) {
+    public void logoutMenuItemActionPerformed(ActionEvent evt) {
         if (isLoggedIn) {
             setOptionsAvailable(Color.gray);
             isLoggedIn = false;

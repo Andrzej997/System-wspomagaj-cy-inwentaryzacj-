@@ -312,10 +312,43 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
         List<UserDTO> users = new ArrayList<>();
         for (Workers worker : workerses) {
             Users user = userDAO.find(worker.getId());
-            UserDTO userDTO = DTOBuilder.buildUserDTO(user, worker);
-            users.add(userDTO);
+            if (user != null) {
+                UserDTO userDTO = DTOBuilder.buildUserDTO(user, worker);
+                users.add(userDTO);
+            }
         }
         return users;
+    }
+
+    @Override
+    public List<RoomDTO> getInstituteRooms(Long userId) {
+        Users user = userDAO.find(userId);
+        Workers workers = user.getWorkers();
+        Departaments departament = workers.getDepartament();
+        Institutes institute = departament.getInstitute();
+        List<Departaments> departamentsCollection = institute.getDepartamentsCollection();
+        List<RoomDTO> result = new ArrayList<>();
+        for (Departaments departaments : departamentsCollection) {
+            List<Room> roomCollection = departaments.getRoomCollection();
+            for (Room room : roomCollection) {
+                RoomDTO roomDTO = DTOBuilder.buildRoomDTO(room);
+                result.add(roomDTO);
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public List<RoomDTO> getDepartamentRooms(Long userId) {
+        Users user = userDAO.find(userId);
+        Workers workers = user.getWorkers();
+        Departaments departament = workers.getDepartament();
+        List<Room> roomCollection = departament.getRoomCollection();
+        List<RoomDTO> result = new ArrayList<>();
+        for(Room room : roomCollection){
+            result.add(DTOBuilder.buildRoomDTO(room));
+        }
+        return result;
     }
 
     @Override

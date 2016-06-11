@@ -16,6 +16,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.mediators.AddEditViewMediator;
+import pl.polsl.reservations.client.mediators.WeekDataViewMediator;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
 import pl.polsl.reservations.client.views.utils.CustomDatePicker;
 import pl.polsl.reservations.client.views.utils.PanelStyle;
@@ -126,18 +127,12 @@ public class AddEditView extends JPanel {
                 datePickerChange(e);
             }
         });
-        
+        backBtn.addActionListener((ActionEvent e) -> {
+             window.setView(new WeekDataViewMediator().createView(window, roomCb.getSelectedItem()));
+        });
     }
 
     private void datePickerChange(ActionEvent e) {
-        //Calendar date = datepicker.getDate();
-       // if (date != null) {
-           // set(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DATE));
-           // startDate.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-           // endDate.set(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DATE));
-           // endDate.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-           
-       // }
        addEditViewMediator.setDate(datepicker.getDate());
        addEditViewMediator.getReservations();
     }

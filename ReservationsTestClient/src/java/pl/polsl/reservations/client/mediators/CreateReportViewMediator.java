@@ -32,14 +32,11 @@ public class CreateReportViewMediator {
 
     private CreateRaportView createRaportView;
 
-    private final RoomManagementFacade roomManagementFacade;
-    private final UserManagementFacade userManagementFacade;
-    private final UserFacade userFacade;
+    private final RoomManagementFacade roomManagementFacade = Lookup.getRoomManagementFacade();
+    private final UserManagementFacade userManagementFacade = Lookup.getUserManagementFacade();
+    private final UserFacade userFacade = Lookup.getUserFacade();
 
     public CreateReportViewMediator() {
-        roomManagementFacade = (RoomManagementFacade) Lookup.getRemote("RoomManagementFacade");
-        userManagementFacade = (UserManagementFacade) Lookup.getRemote("UserManagementFacade");
-        userFacade = (UserFacade) Lookup.getRemote("UserFacade");
     }
 
     public CreateRaportView createView(MainView view, AddTypeEnum option) {

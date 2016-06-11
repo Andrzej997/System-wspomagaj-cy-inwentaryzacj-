@@ -4,14 +4,12 @@ import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
-import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPHeaderCell;
 import com.itextpdf.text.pdf.PdfPTable;
-import java.awt.Color;
 import java.lang.reflect.Field;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -20,6 +18,7 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import pl.polsl.reservations.client.Lookup;
+import pl.polsl.reservations.client.views.FontUtils;
 import pl.polsl.reservations.client.views.utils.DateUtils;
 import pl.polsl.reservations.client.views.utils.Pair;
 import pl.polsl.reservations.dto.EquipmentDTO;
@@ -37,32 +36,17 @@ import pl.polsl.reservations.ejb.remote.UserManagementFacade;
  */
 public class SingleRoomEquipmentReportDocument extends PDFDocument {
 
-    public static final Font TITLE_BOLD_UNDERLINED
-            = new Font(TimesRomanBase, 18, Font.BOLD | Font.UNDERLINE);
-    public static final Font BOLD
-            = new Font(TimesRomanBase, 12, Font.BOLD);
-    public static final Font NORMAL
-            = new Font(TimesRomanBase, 12);
-
-    public static final Font SMALL
-            = new Font(TimesRomanBase, 5);
-    public static final Font SMALL_BOLD
-            = new Font(TimesRomanBase, 5, Font.BOLD);
-
     private RoomDTO roomDTO;
     private List<EquipmentDTO> equipmentOfRoom;
-    private UserManagementFacade userManagementFacade;
-    private RoomManagementFacade roomManagementFacade;
-    private ScheduleFacade scheduleFacade;
+    private final UserManagementFacade userManagementFacade = Lookup.getUserManagementFacade();
+    private final RoomManagementFacade roomManagementFacade = Lookup.getRoomManagementFacade();
+    private final ScheduleFacade scheduleFacade = Lookup.getScheduleFacade();
     private final List<ReservationTypeDTO> reservationTypes;
 
     public SingleRoomEquipmentReportDocument() {
         super();
         roomDTO = null;
         equipmentOfRoom = null;
-        userManagementFacade = (UserManagementFacade) Lookup.getRemote("UserManagementFacade");
-        roomManagementFacade = (RoomManagementFacade) Lookup.getRemote("RoomManagementFacade");
-        scheduleFacade = (ScheduleFacade) Lookup.getRemote("ScheduleFacade");
         reservationTypes = scheduleFacade.getReservationTypes();
     }
 
@@ -71,48 +55,45 @@ public class SingleRoomEquipmentReportDocument extends PDFDocument {
         super(pathToResultFile, pageSize);
         this.roomDTO = roomDTO;
         this.equipmentOfRoom = equipmentOfRoom;
-        userManagementFacade = (UserManagementFacade) Lookup.getRemote("UserManagementFacade");
-        roomManagementFacade = (RoomManagementFacade) Lookup.getRemote("RoomManagementFacade");
-        scheduleFacade = (ScheduleFacade) Lookup.getRemote("ScheduleFacade");
         reservationTypes = scheduleFacade.getReservationTypes();
     }
 
     @Override
     public void generateHeader() {
         Paragraph header = new Paragraph();
-        Phrase title = new Phrase("Room inventory report", TITLE_BOLD_UNDERLINED);
+        Phrase title = new Phrase("Room inventory report", FontUtils.TITLE_BOLD_UNDERLINED);
         header.add(title);
         header.add(Chunk.NEWLINE);
         header.add(Chunk.NEWLINE);
         if (roomDTO != null) {
             if (roomDTO.getDepartment() != null) {
                 String departamentString = "Departament: " + roomDTO.getDepartment();
-                Phrase departament = new Phrase(departamentString, BOLD);
+                Phrase departament = new Phrase(departamentString, FontUtils.BOLD);
                 header.add(departament);
                 header.add(Chunk.NEWLINE);
             }
             Integer number = roomDTO.getNumber();
             String roomNumberString = "Room number: " + number.toString();
-            Phrase roomNumber = new Phrase(roomNumberString, BOLD);
+            Phrase roomNumber = new Phrase(roomNumberString, FontUtils.BOLD);
             header.add(roomNumber);
             header.add(Chunk.NEWLINE);
             if (roomDTO.getKeeperId().toString() != null) {
                 Long keeperId = roomDTO.getKeeperId();
                 UserDTO userDetails = userManagementFacade.getUserDetails(keeperId.intValue());
                 String roomKeeperString = "Room keeper: " + userDetails.getName() + " " + userDetails.getSurname();
-                Phrase roomKeeper = new Phrase(roomKeeperString, BOLD);
+                Phrase roomKeeper = new Phrase(roomKeeperString, FontUtils.BOLD);
                 header.add(roomKeeper);
                 header.add(Chunk.NEWLINE);
             }
             if (roomDTO.getType() != null) {
                 String roomTypeString = "Room type: " + roomDTO.getType();
-                Phrase roomType = new Phrase(roomTypeString, BOLD);
+                Phrase roomType = new Phrase(roomTypeString, FontUtils.BOLD);
                 header.add(roomType);
                 header.add(Chunk.NEWLINE);
             }
             if (roomDTO.getNumberOfSeats() != null) {
                 String numberOfSeatsString = "Number of seats: " + roomDTO.getNumberOfSeats().toString();
-                Phrase numberOfSeats = new Phrase(numberOfSeatsString, BOLD);
+                Phrase numberOfSeats = new Phrase(numberOfSeatsString, FontUtils.BOLD);
                 header.add(numberOfSeats);
                 header.add(Chunk.NEWLINE);
             }
@@ -146,16 +127,16 @@ public class SingleRoomEquipmentReportDocument extends PDFDocument {
         PdfPTable contentTable = new PdfPTable(4);
         PdfPCell cell;
         cell = new PdfPHeaderCell();
-        cell.addElement(new Phrase("Equipment name", NORMAL));
+        cell.addElement(new Phrase("Equipment name", FontUtils.NORMAL));
         contentTable.addCell(cell);
         cell = new PdfPHeaderCell();
-        cell.addElement(new Phrase("Quantity", NORMAL));
+        cell.addElement(new Phrase("Quantity", FontUtils.NORMAL));
         contentTable.addCell(cell);
         cell = new PdfPHeaderCell();
-        cell.addElement(new Phrase("Type", NORMAL));
+        cell.addElement(new Phrase("Type", FontUtils.NORMAL));
         contentTable.addCell(cell);
         cell = new PdfPHeaderCell();
-        cell.addElement(new Phrase("State", NORMAL));
+        cell.addElement(new Phrase("State", FontUtils.NORMAL));
         contentTable.addCell(cell);
         for (EquipmentDTO equipmentDTO : equipmentOfRoom) {
             cell = new PdfPCell(new Phrase(equipmentDTO.getName()));
@@ -173,15 +154,18 @@ public class SingleRoomEquipmentReportDocument extends PDFDocument {
     public void createWorkersList() {
         Long id = roomDTO.getId();
         List<UserDTO> roomWorkers = roomManagementFacade.getRoomWorkers(id);
+        if(roomWorkers == null || roomWorkers.isEmpty()){
+            return;
+        }
         Paragraph paragraph = new Paragraph();
-        Phrase title = new Phrase("Room workers: ", TITLE_BOLD_UNDERLINED);
+        Phrase title = new Phrase("Room workers: ", FontUtils.TITLE_BOLD_UNDERLINED);
         paragraph.add(title);
         paragraph.add(Chunk.NEWLINE);
         for (UserDTO user : roomWorkers) {
             String workerString = "Personal data: " + user.getName() + " " + user.getSurname();
-            Phrase worker = new Phrase(workerString, NORMAL);
+            Phrase worker = new Phrase(workerString, FontUtils.NORMAL);
             String peselString = "Pesel: " + user.getPesel();
-            Phrase pesel = new Phrase(peselString, NORMAL);
+            Phrase pesel = new Phrase(peselString, FontUtils.NORMAL);
             String addressString = "Address: " + user.getAddress();
             String phoneNumber = "Phone: " + user.getPhoneNumber();
             paragraph.add(worker);
@@ -202,7 +186,7 @@ public class SingleRoomEquipmentReportDocument extends PDFDocument {
 
     public void generateScheduleHeader() {
         Paragraph paragraph = new Paragraph();
-        Phrase title = new Phrase("Room schedule", BOLD);
+        Phrase title = new Phrase("Room schedule", FontUtils.BOLD);
         paragraph.add(title);
         paragraph.setAlignment(Element.ALIGN_CENTER);
         paragraph.add(Chunk.NEWLINE);
@@ -219,28 +203,28 @@ public class SingleRoomEquipmentReportDocument extends PDFDocument {
         PdfPTable contentTable = new PdfPTable(8);
         PdfPCell cell;
         cell = new PdfPHeaderCell();
-        cell.addElement(new Phrase("Time", SMALL_BOLD));
+        cell.addElement(new Phrase("Time", FontUtils.SMALL_BOLD));
         contentTable.addCell(cell);
         cell = new PdfPHeaderCell();
-        cell.addElement(new Phrase("Monday", SMALL_BOLD));
+        cell.addElement(new Phrase("Monday", FontUtils.SMALL_BOLD));
         contentTable.addCell(cell);
         cell = new PdfPHeaderCell();
-        cell.addElement(new Phrase("Tuesday", SMALL_BOLD));
+        cell.addElement(new Phrase("Tuesday", FontUtils.SMALL_BOLD));
         contentTable.addCell(cell);
         cell = new PdfPHeaderCell();
-        cell.addElement(new Phrase("Wednesday", SMALL_BOLD));
+        cell.addElement(new Phrase("Wednesday", FontUtils.SMALL_BOLD));
         contentTable.addCell(cell);
         cell = new PdfPHeaderCell();
-        cell.addElement(new Phrase("Thursday", SMALL_BOLD));
+        cell.addElement(new Phrase("Thursday", FontUtils.SMALL_BOLD));
         contentTable.addCell(cell);
         cell = new PdfPHeaderCell();
-        cell.addElement(new Phrase("Friday", SMALL_BOLD));
+        cell.addElement(new Phrase("Friday", FontUtils.SMALL_BOLD));
         contentTable.addCell(cell);
         cell = new PdfPHeaderCell();
-        cell.addElement(new Phrase("Saturday", SMALL_BOLD));
+        cell.addElement(new Phrase("Saturday", FontUtils.SMALL_BOLD));
         contentTable.addCell(cell);
         cell = new PdfPHeaderCell();
-        cell.addElement(new Phrase("Sunday", SMALL_BOLD));
+        cell.addElement(new Phrase("Sunday", FontUtils.SMALL_BOLD));
         contentTable.addCell(cell);
         Integer number = roomDTO.getNumber();
         Calendar curentDate = Calendar.getInstance();
@@ -254,14 +238,14 @@ public class SingleRoomEquipmentReportDocument extends PDFDocument {
                     if (j == 0 && i % 4 == 0) {
                         Integer hour = i / 4;
                         String hourString = hour.toString() + ":00";
-                        cell = new PdfPCell(new Phrase(hourString, SMALL_BOLD));
+                        cell = new PdfPCell(new Phrase(hourString, FontUtils.SMALL_BOLD));
                         cell.setBorderColor(BaseColor.GRAY);
                     } else if (j == 0 && i % 4 != 0) {
                         Integer hour = i / 4;
                         String hourString = hour.toString() + ":";
                         Integer quarter = (i % 4) * 15;
                         hourString += quarter.toString();
-                        cell = new PdfPCell(new Phrase(hourString, SMALL));
+                        cell = new PdfPCell(new Phrase(hourString, FontUtils.SMALL));
                         cell.setBorderColor(BaseColor.GRAY);
                     } else {
                         Pair<Integer, Integer> address = new Pair(i, j - 1);
@@ -302,7 +286,7 @@ public class SingleRoomEquipmentReportDocument extends PDFDocument {
                     Long userId = reservation.getUserId();
                     UserDTO userDetails = userManagementFacade.getUserDetails(userId.intValue());
                     String userData = userDetails.getName() + " " + userDetails.getSurname();
-                    cell.setPhrase(new Phrase(userData, SMALL));
+                    cell.setPhrase(new Phrase(userData, FontUtils.SMALL));
                 }
                 Pair<Integer, Integer> address = new Pair(k, column);
                 cellsMap.put(address, cell);
@@ -312,9 +296,9 @@ public class SingleRoomEquipmentReportDocument extends PDFDocument {
     }
 
     private PdfPCell createContentTable(ReservationDTO reservation, Integer startTime, Integer endTime, Integer row) {
-        PdfPCell cell = new PdfPCell(new Phrase("", SMALL));
+        PdfPCell cell = new PdfPCell(new Phrase("", FontUtils.SMALL));
         if (Objects.equals(row, startTime)) {
-            cell = new PdfPCell(new Phrase(reservation.getType(), SMALL));
+            cell = new PdfPCell(new Phrase(reservation.getType(), FontUtils.SMALL));
             cell.setBorder(Rectangle.TOP + Rectangle.LEFT + Rectangle.RIGHT);
         } else if (Objects.equals(row, endTime)) {
             cell = new PdfPCell();

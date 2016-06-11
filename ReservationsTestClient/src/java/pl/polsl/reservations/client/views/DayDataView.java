@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import pl.polsl.reservations.client.mediators.DayDataViewMediator;
+import pl.polsl.reservations.client.mediators.WeekDataViewMediator;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
 import pl.polsl.reservations.client.views.utils.CustomDatePicker;
 import pl.polsl.reservations.client.views.utils.PanelStyle;
@@ -92,7 +93,7 @@ public class DayDataView extends javax.swing.JPanel {
 
     private void setupListeners() {
         backBtn.addActionListener((ActionEvent e) -> {
-            //      window.setView(new WeekDataViewMediator().createView(window, dayDataViewMediator.getFirstRoom());
+             window.setView(new WeekDataViewMediator().createView(window, chooseRoomDropdown.getSelectedItem()));
         });
 
         prevBtn.addActionListener((ActionEvent e) -> {
@@ -135,6 +136,7 @@ public class DayDataView extends javax.swing.JPanel {
         calendarBtn = new JButton();
         planTable = new JTable(new DayTableModel(32, 3));
         datePicker = CustomDatePicker.getInstance();
+        datePicker.setDate(date);
         backBtn = new JButton();
         startDate = Calendar.getInstance();
         startDate.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
@@ -160,13 +162,14 @@ public class DayDataView extends javax.swing.JPanel {
     }
 
     private void datePickerChange(ActionEvent e) {
-        Calendar date = datePicker.getDate();
-        if (date != null) {
-            startDate.set(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DATE));
+        Calendar data = datePicker.getDate();
+        if (data != null) {
+            startDate.set(data.get(Calendar.YEAR), data.get(Calendar.MONTH), data.get(Calendar.DATE));
             startDate.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-            endDate.set(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DATE));
+            endDate.set(data.get(Calendar.YEAR), data.get(Calendar.MONTH), data.get(Calendar.DATE));
             endDate.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
         }
+        dayDataViewMediator.setDate(data);
         dayDataViewMediator.getReservations();
     }
 
@@ -238,6 +241,70 @@ public class DayDataView extends javax.swing.JPanel {
 
     public JTable getPlanView() {
         return planTable;
+    }
+
+    public RoomComboBox getChooseRoomDropdown() {
+        return chooseRoomDropdown;
+    }
+
+    public void setChooseRoomDropdown(RoomComboBox chooseRoomDropdown) {
+        this.chooseRoomDropdown = chooseRoomDropdown;
+    }
+
+    public JButton getNextBtn() {
+        return nextBtn;
+    }
+
+    public void setNextBtn(JButton nextBtn) {
+        this.nextBtn = nextBtn;
+    }
+
+    public JButton getPrevBtn() {
+        return prevBtn;
+    }
+
+    public void setPrevBtn(JButton prevBtn) {
+        this.prevBtn = prevBtn;
+    }
+
+    public JButton getBackBtn() {
+        return backBtn;
+    }
+
+    public void setBackBtn(JButton backBtn) {
+        this.backBtn = backBtn;
+    }
+
+    public JButton getCalendarBtn() {
+        return calendarBtn;
+    }
+
+    public void setCalendarBtn(JButton calendarBtn) {
+        this.calendarBtn = calendarBtn;
+    }
+
+    public Calendar getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Calendar startDate) {
+        this.startDate = startDate;
+    }
+
+    public Calendar getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Calendar endDate) {
+        this.endDate = endDate;
+    }
+
+    public CustomDatePicker getDatePicker() {
+        return datePicker;
+    }
+
+    public void setDatePicker(CustomDatePicker datePicker) {
+        this.datePicker = datePicker;
     }
 
 }

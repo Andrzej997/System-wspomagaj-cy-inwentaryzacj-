@@ -31,9 +31,9 @@ import pl.polsl.reservations.ejb.remote.UserManagementFacade;
  */
 public class WeekDataViewMediator {
 
-    private final ScheduleFacade scheduleFacade;
-    private final RoomManagementFacade roomManagementFacade;
-    private final UserManagementFacade userManagementFacade;
+    private final ScheduleFacade scheduleFacade = Lookup.getScheduleFacade();
+    private final RoomManagementFacade roomManagementFacade = Lookup.getRoomManagementFacade();
+    private final UserManagementFacade userManagementFacade = Lookup.getUserManagementFacade();
     private WeekDataView weekDataView;
     private Integer selectedItem;
     private HashMap<Color, List<Integer>> reservationCellsRendererMap;
@@ -42,9 +42,6 @@ public class WeekDataViewMediator {
     private List<Pair<Integer, Integer>> endQuarters;
 
     public WeekDataViewMediator() {
-        scheduleFacade = (ScheduleFacade) Lookup.getRemote("ScheduleFacade");
-        roomManagementFacade = (RoomManagementFacade) Lookup.getRemote("RoomManagementFacade");
-        userManagementFacade = (UserManagementFacade) Lookup.getRemote("UserManagementFacade");
         reservationCellsRendererMap = new HashMap<>();
     }
 

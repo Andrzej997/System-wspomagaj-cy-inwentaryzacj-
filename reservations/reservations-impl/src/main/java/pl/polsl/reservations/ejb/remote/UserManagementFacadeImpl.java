@@ -70,7 +70,6 @@ public class UserManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
-    @RequiredPrivilege(PrivilegeEnum.MANAGE_TECH_CHEF_SUBORDINATES)
     public UserDTO getUserDetails(int userId) {
         Users user = usersFacade.getReference(userId);
 

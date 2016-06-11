@@ -4,13 +4,9 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -22,16 +18,6 @@ public abstract class PDFDocument {
     protected final Document document;
     protected Rectangle pageSize;
     protected static final String ENCODING = "UTF-8";
-
-    protected static BaseFont TimesRomanBase;
-
-    static {
-        try {
-            TimesRomanBase = BaseFont.createFont(BaseFont.TIMES_ROMAN, BaseFont.CP1250, BaseFont.EMBEDDED);
-        } catch (DocumentException | IOException ex) {
-            Logger.getLogger(PDFDocument.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
     public PDFDocument() {
         pathToResultFile = null;
