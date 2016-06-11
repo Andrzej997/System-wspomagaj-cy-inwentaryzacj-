@@ -1,5 +1,6 @@
 package pl.polsl.reservations.privileges;
 
+import java.io.Serializable;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -7,7 +8,7 @@ import javax.persistence.Persistence;
 /**
  * @author matis
  */
-public enum PrivilegeLevelEnum {
+public enum PrivilegeLevelEnum implements Serializable{
 
     ADMIN(1, "Admin", "ReservationAdminPU"),
     INSTITUTE_CHIEF(2, "Institute Chief", "ReservationIstitutePU"),

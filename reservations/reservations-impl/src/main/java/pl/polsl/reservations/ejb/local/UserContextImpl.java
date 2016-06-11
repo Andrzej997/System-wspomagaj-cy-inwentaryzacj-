@@ -1,5 +1,6 @@
 package pl.polsl.reservations.ejb.local;
 
+import java.io.Serializable;
 import java.util.EnumSet;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -13,7 +14,9 @@ import pl.polsl.reservations.privileges.PrivilegeEnum;
 /**
  * Created by Krzysztof Stręk on 2016-05-19.
  */
-public class UserContextImpl implements UserContext{
+public class UserContextImpl implements UserContext, Serializable{
+
+    private static final long serialVersionUID = 6015626090282768654L;
 
     private EnumSet<PrivilegeEnum> privileges;
     private PrivilegeLevelEnum privilegeLevel;

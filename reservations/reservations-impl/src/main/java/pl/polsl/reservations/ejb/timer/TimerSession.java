@@ -1,12 +1,12 @@
 package pl.polsl.reservations.ejb.timer;
 
-import javax.ejb.Remote;
+import javax.ejb.Local;
 
 /**
  *
  * @author wojcdeb448
  */
-@Remote
+@Local
 public interface TimerSession {
     public void crateTimer(long miliseconds, int userID);
 }
