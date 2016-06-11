@@ -23,4 +23,6 @@ public interface ScheduleFacade extends AbstractBusinessFacade{
     //TODO implementacja jak będzie wiadomo jak ma działać
     default void findReservation() {
     }
+
+    public Boolean editReservation(ReservationDTO dTO);
 }

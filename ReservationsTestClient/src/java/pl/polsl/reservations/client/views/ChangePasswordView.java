@@ -56,6 +56,7 @@ public class ChangePasswordView extends JPanel {
         setupSize();
         setupButton();
         setupPanels();
+        setupListeners();
     }
 
     private void setupPanels() {
@@ -106,6 +107,10 @@ public class ChangePasswordView extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS));
         dataPanel.setLayout(new BoxLayout(dataPanel, BoxLayout.Y_AXIS));
+        keyInputDispatcher();
+    }
+
+    private void setupListeners() {
         okButton.addActionListener((ActionEvent e) -> {
             if (!validateAll()) {
                 return;
@@ -118,7 +123,6 @@ public class ChangePasswordView extends JPanel {
                 window.getPasswordFrame().dispose();
             }
         });
-        keyInputDispatcher();
     }
 
     private void keyInputDispatcher() {

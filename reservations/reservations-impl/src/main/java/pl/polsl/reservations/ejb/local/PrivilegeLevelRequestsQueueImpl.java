@@ -5,6 +5,7 @@
  */
 package pl.polsl.reservations.ejb.local;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -14,7 +15,9 @@ import pl.polsl.reservations.privileges.PrivilegeRequest;
  *
  * @author wojcdeb448
  */
-public class PrivilegeLevelRequestsQueueImpl implements PrivilegeLevelRequestsQueue {
+public class PrivilegeLevelRequestsQueueImpl implements PrivilegeLevelRequestsQueue, Serializable{
+
+    private static final long serialVersionUID = 4380284070224771302L;
 
     private final List<PrivilegeRequest> currentPrivilegeLevelsQueue;
     private static final PrivilegeLevelRequestsQueueImpl instance = new PrivilegeLevelRequestsQueueImpl();

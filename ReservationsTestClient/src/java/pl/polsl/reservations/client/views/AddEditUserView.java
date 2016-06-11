@@ -94,6 +94,7 @@ public class AddEditUserView extends JPanel {
         this.addEditUserViewMediator = addEditUserViewMediator;
         initComponents();
         initPanels();
+        setupListeners();
     }
 
     private void initComponents() {
@@ -253,50 +254,11 @@ public class AddEditUserView extends JPanel {
         chiefCb = new JComboBox();
 
         addButton = new JButton();
-        addButton.addActionListener((ActionEvent e) -> {
-            if (!validateFields()) {
-                return;
-            }
-            if (null != option) {
-                switch (option) {
-                    case EDIT:
-                        addEditUserViewMediator.onChangeUserData();
-                        window.getEditUserFrame().dispose();
-                        break;
-                    case ADD:
-                        addEditUserViewMediator.onAddUser();
-                        addEditUserViewMediator.assignUserToRoom();
-                        window.getAddUserFrame().dispose();
-                        break;
-                    case ADMIN:
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
         mainPanel = new JPanel(new GridLayout(1, 2));
         dataPanel = new JPanel();
         labelPanel = new JPanel();
         editButton = new JButton();
-        editButton.addActionListener((ActionEvent e) -> {
-            if (option == AddUserEnum.ADMIN) {
-                addEditUserViewMediator.onEditUser();
-                window.getEditUserFrame().dispose();
-            }
-        });
         deleteButton = new JButton();
-        deleteButton.addActionListener((ActionEvent e) -> {
-            if (option == AddUserEnum.ADMIN) {
-                addEditUserViewMediator.onDeleteUser();
-                window.getEditUserFrame().dispose();
-            }
-        });
-        userCb.addActionListener((ActionEvent e) ->{
-            if(option == AddUserEnum.ADMIN && userCb.getSelectedItem() != null){
-                addEditUserViewMediator.refreshUserData();
-            }
-        });
         keyInputDispatcher();
     }
 
@@ -305,6 +267,39 @@ public class AddEditUserView extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS));
         dataPanel.setLayout(new BoxLayout(dataPanel, BoxLayout.Y_AXIS));
+    }
+
+    private void setupListeners() {
+        addButton.addActionListener((ActionEvent e) -> {
+            if (!validateFields()) {
+                return;
+            }
+            if (option == AddUserEnum.ADD) {
+                addEditUserViewMediator.onAddUser();
+                addEditUserViewMediator.assignUserToRoom();
+                window.getAddUserFrame().dispose();
+            }
+        });
+        editButton.addActionListener((ActionEvent e) -> {
+            if (option == AddUserEnum.ADMIN) {
+                addEditUserViewMediator.onEditUser();
+                window.getEditUserFrame().dispose();
+            } else if (option == AddUserEnum.EDIT) {
+                addEditUserViewMediator.onChangeUserData();
+                window.getEditUserFrame().dispose();
+            }
+        });
+        deleteButton.addActionListener((ActionEvent e) -> {
+            if (option == AddUserEnum.ADMIN) {
+                addEditUserViewMediator.onDeleteUser();
+                window.getEditUserFrame().dispose();
+            }
+        });
+        userCb.addActionListener((ActionEvent e) -> {
+            if (option == AddUserEnum.ADMIN && userCb.getSelectedItem() != null) {
+                addEditUserViewMediator.refreshUserData();
+            }
+        });
     }
 
     private void keyInputDispatcher() {

@@ -1,5 +1,6 @@
 package pl.polsl.reservations.client.views;
 
+import pl.polsl.reservations.client.views.utils.DayTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

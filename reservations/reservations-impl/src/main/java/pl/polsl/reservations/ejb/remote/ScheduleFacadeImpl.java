@@ -17,6 +17,7 @@ import pl.polsl.reservations.entities.ReservationTypes;
 import pl.polsl.reservations.entities.Reservations;
 import pl.polsl.reservations.entities.Room;
 import pl.polsl.reservations.entities.RoomSchedule;
+import pl.polsl.reservations.entities.Users;
 import pl.polsl.reservations.interceptors.PrivilegeInterceptor;
 import pl.polsl.reservations.logger.LoggerImpl;
 import pl.polsl.reservations.privileges.PrivilegeEnum;
@@ -115,6 +116,30 @@ public class ScheduleFacadeImpl extends AbstractBusinessFacadeImpl implements Sc
             schedule.setReservationsCollection(reservationsCollection);
             roomScheduleDAO.create(schedule);
         }
+    }
+    
+    @Override
+    @RequiredPrivilege(PrivilegeEnum.MODIFY_RESERVATION_OWN)
+    public Boolean editReservation(ReservationDTO dTO){
+        Reservations newReservation = new Reservations();
+        newReservation.setId(dTO.getId());
+        newReservation.setEndTime(dTO.getEndTime());
+        newReservation.setStartTime(dTO.getStartTime());
+        Users user = usersDAO.find(dTO.getId());
+        newReservation.setUser(user);
+        String type = dTO.getType();
+        List<ReservationTypes> findAll = reservationTypeDAO.findAll();
+        ReservationTypes reservationType = null;
+        for(ReservationTypes types : findAll){
+            if(types.getTypeShortDescription().equals(type)){
+                reservationType = types;
+            }
+        }
+        newReservation.setReservationType(reservationType);
+        RoomSchedule rs = roomScheduleDAO.find(dTO.getRoomNumber());
+        newReservation.setRoomSchedule(rs);
+        reservationsDAO.edit(newReservation);
+        return true;
     }
 
     @Override

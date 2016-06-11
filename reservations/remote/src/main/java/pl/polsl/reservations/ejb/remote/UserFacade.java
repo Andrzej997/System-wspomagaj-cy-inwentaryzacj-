@@ -37,4 +37,6 @@ public interface UserFacade extends AbstractBusinessFacade {
     public List<UserDTO> getUsersWithLowerPrivilegeLevel();
 
     public List<PrivilegeRequestDTO> getOperationableRequests();
+
+    public Boolean changeAnotherUserDetails(UserDTO userDTO);
 }

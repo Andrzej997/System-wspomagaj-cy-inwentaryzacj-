@@ -95,7 +95,9 @@ public abstract class AbstractDaoImpl<T> implements Serializable, AbstractDao<T>
         PrivilegeLevelEnum level = userContext.getPrivilegeLevel();
         EntityManager em = level.getEntityManager();
         em.joinTransaction();
-        em.remove(em.merge(entity));
+        T merge = em.merge(entity);
+        em.remove(merge);
+        em.flush();
     }
 
     @Override

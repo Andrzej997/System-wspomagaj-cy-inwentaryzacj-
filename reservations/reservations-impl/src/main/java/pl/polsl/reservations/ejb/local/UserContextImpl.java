@@ -66,7 +66,7 @@ public class UserContextImpl implements UserContext, Serializable{
     public final void setPrivilegeLevel(PrivilegeLevelEnum privilegeLevel) {
         this.privilegeLevel = privilegeLevel;
         this.entityManager = privilegeLevel.getEntityManager();
-        this.entityManager.setFlushMode(FlushModeType.COMMIT);
+        this.entityManager.setFlushMode(FlushModeType.AUTO);
     }
 
     @Override

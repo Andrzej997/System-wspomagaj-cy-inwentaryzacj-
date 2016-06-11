@@ -9,7 +9,7 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.views.DayDataView;
-import pl.polsl.reservations.client.views.DayTableModel;
+import pl.polsl.reservations.client.views.utils.DayTableModel;
 import pl.polsl.reservations.client.views.MainView;
 import pl.polsl.reservations.client.views.renderers.DayCustomRenderer;
 import pl.polsl.reservations.client.views.utils.DateUtils;

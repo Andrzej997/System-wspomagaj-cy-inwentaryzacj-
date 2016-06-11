@@ -142,7 +142,7 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
     @Override
     public boolean changeUserDetails(UserDTO userDTO) {
         user = getCurrentUserContext().getUser();
-        if (user == null || !Objects.equals(user.getId(), userDTO.getId())) {
+        if (user == null && !user.getId().equals(userDTO.getId())) {
             return false;
         }
         Users newUser = new Users();
@@ -171,6 +171,39 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
             getCurrentUserContext().setUser(usersFacade.find(id));
         }
 
+        return true;
+    }
+
+    @Override
+    public Boolean changeAnotherUserDetails(UserDTO userDTO) {
+        Users newUser = new Users();
+        user = getCurrentUserContext().getUser();
+        if(user.getPriviligeLevel().getPriviligeLevel() != 1l){
+            return false;
+        }
+        
+        Users old = usersFacade.find(userDTO.getId());
+        newUser.setEmail(userDTO.getEmail());
+        newUser.setPhoneNumber(Long.parseLong(userDTO.getPhoneNumber()));
+        newUser.setId(userDTO.getId());
+        newUser.setPassword(old.getPassword());
+        PriviligeLevels privligeLevel = privilegeFacade.getPrivligeLevelsEntityByLevelValue(userDTO.getPrivilegeLevel());
+        newUser.setPriviligeLevel(privligeLevel);
+        newUser.setReservationsCollection(old.getReservationsCollection());
+        newUser.setUsername(userDTO.getUserName());
+
+        Workers workerDB = workersFacade.find(userDTO.getId());
+
+        workerDB.setAdress(userDTO.getAddress());
+        workerDB.setGrade(userDTO.getGrade());
+        workerDB.setPesel(userDTO.getPesel());
+        workerDB.setSurname(userDTO.getSurname());
+        workerDB.setWorkerName(userDTO.getName());
+
+        Long id = userDTO.getId();
+        workersFacade.edit(workerDB);
+        newUser.setWorkers(workerDB);
+        usersFacade.edit(user);
         return true;
     }
 

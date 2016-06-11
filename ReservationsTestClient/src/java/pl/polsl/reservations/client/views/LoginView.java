@@ -71,7 +71,7 @@ public class LoginView extends JPanel {
         add(mainPanel);
         add(loginButton);
         add(guestButton);
-
+        setupListeners();
         keyInputDispatcher();
     }
 
@@ -89,10 +89,6 @@ public class LoginView extends JPanel {
         }
     }
 
-    private void onClickRegister(ActionEvent evt) {
-
-    }
-
     private void onClickGuest(ActionEvent evt) {
         window.setOptionsAvailable(Color.black);
         window.setView(new WeekDataViewMediator().createView(window, loginMediator.getFirstRoom()));
@@ -108,18 +104,10 @@ public class LoginView extends JPanel {
         guestButton = new JButton();
     }
 
-
     private void initLoginFields() {
 
         loginLabel.setText("Login: ");
         passwordLabel.setText("Password: ");
-
-        loginButton.addActionListener((java.awt.event.ActionEvent evt) -> {
-            if (!validateAll()) {
-                return;
-            }
-            onClickLogin(evt);
-        });
         try {
             Image img = ImageIO.read(getClass().getResource("/resources/login.png"));
             ButtonStyle.setStyle(loginButton, img);
@@ -130,15 +118,24 @@ public class LoginView extends JPanel {
 
     private void initButtons() {
 
-        guestButton.addActionListener((java.awt.event.ActionEvent evt) -> {
-            onClickGuest(evt);
-        });
         try {
             Image img = ImageIO.read(getClass().getResource("/resources/guest_login.png"));
             ButtonStyle.setStyle(guestButton, img);
         } catch (IOException ex) {
             System.out.println("RESOURCE ERROR: " + ex.toString());
         }
+    }
+
+    private void setupListeners() {
+        guestButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+            onClickGuest(evt);
+        });
+        loginButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+            if (!validateAll()) {
+                return;
+            }
+            onClickLogin(evt);
+        });
     }
 
     private void keyInputDispatcher() {

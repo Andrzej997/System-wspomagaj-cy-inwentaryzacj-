@@ -1,12 +1,8 @@
 package pl.polsl.reservations.client.views;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import pl.polsl.reservations.client.views.utils.DayTableModel;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -15,7 +11,6 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import pl.polsl.reservations.client.mediators.DayDataViewMediator;
-import pl.polsl.reservations.client.mediators.WeekDataViewMediator;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
 import pl.polsl.reservations.client.views.utils.CustomDatePicker;
 import pl.polsl.reservations.client.views.utils.PanelStyle;
@@ -32,7 +27,7 @@ public class DayDataView extends javax.swing.JPanel {
 
     private final MainView window;
     private final Calendar date;
- 
+
     private RoomComboBox chooseRoomDropdown;
     private JButton nextBtn;
     private JButton prevBtn;
@@ -57,21 +52,15 @@ public class DayDataView extends javax.swing.JPanel {
     private void initComponents() {
         initializeObjects();
         setupButtons();
-        addListeners();
+        setupListeners();
         setBorder(new EmptyBorder(10, 10, 30, 10));
         PanelStyle.setSize(this, 800, 600);
         setupLayouts();
         keyInputDispatcher();
-        chooseRoomDropdown.addActionListener((ActionEvent e) -> {
-            if (chooseRoomDropdown.getSelectedItem() != null) {
-                chooseRoomDropdown.onAction();
-                dayDataViewMediator.getReservations();
-            }
-        });
         window.checkPrivileges();
     }
-    
-    private void setupLayouts(){
+
+    private void setupLayouts() {
         BoxLayout boxlayout = new BoxLayout(this, BoxLayout.Y_AXIS);
         setLayout(boxlayout);
 
@@ -100,12 +89,12 @@ public class DayDataView extends javax.swing.JPanel {
         add(chooseRoomDropdown);
         add(new JScrollPane(planTable));
     }
-    
-    private void addListeners(){
+
+    private void setupListeners() {
         backBtn.addActionListener((ActionEvent e) -> {
-      //      window.setView(new WeekDataViewMediator().createView(window, dayDataViewMediator.getFirstRoom());
+            //      window.setView(new WeekDataViewMediator().createView(window, dayDataViewMediator.getFirstRoom());
         });
-        
+
         prevBtn.addActionListener((ActionEvent e) -> {
             onClickBtnPrevious(e);
         });
@@ -115,6 +104,12 @@ public class DayDataView extends javax.swing.JPanel {
 
         datePicker.getDatePicker().addActionListener((ActionEvent e) -> {
             datePickerChange(e);
+        });
+        chooseRoomDropdown.addActionListener((ActionEvent e) -> {
+            if (chooseRoomDropdown.getSelectedItem() != null) {
+                chooseRoomDropdown.onAction();
+                dayDataViewMediator.getReservations();
+            }
         });
     }
 
@@ -138,7 +133,7 @@ public class DayDataView extends javax.swing.JPanel {
         nextBtn = new JButton();
         prevBtn = new JButton();
         calendarBtn = new JButton();
-        planTable = new JTable(new DayTableModel(32,3));
+        planTable = new JTable(new DayTableModel(32, 3));
         datePicker = CustomDatePicker.getInstance();
         backBtn = new JButton();
         startDate = Calendar.getInstance();
@@ -147,7 +142,6 @@ public class DayDataView extends javax.swing.JPanel {
         endDate.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
         dateFormat = new WeekDateFormatter().dateFormatter;
     }
-
 
     private void keyInputDispatcher() {
 
@@ -165,7 +159,6 @@ public class DayDataView extends javax.swing.JPanel {
         actionMap.put("escape", escapeAction);
     }
 
-    
     private void datePickerChange(ActionEvent e) {
         Calendar date = datePicker.getDate();
         if (date != null) {
@@ -222,6 +215,7 @@ public class DayDataView extends javax.swing.JPanel {
                         + dateFormat
                         .format(endDate.getTime()));
     }
+
     public MainView getWindow() {
         return window;
     }
@@ -245,6 +239,5 @@ public class DayDataView extends javax.swing.JPanel {
     public JTable getPlanView() {
         return planTable;
     }
-
 
 }

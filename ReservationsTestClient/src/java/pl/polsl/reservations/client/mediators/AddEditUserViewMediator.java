@@ -54,6 +54,9 @@ public class AddEditUserViewMediator {
                     getUsers();
                     setPrivilegeLevels();
                     getEditedUserData();
+                    refreshPrivilegeLevel();
+                    refreshUserRoom();
+                    refreshDepartament();
                     break;
                 default:
                     break;
@@ -143,6 +146,7 @@ public class AddEditUserViewMediator {
         addEditUserView.getUsernameContentLabel().setText(userDetails.getUserName());
         PrivilegeLevelDTO usersPrivilegeLevel = userManagementFacade.getUsersPrivilegeLevel(userDetails.getId().intValue());
         addEditUserView.getPermissionContentLabel().setText(usersPrivilegeLevel.getDescription());
+        addEditUserView.getRoomContentLabel().setText(userDetails.getRoomNumber().toString());
     }
 
     public Boolean onChangeUserData() {
@@ -231,7 +235,7 @@ public class AddEditUserViewMediator {
             userDetails.setSurname(addEditUserView.getSurnameTf().getText());
             userDetails.setUserName(addEditUserView.getUsernameTf().getText());
             userDetails.setPrivilegeLevel(getSelectedPrivilegeLevel());
-            userFacade.changeUserDetails(userDetails);
+            userFacade.changeAnotherUserDetails(userDetails);
         }
     }
 
@@ -244,10 +248,49 @@ public class AddEditUserViewMediator {
         }
     }
 
+    private void refreshPrivilegeLevel() {
+        Integer selectedIndex = addEditUserView.getUserCb().getSelectedIndex();
+        if (selectedIndex != null && addEditUserView.getPermissionCb().getModel().getSize() != 0) {
+            List<UserDTO> usersWithLowerPrivilegeLevel = userFacade.getUsersWithLowerPrivilegeLevel();
+            UserDTO user = usersWithLowerPrivilegeLevel.get(selectedIndex);
+            Long privilegeLevel = user.getPrivilegeLevel();
+            addEditUserView.getPermissionCb().setSelectedIndex(privilegeLevel.intValue() - 1);
+        }
+    }
+
+    private void refreshUserRoom() {
+        Integer selectedIndex = addEditUserView.getUserCb().getSelectedIndex();
+        if (selectedIndex != null) {
+            List<UserDTO> usersWithLowerPrivilegeLevel = userFacade.getUsersWithLowerPrivilegeLevel();
+            UserDTO user = usersWithLowerPrivilegeLevel.get(selectedIndex);
+            Integer roomNumber = user.getRoomNumber();
+            if (roomNumber != null) {
+                Integer number = roomNumber % 100;
+                Integer floor = roomNumber / 100;
+                addEditUserView.getRoomCb().selectItem(floor, number);
+            }
+        }
+    }
+
+    private void refreshDepartament() {
+        Integer selectedIndex = addEditUserView.getUserCb().getSelectedIndex();
+        if (selectedIndex != null && addEditUserView.getDepartmentCb().getModel().getSize() != 0) {
+            List<UserDTO> usersWithLowerPrivilegeLevel = userFacade.getUsersWithLowerPrivilegeLevel();
+            UserDTO user = usersWithLowerPrivilegeLevel.get(selectedIndex);
+            String department = user.getDepartment();
+            if (department != null) {
+                addEditUserView.getDepartmentCb().setSelectedItem(department);
+            }
+        }
+
+    }
+
     public void refreshUserData() {
         getRooms();
-        setPrivilegeLevels();
         getEditedUserData();
+        refreshPrivilegeLevel();
+        refreshUserRoom();
+        refreshDepartament();
     }
 
 }

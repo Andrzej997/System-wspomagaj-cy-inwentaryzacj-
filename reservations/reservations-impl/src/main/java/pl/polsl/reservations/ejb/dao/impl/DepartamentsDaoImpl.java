@@ -86,17 +86,20 @@ public class DepartamentsDaoImpl extends AbstractDaoImpl<Departaments> implement
             room.setDepartament(null);
             roomFacadeRemote.merge(room);
         }
+        departament.setRoomCollection(null);
 
         List<Workers> workersCollection = departament.getWorkersCollection();
         for (Workers worker : workersCollection) {
             workersFacadeRemote.remove(worker);
         }
+        departament.setRoomCollection(null);
 
         Institutes institute = departament.getInstitute();
         List<Departaments> departamentsCollection = institute.getDepartamentsCollection();
         departamentsCollection.remove(departament);
         institute.setDepartamentsCollection(departamentsCollection);
         institutesFacadeRemote.merge(institute);
+        departament.setInstitute(null);
 
         super.remove(departament);
     }

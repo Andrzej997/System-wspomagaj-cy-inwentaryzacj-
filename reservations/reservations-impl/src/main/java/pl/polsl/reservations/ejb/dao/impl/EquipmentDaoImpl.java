@@ -12,9 +12,6 @@ import pl.polsl.reservations.ejb.dao.EquipmentStateDao;
 import pl.polsl.reservations.ejb.dao.EquipmentTypeDao;
 import pl.polsl.reservations.ejb.dao.RoomDao;
 import pl.polsl.reservations.entities.Equipment;
-import pl.polsl.reservations.entities.EquipmentType;
-import pl.polsl.reservations.entities.EqupmentState;
-import pl.polsl.reservations.entities.Room;
 import pl.polsl.reservations.interceptors.TransactionalInterceptor;
 import pl.polsl.reservations.logger.LoggerImpl;
 
@@ -47,23 +44,26 @@ public class EquipmentDaoImpl extends AbstractDaoImpl<Equipment> implements Equi
         getDependencies();
 
         Equipment equipment = this.find(entity.getId());
-        EqupmentState equipmentState = equipment.getEquipmentState();
+       /* EqupmentState equipmentState = equipment.getEquipmentState();
         List<Equipment> equipmentCollection = equipmentState.getEquipmentCollection();
         equipmentCollection.remove(equipment);
         equipmentState.setEquipmentCollection(equipmentCollection);
         equipmentStateFacadeRemote.merge(equipmentState);
+        equipment.setEquipmentState(null);
 
         EquipmentType equipmentType = equipment.getEquipmentType();
         equipmentCollection = equipmentType.getEquipmentCollection();
         equipmentCollection.remove(equipment);
         equipmentType.setEquipmentCollection(equipmentCollection);
         equipmentTypeFacadeRemote.merge(equipmentType);
+        equipment.setEquipmentType(null);
 
         Room room = equipment.getRoom();
         equipmentCollection = room.getEquipmentCollection();
         equipmentCollection.remove(equipment);
         room.setEquipmentCollection(equipmentCollection);
         roomFacadeRemote.merge(room);
+        equipment.setRoom(null);*/
 
         super.remove(equipment);
     }

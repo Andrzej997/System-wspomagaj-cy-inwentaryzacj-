@@ -1,4 +1,4 @@
-package pl.polsl.reservations.client.views;
+package pl.polsl.reservations.client.views.utils;
 
 import javax.swing.table.DefaultTableModel;
 

@@ -314,7 +314,7 @@ public class CreateRaportView extends JPanel {
         labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS));
         dataPanel.setLayout(new BoxLayout(dataPanel, BoxLayout.Y_AXIS));
     }
-
+    
     private void keyInputDispatcher() {
 
         InputMap inputMap = this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
