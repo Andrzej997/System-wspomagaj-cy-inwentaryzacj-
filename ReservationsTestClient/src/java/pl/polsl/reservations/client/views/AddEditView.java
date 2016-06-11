@@ -160,9 +160,7 @@ public class AddEditView extends JPanel {
         dayTablePanel = new JPanel();
         addButton = new JButton();
         roomCb = new RoomComboBox();
-        addButton.addActionListener((java.awt.event.ActionEvent evt) -> {
-            onOkClick(evt);
-        });
+
         dayTable = new JTable(new DayTableModel(32, 3));
         JScrollPane tableScrollPanel = new JScrollPane(dayTable);
         PanelStyle.setSize(tableScrollPanel, 450, 550);
@@ -183,10 +181,20 @@ public class AddEditView extends JPanel {
         titleLabel = new JLabel("Title: ");
         roomLabel = new JLabel("Room ID: ");
 
-        //addButton = new JButton();
         editButton = new JButton();
         discardButton = new JButton();
         backBtn = new JButton();
+        
+        addButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+            onOkClick(evt);
+        });
+        editButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+            onEditClick(evt);
+        });
+        discardButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+            onDiscardClick(evt);
+        });
+        
     }
 
     private void setText() {
@@ -648,6 +656,14 @@ public class AddEditView extends JPanel {
     public void setEdit(boolean edit) {
         this.edit = edit;
     }
+
+    private void onEditClick(ActionEvent evt) {
+        addEditViewMediator.editReservation();
+    }
+
+    private void onDiscardClick(ActionEvent evt) {
+        addEditViewMediator.deleteReservation();
+    }
     
     
     private class MouseListenerImpl implements MouseListener {
@@ -661,15 +677,12 @@ public class AddEditView extends JPanel {
                 Integer row = dayTable.getSelectedRow();
             if (e.getClickCount() == 2) {
             
-                if (column != 0) {
-                    Calendar cal = datepicker.getDate();
-                    JOptionPane.showMessageDialog(mainPanel, "Double clicked Inside reservation");
-                   //todo:
+                   Calendar cal = datepicker.getDate();
+                   
                    if(!edit){
                    window.setView(new AddEditViewMediator(cal,roomCb.getSelectedItem(),addEditViewMediator.getChosenReservation()).createView(window, true));
                    }
                    
-                }
             }
             if (e.getClickCount() == 1) {
                 List<ReservationDTO> reservations = addEditViewMediator.getReservationsList();
@@ -697,7 +710,6 @@ public class AddEditView extends JPanel {
                        
                     }
                 }
-                //addEditViewMediator.getReservations();
                 addEditViewMediator.refreshTableAfterChoose();
             }
         }

@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -96,7 +97,7 @@ public class AddEditViewMediator {
         setWorkersData();
         setTargetData();
         setEditDropdowns();
-        
+
         return addEditView;
     }
 
@@ -174,7 +175,7 @@ public class AddEditViewMediator {
             Integer roomEnd = room.getEndTime();
 
             if (addEditView.isEdit()) {
-                if (room.equals(chosenReservation)) {
+                if (Objects.equals(room.getId(), chosenReservation.getId())) {
                     continue;
                 }
             }
@@ -210,7 +211,7 @@ public class AddEditViewMediator {
                 Calendar calendar = date;
                 Integer typeId = getType().getId();
                 Integer userId = getWorkersData().getId().intValue();
-                //  scheduleFacade.createReservation(roomID, startTime, endTime, DateUtils.getWeekOfSemester(date), date.get(Calendar.YEAR), DateUtils.getSemesterFromDate(date), typeId, userId);
+                 scheduleFacade.createReservation(roomID, startTime, endTime, DateUtils.getWeekOfSemester(date), date.get(Calendar.YEAR), DateUtils.getSemesterFromDate(date), typeId, userId);
 
                 getReservations();
                 return true;
@@ -236,7 +237,7 @@ public class AddEditViewMediator {
             Integer startTime = getStartHourFromView() + weekDay * 96;
             Integer endTime = getEndHourFromView() + weekDay * 96 - 1;
 
-            Long userID = userManagementFacade.getUserDetails((String) addEditView.getTeacherCb().getSelectedItem()).getId();
+            Long userID  = getWorkersData().getId();
             String reservationType = (String) addEditView.getGroupCb().getSelectedItem();
 
             if (startTime < endTime) {
@@ -262,22 +263,31 @@ public class AddEditViewMediator {
                 JOptionPane.showMessageDialog(addEditView, "Start date after end date", "ERROR", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
+        } else {
+            JOptionPane.showMessageDialog(addEditView, "Choose reservation!", "WARNING", JOptionPane.WARNING_MESSAGE);
+            return false;
         }
         return true;
     }
 
-    public void deleteReservation() {
+    public boolean deleteReservation() {
         ReservationDTO reservation = chosenReservation;
+        if (reservation != null) {
+            try {
 
-        try {
+                scheduleFacade.removeReservation(reservation.getId().intValue());
+                getReservations();
 
-            scheduleFacade.removeReservation(reservation.getId().intValue());
-            getReservations();
-
-        } catch (UnauthorizedAccessException ex) {
-            JOptionPane.showMessageDialog(addEditView, "Unauthorized access!", "ERROR", JOptionPane.ERROR_MESSAGE);
+            } catch (UnauthorizedAccessException ex) {
+                JOptionPane.showMessageDialog(addEditView, "Unauthorized access!", "ERROR", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }else{
+            JOptionPane.showMessageDialog(addEditView, "Choose reservation!", "WARNING", JOptionPane.WARNING_MESSAGE);
+            return false;
         }
 
+        return true;
     }
 
     public List<ReservationDTO> getReservationsList() {
@@ -356,7 +366,7 @@ public class AddEditViewMediator {
         addEditView.getDayTable().setDefaultRenderer(Object.class,
                 new DayCustomRenderer(reservationCellsRendererMap, startQuarters, endQuarters, chosenStartQuarter, chosenEndQuarter));
 
-         addEditView.getDayTable().repaint();
+        addEditView.getDayTable().repaint();
     }
 
     private void createReservationsRendererList(Integer numberOfStartQuarter,
