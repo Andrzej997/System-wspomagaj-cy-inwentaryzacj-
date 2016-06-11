@@ -111,33 +111,42 @@ public class ScheduleFacadeImpl extends AbstractBusinessFacadeImpl implements Sc
             schedule.setReservationsCollection(reservationsCollection);
             roomScheduleDAO.merge(schedule);
         } else {
-            List<Reservations>reservationsCollection = new ArrayList<>();
+            List<Reservations> reservationsCollection = new ArrayList<>();
             reservationsCollection.add(newReservaton);
             schedule.setReservationsCollection(reservationsCollection);
             roomScheduleDAO.create(schedule);
         }
     }
-    
+
     @Override
     @RequiredPrivilege(PrivilegeEnum.MODIFY_RESERVATION_OWN)
-    public Boolean editReservation(ReservationDTO dTO){
-        Reservations newReservation = new Reservations();
-        newReservation.setId(dTO.getId());
-        newReservation.setEndTime(dTO.getEndTime());
-        newReservation.setStartTime(dTO.getStartTime());
-        Users user = usersDAO.find(dTO.getId());
-        newReservation.setUser(user);
+    public Boolean editReservation(ReservationDTO dTO) {
+        Reservations newReservation = reservationsDAO.find(dTO.getId());
+        if (dTO.getEndTime() != null) {
+            newReservation.setEndTime(dTO.getEndTime());
+        }
+        if (dTO.getStartTime() != null) {
+            newReservation.setStartTime(dTO.getStartTime());
+        }
+        Users user = usersDAO.find(dTO.getUserId());
+        if (user != null) {
+            newReservation.setUser(user);
+        }
         String type = dTO.getType();
         List<ReservationTypes> findAll = reservationTypeDAO.findAll();
         ReservationTypes reservationType = null;
-        for(ReservationTypes types : findAll){
-            if(types.getTypeShortDescription().equals(type)){
+        for (ReservationTypes types : findAll) {
+            if (types.getTypeShortDescription().equals(type)) {
                 reservationType = types;
             }
         }
-        newReservation.setReservationType(reservationType);
+        if (reservationType != null) {
+            newReservation.setReservationType(reservationType);
+        }
         RoomSchedule rs = roomScheduleDAO.find(dTO.getRoomNumber());
-        newReservation.setRoomSchedule(rs);
+        if (rs != null) {
+            newReservation.setRoomSchedule(rs);
+        }
         reservationsDAO.edit(newReservation);
         return true;
     }
