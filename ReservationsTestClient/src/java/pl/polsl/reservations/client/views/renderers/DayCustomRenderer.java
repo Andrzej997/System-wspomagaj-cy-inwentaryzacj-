@@ -25,6 +25,9 @@ public class DayCustomRenderer extends DefaultTableCellRenderer {
     private List<Integer> startQuarters;
     private List<Integer> endQuarters;
 
+    private Integer chosenStartQuarter;
+    private Integer chosenEndQuarter;
+
     public DayCustomRenderer() {
     }
 
@@ -33,6 +36,17 @@ public class DayCustomRenderer extends DefaultTableCellRenderer {
         this.colorMap = colorMap;
         this.startQuarters = startQuarters;
         this.endQuarters = endQuarters;
+        chosenEndQuarter = null;
+        chosenStartQuarter = null;
+    }
+
+    public DayCustomRenderer(HashMap<Color, List<Integer>> colorMap,
+            List<Integer> startQuarters, List<Integer> endQuarters, Integer chosenStartQuarter, Integer chosenEndQuarter) {
+        this.colorMap = colorMap;
+        this.startQuarters = startQuarters;
+        this.endQuarters = endQuarters;
+        this.chosenStartQuarter = chosenStartQuarter;
+        this.chosenEndQuarter = chosenEndQuarter;
     }
 
     private Boolean paintCell(Integer row, Integer column, JComponent c) {
@@ -40,9 +54,19 @@ public class DayCustomRenderer extends DefaultTableCellRenderer {
         boolean startQuarter = false;
         boolean endQuarter = false;
 
+        boolean paintChosen = false;
+
+        Integer cellQuarter = row + column * 32;
+
+        if (chosenStartQuarter != null && chosenEndQuarter != null) {
+            if (cellQuarter >= chosenStartQuarter && cellQuarter <= chosenEndQuarter) {
+                paintChosen = true;
+            }
+        }
+
         for (Integer quarter : startQuarters) {
             Integer absoluteAddress = row + column * 32;
-            if(absoluteAddress.equals(quarter)){
+            if (absoluteAddress.equals(quarter)) {
                 startQuarter = true;
                 break;
             }
@@ -50,21 +74,27 @@ public class DayCustomRenderer extends DefaultTableCellRenderer {
 
         for (Integer quarter : endQuarters) {
             Integer absoluteAddress = row + column * 32;
-            if(absoluteAddress.equals(quarter)){
+            if (absoluteAddress.equals(quarter)) {
                 endQuarter = true;
                 break;
             }
         }
 
+        Color borderColor = Color.BLACK;
+
+        if (paintChosen) {
+            borderColor = Color.YELLOW;
+        }
+
         b = BorderFactory.createCompoundBorder();
         if (startQuarter) {
-            b = BorderFactory.createCompoundBorder(b, BorderFactory.createMatteBorder(2, 0, 0, 0, Color.BLACK));
+            b = BorderFactory.createCompoundBorder(b, BorderFactory.createMatteBorder(2, 0, 0, 0, borderColor));
         }
         if (endQuarter) {
-            b = BorderFactory.createCompoundBorder(b, BorderFactory.createMatteBorder(0, 0, 2, 0, Color.BLACK));
+            b = BorderFactory.createCompoundBorder(b, BorderFactory.createMatteBorder(0, 0, 2, 0, borderColor));
         }
-        b = BorderFactory.createCompoundBorder(b, BorderFactory.createMatteBorder(0, 2, 0, 0, Color.BLACK));
-        b = BorderFactory.createCompoundBorder(b, BorderFactory.createMatteBorder(0, 0, 0, 2, Color.BLACK));
+        b = BorderFactory.createCompoundBorder(b, BorderFactory.createMatteBorder(0, 2, 0, 0, borderColor));
+        b = BorderFactory.createCompoundBorder(b, BorderFactory.createMatteBorder(0, 0, 0, 2, borderColor));
 
         for (Map.Entry<Color, List<Integer>> cellsColor : colorMap.entrySet()) {
             List<Integer> colorableCellsAddresses = cellsColor.getValue();
@@ -82,19 +112,18 @@ public class DayCustomRenderer extends DefaultTableCellRenderer {
         return false;
     }
 
-    
     private void drawTimeBorders(int row, JComponent c) {
         Border b;
 
         b = BorderFactory.createCompoundBorder();
-        if (row%4==0) {
+        if (row % 4 == 0) {
             b = BorderFactory.createCompoundBorder(b, BorderFactory.createMatteBorder(2, 0, 0, 0, Color.GRAY));
-        }else{
-             b = BorderFactory.createCompoundBorder(b, BorderFactory.createMatteBorder(1, 0, 0, 0, Color.GRAY));
+        } else {
+            b = BorderFactory.createCompoundBorder(b, BorderFactory.createMatteBorder(1, 0, 0, 0, Color.GRAY));
         }
-        if ((row+1)%4==0) {
+        if ((row + 1) % 4 == 0) {
             b = BorderFactory.createCompoundBorder(b, BorderFactory.createMatteBorder(0, 0, 2, 0, Color.GRAY));
-        }else{
+        } else {
             b = BorderFactory.createCompoundBorder(b, BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
         }
         b = BorderFactory.createCompoundBorder(b, BorderFactory.createMatteBorder(0, 1, 0, 0, Color.GRAY));
@@ -102,14 +131,14 @@ public class DayCustomRenderer extends DefaultTableCellRenderer {
 
         c.setBorder(b);
     }
-    
+
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column) {
         JComponent c = (JComponent) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
         drawTimeBorders(row, c);
-        
+
         if (paintCell(row, column, c)) {
             c.setFont(Font.getFont("ArialBlack"));
         } else {
