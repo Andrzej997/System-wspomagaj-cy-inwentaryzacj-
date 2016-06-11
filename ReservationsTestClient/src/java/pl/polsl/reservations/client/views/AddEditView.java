@@ -665,7 +665,10 @@ public class AddEditView extends JPanel {
                     Calendar cal = datepicker.getDate();
                     JOptionPane.showMessageDialog(mainPanel, "Double clicked Inside reservation");
                    //todo:
-                   window.setView(new AddEditViewMediator(cal,roomCb.getSelectedItem()).createView(window, true));
+                   if(!edit){
+                   window.setView(new AddEditViewMediator(cal,roomCb.getSelectedItem(),addEditViewMediator.getChosenReservation()).createView(window, true));
+                   }
+                   
                 }
             }
             if (e.getClickCount() == 1) {
@@ -679,6 +682,8 @@ public class AddEditView extends JPanel {
                 
                 Integer selectedTime=dayOfWeek*96+column*32+row;
                 
+                addEditViewMediator.setChosenReservation(null);
+                
                 for(ReservationDTO reservation: reservations){
                     Integer startTime=reservation.getStartTime();
                     Integer endTime=reservation.getEndTime();
@@ -686,10 +691,14 @@ public class AddEditView extends JPanel {
                     if(selectedTime>=startTime&&selectedTime<=endTime){
                         hourStartCb.setSelectedIndex(startTime-dayOfWeek*96);
                         hourStopCb.setSelectedIndex(endTime-dayOfWeek*96+1);
-                       // teacherCb.setSelectedItem(reservation.getUserId());
+                       teacherCb.setSelectedItem(addEditViewMediator.getUserName(reservation.getUserId()));
                        groupCb.setSelectedItem(reservation.getType());
+                       addEditViewMediator.setChosenReservation(reservation);
+                       
                     }
                 }
+                //addEditViewMediator.getReservations();
+                addEditViewMediator.refreshTableAfterChoose();
             }
         }
 
