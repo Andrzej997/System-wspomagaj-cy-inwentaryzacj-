@@ -1,10 +1,14 @@
 package pl.polsl.reservations.dto;
 
+import java.io.Serializable;
+
 /**
  *
  * @author wojcdeb448
  */
-public class PrivilegeRequestDTO {
+public class PrivilegeRequestDTO implements Serializable{
+
+    private static final long serialVersionUID = 6787480726890987711L;
 
     private Long privilegeLevel;
     private String reason;

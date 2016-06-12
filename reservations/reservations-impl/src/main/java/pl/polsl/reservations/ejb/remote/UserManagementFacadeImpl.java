@@ -51,7 +51,7 @@ public class UserManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     PriviligeLevelsDao priviligeLevelsFacade;
     @EJB
     InstitutesDao institutesFacade;
-    
+
     @EJB
     TimerSession timerSession;
 
@@ -63,7 +63,6 @@ public class UserManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
-    @RequiredPrivilege(PrivilegeEnum.MANAGE_TECH_CHEF_SUBORDINATES)
     public UserDTO getUserDetails(String userName) {
         Users user = usersFacade.getUserByUsername(userName);
 
@@ -269,7 +268,7 @@ public class UserManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
 
     @Override
     public List<UserDTO> getUnderlings(int chiefId) {
-        Workers chief = workersFacade.getReference(chiefId);
+        Workers chief = workersFacade.find(chiefId);
         List<Workers> workers = workersFacade.findAll();
 
         if (chief == null || workers == null) {
@@ -278,9 +277,14 @@ public class UserManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
 
         List<UserDTO> list = new ArrayList<>();
         for (Workers worker : workers) {
+            if (worker.getChief() == null) {
+                continue;
+            }
             if (worker.getChief().getId().equals(chief.getId())) {
                 UserDTO user = getUserDetails(worker.getId().intValue());
-                list.add(user);
+                if (user != null) {
+                    list.add(user);
+                }
             }
         }
         return list;
@@ -386,8 +390,8 @@ public class UserManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
 
         Users u = usersFacade.find(pr.getUserID());
         changePrivilegeLevel(u.getUsername(), pr.getPrivilegeLevel());
-        
-        timerSession.createTimer(8*60*60*100, pr.getUserID().intValue());
+
+        timerSession.createTimer(8 * 60 * 60 * 100, pr.getUserID().intValue());
 
         return true;
     }

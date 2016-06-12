@@ -18,9 +18,9 @@ public class MessageBoxUtils {
 
     private static final UserManagementFacade userManagementFacade = Lookup.getUserManagementFacade();
     private static final UserFacade userFacade = Lookup.getUserFacade();
-    
-    public static void createPrivilegeError (JComponent parent){
-        if(ClientContext.getInstance().isGuest() || ClientContext.getInstance().isStandardUser()){
+
+    public static void createPrivilegeError(JComponent parent) {
+        if (ClientContext.getInstance().isGuest() || ClientContext.getInstance().isStandardUser()) {
             createPrivilegeErrorPane(parent);
         } else {
             createPrivilegeRequestErrorPane(parent);
@@ -48,8 +48,13 @@ public class MessageBoxUtils {
             Object[] options = {"REQUEST PRIVILEGE", "ABORT"};
             int optionIndex = JOptionPane.showOptionDialog(parent, message, title, JOptionPane.DEFAULT_OPTION,
                     JOptionPane.WARNING_MESSAGE, null, options, options[0]);
-            String text = (String) options[optionIndex];
-            if (!text.equals("ABORT")) {
+            String text = null;
+            try {
+                text = (String) options[optionIndex];
+            } catch (ArrayIndexOutOfBoundsException ex) {
+                return;
+            }
+            if (text != null && !text.equals("ABORT")) {
                 userFacade.requestHigherPrivilegeLevel("Every reason is a good reason");
                 createHigherLevelRequestMessage(parent);
             }
@@ -65,29 +70,30 @@ public class MessageBoxUtils {
     public static void createAvaliableRequestsMessage(JComponent parent) {
         if (ClientContext.getInstance().canAcceptRequests()) {
             List<PrivilegeRequestDTO> operationableRequests = userFacade.getOperationableRequests();
-            if(operationableRequests == null){
+            if (operationableRequests == null) {
                 return;
             }
             for (PrivilegeRequestDTO privilegeRequest : operationableRequests) {
                 Long userID = privilegeRequest.getUserID();
                 UserDTO userDetails = userManagementFacade.getUserDetails(userID.intValue());
                 List<UserDTO> underlings = userManagementFacade.getUnderlings(ClientContext.getInstance().getCurrentUserId().intValue());
-                if (underlings.contains(userDetails)) {
-                    String message = "User " + userDetails.getName() + " " + userDetails.getSurname() + "\n";
-                    message += "requested for your privilege level!";
-                    String title = "Warning";
-                    Object[] options = {"ACCEPT", "DECLINE"};
-                    int optionIndex = JOptionPane.showOptionDialog(parent, message, title, JOptionPane.DEFAULT_OPTION,
-                            JOptionPane.WARNING_MESSAGE, null, options, options[0]);
-                    String text = (String) options[optionIndex];
-                    if (text.equals("ACCEPT")) {
-                        userManagementFacade.acceptPrivilegeRequest(privilegeRequest);
-                    } else {
-                        userManagementFacade.declinePrivilegeRequest(privilegeRequest);
+                for (UserDTO user : underlings) {
+                    if (user.getId().equals(userDetails.getId())) {
+                        String message = "User " + userDetails.getName() + " " + userDetails.getSurname() + "\n";
+                        message += "requested for your privilege level!";
+                        String title = "Warning";
+                        Object[] options = {"ACCEPT", "DECLINE"};
+                        int optionIndex = JOptionPane.showOptionDialog(parent, message, title, JOptionPane.DEFAULT_OPTION,
+                                JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+                        String text = (String) options[optionIndex];
+                        if (text.equals("ACCEPT")) {
+                            userManagementFacade.acceptPrivilegeRequest(privilegeRequest);
+                        } else {
+                            userManagementFacade.declinePrivilegeRequest(privilegeRequest);
+                        }
                     }
                 }
             }
         }
     }
-
 }

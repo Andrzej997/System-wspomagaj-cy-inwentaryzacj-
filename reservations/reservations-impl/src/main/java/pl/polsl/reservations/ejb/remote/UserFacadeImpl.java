@@ -228,6 +228,7 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
 
     @Override
     public PrivilegeLevelDTO getObtainablePrivilegeLevel() {
+        user = getCurrentUserContext().getUser();
         if (user == null) {
             return null;
         }
@@ -242,6 +243,7 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
 
     @Override
     public boolean requestHigherPrivilegeLevel(String reason) {
+        user = getCurrentUserContext().getUser();
         if (user == null) {
             return false;
         }
@@ -259,6 +261,7 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
 
     @Override
     public boolean isRequestingHigherPrivilegeLevel() {
+        user = getCurrentUserContext().getUser();
         if (user == null) {
             return false;
         }

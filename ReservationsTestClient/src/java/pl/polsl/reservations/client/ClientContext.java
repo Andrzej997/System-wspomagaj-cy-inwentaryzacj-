@@ -98,6 +98,8 @@ public class ClientContext {
     public void setUsername(String username) {
         ClientContext.username = username;
         userDetails = userFacade.getUserDetails();
+        privilegeLevel = userDetails.getPrivilegeLevel();
+        getAccessibleRooms();
     }
 
     public Boolean isAdmin() {
