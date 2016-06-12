@@ -52,7 +52,7 @@ public interface RoomManagementFacade extends AbstractBusinessFacade{
     
     public boolean addInstitute(InstituteDTO instituteDTO);
     
-    public boolean removeInstitute(InstituteDTO instituteDTO);
+    public boolean removeInstitute(Long id);
     
     public boolean editInstitute(InstituteDTO instituteDTO);
 }

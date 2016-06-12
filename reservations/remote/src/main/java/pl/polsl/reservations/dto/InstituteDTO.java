@@ -13,7 +13,9 @@ public class InstituteDTO implements Serializable {
     private Long id;
     
     private String name;
-    
+
+    private Long chefId;
+
     public InstituteDTO(){
     }
 
@@ -37,6 +39,12 @@ public class InstituteDTO implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    
-    
+
+    public Long getChefId() {
+        return chefId;
+    }
+
+    public void setChefId(Long chefId) {
+        this.chefId = chefId;
+    }
 }

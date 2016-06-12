@@ -34,6 +34,9 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     DepartamentsDao departmentDAO;
 
     @EJB
+    InstitutesDao institutesDAO;
+
+    @EJB
     EquipmentStateDao equipmentStateDAO;
 
     @EJB
@@ -434,17 +437,41 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
+    @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
     public boolean addInstitute(InstituteDTO instituteDTO) {
+        Institutes institute = new Institutes();
+        institute.setChief(workersDAO.find(instituteDTO.getChefId()));
+        institute.setInstituteName(instituteDTO.getName());
+        institutesDAO.create(institute);
         return true;
     }
 
     @Override
-    public boolean removeInstitute(InstituteDTO instituteDTO) {
+    @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
+    public boolean removeInstitute(Long id) {
+        Institutes institute = institutesDAO.find(id);
+        if (institute == null) {
+            return false;
+        }
+        for (Departaments d : institute.getDepartamentsCollection()) {
+            d.setInstitute(null);
+            departmentDAO.edit(d);
+        }
+
+        institutesDAO.remove(institute);
         return true;
     }
 
     @Override
+    @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
     public boolean editInstitute(InstituteDTO instituteDTO) {
+        Institutes institute = institutesDAO.find(instituteDTO.getId());
+        if (institute == null) {
+            return false;
+        }
+        institute.setChief(workersDAO.find(instituteDTO.getChefId()));
+        institute.setInstituteName(instituteDTO.getName());
+        institutesDAO.edit(institute);
         return true;
     }
 }
