@@ -48,6 +48,7 @@ public class AddEditRoomTypeView extends JPanel {
     private JPanel labelPanel;
     private JPanel dataPanel;
     private JPanel mainPanel;
+    
     private JButton addButton;
     private JButton deleteButton;
 
@@ -65,14 +66,14 @@ public class AddEditRoomTypeView extends JPanel {
         this.addEditRoomTypeViewMediator = addEditRoomTypeViewMediator;
         initComponents();
         prepareObjects();
-        setupView();
         initPanels();
+        setupView();
         setupListeners();
     }
 
     private void initComponents() {
-        roomTypeLabel = new JLabel("Room type: ");
-        roomTypeDescLabel = new JLabel("Type description :");
+        roomTypeLabel = new JLabel("Room type:");
+        roomTypeDescLabel = new JLabel("Type description:");
         roomTypeField = new JTextField();
         roomTypeDescField = new JTextField();
         roomTypesLb = new JLabel("Select type: ");
@@ -98,8 +99,6 @@ public class AddEditRoomTypeView extends JPanel {
     }
 
     private void setupView() {
-
-        Image img;
         try {
             addImg = ImageIO.read(getClass().getResource("/resources/add.png"));
             ButtonStyle.setStyle(addButton, addImg);
@@ -117,8 +116,9 @@ public class AddEditRoomTypeView extends JPanel {
         dataPanel.add(roomTypeDescField);
         mainPanel.add(labelPanel);
         mainPanel.add(dataPanel);
-        add(addButton);
-        add(deleteButton);
+        mainPanel.add(addButton);
+        mainPanel.add(deleteButton);
+        add(mainPanel);
     }
 
     private void initPanels() {
@@ -130,15 +130,17 @@ public class AddEditRoomTypeView extends JPanel {
 
     private void setupListeners() {
         roomTypes.addActionListener((ActionEvent e) -> {
-            addEditRoomTypeViewMediator.onSelectionChange();
+            if (roomTypes.getSelectedItem() != null) {
+                addEditRoomTypeViewMediator.onSelectionChange();
+            }
         });
-        
-        addButton.addActionListener((ActionEvent e)->{
+
+        addButton.addActionListener((ActionEvent e) -> {
             addEditRoomTypeViewMediator.onAddEdit();
             window.getAddRoomTypeFrame().dispose();
         });
-        
-        deleteButton.addActionListener((ActionEvent e)->{
+
+        deleteButton.addActionListener((ActionEvent e) -> {
             addEditRoomTypeViewMediator.onDelete();
             window.getAddRoomTypeFrame().dispose();
         });
