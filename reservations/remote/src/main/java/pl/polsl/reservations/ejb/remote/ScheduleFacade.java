@@ -18,11 +18,8 @@ public interface ScheduleFacade extends AbstractBusinessFacade{
     void removeReservation(int reservationId) throws UnauthorizedAccessException;
     List<ReservationTypeDTO> getReservationTypes();
     void removeReservationType(int id);
-    void createReservationType(String shortDescription, String longDescription, String color);
-
-    //TODO implementacja jak będzie wiadomo jak ma działać
-    default void findReservation() {
-    }
+    void createReservationType(ReservationTypeDTO reservationType);
+    void editReservationType(ReservationTypeDTO reservationType);
 
     public Boolean editReservation(ReservationDTO dTO, Integer year, Boolean semester, Integer week);
 }
