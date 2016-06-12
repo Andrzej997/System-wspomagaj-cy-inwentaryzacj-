@@ -70,6 +70,7 @@ public class AddEditReservationTypeMediator {
             reservationTypeDTO.setLongDescription(addEditReservationTypeView.getLongDescTf().getText());
             String selectedColor = (String) addEditReservationTypeView.getColorCb().getSelectedItem();
             reservationTypeDTO.setReservationColor(selectedColor);
+            scheduleFacade.createReservationType(reservationTypeDTO);
         } else {
             for (ReservationTypeDTO reservationType : reservationTypes) {
                 if (reservationType.getShortDescription().equals(selectedItem)) {
@@ -83,7 +84,7 @@ public class AddEditReservationTypeMediator {
                         String selectedColor = (String) addEditReservationTypeView.getColorCb().getSelectedItem();
                         reservationTypeDTO.setReservationColor(selectedColor);
                         reservationTypeDTO.setId(reservationType.getId());
-                        //TODO Edit
+                        scheduleFacade.editReservationType(reservationType);
                         return;
                     }
                 }
@@ -99,7 +100,7 @@ public class AddEditReservationTypeMediator {
         }
         for(ReservationTypeDTO reservationType : reservationTypes){
             if(reservationType.getShortDescription().equals(selectedItem)){
-                //TODO delete
+                scheduleFacade.removeReservationType(reservationType.getId().intValue());
                 return;
             }
         }

@@ -20,7 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 import pl.polsl.reservations.client.Lookup;
-import pl.polsl.reservations.client.mediators.AddEditInstituteMediator;
+import pl.polsl.reservations.client.mediators.AddEditDepartamentMediator;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
 import pl.polsl.reservations.client.views.utils.PanelStyle;
 
@@ -28,18 +28,21 @@ import pl.polsl.reservations.client.views.utils.PanelStyle;
  *
  * @author matis
  */
-public class AddEditInstituteView extends JPanel {
+public class AddEditDepartamentView extends JPanel {
 
-    private static final long serialVersionUID = 1364615314569519183L;
+    private static final long serialVersionUID = -6975785500186251759L;
 
     private final int NORMAL_WIDTH = 200;
     private final int NORMAL_HEIGHT = 30;
 
-    private JLabel instituteLb;
-    private JComboBox<String> instituteCb;
+    private JLabel departamentLb;
+    private JComboBox<String> departamentCb;
 
     private JLabel nameLb;
     private JTextField nameTf;
+
+    private JLabel instituteLb;
+    private JComboBox<String> instituteCb;
 
     private JLabel chiefLb;
     private JComboBox<String> chiefCb;
@@ -56,12 +59,12 @@ public class AddEditInstituteView extends JPanel {
     private Image deleteImg;
 
     private final MainView window;
-    private final AddEditInstituteMediator addEditInstituteMediator;
+    private final AddEditDepartamentMediator addEditDepartamentMediator;
 
-    public AddEditInstituteView(MainView window, AddEditInstituteMediator addEditInstituteMediator) {
+    public AddEditDepartamentView(MainView window, AddEditDepartamentMediator addEditDepartamentMediator) {
         super();
         this.window = window;
-        this.addEditInstituteMediator = addEditInstituteMediator;
+        this.addEditDepartamentMediator = addEditDepartamentMediator;
         initComponents();
         prepareObjects();
         initPanels();
@@ -70,13 +73,15 @@ public class AddEditInstituteView extends JPanel {
     }
 
     private void initComponents() {
+        departamentLb = new JLabel("Departament:");
+        departamentCb = new JComboBox<>();
+        nameLb = new JLabel("Name:");
+        nameTf = new JTextField();
         instituteLb = new JLabel("Institute");
         instituteCb = new JComboBox<>();
-        nameLb = new JLabel("Institute name");
-        nameTf = new JTextField();
-        addButton = new JButton();
         chiefLb = new JLabel("Chief:");
         chiefCb = new JComboBox<>();
+        addButton = new JButton();
         deleteButton = new JButton();
         labelPanel = new JPanel();
         dataPanel = new JPanel();
@@ -85,10 +90,12 @@ public class AddEditInstituteView extends JPanel {
     }
 
     private void prepareObjects() {
-        PanelStyle.setSize(instituteLb, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(instituteCb, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(departamentLb, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(departamentCb, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(nameLb, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(nameTf, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(instituteLb, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(instituteCb, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(chiefLb, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(chiefCb, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 270);
@@ -113,10 +120,12 @@ public class AddEditInstituteView extends JPanel {
         } catch (IOException ex) {
             Logger.getLogger(AddEditRoomTypeView.class.getName()).log(Level.SEVERE, null, ex);
         }
-        labelPanel.add(instituteLb);
-        dataPanel.add(instituteCb);
+        labelPanel.add(departamentLb);
+        dataPanel.add(departamentCb);
         labelPanel.add(nameLb);
         dataPanel.add(nameTf);
+        labelPanel.add(instituteLb);
+        dataPanel.add(instituteCb);
         labelPanel.add(chiefLb);
         dataPanel.add(chiefCb);
         mainPanel.add(labelPanel);
@@ -127,20 +136,20 @@ public class AddEditInstituteView extends JPanel {
     }
 
     private void setupListeners() {
-        instituteCb.addActionListener((ActionEvent e) -> {
-            if (instituteCb.getSelectedItem() != null) {
-                addEditInstituteMediator.onSelectionChange();
+        departamentCb.addActionListener((ActionEvent e) -> {
+            if (departamentCb.getSelectedItem() != null) {
+                addEditDepartamentMediator.onSelectionChange();
             }
         });
 
         addButton.addActionListener((ActionEvent e) -> {
-            addEditInstituteMediator.onAddEdit();
-            window.getAddEditInstituteFrame().dispose();
+            addEditDepartamentMediator.onAddEdit();
+            window.getAddEditDepartamentFrame().dispose();
         });
 
         deleteButton.addActionListener((ActionEvent e) -> {
-            addEditInstituteMediator.onDelete();
-            window.getAddEditInstituteFrame().dispose();
+            addEditDepartamentMediator.onDelete();
+            window.getAddEditDepartamentFrame().dispose();
         });
     }
 
@@ -152,7 +161,7 @@ public class AddEditInstituteView extends JPanel {
         AbstractAction escapeAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddEditInstituteView.this.getWindow().dispose();
+                AddEditDepartamentView.this.getWindow().dispose();
                 Lookup.removeUserCertificate();
                 System.exit(0);
             }
@@ -173,12 +182,12 @@ public class AddEditInstituteView extends JPanel {
         return NORMAL_HEIGHT;
     }
 
-    public JLabel getInstituteLb() {
-        return instituteLb;
+    public JLabel getDepartamentLb() {
+        return departamentLb;
     }
 
-    public JComboBox<String> getInstituteCb() {
-        return instituteCb;
+    public JComboBox<String> getDepartamentCb() {
+        return departamentCb;
     }
 
     public JLabel getNameLb() {
@@ -187,6 +196,14 @@ public class AddEditInstituteView extends JPanel {
 
     public JTextField getNameTf() {
         return nameTf;
+    }
+
+    public JLabel getInstituteLb() {
+        return instituteLb;
+    }
+
+    public JComboBox<String> getInstituteCb() {
+        return instituteCb;
     }
 
     public JButton getAddButton() {
@@ -225,8 +242,8 @@ public class AddEditInstituteView extends JPanel {
         return window;
     }
 
-    public AddEditInstituteMediator getAddEditInstituteMediator() {
-        return addEditInstituteMediator;
+    public AddEditDepartamentMediator getAddEditDepartamentMediator() {
+        return addEditDepartamentMediator;
     }
 
     public JLabel getChiefLb() {

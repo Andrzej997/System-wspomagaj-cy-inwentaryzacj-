@@ -6,6 +6,7 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import pl.polsl.reservations.client.ClientContext;
 import pl.polsl.reservations.client.Lookup;
+import pl.polsl.reservations.client.mediators.AddEditDepartamentMediator;
 import pl.polsl.reservations.client.mediators.AddEditInstituteMediator;
 import pl.polsl.reservations.client.mediators.AddEditReservationTypeMediator;
 import pl.polsl.reservations.client.mediators.AddEditRoomTypeViewMediator;
@@ -49,6 +50,7 @@ public class MainView extends JFrame {
     private JMenuItem addRoomTypeMenuItem;
     private JMenuItem addReservationTypeMenuItem;
     private JMenuItem addEditInstituteMenuItem;
+    private JMenuItem addEditDepartamentMenuItem;
 
     private JMenu fileMenu;
     private JMenu helpMenu;
@@ -72,6 +74,7 @@ public class MainView extends JFrame {
     private JDialog tutorialFrame;
     private JDialog addEditReservationTypeFrame;
     private JDialog addEditInstituteFrame;
+    private JDialog addEditDepartamentFrame;
 
     private transient final MainViewMediator mainViewMediator;
 
@@ -110,6 +113,7 @@ public class MainView extends JFrame {
         addRoomTypeMenuItem.setForeground(fg);
         addReservationTypeMenuItem.setForeground(fg);
         addEditInstituteMenuItem.setForeground(fg);
+        addEditDepartamentMenuItem.setForeground(fg);
     }
 
     private void initComponents() {
@@ -156,6 +160,7 @@ public class MainView extends JFrame {
         roomRaportMenuItem = new JMenuItem();
         addReservationTypeMenuItem = new JMenuItem();
         addEditInstituteMenuItem = new JMenuItem();
+        addEditDepartamentMenuItem = new JMenuItem();
 
     }
 
@@ -218,10 +223,16 @@ public class MainView extends JFrame {
             addEditReservationTypeFrame = FrameStyle.dialogStyle(new AddEditReservationTypeMediator().createView(this), "Add/Edit room type");
         }
     }
-    
-    private void addInstituteMenuItemActionPerformed(ActionEvent evt){
-        if(isLoggedIn){
+
+    private void addInstituteMenuItemActionPerformed(ActionEvent evt) {
+        if (isLoggedIn) {
             addEditInstituteFrame = FrameStyle.dialogStyle(new AddEditInstituteMediator().createView(this), "Add/Edit institutes");
+        }
+    }
+    
+    private void addDepartamentMenuItemActionPerformed(ActionEvent evt){
+        if(isLoggedIn){
+            addEditDepartamentFrame = FrameStyle.dialogStyle(new AddEditDepartamentMediator().createView(this), "Add/Edit departaments");
         }
     }
 
@@ -367,9 +378,12 @@ public class MainView extends JFrame {
         addReservationTypeMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         addReservationTypeMenuItem.setText("Add/Edit reservation type");
         adminMenu.add(addReservationTypeMenuItem);
-        addEditInstituteMenuItem.setForeground(Color.red);
+        addEditInstituteMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         addEditInstituteMenuItem.setText("Add/Edit institutes");
         adminMenu.add(addEditInstituteMenuItem);
+        addEditDepartamentMenuItem.setForeground(new java.awt.Color(153, 153, 153));
+        addEditDepartamentMenuItem.setText("Add/Edit departaments");
+        adminMenu.add(addEditDepartamentMenuItem);
         fileMenu.add(createRaportMenu);
         accountMenu.setForeground(new java.awt.Color(153, 153, 153));
         accountMenu.setText("My account");
@@ -516,6 +530,17 @@ public class MainView extends JFrame {
                 }
             } else {
                 addInstituteMenuItemActionPerformed(evt);
+            }
+        });
+        addEditDepartamentMenuItem.addActionListener((ActionEvent evt) -> {
+            if (!ClientContext.getInstance().checkUserPrivilegesToAction("STANDARD_USER")) {
+                if (!ClientContext.getInstance().canRequestLevel("STANDARD_USER")) {
+                    MessageBoxUtils.createPrivilegeErrorPane(fileMenu);
+                } else {
+                    MessageBoxUtils.createPrivilegeError(fileMenu);
+                }
+            } else {
+                addDepartamentMenuItemActionPerformed(evt);
             }
         });
         addStateMenuItem.addActionListener((ActionEvent evt) -> {
@@ -851,5 +876,12 @@ public class MainView extends JFrame {
         return addEditInstituteFrame;
     }
 
+    public JMenuItem getAddEditDepartamentMenuItem() {
+        return addEditDepartamentMenuItem;
+    }
+
+    public JDialog getAddEditDepartamentFrame() {
+        return addEditDepartamentFrame;
+    }
     
 }
