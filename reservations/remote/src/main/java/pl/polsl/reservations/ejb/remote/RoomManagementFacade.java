@@ -44,11 +44,11 @@ public interface RoomManagementFacade extends AbstractBusinessFacade{
     
     public boolean editRoomType(RoomTypesDTO roomTypesDTO);
     
-    public boolean addDepartament(DepartamentDTO departamentDTO);
+    public boolean addDepartament(DepartamentDTO departamentDTO, Long chiefID, Long instituteID);
     
     public boolean removeDepartament(DepartamentDTO departamentDTO);
     
-    public boolean editDepartament(DepartamentDTO departamentDTO);
+    public boolean editDepartament(DepartamentDTO departamentDTO, Long chiefID, Long instituteID);
     
     public boolean addInstitute(InstituteDTO instituteDTO);
     
