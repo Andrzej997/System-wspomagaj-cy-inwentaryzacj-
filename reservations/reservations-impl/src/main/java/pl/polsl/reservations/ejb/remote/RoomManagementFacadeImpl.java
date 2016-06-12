@@ -48,6 +48,9 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     @EJB
     RoomTypesDao roomTypeDAO;
 
+    @EJB
+    InstitutesDao institutesDAO;
+
     public RoomManagementFacadeImpl() {
         super();
     }
@@ -378,10 +381,12 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
         workersDAO.setUserContext(certificate);
         equipmentDAO.setUserContext(certificate);
         roomTypeDAO.setUserContext(certificate);
+        institutesDAO.setUserContext(certificate);
         return certificateBean;
     }
 
     @Override
+    @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
     public boolean addRoomType(RoomTypesDTO roomTypesDTO) {
         RoomTypes roomType = new RoomTypes();
         roomType.setLongDescription(roomTypesDTO.getLongDescription());
@@ -391,16 +396,23 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
+    @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
     public boolean removeRoomType(RoomTypesDTO roomTypesDTO) {
         RoomTypes roomType = roomTypeDAO.find(roomTypesDTO.getId());
         if (roomType == null) {
             return false;
+        }
+        List<Room> rooms = roomType.getRoomCollection();
+        for (Room room : rooms) {
+            room.setRoomType(null);
+            roomsDAO.edit(room);
         }
         roomTypeDAO.remove(roomType);
         return true;
     }
 
     @Override
+    @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
     public boolean editRoomType(RoomTypesDTO roomTypesDTO) {
         RoomTypes roomType = roomTypeDAO.find(roomTypesDTO.getId());
         if (roomType == null) {
@@ -414,22 +426,70 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
-    public boolean addDepartament(DepartamentDTO departamentDTO) {
-        /*Departaments departament = new Departaments();
-         departament.get
-         departament.set
-         roomTypeDAO.create(roomType);
-         return true;*/
+    @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
+    public boolean addDepartament(DepartamentDTO departamentDTO, Long chiefID, Long instituteID) {
+        Departaments departament = new Departaments();
+        departament.setDepratamentName(departamentDTO.getName());
+
+        Workers chief = workersDAO.find(chiefID);
+        if (chief != null) {
+            departament.setChief(chief);
+        }
+
+        Institutes institute = institutesDAO.find(instituteID);
+        if (institute != null) {
+            departament.setInstitute(institute);
+        }
+
+        departmentDAO.create(departament);
         return true;
     }
 
     @Override
+    @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
     public boolean removeDepartament(DepartamentDTO departamentDTO) {
+        Departaments departament = departmentDAO.find(departamentDTO.getId());
+        if (departament == null) {
+            return false;
+        }
+
+        List<Room> rooms = departament.getRoomCollection();
+        for (Room room : rooms) {
+            room.setDepartament(null);
+            roomsDAO.edit(room);
+        }
+
+        List<Workers> workers = departament.getWorkersCollection();
+        for (Workers worker : workers) {
+            worker.setDepartament(null);
+            workersDAO.edit(worker);
+        }
+
+        departmentDAO.remove(departament);
         return true;
     }
 
     @Override
-    public boolean editDepartament(DepartamentDTO departamentDTO) {
+    @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
+    public boolean editDepartament(DepartamentDTO departamentDTO, Long chiefID, Long instituteID) {
+        Departaments departament = departmentDAO.find(departamentDTO.getId());
+        if (departament == null) {
+            return false;
+        }
+        departament.setDepratamentName(departamentDTO.getName());
+
+        Workers chief = workersDAO.find(chiefID);
+        if (chief != null) {
+            departament.setChief(chief);
+        }
+
+        Institutes institute = institutesDAO.find(instituteID);
+        if (institute != null) {
+            departament.setInstitute(institute);
+        }
+
+        departmentDAO.edit(departament);
+
         return true;
     }
 
