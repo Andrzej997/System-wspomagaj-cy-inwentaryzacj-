@@ -224,6 +224,7 @@ public class AddEditViewMediator {
 
             Long userID  = getWorkersData().getId();
             String reservationType = (String) addEditView.getGroupCb().getSelectedItem();
+           
 
             if (startTime < endTime) {
                 if (checkIfReservationAvaliable(startTime, endTime)) {
@@ -235,7 +236,11 @@ public class AddEditViewMediator {
                     if (reservationType != null) {
                         reservation.setType(reservationType);
                     }
-
+                    
+                    if(roomNumber!=null){
+                        reservation.setRoomNumber(roomNumber);
+                    }
+                   
                     scheduleFacade.editReservation(reservation,date.get(Calendar.YEAR),DateUtils.getSemesterFromDate(date),DateUtils.getWeekOfSemester(date));
                     getReservations();
 
@@ -251,6 +256,8 @@ public class AddEditViewMediator {
             JOptionPane.showMessageDialog(addEditView, "Choose reservation!", "WARNING", JOptionPane.WARNING_MESSAGE);
             return false;
         }
+        chosenReservation=null;
+        refreshTableAfterChoose();
         return true;
     }
 
@@ -270,7 +277,8 @@ public class AddEditViewMediator {
             JOptionPane.showMessageDialog(addEditView, "Choose reservation!", "WARNING", JOptionPane.WARNING_MESSAGE);
             return false;
         }
-
+        chosenReservation=null;
+        refreshTableAfterChoose();
         return true;
     }
 
@@ -452,6 +460,14 @@ public class AddEditViewMediator {
         List<ReservationTypeDTO> reservationTypes = scheduleFacade.getReservationTypes();
         for (ReservationTypeDTO reservationTypeDTO : reservationTypes) {
             addEditView.getGroupCb().addItem(reservationTypeDTO.getShortDescription());
+        }
+    }
+    
+    public boolean ifChosenReservation(){
+        if(chosenReservation!=null){
+            return true;
+        }else{
+            return false;
         }
     }
 

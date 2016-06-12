@@ -118,7 +118,10 @@ public class AddEditView extends JPanel {
             if (roomCb.getSelectedItem() != null) {
                 roomCb.onAction();
                 addEditViewMediator.setRoomNumber(roomCb.getSelectedItem());
-                addEditViewMediator.getReservations();
+                if (!addEditViewMediator.ifChosenReservation()||!edit) {
+                    addEditViewMediator.getReservations();
+                }
+
             }
         });
         datepicker.getDatePicker().addActionListener(new ActionListener() {
@@ -128,15 +131,17 @@ public class AddEditView extends JPanel {
             }
         });
         backBtn.addActionListener((ActionEvent e) -> {
-             window.setView(new WeekDataViewMediator().createView(window, roomCb.getSelectedItem()));
+            window.setView(new WeekDataViewMediator().createView(window, roomCb.getSelectedItem()));
         });
     }
 
     private void datePickerChange(ActionEvent e) {
-       addEditViewMediator.setDate(datepicker.getDate());
-       addEditViewMediator.getReservations();
+        addEditViewMediator.setDate(datepicker.getDate());
+        if (!addEditViewMediator.ifChosenReservation()||!edit) {
+            addEditViewMediator.getReservations();
+        }
     }
-    
+
     private void initFields() {
         date = new Date();
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
@@ -159,10 +164,10 @@ public class AddEditView extends JPanel {
         dayTable = new JTable(new DayTableModel(32, 3));
         JScrollPane tableScrollPanel = new JScrollPane(dayTable);
         PanelStyle.setSize(tableScrollPanel, 450, 550);
-        dayTablePanel.add(tableScrollPanel);     
+        dayTablePanel.add(tableScrollPanel);
         dayTable.addMouseListener(new MouseListenerImpl());
         datepicker = CustomDatePicker.getDayInstance();
-               
+
         groupCb = new JComboBox();
         hourStartCb = new JComboBox();
         hourStopCb = new JComboBox();
@@ -179,7 +184,7 @@ public class AddEditView extends JPanel {
         editButton = new JButton();
         discardButton = new JButton();
         backBtn = new JButton();
-        
+
         addButton.addActionListener((java.awt.event.ActionEvent evt) -> {
             onOkClick(evt);
         });
@@ -189,7 +194,7 @@ public class AddEditView extends JPanel {
         discardButton.addActionListener((java.awt.event.ActionEvent evt) -> {
             onDiscardClick(evt);
         });
-        
+
     }
 
     private void setText() {
@@ -202,7 +207,7 @@ public class AddEditView extends JPanel {
             ButtonStyle.setStyle(discardButton, img3);
             Image img4 = ImageIO.read(getClass().getResource("/resources/back.png"));
             ButtonStyle.setStyle(backBtn, img4);
-            backBtn.setBorder(new EmptyBorder(0,0,0,260));
+            backBtn.setBorder(new EmptyBorder(0, 0, 0, 260));
             if (edit) {
                 navigatePanel.add(editButton);
                 navigatePanel.add(discardButton);
@@ -230,12 +235,12 @@ public class AddEditView extends JPanel {
         PanelStyle.setSize(groupLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(dateLabel, NORMAL_WIDTH, 40);
         PanelStyle.setSize(hourLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(roomCb, NORMAL_WIDTH+30, NORMAL_HEIGHT);
-        PanelStyle.setSize(datepicker, NORMAL_WIDTH+20, 40);
-        PanelStyle.setSize(hourPanel, NORMAL_WIDTH+20, NORMAL_HEIGHT);
-        PanelStyle.setSize(teacherCb, NORMAL_WIDTH+20, NORMAL_HEIGHT);
-        PanelStyle.setSize(groupCb, NORMAL_WIDTH+20, NORMAL_HEIGHT);
-        PanelStyle.setSize(titleTf, NORMAL_WIDTH+20, NORMAL_HEIGHT);
+        PanelStyle.setSize(roomCb, NORMAL_WIDTH + 30, NORMAL_HEIGHT);
+        PanelStyle.setSize(datepicker, NORMAL_WIDTH + 20, 40);
+        PanelStyle.setSize(hourPanel, NORMAL_WIDTH + 20, NORMAL_HEIGHT);
+        PanelStyle.setSize(teacherCb, NORMAL_WIDTH + 20, NORMAL_HEIGHT);
+        PanelStyle.setSize(groupCb, NORMAL_WIDTH + 20, NORMAL_HEIGHT);
+        PanelStyle.setSize(titleTf, NORMAL_WIDTH + 20, NORMAL_HEIGHT);
     }
 
     private void setDataHourCb() {
@@ -659,8 +664,7 @@ public class AddEditView extends JPanel {
     private void onDiscardClick(ActionEvent evt) {
         addEditViewMediator.deleteReservation();
     }
-    
-    
+
     private class MouseListenerImpl implements MouseListener {
 
         public MouseListenerImpl() {
@@ -668,41 +672,41 @@ public class AddEditView extends JPanel {
 
         @Override
         public void mouseClicked(MouseEvent e) {
-                Integer column = dayTable.getSelectedColumn();
-                Integer row = dayTable.getSelectedRow();
+            Integer column = dayTable.getSelectedColumn();
+            Integer row = dayTable.getSelectedRow();
             if (e.getClickCount() == 2) {
-            
-                   Calendar cal = datepicker.getDate();
-                   
-                   if(!edit){
-                   window.setView(new AddEditViewMediator(cal,roomCb.getSelectedItem(),addEditViewMediator.getChosenReservation()).createView(window, true));
-                   }
-                   
+
+                Calendar cal = datepicker.getDate();
+
+                if (!edit) {
+                    window.setView(new AddEditViewMediator(cal, roomCb.getSelectedItem(), addEditViewMediator.getChosenReservation()).createView(window, true));
+                }
+
             }
             if (e.getClickCount() == 1) {
                 List<ReservationDTO> reservations = addEditViewMediator.getReservationsList();
                 Integer dayOfWeek = datepicker.getDate().get(Calendar.DAY_OF_WEEK);
-                if(dayOfWeek==1){
-                    dayOfWeek=6;
-                }else{
-                    dayOfWeek-=2;
+                if (dayOfWeek == 1) {
+                    dayOfWeek = 6;
+                } else {
+                    dayOfWeek -= 2;
                 }
-                
-                Integer selectedTime=dayOfWeek*96+column*32+row;
-                
+
+                Integer selectedTime = dayOfWeek * 96 + column * 32 + row;
+
                 addEditViewMediator.setChosenReservation(null);
-                
-                for(ReservationDTO reservation: reservations){
-                    Integer startTime=reservation.getStartTime();
-                    Integer endTime=reservation.getEndTime();
-                    
-                    if(selectedTime>=startTime&&selectedTime<=endTime){
-                        hourStartCb.setSelectedIndex(startTime-dayOfWeek*96);
-                        hourStopCb.setSelectedIndex(endTime-dayOfWeek*96+1);
-                       teacherCb.setSelectedItem(addEditViewMediator.getUserName(reservation.getUserId()));
-                       groupCb.setSelectedItem(reservation.getType());
-                       addEditViewMediator.setChosenReservation(reservation);
-                       
+
+                for (ReservationDTO reservation : reservations) {
+                    Integer startTime = reservation.getStartTime();
+                    Integer endTime = reservation.getEndTime();
+
+                    if (selectedTime >= startTime && selectedTime <= endTime) {
+                        hourStartCb.setSelectedIndex(startTime - dayOfWeek * 96);
+                        hourStopCb.setSelectedIndex(endTime - dayOfWeek * 96 + 1);
+                        teacherCb.setSelectedItem(addEditViewMediator.getUserName(reservation.getUserId()));
+                        groupCb.setSelectedItem(reservation.getType());
+                        addEditViewMediator.setChosenReservation(reservation);
+
                     }
                 }
                 addEditViewMediator.refreshTableAfterChoose();
@@ -729,5 +733,5 @@ public class AddEditView extends JPanel {
 
         }
     }
-    
+
 }
