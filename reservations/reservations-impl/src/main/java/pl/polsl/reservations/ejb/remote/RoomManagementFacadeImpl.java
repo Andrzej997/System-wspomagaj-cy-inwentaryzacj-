@@ -51,9 +51,6 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     @EJB
     RoomTypesDao roomTypeDAO;
 
-    @EJB
-    InstitutesDao institutesDAO;
-
     public RoomManagementFacadeImpl() {
         super();
     }
@@ -500,7 +497,12 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
     public boolean addInstitute(InstituteDTO instituteDTO) {
         Institutes institute = new Institutes();
-        institute.setChief(workersDAO.find(instituteDTO.getChefId()));
+
+        Workers chief = workersDAO.find(instituteDTO.getChefId());
+        if (chief != null) {
+            institute.setChief(workersDAO.find(chief));
+        }
+
         institute.setInstituteName(instituteDTO.getName());
         institutesDAO.create(institute);
         return true;
@@ -528,6 +530,10 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
         Institutes institute = institutesDAO.find(instituteDTO.getId());
         if (institute == null) {
             return false;
+        }
+        Workers chief = workersDAO.find(instituteDTO.getChefId());
+        if (chief != null) {
+            institute.setChief(workersDAO.find(chief));
         }
         institute.setChief(workersDAO.find(instituteDTO.getChefId()));
         institute.setInstituteName(instituteDTO.getName());
