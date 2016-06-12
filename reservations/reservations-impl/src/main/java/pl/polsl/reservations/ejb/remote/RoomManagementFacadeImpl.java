@@ -115,6 +115,20 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
         UserContext userContext = getCurrentUserContext();
         Workers worker = userContext.getUser().getWorkers();
 
+        Equipment old = null;
+        List<Equipment> equipmentByRoomNumber = equipmentDAO.getEquipmentByRoomNumber(room.getRoomNumber());
+        for(Equipment e : equipmentByRoomNumber){
+            if(e.getEquipmentName().equals(name) && e.getEquipmentState().getId() == stateId 
+                    && e.getEquipmentType().getId() == typeId){
+                old = e;
+            }
+        }
+        if(old != null){
+            old.setQuantity(old.getQuantity() + quantity);
+            equipmentDAO.merge(old);
+            return true;
+        }
+
         if (userContext.checkPrivilege(PrivilegeEnum.EQUIPMENT_MANAGEMENT_WORKER)
                 || room.getKeeper().getId().equals(worker.getId())) {
             newEquipment.setRoom(room);
@@ -347,7 +361,7 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
         Departaments departament = workers.getDepartament();
         List<Room> roomCollection = departament.getRoomCollection();
         List<RoomDTO> result = new ArrayList<>();
-        for(Room room : roomCollection){
+        for (Room room : roomCollection) {
             result.add(DTOBuilder.buildRoomDTO(room));
         }
         return result;
