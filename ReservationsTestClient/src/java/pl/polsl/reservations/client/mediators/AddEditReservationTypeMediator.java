@@ -70,7 +70,6 @@ public class AddEditReservationTypeMediator {
             reservationTypeDTO.setLongDescription(addEditReservationTypeView.getLongDescTf().getText());
             String selectedColor = (String) addEditReservationTypeView.getColorCb().getSelectedItem();
             reservationTypeDTO.setReservationColor(selectedColor);
-            //TODO add
         } else {
             for (ReservationTypeDTO reservationType : reservationTypes) {
                 if (reservationType.getShortDescription().equals(selectedItem)) {

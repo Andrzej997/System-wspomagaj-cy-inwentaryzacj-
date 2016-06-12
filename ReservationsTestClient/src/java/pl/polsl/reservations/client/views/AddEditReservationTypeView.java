@@ -145,10 +145,12 @@ public class AddEditReservationTypeView extends JPanel {
 
         addButton.addActionListener((ActionEvent e) -> {
             addEditReservationTypeMediator.onAddEdit();
+            window.getAddEditReservationTypeFrame().dispose();
         });
 
         deleteButton.addActionListener((ActionEvent e) -> {
             addEditReservationTypeMediator.onDelete();
+            window.getAddEditReservationTypeFrame().dispose();
         });
     }
 

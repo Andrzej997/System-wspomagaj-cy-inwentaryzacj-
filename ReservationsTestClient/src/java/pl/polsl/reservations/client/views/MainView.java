@@ -770,4 +770,53 @@ public class MainView extends JFrame {
         return addRoomTypeFrame;
     }
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public JMenuItem getAllRaportMenuItem() {
+        return allRaportMenuItem;
+    }
+
+    public JMenuItem getEditRoomEquipmentMenuItem() {
+        return editRoomEquipmentMenuItem;
+    }
+
+    public JMenuItem getRoomRaportMenuItem() {
+        return roomRaportMenuItem;
+    }
+
+    public JMenuItem getDepartmentRaportMenuItem() {
+        return departmentRaportMenuItem;
+    }
+
+    public JMenuItem getEditUserAdminMenuItem() {
+        return editUserAdminMenuItem;
+    }
+
+    public JMenuItem getAddRoomTypeMenuItem() {
+        return addRoomTypeMenuItem;
+    }
+
+    public JMenuItem getAddReservationTypeMenuItem() {
+        return addReservationTypeMenuItem;
+    }
+
+    public JMenu getAdminMenu() {
+        return adminMenu;
+    }
+
+    public JMenu getGenerateMenu() {
+        return generateMenu;
+    }
+    public JDialog getAddEditReservationTypeFrame() {
+        return addEditReservationTypeFrame;
+    }
+
+    public MainViewMediator getMainViewMediator() {
+        return mainViewMediator;
+    }
+    
+    
+
 }
