@@ -63,6 +63,7 @@ public class AddEditView extends JPanel {
     private JLabel dateLabel;
     private JLabel titleLabel;
     private JLabel teacherLabel;
+    private JCheckBox isGeneralChb;
 
     private Date date;
 
@@ -104,6 +105,7 @@ public class AddEditView extends JPanel {
         labelPanel.add(groupLabel);
         labelPanel.add(titleLabel);
         labelPanel.add(teacherLabel);
+        dataPanel.add(isGeneralChb);
         addPanel.add(labelPanel);
         addPanel.add(dataPanel);
         mainPanel.add(backBtn);
@@ -118,7 +120,7 @@ public class AddEditView extends JPanel {
             if (roomCb.getSelectedItem() != null) {
                 roomCb.onAction();
                 addEditViewMediator.setRoomNumber(roomCb.getSelectedItem());
-                if (!addEditViewMediator.ifChosenReservation()||!edit) {
+                if (!addEditViewMediator.ifChosenReservation() || !edit) {
                     addEditViewMediator.setChosenReservation(null);
                     addEditViewMediator.getReservations();
                 }
@@ -138,7 +140,7 @@ public class AddEditView extends JPanel {
 
     private void datePickerChange(ActionEvent e) {
         addEditViewMediator.setDate(datepicker.getDate());
-        if (!addEditViewMediator.ifChosenReservation()||!edit) {
+        if (!addEditViewMediator.ifChosenReservation() || !edit) {
             addEditViewMediator.setChosenReservation(null);
             addEditViewMediator.getReservations();
         }
@@ -175,6 +177,7 @@ public class AddEditView extends JPanel {
         hourStopCb = new JComboBox();
         titleTf = new JTextField();
         teacherCb = new JComboBox();
+        isGeneralChb = new JCheckBox("General");
 
         dateLabel = new JLabel("Date: ");
         hourLabel = new JLabel("Hour: ");
@@ -231,7 +234,7 @@ public class AddEditView extends JPanel {
         PanelStyle.setSize(this, 800, 600);
         PanelStyle.setSize(addPanel, 330, 480);
         PanelStyle.setSize(dayTablePanel, 450, 550);
-        PanelStyle.setSize(roomLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(roomLabel, NORMAL_WIDTH - 30, NORMAL_HEIGHT);
         PanelStyle.setSize(teacherLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(titleLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(groupLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
@@ -243,6 +246,7 @@ public class AddEditView extends JPanel {
         PanelStyle.setSize(teacherCb, NORMAL_WIDTH + 20, NORMAL_HEIGHT);
         PanelStyle.setSize(groupCb, NORMAL_WIDTH + 20, NORMAL_HEIGHT);
         PanelStyle.setSize(titleTf, NORMAL_WIDTH + 20, NORMAL_HEIGHT);
+        PanelStyle.setSize(isGeneralChb, NORMAL_WIDTH + 20, NORMAL_HEIGHT);
     }
 
     private void setDataHourCb() {
@@ -650,6 +654,26 @@ public class AddEditView extends JPanel {
      */
     public boolean isEdit() {
         return edit;
+    }
+
+    public JButton getBackBtn() {
+        return backBtn;
+    }
+
+    public void setBackBtn(JButton backBtn) {
+        this.backBtn = backBtn;
+    }
+
+    public JCheckBox getIsGeneralChb() {
+        return isGeneralChb;
+    }
+
+    public void setIsGeneralChb(JCheckBox isGeneralChb) {
+        this.isGeneralChb = isGeneralChb;
+    }
+
+    public Boolean isGeneral() {
+        return isGeneralChb.isSelected();
     }
 
     /**
