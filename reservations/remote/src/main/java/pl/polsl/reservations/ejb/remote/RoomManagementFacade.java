@@ -41,4 +41,22 @@ public interface RoomManagementFacade extends AbstractBusinessFacade{
     public List<RoomDTO> getInstituteRooms(Long userId);
 
     public List<RoomDTO> getDepartamentRooms(Long userId);
+    
+    public boolean addRoomType(RoomTypesDTO roomTypesDTO);
+    
+    public boolean removeRoomType(RoomTypesDTO roomTypesDTO);
+    
+    public boolean editRoomType(RoomTypesDTO roomTypesDTO);
+    
+    public boolean addDepartament(DepartamentDTO departamentDTO);
+    
+    public boolean removeDepartament(DepartamentDTO departamentDTO);
+    
+    public boolean editDepartament(DepartamentDTO departamentDTO);
+    
+    public boolean addInstitute(InstituteDTO instituteDTO);
+    
+    public boolean removeInstitute(InstituteDTO instituteDTO);
+    
+    public boolean editInstitute(InstituteDTO instituteDTO);
 }
