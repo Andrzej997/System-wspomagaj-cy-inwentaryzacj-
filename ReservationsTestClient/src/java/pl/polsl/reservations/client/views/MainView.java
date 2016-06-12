@@ -390,11 +390,7 @@ public class MainView extends JFrame {
         });
         addMenuItem.addActionListener((ActionEvent evt) -> {
             if (!ClientContext.getInstance().checkUserPrivilegesToAction("TECHNICAL_WORKER")) {
-                if (!ClientContext.getInstance().canRequestLevel("TECHNICAL_WORKER")) {
-                    MessageBoxUtils.createPrivilegeErrorPane(fileMenu);
-                } else {
-                    MessageBoxUtils.createPrivilegeError(fileMenu);
-                }
+                MessageBoxUtils.createPrivilegeError(fileMenu);
             } else {
                 addMenuItemActionPerformed(evt);
             }

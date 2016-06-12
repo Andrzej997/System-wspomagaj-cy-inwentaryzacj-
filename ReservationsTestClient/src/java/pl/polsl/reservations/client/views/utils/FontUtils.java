@@ -1,4 +1,4 @@
-package pl.polsl.reservations.client.views;
+package pl.polsl.reservations.client.views.utils;
 
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;

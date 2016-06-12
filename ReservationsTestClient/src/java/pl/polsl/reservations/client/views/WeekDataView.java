@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import pl.polsl.reservations.client.ClientContext;
 import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.mediators.AddEditViewMediator;
 import pl.polsl.reservations.client.mediators.DayDataViewMediator;
@@ -21,6 +22,7 @@ import pl.polsl.reservations.client.views.renderers.WeekCustomRenderer;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
 import pl.polsl.reservations.client.views.utils.WeekDateFormatter;
 import pl.polsl.reservations.client.views.utils.CustomDatePicker;
+import pl.polsl.reservations.client.views.utils.MessageBoxUtils;
 import pl.polsl.reservations.client.views.utils.PanelStyle;
 import pl.polsl.reservations.client.views.utils.RoomComboBox;
 
@@ -116,7 +118,7 @@ public class WeekDataView extends JPanel {
         datePicker.getDatePicker().addActionListener((ActionEvent e) -> {
             datePickerChange();
         });
-        backBtn.addActionListener((ActionEvent e) ->{
+        backBtn.addActionListener((ActionEvent e) -> {
             window.logoutMenuItemActionPerformed(e);
         });
     }
@@ -169,7 +171,7 @@ public class WeekDataView extends JPanel {
                     Integer column = planTable.columnAtPoint(e.getPoint());
                     if (column != 0) {
                         Calendar cal = startDate;
-                        cal.add(Calendar.DATE, column -1);
+                        cal.add(Calendar.DATE, column - 1);
                         window.setView(new DayDataViewMediator(chooseRoomDropdown.getSelectedItem())
                                 .createView(window, cal));
                     }
@@ -381,7 +383,11 @@ public class WeekDataView extends JPanel {
                 if (column != 0) {
                     Calendar cal = startDate;
                     cal.add(Calendar.DATE, column - 1);
-                    window.setView(new AddEditViewMediator(cal, chooseRoomDropdown.getSelectedItem()).createView(window,weekDataViewMediator.ifOnReservation(row, column)));
+                    if (!ClientContext.getInstance().checkUserPrivilegesToAction("TECHNICAL_WORKER")) {
+                        MessageBoxUtils.createPrivilegeError(planTable);
+                    } else {
+                        window.setView(new AddEditViewMediator(cal, chooseRoomDropdown.getSelectedItem()).createView(window, weekDataViewMediator.ifOnReservation(row, column)));
+                    }
                 }
 //todo:
             }

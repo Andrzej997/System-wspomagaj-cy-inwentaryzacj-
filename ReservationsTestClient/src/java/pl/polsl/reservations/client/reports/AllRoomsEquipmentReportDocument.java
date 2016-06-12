@@ -19,7 +19,7 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import pl.polsl.reservations.client.Lookup;
-import pl.polsl.reservations.client.views.FontUtils;
+import pl.polsl.reservations.client.views.utils.FontUtils;
 import pl.polsl.reservations.client.views.utils.DateUtils;
 import pl.polsl.reservations.client.views.utils.Pair;
 import pl.polsl.reservations.dto.EquipmentDTO;

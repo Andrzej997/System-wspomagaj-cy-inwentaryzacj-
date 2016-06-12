@@ -179,20 +179,20 @@ public class Lookup {
             Logger.getLogger(Lookup.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public static RoomManagementFacade getRoomManagementFacade(){
-        return (RoomManagementFacade)getRemote("RoomManagementFacade");
+
+    public static RoomManagementFacade getRoomManagementFacade() {
+        return (RoomManagementFacade) getRemote("RoomManagementFacade");
     }
-    
-    public static UserFacade getUserFacade(){
+
+    public static UserFacade getUserFacade() {
         return (UserFacade) getRemote("UserFacade");
     }
-    
-    public static UserManagementFacade getUserManagementFacade(){
+
+    public static UserManagementFacade getUserManagementFacade() {
         return (UserManagementFacade) getRemote("UserManagementFacade");
     }
-    
-    public static ScheduleFacade getScheduleFacade(){
+
+    public static ScheduleFacade getScheduleFacade() {
         return (ScheduleFacade) getRemote("ScheduleFacade");
     }
 
