@@ -30,10 +30,6 @@ public interface RoomManagementFacade extends AbstractBusinessFacade{
     void removeEquipmentState(int stateId);
     List<RoomDTO> getRoomsWithNumberOfSeatsHigherEqualThan(Number numberOfSeats);
 
-    //TODO implementacja jak będzie wiadomo jak ma działać
-    default void findRoom() {
-    }
-
     List<RoomTypesDTO> getRoomTypes();
 
     public List<UserDTO> getRoomWorkers(Long roomId);
