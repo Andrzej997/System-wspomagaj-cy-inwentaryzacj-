@@ -49,6 +49,7 @@ public class AddEditRoomTypeViewMediator {
                     addEditRoomTypeView.getRoomTypeField().setText(roomType.getShortDescription());
                     addEditRoomTypeView.getRoomTypeDescField().setText(roomType.getLongDescription());
                     ButtonStyle.setStyle(addEditRoomTypeView.getAddButton(), addEditRoomTypeView.getEditImg());
+                    return;
                 }
             }
         }
