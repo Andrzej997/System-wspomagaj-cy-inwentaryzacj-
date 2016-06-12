@@ -36,6 +36,23 @@ public class Lookup {
             clientSessionCertificate = ClientSessionCertificate.getInstance();
             Properties p = new Properties();
             p.put("java.rmi.server.useCodebaseOnly", "false");
+            /*
+            p.setProperty("java.naming.factory.initial",
+                    "com.sun.enterprise.naming.SerialInitContextFactory");
+
+            p.setProperty("java.naming.factory.url.pkgs",
+                    "com.sun.enterprise.naming");
+
+            p.setProperty("java.naming.factory.state",
+                    "com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl");
+
+            // optional.  Defaults to localhost.  Only needed if web server is running
+            // on a different host than the appserver   
+            p.setProperty("org.omg.CORBA.ORBInitialHost", "192.168.254.100");
+
+            // optional.  Defaults to 3700.  Only needed if target orb port is not 3700.
+            p.setProperty("org.omg.CORBA.ORBInitialPort", "3700");
+            */
             ic = new InitialContext(p);
             NamingEnumeration<NameClassPair> list = ic.list("");
             while (list.hasMore()) {

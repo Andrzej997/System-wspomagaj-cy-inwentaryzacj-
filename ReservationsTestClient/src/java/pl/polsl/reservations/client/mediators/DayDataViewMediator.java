@@ -79,7 +79,7 @@ public class DayDataViewMediator {
             int numberOfStartQuarter = reservation.getStartTime() % 96;
             int dayOfWeek = date.get(Calendar.DAY_OF_WEEK);
             if (dayOfWeek == 1) {
-                dayOfWeek = 7;
+                dayOfWeek = 6;
             } else {
                 dayOfWeek -= 2;
             }
