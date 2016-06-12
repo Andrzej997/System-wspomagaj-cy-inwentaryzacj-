@@ -18,10 +18,10 @@ public class ClientContext {
     private static final UserFacade userFacade = Lookup.getUserFacade();
     private static final RoomManagementFacade roomManagementFacade = Lookup.getRoomManagementFacade();
 
-    private static UserDTO userDetails;
-    private static String username;
-    private static Long privilegeLevel;
-    private static List<RoomDTO> accessibleRooms;
+    private UserDTO userDetails;
+    private String username;
+    private Long privilegeLevel;
+    private List<RoomDTO> accessibleRooms;
     private static final ClientContext context = new ClientContext();
 
     private ClientContext() {
@@ -96,7 +96,7 @@ public class ClientContext {
     }
 
     public void setUsername(String username) {
-        ClientContext.username = username;
+        this.username = username;
         userDetails = userFacade.getUserDetails();
         privilegeLevel = userDetails.getPrivilegeLevel();
         getAccessibleRooms();
@@ -107,6 +107,27 @@ public class ClientContext {
             return false;
         }
         return userDetails.getPrivilegeLevel() == 1l;
+    }
+
+    public Boolean isInstituteChief() {
+        if (userDetails == null) {
+            return false;
+        }
+        return userDetails.getPrivilegeLevel() == 2l;
+    }
+
+    public Boolean isDepartamentChief() {
+        if (userDetails == null) {
+            return false;
+        }
+        return userDetails.getPrivilegeLevel() == 3l;
+    }
+
+    public Boolean isTechnicalChief() {
+        if (userDetails == null) {
+            return false;
+        }
+        return userDetails.getPrivilegeLevel() == 4l;
     }
 
     public Boolean isStandardUser() {
