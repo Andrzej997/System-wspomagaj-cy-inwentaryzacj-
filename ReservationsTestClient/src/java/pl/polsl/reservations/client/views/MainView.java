@@ -472,8 +472,8 @@ public class MainView extends JFrame {
             }
         });
         addRoomTypeMenuItem.addActionListener((ActionEvent evt) -> {
-            if (!ClientContext.getInstance().checkUserPrivilegesToAction("STANARD_USER")) {
-                if (!ClientContext.getInstance().canRequestLevel("STANARD_USER")) {
+            if (!ClientContext.getInstance().checkUserPrivilegesToAction("STANDARD_USER")) {
+                if (!ClientContext.getInstance().canRequestLevel("STANDARD_USER")) {
                     MessageBoxUtils.createPrivilegeErrorPane(fileMenu);
                 } else {
                     MessageBoxUtils.createPrivilegeError(fileMenu);
@@ -483,8 +483,8 @@ public class MainView extends JFrame {
             }
         });
         addReservationTypeMenuItem.addActionListener((ActionEvent evt) -> {
-            if (!ClientContext.getInstance().checkUserPrivilegesToAction("STANARD_USER")) {
-                if (!ClientContext.getInstance().canRequestLevel("STANARD_USER")) {
+            if (!ClientContext.getInstance().checkUserPrivilegesToAction("STANDARD_USER")) {
+                if (!ClientContext.getInstance().canRequestLevel("STANDARD_USER")) {
                     MessageBoxUtils.createPrivilegeErrorPane(fileMenu);
                 } else {
                     MessageBoxUtils.createPrivilegeError(fileMenu);
