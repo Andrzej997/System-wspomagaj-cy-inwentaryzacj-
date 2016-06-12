@@ -49,6 +49,7 @@ public class AddEditRoomTypeViewMediator {
                     addEditRoomTypeView.getRoomTypeField().setText(roomType.getShortDescription());
                     addEditRoomTypeView.getRoomTypeDescField().setText(roomType.getLongDescription());
                     ButtonStyle.setStyle(addEditRoomTypeView.getAddButton(), addEditRoomTypeView.getEditImg());
+                    return;
                 }
             }
         }
@@ -61,7 +62,7 @@ public class AddEditRoomTypeViewMediator {
         if (selectedItem.equals("Create new")) {
             newRoomTypeDTO.setShortDescription(addEditRoomTypeView.getRoomTypeField().getText());
             newRoomTypeDTO.setShortDescription(addEditRoomTypeView.getRoomTypeDescField().getText());
-            //TODO Add
+            roomManagementFacade.addRoomType(newRoomTypeDTO);
         } else {
             for (RoomTypesDTO roomType : roomTypes) {
                 if (roomType.getShortDescription().equals(selectedItem)) {
@@ -74,7 +75,8 @@ public class AddEditRoomTypeViewMediator {
                         newRoomTypeDTO.setShortDescription(addEditRoomTypeView.getRoomTypeField().getText());
                         newRoomTypeDTO.setShortDescription(addEditRoomTypeView.getRoomTypeDescField().getText());
                         newRoomTypeDTO.setId(roomType.getId());
-                        //TODO Edit
+                        roomManagementFacade.editRoomType(newRoomTypeDTO);
+                        return;
                     }
                 }
             }
@@ -89,7 +91,7 @@ public class AddEditRoomTypeViewMediator {
         }
         for (RoomTypesDTO roomType : roomTypes) {
             if (roomType.getShortDescription().equals(selectedItem)) {
-                //TODO delete;
+                roomManagementFacade.removeRoomType(roomType);
                 return;
             }
         }

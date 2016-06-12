@@ -119,6 +119,7 @@ public class AddEditView extends JPanel {
                 roomCb.onAction();
                 addEditViewMediator.setRoomNumber(roomCb.getSelectedItem());
                 if (!addEditViewMediator.ifChosenReservation()||!edit) {
+                    addEditViewMediator.setChosenReservation(null);
                     addEditViewMediator.getReservations();
                 }
 
@@ -138,6 +139,7 @@ public class AddEditView extends JPanel {
     private void datePickerChange(ActionEvent e) {
         addEditViewMediator.setDate(datepicker.getDate());
         if (!addEditViewMediator.ifChosenReservation()||!edit) {
+            addEditViewMediator.setChosenReservation(null);
             addEditViewMediator.getReservations();
         }
     }

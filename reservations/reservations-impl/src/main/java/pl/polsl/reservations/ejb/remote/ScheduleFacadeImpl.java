@@ -189,16 +189,32 @@ public class ScheduleFacadeImpl extends AbstractBusinessFacadeImpl implements Sc
 
     @Override
     public void removeReservationType(int id) {
-        reservationTypeDAO.remove(reservationTypeDAO.find(id));
+        ReservationTypes type = reservationTypeDAO.find(id);
+
+        for(Reservations r : type.getReservationsCollection()) {
+            r.setReservationType(null);
+            reservationsDAO.edit(r);
+        }
+
+        reservationTypeDAO.remove(type);
     }
 
     @Override
-    public void createReservationType(String shortDescription, String longDescription, String color) {
+    public void createReservationType(ReservationTypeDTO reservationType) {
         ReservationTypes newType = new ReservationTypes();
-        newType.setTypeShortDescription(shortDescription);
-        newType.setTypeLongDescription(longDescription);
-        newType.setReservationColor(color);
+        newType.setTypeShortDescription(reservationType.getShortDescription());
+        newType.setTypeLongDescription(reservationType.getLongDescription());
+        newType.setReservationColor(reservationType.getReservationColor());
         reservationTypeDAO.create(newType);
+    }
+
+    @Override
+    public void editReservationType(ReservationTypeDTO reservationType) {
+        ReservationTypes type = reservationTypeDAO.find(reservationType.getId());
+        type.setTypeShortDescription(reservationType.getShortDescription());
+        type.setTypeLongDescription(reservationType.getLongDescription());
+        type.setReservationColor(reservationType.getReservationColor());
+        reservationTypeDAO.edit(type);
     }
 
     @Override
