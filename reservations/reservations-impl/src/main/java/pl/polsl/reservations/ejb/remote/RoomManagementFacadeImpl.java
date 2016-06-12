@@ -115,6 +115,20 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
         UserContext userContext = getCurrentUserContext();
         Workers worker = userContext.getUser().getWorkers();
 
+        Equipment old = null;
+        List<Equipment> equipmentByRoomNumber = equipmentDAO.getEquipmentByRoomNumber(room.getRoomNumber());
+        for (Equipment e : equipmentByRoomNumber) {
+            if (e.getEquipmentName().equals(name) && e.getEquipmentState().getId() == stateId
+                    && e.getEquipmentType().getId() == typeId) {
+                old = e;
+            }
+        }
+        if (old != null) {
+            old.setQuantity(old.getQuantity() + quantity);
+            equipmentDAO.merge(old);
+            return true;
+        }
+
         if (userContext.checkPrivilege(PrivilegeEnum.EQUIPMENT_MANAGEMENT_WORKER)
                 || room.getKeeper().getId().equals(worker.getId())) {
             newEquipment.setRoom(room);
@@ -347,7 +361,7 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
         Departaments departament = workers.getDepartament();
         List<Room> roomCollection = departament.getRoomCollection();
         List<RoomDTO> result = new ArrayList<>();
-        for(Room room : roomCollection){
+        for (Room room : roomCollection) {
             result.add(DTOBuilder.buildRoomDTO(room));
         }
         return result;
@@ -367,4 +381,70 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
         return certificateBean;
     }
 
+    @Override
+    public boolean addRoomType(RoomTypesDTO roomTypesDTO) {
+        RoomTypes roomType = new RoomTypes();
+        roomType.setLongDescription(roomTypesDTO.getLongDescription());
+        roomType.setShortDescription(roomTypesDTO.getShortDescription());
+        roomTypeDAO.create(roomType);
+        return true;
+    }
+
+    @Override
+    public boolean removeRoomType(RoomTypesDTO roomTypesDTO) {
+        RoomTypes roomType = roomTypeDAO.find(roomTypesDTO.getId());
+        if (roomType == null) {
+            return false;
+        }
+        roomTypeDAO.remove(roomType);
+        return true;
+    }
+
+    @Override
+    public boolean editRoomType(RoomTypesDTO roomTypesDTO) {
+        RoomTypes roomType = roomTypeDAO.find(roomTypesDTO.getId());
+        if (roomType == null) {
+            return false;
+        }
+        roomType.setLongDescription(roomTypesDTO.getLongDescription());
+        roomType.setShortDescription(roomTypesDTO.getShortDescription());
+
+        roomTypeDAO.edit(roomType);
+        return true;
+    }
+
+    @Override
+    public boolean addDepartament(DepartamentDTO departamentDTO) {
+        /*Departaments departament = new Departaments();
+         departament.get
+         departament.set
+         roomTypeDAO.create(roomType);
+         return true;*/
+        return true;
+    }
+
+    @Override
+    public boolean removeDepartament(DepartamentDTO departamentDTO) {
+        return true;
+    }
+
+    @Override
+    public boolean editDepartament(DepartamentDTO departamentDTO) {
+        return true;
+    }
+
+    @Override
+    public boolean addInstitute(InstituteDTO instituteDTO) {
+        return true;
+    }
+
+    @Override
+    public boolean removeInstitute(InstituteDTO instituteDTO) {
+        return true;
+    }
+
+    @Override
+    public boolean editInstitute(InstituteDTO instituteDTO) {
+        return true;
+    }
 }
