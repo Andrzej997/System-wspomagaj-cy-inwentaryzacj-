@@ -166,6 +166,7 @@ public class AssignRoomView extends JPanel {
             if (workerCb.getSelectedItem() != null && roomCb.getSelectedItem() != null) {
                 assignRoomMediator.onAssign();
             }
+            window.getAssignRoomFrame().dispose();
         });
     }
 

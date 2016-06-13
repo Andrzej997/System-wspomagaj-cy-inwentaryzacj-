@@ -22,6 +22,7 @@ import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.mediators.AssignRoomMediator;
+import pl.polsl.reservations.client.mediators.AssignToUnitMediator;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
 import pl.polsl.reservations.client.views.utils.PanelStyle;
 import pl.polsl.reservations.client.views.utils.RoomComboBox;
@@ -38,7 +39,7 @@ public class AssignToUnitView extends JPanel {
     private final int NORMAL_HEIGHT = 30;
 
     private final MainView window;
-    private final AssignRoomMediator assignRoomMediator;
+    private final AssignToUnitMediator assignToUnitMediator;
 
     private JLabel instituteLb;
     private JLabel instituteContentLb;
@@ -63,14 +64,15 @@ public class AssignToUnitView extends JPanel {
 
     private Image addImg;
 
-    public AssignToUnitView(MainView window, AssignRoomMediator assignRoomMediator) {
+    public AssignToUnitView(MainView window, AssignToUnitMediator assignToUnitMediator) {
         super();
         this.window = window;
-        this.assignRoomMediator = assignRoomMediator;
+        this.assignToUnitMediator = assignToUnitMediator;
         initComponents();
         prepareObjects();
         initPanels();
         setupView();
+        setupListeners();
     }
 
     private void initComponents() {
@@ -138,10 +140,23 @@ public class AssignToUnitView extends JPanel {
     
     private void setupListeners(){
         departamentCb.addActionListener((ActionEvent e)->{
-            
+            if(departamentCb.getSelectedItem() != null){
+                assignToUnitMediator.onDepartamentChange();
+            }
         });
         
+        roomCb.addActionListener((ActionEvent e)->{
+            if(roomCb.getSelectedItem() != null){
+                assignToUnitMediator.onRoomChange();
+            }
+        });
         
+        addButton.addActionListener((ActionEvent e)->{
+            if(departamentCb.getSelectedItem() != null && roomCb.getSelectedItem() != null){
+                assignToUnitMediator.onAssign();
+            }
+            window.getAssignRoomToDepartamentFrame().dispose();
+        });
     }
 
     private void keyInputDispatcher() {
@@ -177,8 +192,8 @@ public class AssignToUnitView extends JPanel {
         return window;
     }
 
-    public AssignRoomMediator getAssignRoomMediator() {
-        return assignRoomMediator;
+    public AssignToUnitMediator getAssignRoomMediator() {
+        return assignToUnitMediator;
     }
 
     public JLabel getInstituteLb() {

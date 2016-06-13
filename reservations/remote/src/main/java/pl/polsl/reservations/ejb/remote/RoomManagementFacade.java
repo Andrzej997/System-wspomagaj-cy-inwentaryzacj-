@@ -58,4 +58,6 @@ public interface RoomManagementFacade extends AbstractBusinessFacade{
     public boolean editInstitute(InstituteDTO instituteDTO);
 
     public Long getDepartamentChief(Long departamentId);
+
+    public List<RoomDTO> getDepartamentRoomsById(Long departamentId);
 }
