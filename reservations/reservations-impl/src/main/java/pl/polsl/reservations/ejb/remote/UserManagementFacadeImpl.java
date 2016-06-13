@@ -124,6 +124,12 @@ public class UserManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
             return false;
         }
 
+        Room oldRoom = worker.getRoom();
+        List<Workers> workerses = oldRoom.getWorkerses();
+        workerses.remove(worker);
+        oldRoom.setWorkerses(workerses);
+        roomFacade.merge(oldRoom);
+        
         worker.setRoom(room);
         workersFacade.edit(worker);
         //TODO poziom uprawnien
