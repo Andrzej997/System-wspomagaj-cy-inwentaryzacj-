@@ -180,40 +180,40 @@ public class AddEditUserView extends JPanel {
         }
 
         PanelStyle.setSize(usernameLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(usernameTf, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(usernameTf, NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(usernameContentLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(surnameTf, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(surnameTf, NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(surnameLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(nameTf, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(nameTf, NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(nameLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(phoneTf, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(phoneTf,  NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(phoneLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(emailTf, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(emailTf, NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(emailLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(addressTf, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(addressTf,  NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(addressLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(departmentContentLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(departmentContentLabel,  NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(departmentLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(departmentCb, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(peselContentLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(departmentCb, NORMAL_WIDTH, NORMAL_HEIGHT, true);
+        PanelStyle.setSize(peselContentLabel, NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(peselLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(peselTf, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(gradeTf, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(peselTf,  NORMAL_WIDTH, NORMAL_HEIGHT, true);
+        PanelStyle.setSize(gradeTf, NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(gradeLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(gradeContentLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(roomContentLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(gradeContentLabel, NORMAL_WIDTH, NORMAL_HEIGHT, true);
+        PanelStyle.setSize(roomContentLabel,  NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(roomLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(roomCb, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(permissionContentLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(roomCb,  NORMAL_WIDTH, NORMAL_HEIGHT, true);
+        PanelStyle.setSize(permissionContentLabel,  NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(permissionLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(permissionCb, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(chiefContentLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(permissionCb,  NORMAL_WIDTH, NORMAL_HEIGHT, true);
+        PanelStyle.setSize(chiefContentLabel, NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(chiefLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(chiefCb, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(userCb, 2 * NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 270);
-        PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 270);
-        PanelStyle.setSize(mainPanel, 2 * NORMAL_WIDTH, 330);
+        PanelStyle.setSize(chiefCb, NORMAL_WIDTH, NORMAL_HEIGHT, true);
+        PanelStyle.setSize(userCb, 2 *  NORMAL_WIDTH, NORMAL_HEIGHT, true);
+        PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 300);
+        PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 300);
+        PanelStyle.setSize(mainPanel, 2 * NORMAL_WIDTH, 360);
     }
 
     private void initializeObjects() {
@@ -229,7 +229,7 @@ public class AddEditUserView extends JPanel {
         permissionLabel = new JLabel("Permission: ");
         chiefLabel = new JLabel("Chief: ");
 
-        usernameContentLabel = new JLabel();
+        usernameContentLabel = new JLabel("");
         departmentContentLabel = new JLabel();
         gradeContentLabel = new JLabel();
         peselContentLabel = new JLabel();

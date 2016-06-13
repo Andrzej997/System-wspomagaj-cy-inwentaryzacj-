@@ -1,10 +1,8 @@
 package pl.polsl.reservations.client.views.utils;
 
 import java.awt.Color;
-
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-
 import net.java.balloontip.BalloonTip;
 import net.java.balloontip.positioners.BalloonTipPositioner;
 import net.java.balloontip.positioners.LeftAbovePositioner;

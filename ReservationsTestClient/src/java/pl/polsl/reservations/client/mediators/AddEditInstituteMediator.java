@@ -90,8 +90,8 @@ public class AddEditInstituteMediator {
         if (selectedItem.equals("Create new")) {
             String name = addEditInstituteView.getNameTf().getText();
             instituteDTO.setName(name);
-            roomManagementFacade.addInstitute(instituteDTO);
             instituteDTO.setChefId(getSelectedChief());
+            roomManagementFacade.addInstitute(instituteDTO);
             return;
         }
         for (InstituteDTO institute : allInstitutes) {
@@ -103,7 +103,7 @@ public class AddEditInstituteMediator {
                 instituteDTO.setName(name);
                 instituteDTO.setChefId(getSelectedChief());
                 instituteDTO.setId(institute.getId());
-                roomManagementFacade.addInstitute(instituteDTO);
+                roomManagementFacade.editInstitute(instituteDTO);
                 return;
             }
         }
@@ -122,8 +122,8 @@ public class AddEditInstituteMediator {
             }
         }
     }
-    
-    private Long getSelectedChief(){
+
+    private Long getSelectedChief() {
         List<UserDTO> possibleChiefs = userManagementFacade.getPossibleChiefs(3);
         int selectedIndex = addEditInstituteView.getChiefCb().getSelectedIndex();
         return possibleChiefs.get(selectedIndex).getId();

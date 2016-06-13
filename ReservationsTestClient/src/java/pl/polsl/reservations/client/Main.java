@@ -10,8 +10,6 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import pl.polsl.reservations.client.mediators.MainViewMediator;
 import pl.polsl.reservations.client.views.MainView;
-import pl.polsl.reservations.dto.ReservationDTO;
-import pl.polsl.reservations.ejb.remote.ScheduleFacade;
 
 /**
  *
@@ -85,6 +83,7 @@ public class Main {
 
             }
         });
+        
         UIManager.getLookAndFeelDefaults().put("background", new Color(230, 230, 250));
         UIManager.put("ScrollPane.background", new Color(230, 230, 250));
         UIManager.getLookAndFeelDefaults().put("Table.font",

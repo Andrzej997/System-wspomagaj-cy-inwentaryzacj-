@@ -45,9 +45,11 @@ public class DTOBuilder {
 
     public static InstituteDTO buildInstituteDTO(Institutes institute) {
         InstituteDTO instituteDTO = new InstituteDTO();
-        instituteDTO.setId(institute.getId());
-        instituteDTO.setName(institute.getInstituteName());
-        instituteDTO.setChefId(institute.getChief().getId());
+        if (institute != null) {
+            instituteDTO.setId(institute.getId());
+            instituteDTO.setName(institute.getInstituteName());
+            instituteDTO.setChefId(institute.getChief().getId());
+        }
         return instituteDTO;
     }
 

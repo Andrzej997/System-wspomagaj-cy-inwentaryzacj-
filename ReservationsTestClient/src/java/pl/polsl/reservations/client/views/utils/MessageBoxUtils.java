@@ -28,20 +28,20 @@ public class MessageBoxUtils {
     }
 
     public static void createPrivilegeErrorPane(JComponent parent) {
-        String message = "You don't have access to such funcionality!!!\n";
+        String message = "Access denied";
         String title = "Error";
         JOptionPane.showMessageDialog(parent, message, title, JOptionPane.ERROR_MESSAGE);
     }
 
     public static void createPrivilegeRequestErrorPane(JComponent parent) {
         if (userFacade.isRequestingHigherPrivilegeLevel()) {
-            String message = "You don't have access to such functionality!!!\n"
+            String message = "Access denied \n"
                     + "Now you are waiting for chief acceptation";
             String title = "Warning";
             JOptionPane.showMessageDialog(parent, message, title,
                     JOptionPane.WARNING_MESSAGE);
         } else {
-            String message = "You don't have access to such functionality!!!\n"
+            String message = "Access denied \n"
                     + "You can request for access to your boss, but \n"
                     + "you have to wait for acceptation";
             String title = "Warning";
@@ -95,5 +95,23 @@ public class MessageBoxUtils {
                 }
             }
         }
+    }
+
+    public static Boolean userAlreadyAssignedWarrning(JComponent parent, Integer roomNumber) {
+        String message = "Selected user is already assigned to room " + roomNumber.toString();
+        String title = "Warning";
+        Object[] options = {"ACCEPT", "ABORT"};
+        int optionIndex = JOptionPane.showOptionDialog(parent, message, title, JOptionPane.DEFAULT_OPTION,
+                JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+        return optionIndex == 0;
+    }
+
+    public static Boolean roomAlreadyAssignedWarrning(JComponent parent, String departament) {
+        String message = "Selected room is already assigned to another departament: " + departament;
+        String title = "Warning";
+        Object[] options = {"ACCEPT", "ABORT"};
+        int optionIndex = JOptionPane.showOptionDialog(parent, message, title, JOptionPane.DEFAULT_OPTION,
+                JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+        return optionIndex == 0;
     }
 }

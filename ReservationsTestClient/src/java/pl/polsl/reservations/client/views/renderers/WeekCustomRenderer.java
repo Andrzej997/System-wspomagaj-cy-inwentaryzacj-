@@ -1,9 +1,9 @@
 package pl.polsl.reservations.client.views.renderers;
 
-import java.util.HashMap;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import javax.swing.BorderFactory;

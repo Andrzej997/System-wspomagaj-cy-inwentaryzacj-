@@ -20,11 +20,11 @@ import pl.polsl.reservations.client.mediators.DayDataViewMediator;
 import pl.polsl.reservations.client.mediators.WeekDataViewMediator;
 import pl.polsl.reservations.client.views.renderers.WeekCustomRenderer;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
-import pl.polsl.reservations.client.views.utils.WeekDateFormatter;
 import pl.polsl.reservations.client.views.utils.CustomDatePicker;
 import pl.polsl.reservations.client.views.utils.MessageBoxUtils;
 import pl.polsl.reservations.client.views.utils.PanelStyle;
 import pl.polsl.reservations.client.views.utils.RoomComboBox;
+import pl.polsl.reservations.client.views.utils.WeekDateFormatter;
 
 /**
  *

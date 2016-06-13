@@ -36,7 +36,7 @@ public class Departaments implements Serializable{
     @OneToMany(targetEntity = Workers.class, mappedBy = "departament", cascade = CascadeType.ALL)
     private List<Workers> workersCollection;
 
-    @OneToOne(targetEntity = Workers.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(targetEntity = Workers.class, cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @PrimaryKeyJoinColumn
     private Workers chief;
 

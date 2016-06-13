@@ -61,7 +61,7 @@ public class AddEditRoomTypeViewMediator {
         RoomTypesDTO newRoomTypeDTO = new RoomTypesDTO();
         if (selectedItem.equals("Create new")) {
             newRoomTypeDTO.setShortDescription(addEditRoomTypeView.getRoomTypeField().getText());
-            newRoomTypeDTO.setShortDescription(addEditRoomTypeView.getRoomTypeDescField().getText());
+            newRoomTypeDTO.setLongDescription(addEditRoomTypeView.getRoomTypeDescField().getText());
             roomManagementFacade.addRoomType(newRoomTypeDTO);
         } else {
             for (RoomTypesDTO roomType : roomTypes) {
@@ -73,7 +73,7 @@ public class AddEditRoomTypeViewMediator {
                         return;
                     } else {
                         newRoomTypeDTO.setShortDescription(addEditRoomTypeView.getRoomTypeField().getText());
-                        newRoomTypeDTO.setShortDescription(addEditRoomTypeView.getRoomTypeDescField().getText());
+                        newRoomTypeDTO.setLongDescription(addEditRoomTypeView.getRoomTypeDescField().getText());
                         newRoomTypeDTO.setId(roomType.getId());
                         roomManagementFacade.editRoomType(newRoomTypeDTO);
                         return;

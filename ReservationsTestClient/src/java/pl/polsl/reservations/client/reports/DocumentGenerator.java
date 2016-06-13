@@ -2,7 +2,6 @@ package pl.polsl.reservations.client.reports;
 
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.PageSize;
-import com.sun.xml.ws.transport.tcp.client.ClientConnectionSession;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,7 +11,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ws.rs.client.Client;
 import pl.polsl.reservations.client.ClientContext;
 import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.dto.EquipmentDTO;

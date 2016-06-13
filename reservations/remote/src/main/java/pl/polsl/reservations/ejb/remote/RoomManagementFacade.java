@@ -23,6 +23,7 @@ public interface RoomManagementFacade extends AbstractBusinessFacade{
     List<EquipmentTypeDTO> getEquipmentTypes();
     void assignUserToRoom(int roomId, int workerId);
     void assignKeeperToRoom(int roomId, int workerId);
+    void assignRoomToDepartament(Long roomId, Long departmentId);
     UserDTO getRoomKeeper(int roomId);
     Boolean addEquipmentType(String shortDescription, String longDescription);
     void removeEquipmentType(int typeId);
@@ -57,4 +58,6 @@ public interface RoomManagementFacade extends AbstractBusinessFacade{
     public boolean editInstitute(InstituteDTO instituteDTO);
 
     public Long getDepartamentChief(Long departamentId);
+
+    public List<RoomDTO> getDepartamentRoomsById(Long departamentId);
 }
