@@ -211,9 +211,9 @@ public class AddEditUserView extends JPanel {
         PanelStyle.setSize(chiefLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(chiefCb, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(userCb, 2 * NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 270);
-        PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 270);
-        PanelStyle.setSize(mainPanel, 2 * NORMAL_WIDTH, 330);
+        PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 360);
+        PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 360);
+        PanelStyle.setSize(mainPanel, 2 * NORMAL_WIDTH, 360);
     }
 
     private void initializeObjects() {

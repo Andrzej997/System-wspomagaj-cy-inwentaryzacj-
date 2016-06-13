@@ -53,6 +53,7 @@ public class AddEditDepartamentView extends JPanel {
     private JPanel labelPanel;
     private JPanel dataPanel;
     private JPanel mainPanel;
+    private JPanel navPanel;
 
     private Image addImg;
     private Image editImg;
@@ -86,6 +87,7 @@ public class AddEditDepartamentView extends JPanel {
         labelPanel = new JPanel();
         dataPanel = new JPanel();
         mainPanel = new JPanel();
+        navPanel = new JPanel();
         keyInputDispatcher();
     }
 
@@ -98,9 +100,8 @@ public class AddEditDepartamentView extends JPanel {
         PanelStyle.setSize(instituteCb, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(chiefLb, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(chiefCb, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 270);
-        PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 270);
-        PanelStyle.setSize(mainPanel, 2 * NORMAL_WIDTH, 330);
+        PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 4*NORMAL_HEIGHT);
+        PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 4*NORMAL_HEIGHT);
     }
 
     private void initPanels() {
@@ -108,6 +109,8 @@ public class AddEditDepartamentView extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS));
         dataPanel.setLayout(new BoxLayout(dataPanel, BoxLayout.Y_AXIS));
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
+        navPanel.setLayout(new BoxLayout(navPanel, BoxLayout.X_AXIS));
     }
 
     private void setupView() {
@@ -130,9 +133,10 @@ public class AddEditDepartamentView extends JPanel {
         dataPanel.add(chiefCb);
         mainPanel.add(labelPanel);
         mainPanel.add(dataPanel);
-        mainPanel.add(addButton);
-        mainPanel.add(deleteButton);
+        navPanel.add(addButton);
+        navPanel.add(deleteButton);
         add(mainPanel);
+        add(navPanel);
     }
 
     private void setupListeners() {

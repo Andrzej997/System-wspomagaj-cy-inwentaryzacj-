@@ -41,6 +41,7 @@ public class AddEditView extends JPanel {
     private JPanel dataPanel;
     private JPanel hourPanel;
     private JPanel navigatePanel;
+    private JPanel contentPanel;
     private CustomDatePicker datepicker;
 
     private JButton addButton;
@@ -105,11 +106,12 @@ public class AddEditView extends JPanel {
         labelPanel.add(groupLabel);
         labelPanel.add(titleLabel);
         labelPanel.add(teacherLabel);
-        dataPanel.add(isGeneralChb);
         addPanel.add(labelPanel);
         addPanel.add(dataPanel);
         mainPanel.add(backBtn);
-        mainPanel.add(addPanel);
+        contentPanel.add(addPanel);
+        contentPanel.add(isGeneralChb);
+        mainPanel.add(contentPanel);
         mainPanel.add(navigatePanel);
         add(mainPanel);
         add(dayTablePanel);
@@ -161,6 +163,8 @@ public class AddEditView extends JPanel {
         hourPanel.setLayout(new BoxLayout(hourPanel, BoxLayout.X_AXIS));
         navigatePanel = new JPanel();
         navigatePanel.setLayout(new BoxLayout(navigatePanel, BoxLayout.X_AXIS));
+        contentPanel = new JPanel();
+        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
         dayTablePanel = new JPanel();
         addButton = new JButton();
         roomCb = new RoomComboBox();
@@ -232,7 +236,9 @@ public class AddEditView extends JPanel {
     private void setSize() {
         setBorder(new EmptyBorder(10, 10, 10, 10));
         PanelStyle.setSize(this, 800, 600);
-        PanelStyle.setSize(addPanel, 330, 480);
+        PanelStyle.setSize(addPanel,330, 200);
+        contentPanel.setBorder(new EmptyBorder(100, 0, 100, 0));
+        PanelStyle.setSize(contentPanel, 330, 480);
         PanelStyle.setSize(dayTablePanel, 450, 550);
         PanelStyle.setSize(roomLabel, NORMAL_WIDTH - 30, NORMAL_HEIGHT);
         PanelStyle.setSize(teacherLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
