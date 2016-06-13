@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javax.swing.DefaultListModel;
+import javax.swing.SwingConstants;
+import static javax.swing.SwingConstants.CENTER;
 import pl.polsl.reservations.client.ClientContext;
 import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.views.AssignRoomView;
@@ -37,6 +39,7 @@ public class AssignRoomMediator {
         getUnderlings();
         getRooms();
         getRoomDetails();
+        assignRoomView.getAsKeeperChb().setHorizontalAlignment(SwingConstants.CENTER);
         return assignRoomView;
     }
 
