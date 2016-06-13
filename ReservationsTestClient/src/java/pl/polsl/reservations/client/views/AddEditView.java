@@ -1,6 +1,5 @@
 package pl.polsl.reservations.client.views;
 
-import pl.polsl.reservations.client.views.utils.DayTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,6 +18,7 @@ import pl.polsl.reservations.client.mediators.AddEditViewMediator;
 import pl.polsl.reservations.client.mediators.WeekDataViewMediator;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
 import pl.polsl.reservations.client.views.utils.CustomDatePicker;
+import pl.polsl.reservations.client.views.utils.DayTableModel;
 import pl.polsl.reservations.client.views.utils.PanelStyle;
 import pl.polsl.reservations.client.views.utils.RoomComboBox;
 import pl.polsl.reservations.dto.ReservationDTO;

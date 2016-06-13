@@ -1,6 +1,5 @@
 package pl.polsl.reservations.client.views.utils;
 
-import java.awt.Component;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;

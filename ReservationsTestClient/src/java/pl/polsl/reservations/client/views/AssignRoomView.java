@@ -20,7 +20,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
-import static javax.swing.SwingConstants.CENTER;
 import javax.swing.border.EmptyBorder;
 import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.mediators.AssignRoomMediator;

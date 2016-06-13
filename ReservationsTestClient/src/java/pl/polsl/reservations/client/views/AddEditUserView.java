@@ -1,6 +1,5 @@
 package pl.polsl.reservations.client.views;
 
-import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;

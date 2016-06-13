@@ -24,6 +24,7 @@ import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.mediators.AddEditRoomTypeViewMediator;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
 import pl.polsl.reservations.client.views.utils.PanelStyle;
+import pl.polsl.reservations.client.views.utils.ValidationErrorMessanger;
 
 /**
  *
@@ -49,7 +50,7 @@ public class AddEditRoomTypeView extends JPanel {
     private JPanel dataPanel;
     private JPanel mainPanel;
     private JPanel navPanel;
-    
+
     private JButton addButton;
     private JButton deleteButton;
 
@@ -95,8 +96,8 @@ public class AddEditRoomTypeView extends JPanel {
         PanelStyle.setSize(roomTypeDescField, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(roomTypesLb, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(roomTypes, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 3*NORMAL_HEIGHT);
-        PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 3*NORMAL_HEIGHT);
+        PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 3 * NORMAL_HEIGHT);
+        PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 3 * NORMAL_HEIGHT);
     }
 
     private void setupView() {
@@ -140,14 +141,33 @@ public class AddEditRoomTypeView extends JPanel {
         });
 
         addButton.addActionListener((ActionEvent e) -> {
+            if (!validateAll()) {
+                return;
+            }
             addEditRoomTypeViewMediator.onAddEdit();
             window.getAddRoomTypeFrame().dispose();
         });
 
         deleteButton.addActionListener((ActionEvent e) -> {
+            if (!validateAll()) {
+                return;
+            }
             addEditRoomTypeViewMediator.onDelete();
             window.getAddRoomTypeFrame().dispose();
         });
+    }
+
+    private Boolean validateAll() {
+        Boolean validationFlag = true;
+        if (roomTypeField.getText().isEmpty()) {
+            ValidationErrorMessanger.showErrorMessage(roomTypeField, "Type field cannot be empty");
+            validationFlag = false;
+        }
+        if (roomTypeDescField.getText().isEmpty()) {
+            ValidationErrorMessanger.showErrorMessage(roomTypeDescField, "Description field cannot be empty");
+            validationFlag = false;
+        }
+        return validationFlag;
     }
 
     private void keyInputDispatcher() {

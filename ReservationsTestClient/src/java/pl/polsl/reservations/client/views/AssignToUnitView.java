@@ -21,7 +21,6 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 import pl.polsl.reservations.client.Lookup;
-import pl.polsl.reservations.client.mediators.AssignRoomMediator;
 import pl.polsl.reservations.client.mediators.AssignToUnitMediator;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
 import pl.polsl.reservations.client.views.utils.PanelStyle;

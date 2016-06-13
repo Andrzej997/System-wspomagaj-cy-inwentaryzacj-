@@ -23,6 +23,7 @@ import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.mediators.AddEditDepartamentMediator;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
 import pl.polsl.reservations.client.views.utils.PanelStyle;
+import pl.polsl.reservations.client.views.utils.ValidationErrorMessanger;
 
 /**
  *
@@ -100,8 +101,8 @@ public class AddEditDepartamentView extends JPanel {
         PanelStyle.setSize(instituteCb, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(chiefLb, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(chiefCb, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 4*NORMAL_HEIGHT);
-        PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 4*NORMAL_HEIGHT);
+        PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 4 * NORMAL_HEIGHT);
+        PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 4 * NORMAL_HEIGHT);
     }
 
     private void initPanels() {
@@ -147,14 +148,29 @@ public class AddEditDepartamentView extends JPanel {
         });
 
         addButton.addActionListener((ActionEvent e) -> {
+            if (!validateAll()) {
+                return;
+            }
             addEditDepartamentMediator.onAddEdit();
             window.getAddEditDepartamentFrame().dispose();
         });
 
         deleteButton.addActionListener((ActionEvent e) -> {
+            if (!validateAll()) {
+                return;
+            }
             addEditDepartamentMediator.onDelete();
             window.getAddEditDepartamentFrame().dispose();
         });
+    }
+
+    private Boolean validateAll() {
+        Boolean validationFlag = true;
+        if (nameTf.getText().isEmpty()) {
+            ValidationErrorMessanger.showErrorMessage(nameTf, "Name field cannot be empty");
+            validationFlag = false;
+        }
+        return validationFlag;
     }
 
     private void keyInputDispatcher() {

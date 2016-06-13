@@ -2,10 +2,8 @@ package pl.polsl.reservations.ejb.remote;
 
 import java.util.List;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import pl.polsl.reservations.dto.EquipmentStateDTO;
 

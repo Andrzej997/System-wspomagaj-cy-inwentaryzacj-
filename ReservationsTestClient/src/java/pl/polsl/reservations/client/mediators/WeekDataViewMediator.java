@@ -1,8 +1,6 @@
 package pl.polsl.reservations.client.mediators;
 
 import java.awt.Color;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -14,15 +12,15 @@ import javax.swing.table.DefaultTableModel;
 import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.views.MainView;
 import pl.polsl.reservations.client.views.WeekDataView;
-import pl.polsl.reservations.client.views.utils.RoomComboBox;
-import pl.polsl.reservations.dto.ReservationDTO;
-import pl.polsl.reservations.dto.RoomDTO;
-import pl.polsl.reservations.ejb.remote.RoomManagementFacade;
-import pl.polsl.reservations.ejb.remote.ScheduleFacade;
 import pl.polsl.reservations.client.views.renderers.WeekCustomRenderer;
 import pl.polsl.reservations.client.views.utils.DateUtils;
 import pl.polsl.reservations.client.views.utils.Pair;
+import pl.polsl.reservations.client.views.utils.RoomComboBox;
+import pl.polsl.reservations.dto.ReservationDTO;
 import pl.polsl.reservations.dto.ReservationTypeDTO;
+import pl.polsl.reservations.dto.RoomDTO;
+import pl.polsl.reservations.ejb.remote.RoomManagementFacade;
+import pl.polsl.reservations.ejb.remote.ScheduleFacade;
 import pl.polsl.reservations.ejb.remote.UserManagementFacade;
 
 /**

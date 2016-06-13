@@ -23,6 +23,7 @@ import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.mediators.AddEditInstituteMediator;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
 import pl.polsl.reservations.client.views.utils.PanelStyle;
+import pl.polsl.reservations.client.views.utils.ValidationErrorMessanger;
 
 /**
  *
@@ -93,15 +94,15 @@ public class AddEditInstituteView extends JPanel {
         PanelStyle.setSize(nameTf, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(chiefLb, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(chiefCb, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 3*NORMAL_HEIGHT);
-        PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 3*NORMAL_HEIGHT);
+        PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 3 * NORMAL_HEIGHT);
+        PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 3 * NORMAL_HEIGHT);
     }
 
     private void initPanels() {
         setBorder(new EmptyBorder(10, 10, 10, 10));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
-       navPanel.setLayout(new BoxLayout(navPanel, BoxLayout.X_AXIS));
+        navPanel.setLayout(new BoxLayout(navPanel, BoxLayout.X_AXIS));
         labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS));
         dataPanel.setLayout(new BoxLayout(dataPanel, BoxLayout.Y_AXIS));
     }
@@ -138,14 +139,29 @@ public class AddEditInstituteView extends JPanel {
         });
 
         addButton.addActionListener((ActionEvent e) -> {
+            if (!validateAll()) {
+                return;
+            }
             addEditInstituteMediator.onAddEdit();
             window.getAddEditInstituteFrame().dispose();
         });
 
         deleteButton.addActionListener((ActionEvent e) -> {
+            if (!validateAll()) {
+                return;
+            }
             addEditInstituteMediator.onDelete();
             window.getAddEditInstituteFrame().dispose();
         });
+    }
+
+    private Boolean validateAll() {
+        Boolean validationFlag = true;
+        if (nameTf.getText().isEmpty()) {
+            ValidationErrorMessanger.showErrorMessage(nameTf, "Name field cannot be empty");
+            validationFlag = false;
+        }
+        return validationFlag;
     }
 
     private void keyInputDispatcher() {

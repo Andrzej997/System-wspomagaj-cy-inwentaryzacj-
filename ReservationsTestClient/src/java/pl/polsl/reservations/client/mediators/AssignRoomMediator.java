@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Set;
 import javax.swing.DefaultListModel;
 import javax.swing.SwingConstants;
-import static javax.swing.SwingConstants.CENTER;
 import pl.polsl.reservations.client.ClientContext;
 import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.views.AssignRoomView;
