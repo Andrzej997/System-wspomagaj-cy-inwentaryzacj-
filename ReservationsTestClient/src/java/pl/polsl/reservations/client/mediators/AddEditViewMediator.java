@@ -152,29 +152,67 @@ public class AddEditViewMediator {
 
     private boolean checkIfReservationAvaliable(int startTime, int endTime) {
         Calendar calendar = date;
-        List<ReservationDTO> roomSchedule
-                = scheduleFacade.getDetailedRoomSchedule(roomNumber, calendar.get(Calendar.YEAR),
-                        DateUtils.getWeekOfSemester(date), DateUtils.getSemesterFromDate(date));
-        for (ReservationDTO room : roomSchedule) {
-            Integer roomStart = room.getStartTime();
-            Integer roomEnd = room.getEndTime();
+        if (!addEditView.getIsGeneralChb().isSelected()) {
+            List<ReservationDTO> roomSchedule
+                    = scheduleFacade.getDetailedRoomSchedule(roomNumber, calendar.get(Calendar.YEAR),
+                            DateUtils.getWeekOfSemester(date), DateUtils.getSemesterFromDate(date));
+            for (ReservationDTO room : roomSchedule) {
+                Integer roomStart = room.getStartTime();
+                Integer roomEnd = room.getEndTime();
 
-            if (addEditView.isEdit()) {
-                if (Objects.equals(room.getId(), chosenReservation.getId())) {
-                    continue;
+                if (addEditView.isEdit()) {
+                    if (Objects.equals(room.getId(), chosenReservation.getId())) {
+                        continue;
+                    }
+                }
+
+                if (startTime < roomStart && endTime >= roomStart) {
+                    return false;
+                }
+                if (startTime <= roomEnd && endTime > roomEnd) {
+                    return false;
+                }
+                if (startTime >= roomStart && endTime <= roomEnd) {
+                    return false;
+                }
+
+            }
+        } else {
+            
+            for (int i = 1; i <= 17; i++) {
+                List<ReservationDTO> roomSchedule
+                        = scheduleFacade.getDetailedRoomSchedule(roomNumber, calendar.get(Calendar.YEAR),
+                                i, DateUtils.getSemesterFromDate(date));
+                for (ReservationDTO room : roomSchedule) {
+                    Integer roomStart = room.getStartTime();
+                    Integer roomEnd = room.getEndTime();
+
+                    if (addEditView.isEdit()) {
+                        if (Objects.equals(room.getId(), chosenReservation.getId())) {
+                            continue;
+                        }
+                    }
+
+
+                    if (startTime < roomStart && endTime >= roomStart) {
+                            
+                            return false;
+                        
+                    }
+                    if (startTime <= roomEnd && endTime > roomEnd) {
+                       
+                            return false;
+                        
+                    }
+                    if (startTime >= roomStart && endTime <= roomEnd) {
+                       
+                            return false;
+                        }
+                    
                 }
             }
-
-            if (startTime < roomStart && endTime >= roomStart) {
-                return false;
-            }
-            if (startTime <= roomEnd && endTime > roomEnd) {
-                return false;
-            }
-            if (startTime >= roomStart && endTime <= roomEnd) {
-                return false;
-            }
-
+            
+            
         }
         return true;
     }
@@ -190,13 +228,19 @@ public class AddEditViewMediator {
         Integer startTime = getStartHourFromView() + weekDay * 96;
         Integer endTime = getEndHourFromView() + weekDay * 96 - 1;
 
-        if (startTime < endTime) {
+        if (startTime <= endTime) {
             if (checkIfReservationAvaliable(startTime, endTime)) {
 
                 Calendar calendar = date;
                 Integer typeId = getType().getId();
                 Integer userId = getWorkersData().getId().intValue();
-                 scheduleFacade.createReservation(roomID, startTime, endTime, DateUtils.getWeekOfSemester(date), date.get(Calendar.YEAR), DateUtils.getSemesterFromDate(date), typeId, userId);
+
+                Integer weekOfSemester = DateUtils.getWeekOfSemester(date);
+                if (addEditView.getIsGeneralChb().isSelected()) {
+                    weekOfSemester = 0;
+                }
+
+                scheduleFacade.createReservation(roomID, startTime, endTime, weekOfSemester, date.get(Calendar.YEAR), DateUtils.getSemesterFromDate(date), typeId, userId);
 
                 getReservations();
                 return true;
@@ -222,11 +266,10 @@ public class AddEditViewMediator {
             Integer startTime = getStartHourFromView() + weekDay * 96;
             Integer endTime = getEndHourFromView() + weekDay * 96 - 1;
 
-            Long userID  = getWorkersData().getId();
+            Long userID = getWorkersData().getId();
             String reservationType = (String) addEditView.getGroupCb().getSelectedItem();
-           
 
-            if (startTime < endTime) {
+            if (startTime <= endTime) {
                 if (checkIfReservationAvaliable(startTime, endTime)) {
                     reservation.setStartTime(startTime);
                     reservation.setEndTime(endTime);
@@ -236,12 +279,16 @@ public class AddEditViewMediator {
                     if (reservationType != null) {
                         reservation.setType(reservationType);
                     }
-                    
-                    if(roomNumber!=null){
+
+                    if (roomNumber != null) {
                         reservation.setRoomNumber(roomNumber);
                     }
-                   
-                    scheduleFacade.editReservation(reservation,date.get(Calendar.YEAR),DateUtils.getSemesterFromDate(date),DateUtils.getWeekOfSemester(date));
+                    Integer weekOfSemester = DateUtils.getWeekOfSemester(date);
+                    if (addEditView.getIsGeneralChb().isSelected()) {
+                        weekOfSemester = 0;
+                    }
+
+                    scheduleFacade.editReservation(reservation, date.get(Calendar.YEAR), DateUtils.getSemesterFromDate(date), weekOfSemester);
                     getReservations();
 
                 } else {
@@ -256,7 +303,7 @@ public class AddEditViewMediator {
             JOptionPane.showMessageDialog(addEditView, "Choose reservation!", "WARNING", JOptionPane.WARNING_MESSAGE);
             return false;
         }
-        chosenReservation=null;
+        chosenReservation = null;
         refreshTableAfterChoose();
         return true;
     }
@@ -273,11 +320,11 @@ public class AddEditViewMediator {
                 JOptionPane.showMessageDialog(addEditView, "Unauthorized access!", "ERROR", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(addEditView, "Choose reservation!", "WARNING", JOptionPane.WARNING_MESSAGE);
             return false;
         }
-        chosenReservation=null;
+        chosenReservation = null;
         refreshTableAfterChoose();
         return true;
     }
@@ -462,11 +509,11 @@ public class AddEditViewMediator {
             addEditView.getGroupCb().addItem(reservationTypeDTO.getShortDescription());
         }
     }
-    
-    public boolean ifChosenReservation(){
-        if(chosenReservation!=null){
+
+    public boolean ifChosenReservation() {
+        if (chosenReservation != null) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }

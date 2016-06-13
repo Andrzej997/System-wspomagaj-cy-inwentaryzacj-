@@ -134,7 +134,7 @@ public class DayDataView extends javax.swing.JPanel {
         prevBtn = new JButton();
         calendarBtn = new JButton();
         planTable = new JTable(new DayTableModel(32, 3));
-        datePicker = CustomDatePicker.getInstance();
+        datePicker = CustomDatePicker.getDayInstance();
         datePicker.setDate(date);
         backBtn = new JButton();
         startDate = Calendar.getInstance();
@@ -176,7 +176,7 @@ public class DayDataView extends javax.swing.JPanel {
         startDate.set(datePicker.getModel().getYear(),
                 datePicker.getModel().getMonth(),
                 datePicker.getModel().getDay());
-        startDate.add(Calendar.DATE, 7);
+        startDate.add(Calendar.DATE, 1);
         int dayOfWeek = startDate.get(Calendar.DAY_OF_WEEK);
         dayOfWeek -= 2;
         startDate.add(Calendar.DAY_OF_MONTH, -dayOfWeek);
@@ -192,7 +192,7 @@ public class DayDataView extends javax.swing.JPanel {
         startDate.set(datePicker.getModel().getYear(),
                 datePicker.getModel().getMonth(),
                 datePicker.getModel().getDay());
-        startDate.add(Calendar.DAY_OF_MONTH, -7);
+        startDate.add(Calendar.DAY_OF_MONTH, -1);
         int dayOfWeek = startDate.get(Calendar.DAY_OF_WEEK);
         dayOfWeek -= 2;
         startDate.add(Calendar.DAY_OF_MONTH, -dayOfWeek);

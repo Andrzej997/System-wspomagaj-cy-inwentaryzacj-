@@ -731,6 +731,11 @@ public class AddEditView extends JPanel {
                         hourStopCb.setSelectedIndex(endTime - dayOfWeek * 96 + 1);
                         teacherCb.setSelectedItem(addEditViewMediator.getUserName(reservation.getUserId()));
                         groupCb.setSelectedItem(reservation.getType());
+                       // if(reservation.getEndTime()<=7*96){
+                       //     isGeneralChb.setSelected(true);
+                       // }else{
+                        //    isGeneralChb.setSelected(false);
+                        //}
                         addEditViewMediator.setChosenReservation(reservation);
 
                     }
