@@ -97,6 +97,18 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
+    public void assignRoomToDepartament(Long roomId, Long departmentId) {
+        Room room = roomsDAO.find(roomId);
+        Departaments departament = departmentDAO.find(departmentId);
+
+        room.setDepartament(departament);
+        departament.getRoomCollection().add(room);
+
+        roomsDAO.edit(room);
+        departmentDAO.edit(departament);
+    }
+
+    @Override
     @RequiredPrivilege(PrivilegeEnum.ROOMS_LOOKUP)
     public UserDTO getRoomKeeper(int roomId) {
         Room room = roomsDAO.find(roomId);
