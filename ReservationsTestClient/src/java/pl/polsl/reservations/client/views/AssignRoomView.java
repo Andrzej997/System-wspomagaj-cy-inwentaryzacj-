@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
+import static javax.swing.SwingConstants.CENTER;
 import javax.swing.border.EmptyBorder;
 import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.mediators.AssignRoomMediator;
@@ -105,20 +106,22 @@ public class AssignRoomView extends JPanel {
 
     private void prepareObjects() {
         PanelStyle.setSize(workerLb, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(workerCb, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(workerCb, NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(roomLb, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(roomCb,NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(currentKeeperLb, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(currentKeeperContentLb, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(currentKeeperContentLb, NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(roomTypeLb, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(roomTypeContentLb, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(roomTypeContentLb,NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(roomSeatsLb, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(roomSeatsContentLb, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(roomSeatsContentLb,NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(asKeeperLb, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(asKeeperChb, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(asKeeperChb,NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(currentWorkersLb, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(currentWorkersLs, NORMAL_WIDTH, NORMAL_WIDTH);
+        PanelStyle.setSize(currentWorkersLs, NORMAL_WIDTH, NORMAL_WIDTH, true);
         PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 270);
         PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 270);
+       
         PanelStyle.setSize(mainPanel, 2 * NORMAL_WIDTH, 330);
     }
 
@@ -141,12 +144,12 @@ public class AssignRoomView extends JPanel {
         dataPanel.add(roomSeatsContentLb);
         labelPanel.add(asKeeperLb);
         dataPanel.add(asKeeperChb);
+        labelPanel.add(currentWorkersLb);
+        dataPanel.add(currentWorkersLs);
         mainPanel.add(labelPanel);
         mainPanel.add(dataPanel);
-        mainPanel.add(currentWorkersLb);
-        mainPanel.add(currentWorkersLs);
-        mainPanel.add(addButton);
         add(mainPanel);
+        add(addButton);
     }
 
     private void setupListeners() {
@@ -174,6 +177,8 @@ public class AssignRoomView extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS));
         dataPanel.setLayout(new BoxLayout(dataPanel, BoxLayout.Y_AXIS));
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
+        
     }
 
     private void keyInputDispatcher() {
