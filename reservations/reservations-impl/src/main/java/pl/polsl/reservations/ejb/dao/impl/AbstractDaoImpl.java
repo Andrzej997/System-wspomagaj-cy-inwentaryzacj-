@@ -197,6 +197,9 @@ public abstract class AbstractDaoImpl<T> implements Serializable, AbstractDao<T>
     @Nullable
     private Object getAppropriateIdValue(Object value) {
         Long idValue = getLongValue(value);
+        if(idValue == null){
+            return null;
+        }
         Field[] fields = this.entityClass.getDeclaredFields();
         for (Field field : fields) {
             Annotation[] annotations = field.getAnnotations();

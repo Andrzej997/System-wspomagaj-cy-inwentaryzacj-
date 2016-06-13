@@ -50,12 +50,16 @@ public class AddEditReservationTypeMediator {
         if (selectedItem.equals("Create new")) {
             addEditReservationTypeView.getShortDescTf().setText("");
             addEditReservationTypeView.getLongDescTf().setText("");
+            if (addEditReservationTypeView.getColorCb().getSelectedItem() != null) {
+                addEditReservationTypeView.getColorCb().setSelectedIndex(0);
+            }
             ButtonStyle.setStyle(addEditReservationTypeView.getAddButton(), addEditReservationTypeView.getAddImg());
         } else {
             for (ReservationTypeDTO reservationType : reservationTypes) {
                 if (reservationType.getShortDescription().equals(selectedItem)) {
                     addEditReservationTypeView.getShortDescTf().setText(reservationType.getShortDescription());
                     addEditReservationTypeView.getLongDescTf().setText(reservationType.getLongDescription());
+                    addEditReservationTypeView.getColorCb().setSelectedItem(reservationType.getReservationColor());
                     ButtonStyle.setStyle(addEditReservationTypeView.getAddButton(), addEditReservationTypeView.getEditImg());
                     return;
                 }

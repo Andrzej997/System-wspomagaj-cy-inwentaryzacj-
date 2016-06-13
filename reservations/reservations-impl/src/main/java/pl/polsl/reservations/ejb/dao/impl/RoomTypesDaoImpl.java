@@ -30,7 +30,7 @@ public class RoomTypesDaoImpl extends AbstractDaoImpl<RoomTypes> implements Room
     }
 
     @Override
-    public List<Room> getRoomCollectionById(Number id){
+    public List<Room> getRoomCollectionById(Number id) {
         RoomTypes roomTypes = this.find(id);
         return roomTypes.getRoomCollection();
     }
@@ -39,17 +39,19 @@ public class RoomTypesDaoImpl extends AbstractDaoImpl<RoomTypes> implements Room
     public void remove(RoomTypes entity) {
         getDependencies();
 
-        RoomTypes roomTypes = this.find(entity);
+        RoomTypes roomTypes = this.find(entity.getRoomType());
         List<Room> roomCollection = roomTypes.getRoomCollection();
-        for(Room room : roomCollection){
-            roomFacadeRemote.remove(room);
+        if (roomCollection != null && !roomCollection.isEmpty()) {
+            for (Room room : roomCollection) {
+                roomFacadeRemote.remove(room);
+            }
         }
 
         super.remove(roomTypes);
     }
 
     @Override
-    protected void getDependencies(){
+    protected void getDependencies() {
         try {
             roomFacadeRemote = new RoomDaoImpl();
             roomFacadeRemote.setUserContext(userContext);

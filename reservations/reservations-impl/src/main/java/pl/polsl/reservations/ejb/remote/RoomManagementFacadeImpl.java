@@ -386,7 +386,7 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
- //   @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
+    @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
     public boolean addRoomType(RoomTypesDTO roomTypesDTO) {
         RoomTypes roomType = new RoomTypes();
         roomType.setLongDescription(roomTypesDTO.getLongDescription());
@@ -396,7 +396,7 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
-  //  @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
+    @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
     public boolean removeRoomType(RoomTypesDTO roomTypesDTO) {
         RoomTypes roomType = roomTypeDAO.find(roomTypesDTO.getId());
         if (roomType == null) {
@@ -412,7 +412,7 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
-  //  @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
+    @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
     public boolean editRoomType(RoomTypesDTO roomTypesDTO) {
         RoomTypes roomType = roomTypeDAO.find(roomTypesDTO.getId());
         if (roomType == null) {
@@ -426,11 +426,12 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
-   // @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
+    @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
     public boolean addDepartament(DepartamentDTO departamentDTO, Long chiefID, Long instituteID) {
         Departaments departament = new Departaments();
         departament.setDepratamentName(departamentDTO.getName());
-
+        departament.setWorkersCollection(null);
+        departament.setRoomCollection(null);
         Workers chief = workersDAO.find(chiefID);
         if (chief != null) {
             departament.setChief(chief);
@@ -446,7 +447,7 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
-  //  @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
+    @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
     public boolean removeDepartament(DepartamentDTO departamentDTO) {
         Departaments departament = departmentDAO.find(departamentDTO.getId());
         if (departament == null) {
@@ -454,15 +455,19 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
         }
 
         List<Room> rooms = departament.getRoomCollection();
-        for (Room room : rooms) {
-            room.setDepartament(null);
-            roomsDAO.edit(room);
+        if (rooms != null && !rooms.isEmpty()) {
+            for (Room room : rooms) {
+                room.setDepartament(null);
+                roomsDAO.edit(room);
+            }
         }
 
         List<Workers> workers = departament.getWorkersCollection();
-        for (Workers worker : workers) {
-            worker.setDepartament(null);
-            workersDAO.edit(worker);
+        if (workers != null && !workers.isEmpty()) {
+            for (Workers worker : workers) {
+                worker.setDepartament(null);
+                workersDAO.edit(worker);
+            }
         }
 
         departmentDAO.remove(departament);
@@ -470,7 +475,7 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
-  //  @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
+    @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
     public boolean editDepartament(DepartamentDTO departamentDTO, Long chiefID, Long instituteID) {
         Departaments departament = departmentDAO.find(departamentDTO.getId());
         if (departament == null) {
@@ -494,13 +499,13 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
-  //  @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
+    @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
     public boolean addInstitute(InstituteDTO instituteDTO) {
         Institutes institute = new Institutes();
 
         Workers chief = workersDAO.find(instituteDTO.getChefId());
         if (chief != null) {
-            institute.setChief(workersDAO.find(chief));
+            institute.setChief(workersDAO.find(chief.getId()));
         }
 
         institute.setInstituteName(instituteDTO.getName());
@@ -509,7 +514,7 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
-  //  @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
+    @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
     public boolean removeInstitute(Long id) {
         Institutes institute = institutesDAO.find(id);
         if (institute == null) {
@@ -525,7 +530,7 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
-   // @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
+    @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
     public boolean editInstitute(InstituteDTO instituteDTO) {
         Institutes institute = institutesDAO.find(instituteDTO.getId());
         if (institute == null) {
@@ -533,17 +538,17 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
         }
         Workers chief = workersDAO.find(instituteDTO.getChefId());
         if (chief != null) {
-            institute.setChief(workersDAO.find(chief));
+            institute.setChief(workersDAO.find(chief.getId()));
         }
         institute.setChief(workersDAO.find(instituteDTO.getChefId()));
         institute.setInstituteName(instituteDTO.getName());
         institutesDAO.edit(institute);
         return true;
     }
-    
+
     @Override
-    //@RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
-    public Long getDepartamentChief(Long departamentId){
+    @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
+    public Long getDepartamentChief(Long departamentId) {
         Departaments departament = departmentDAO.find(departamentId);
         return departament.getChief().getId();
     }
