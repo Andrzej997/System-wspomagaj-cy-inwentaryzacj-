@@ -41,6 +41,7 @@ public class AddEditView extends JPanel {
     private JPanel dataPanel;
     private JPanel hourPanel;
     private JPanel navigatePanel;
+    private JPanel contentPanel;
     private CustomDatePicker datepicker;
 
     private JButton addButton;
@@ -63,6 +64,7 @@ public class AddEditView extends JPanel {
     private JLabel dateLabel;
     private JLabel titleLabel;
     private JLabel teacherLabel;
+    private JCheckBox isGeneralChb;
 
     private Date date;
 
@@ -107,7 +109,9 @@ public class AddEditView extends JPanel {
         addPanel.add(labelPanel);
         addPanel.add(dataPanel);
         mainPanel.add(backBtn);
-        mainPanel.add(addPanel);
+        contentPanel.add(addPanel);
+        contentPanel.add(isGeneralChb);
+        mainPanel.add(contentPanel);
         mainPanel.add(navigatePanel);
         add(mainPanel);
         add(dayTablePanel);
@@ -118,7 +122,7 @@ public class AddEditView extends JPanel {
             if (roomCb.getSelectedItem() != null) {
                 roomCb.onAction();
                 addEditViewMediator.setRoomNumber(roomCb.getSelectedItem());
-                if (!addEditViewMediator.ifChosenReservation()||!edit) {
+                if (!addEditViewMediator.ifChosenReservation() || !edit) {
                     addEditViewMediator.setChosenReservation(null);
                     addEditViewMediator.getReservations();
                 }
@@ -138,7 +142,7 @@ public class AddEditView extends JPanel {
 
     private void datePickerChange(ActionEvent e) {
         addEditViewMediator.setDate(datepicker.getDate());
-        if (!addEditViewMediator.ifChosenReservation()||!edit) {
+        if (!addEditViewMediator.ifChosenReservation() || !edit) {
             addEditViewMediator.setChosenReservation(null);
             addEditViewMediator.getReservations();
         }
@@ -159,6 +163,8 @@ public class AddEditView extends JPanel {
         hourPanel.setLayout(new BoxLayout(hourPanel, BoxLayout.X_AXIS));
         navigatePanel = new JPanel();
         navigatePanel.setLayout(new BoxLayout(navigatePanel, BoxLayout.X_AXIS));
+        contentPanel = new JPanel();
+        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
         dayTablePanel = new JPanel();
         addButton = new JButton();
         roomCb = new RoomComboBox();
@@ -175,6 +181,7 @@ public class AddEditView extends JPanel {
         hourStopCb = new JComboBox();
         titleTf = new JTextField();
         teacherCb = new JComboBox();
+        isGeneralChb = new JCheckBox("General");
 
         dateLabel = new JLabel("Date: ");
         hourLabel = new JLabel("Hour: ");
@@ -229,9 +236,11 @@ public class AddEditView extends JPanel {
     private void setSize() {
         setBorder(new EmptyBorder(10, 10, 10, 10));
         PanelStyle.setSize(this, 800, 600);
-        PanelStyle.setSize(addPanel, 330, 480);
+        PanelStyle.setSize(addPanel,330, 200);
+        contentPanel.setBorder(new EmptyBorder(100, 0, 100, 0));
+        PanelStyle.setSize(contentPanel, 330, 480);
         PanelStyle.setSize(dayTablePanel, 450, 550);
-        PanelStyle.setSize(roomLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(roomLabel, NORMAL_WIDTH - 30, NORMAL_HEIGHT);
         PanelStyle.setSize(teacherLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(titleLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(groupLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
@@ -243,6 +252,7 @@ public class AddEditView extends JPanel {
         PanelStyle.setSize(teacherCb, NORMAL_WIDTH + 20, NORMAL_HEIGHT);
         PanelStyle.setSize(groupCb, NORMAL_WIDTH + 20, NORMAL_HEIGHT);
         PanelStyle.setSize(titleTf, NORMAL_WIDTH + 20, NORMAL_HEIGHT);
+        PanelStyle.setSize(isGeneralChb, NORMAL_WIDTH + 20, NORMAL_HEIGHT);
     }
 
     private void setDataHourCb() {
@@ -650,6 +660,26 @@ public class AddEditView extends JPanel {
      */
     public boolean isEdit() {
         return edit;
+    }
+
+    public JButton getBackBtn() {
+        return backBtn;
+    }
+
+    public void setBackBtn(JButton backBtn) {
+        this.backBtn = backBtn;
+    }
+
+    public JCheckBox getIsGeneralChb() {
+        return isGeneralChb;
+    }
+
+    public void setIsGeneralChb(JCheckBox isGeneralChb) {
+        this.isGeneralChb = isGeneralChb;
+    }
+
+    public Boolean isGeneral() {
+        return isGeneralChb.isSelected();
     }
 
     /**

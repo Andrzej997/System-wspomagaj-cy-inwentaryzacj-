@@ -398,7 +398,7 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
-    @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
+ //   @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
     public boolean addRoomType(RoomTypesDTO roomTypesDTO) {
         RoomTypes roomType = new RoomTypes();
         roomType.setLongDescription(roomTypesDTO.getLongDescription());
@@ -408,7 +408,7 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
-    @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
+  //  @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
     public boolean removeRoomType(RoomTypesDTO roomTypesDTO) {
         RoomTypes roomType = roomTypeDAO.find(roomTypesDTO.getId());
         if (roomType == null) {
@@ -424,7 +424,7 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
-    @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
+  //  @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
     public boolean editRoomType(RoomTypesDTO roomTypesDTO) {
         RoomTypes roomType = roomTypeDAO.find(roomTypesDTO.getId());
         if (roomType == null) {
@@ -438,7 +438,7 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
-    @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
+   // @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
     public boolean addDepartament(DepartamentDTO departamentDTO, Long chiefID, Long instituteID) {
         Departaments departament = new Departaments();
         departament.setDepratamentName(departamentDTO.getName());
@@ -458,7 +458,7 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
-    @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
+  //  @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
     public boolean removeDepartament(DepartamentDTO departamentDTO) {
         Departaments departament = departmentDAO.find(departamentDTO.getId());
         if (departament == null) {
@@ -482,7 +482,7 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
-    @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
+  //  @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
     public boolean editDepartament(DepartamentDTO departamentDTO, Long chiefID, Long instituteID) {
         Departaments departament = departmentDAO.find(departamentDTO.getId());
         if (departament == null) {
@@ -506,7 +506,7 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
-    @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
+  //  @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
     public boolean addInstitute(InstituteDTO instituteDTO) {
         Institutes institute = new Institutes();
 
@@ -521,7 +521,7 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
-    @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
+  //  @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
     public boolean removeInstitute(Long id) {
         Institutes institute = institutesDAO.find(id);
         if (institute == null) {
@@ -537,7 +537,7 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
     }
 
     @Override
-    @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
+   // @RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
     public boolean editInstitute(InstituteDTO instituteDTO) {
         Institutes institute = institutesDAO.find(instituteDTO.getId());
         if (institute == null) {
@@ -551,5 +551,12 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
         institute.setInstituteName(instituteDTO.getName());
         institutesDAO.edit(institute);
         return true;
+    }
+    
+    @Override
+    //@RequiredPrivilege(PrivilegeEnum.ADMIN_ACTIONS)
+    public Long getDepartamentChief(Long departamentId){
+        Departaments departament = departmentDAO.find(departamentId);
+        return departament.getChief().getId();
     }
 }

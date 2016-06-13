@@ -6,11 +6,13 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import pl.polsl.reservations.client.ClientContext;
 import pl.polsl.reservations.client.Lookup;
+import pl.polsl.reservations.client.mediators.AddEditDepartamentMediator;
 import pl.polsl.reservations.client.mediators.AddEditInstituteMediator;
 import pl.polsl.reservations.client.mediators.AddEditReservationTypeMediator;
 import pl.polsl.reservations.client.mediators.AddEditRoomTypeViewMediator;
 import pl.polsl.reservations.client.mediators.AddEditUserViewMediator;
 import pl.polsl.reservations.client.mediators.AddEditViewMediator;
+import pl.polsl.reservations.client.mediators.AssignRoomMediator;
 import pl.polsl.reservations.client.mediators.ChangePasswordViewMediator;
 import pl.polsl.reservations.client.mediators.CreateReportViewMediator;
 import pl.polsl.reservations.client.mediators.LoginMediator;
@@ -49,6 +51,8 @@ public class MainView extends JFrame {
     private JMenuItem addRoomTypeMenuItem;
     private JMenuItem addReservationTypeMenuItem;
     private JMenuItem addEditInstituteMenuItem;
+    private JMenuItem addEditDepartamentMenuItem;
+    private JMenuItem assignRoomMenuItem;
 
     private JMenu fileMenu;
     private JMenu helpMenu;
@@ -72,6 +76,8 @@ public class MainView extends JFrame {
     private JDialog tutorialFrame;
     private JDialog addEditReservationTypeFrame;
     private JDialog addEditInstituteFrame;
+    private JDialog addEditDepartamentFrame;
+    private JDialog assignRoomFrame;
 
     private transient final MainViewMediator mainViewMediator;
 
@@ -110,6 +116,8 @@ public class MainView extends JFrame {
         addRoomTypeMenuItem.setForeground(fg);
         addReservationTypeMenuItem.setForeground(fg);
         addEditInstituteMenuItem.setForeground(fg);
+        addEditDepartamentMenuItem.setForeground(fg);
+        assignRoomMenuItem.setForeground(fg);
     }
 
     private void initComponents() {
@@ -156,7 +164,8 @@ public class MainView extends JFrame {
         roomRaportMenuItem = new JMenuItem();
         addReservationTypeMenuItem = new JMenuItem();
         addEditInstituteMenuItem = new JMenuItem();
-
+        addEditDepartamentMenuItem = new JMenuItem();
+        assignRoomMenuItem = new JMenuItem();
     }
 
     private void tutorialMenuItemActionPerformed(ActionEvent evt) {
@@ -194,6 +203,12 @@ public class MainView extends JFrame {
             addDeviceFrame = FrameStyle.dialogStyle(new CreateReportViewMediator().createView(this, AddTypeEnum.DEVICE_EDIT), "Edit device");
         }
     }
+    
+    private void assignUserToRoomMenuItemActionPerformed(ActionEvent evt){
+        if(isLoggedIn){
+            assignRoomFrame = FrameStyle.dialogStyle(new AssignRoomMediator().createView(this), "Assign user to room");
+        }
+    }
 
     private void addStateMenuItemActionPerformed(ActionEvent evt) {
         if (isLoggedIn) {
@@ -218,10 +233,16 @@ public class MainView extends JFrame {
             addEditReservationTypeFrame = FrameStyle.dialogStyle(new AddEditReservationTypeMediator().createView(this), "Add/Edit room type");
         }
     }
-    
-    private void addInstituteMenuItemActionPerformed(ActionEvent evt){
-        if(isLoggedIn){
+
+    private void addInstituteMenuItemActionPerformed(ActionEvent evt) {
+        if (isLoggedIn) {
             addEditInstituteFrame = FrameStyle.dialogStyle(new AddEditInstituteMediator().createView(this), "Add/Edit institutes");
+        }
+    }
+
+    private void addDepartamentMenuItemActionPerformed(ActionEvent evt) {
+        if (isLoggedIn) {
+            addEditDepartamentFrame = FrameStyle.dialogStyle(new AddEditDepartamentMediator().createView(this), "Add/Edit departaments");
         }
     }
 
@@ -352,6 +373,9 @@ public class MainView extends JFrame {
         editRoomEquipmentMenuItem.setText("Edit room equipment");
         editRoomEquipmentMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         createRaportMenu.add(editRoomEquipmentMenuItem);
+        assignRoomMenuItem.setText("Assign user to room");
+        assignRoomMenuItem.setForeground(new java.awt.Color(153, 153, 153));
+        createRaportMenu.add(assignRoomMenuItem);
 
         //TYLKO ADMIN:
         addStateMenuItem.setForeground(new java.awt.Color(153, 153, 153));
@@ -367,9 +391,12 @@ public class MainView extends JFrame {
         addReservationTypeMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         addReservationTypeMenuItem.setText("Add/Edit reservation type");
         adminMenu.add(addReservationTypeMenuItem);
-        addEditInstituteMenuItem.setForeground(Color.red);
+        addEditInstituteMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         addEditInstituteMenuItem.setText("Add/Edit institutes");
         adminMenu.add(addEditInstituteMenuItem);
+        addEditDepartamentMenuItem.setForeground(new java.awt.Color(153, 153, 153));
+        addEditDepartamentMenuItem.setText("Add/Edit departaments");
+        adminMenu.add(addEditDepartamentMenuItem);
         fileMenu.add(createRaportMenu);
         accountMenu.setForeground(new java.awt.Color(153, 153, 153));
         accountMenu.setText("My account");
@@ -486,8 +513,8 @@ public class MainView extends JFrame {
             }
         });
         addRoomTypeMenuItem.addActionListener((ActionEvent evt) -> {
-            if (!ClientContext.getInstance().checkUserPrivilegesToAction("STANDARD_USER")) {
-                if (!ClientContext.getInstance().canRequestLevel("STANDARD_USER")) {
+            if (!ClientContext.getInstance().checkUserPrivilegesToAction("ADMIN")) {
+                if (!ClientContext.getInstance().canRequestLevel("ADMIN")) {
                     MessageBoxUtils.createPrivilegeErrorPane(fileMenu);
                 } else {
                     MessageBoxUtils.createPrivilegeError(fileMenu);
@@ -497,8 +524,8 @@ public class MainView extends JFrame {
             }
         });
         addReservationTypeMenuItem.addActionListener((ActionEvent evt) -> {
-            if (!ClientContext.getInstance().checkUserPrivilegesToAction("STANDARD_USER")) {
-                if (!ClientContext.getInstance().canRequestLevel("STANDARD_USER")) {
+            if (!ClientContext.getInstance().checkUserPrivilegesToAction("ADMIN")) {
+                if (!ClientContext.getInstance().canRequestLevel("ADMIN")) {
                     MessageBoxUtils.createPrivilegeErrorPane(fileMenu);
                 } else {
                     MessageBoxUtils.createPrivilegeError(fileMenu);
@@ -508,14 +535,25 @@ public class MainView extends JFrame {
             }
         });
         addEditInstituteMenuItem.addActionListener((ActionEvent evt) -> {
-            if (!ClientContext.getInstance().checkUserPrivilegesToAction("STANDARD_USER")) {
-                if (!ClientContext.getInstance().canRequestLevel("STANDARD_USER")) {
+            if (!ClientContext.getInstance().checkUserPrivilegesToAction("ADMIN")) {
+                if (!ClientContext.getInstance().canRequestLevel("ADMIN")) {
                     MessageBoxUtils.createPrivilegeErrorPane(fileMenu);
                 } else {
                     MessageBoxUtils.createPrivilegeError(fileMenu);
                 }
             } else {
                 addInstituteMenuItemActionPerformed(evt);
+            }
+        });
+        addEditDepartamentMenuItem.addActionListener((ActionEvent evt) -> {
+            if (!ClientContext.getInstance().checkUserPrivilegesToAction("ADMIN")) {
+                if (!ClientContext.getInstance().canRequestLevel("ADMIN")) {
+                    MessageBoxUtils.createPrivilegeErrorPane(fileMenu);
+                } else {
+                    MessageBoxUtils.createPrivilegeError(fileMenu);
+                }
+            } else {
+                addDepartamentMenuItemActionPerformed(evt);
             }
         });
         addStateMenuItem.addActionListener((ActionEvent evt) -> {
@@ -538,6 +576,17 @@ public class MainView extends JFrame {
                 }
             } else {
                 editRoomEquipmentMenuItemActionPerformed(evt);
+            }
+        });
+        assignRoomMenuItem.addActionListener((ActionEvent evt) -> {
+            if (!ClientContext.getInstance().checkUserPrivilegesToAction("DEPARTAMENT_CHIEF")) {
+                if (!ClientContext.getInstance().canRequestLevel("DEPARTAMENT_CHIEF")) {
+                    MessageBoxUtils.createPrivilegeErrorPane(fileMenu);
+                } else {
+                    MessageBoxUtils.createPrivilegeError(fileMenu);
+                }
+            } else {
+                assignUserToRoomMenuItemActionPerformed(evt);
             }
         });
         editUserAdminMenuItem.addActionListener((ActionEvent evt) -> {
@@ -851,5 +900,12 @@ public class MainView extends JFrame {
         return addEditInstituteFrame;
     }
 
-    
+    public JMenuItem getAddEditDepartamentMenuItem() {
+        return addEditDepartamentMenuItem;
+    }
+
+    public JDialog getAddEditDepartamentFrame() {
+        return addEditDepartamentFrame;
+    }
+
 }

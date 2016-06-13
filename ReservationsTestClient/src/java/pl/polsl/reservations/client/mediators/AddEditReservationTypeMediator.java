@@ -35,7 +35,9 @@ public class AddEditReservationTypeMediator {
         for (ReservationTypeDTO reservationType : reservationTypes) {
             addEditReservationTypeView.getTypeCb().addItem(reservationType.getShortDescription());
         }
-        addEditReservationTypeView.getTypeCb().setSelectedIndex(0);
+        if (reservationTypes != null) {
+            addEditReservationTypeView.getTypeCb().setSelectedIndex(0);
+        }
         String[] colorList = ColorUtils.getColorList();
         for (String colorName : colorList) {
             addEditReservationTypeView.getColorCb().addItem(colorName);
@@ -70,6 +72,7 @@ public class AddEditReservationTypeMediator {
             reservationTypeDTO.setLongDescription(addEditReservationTypeView.getLongDescTf().getText());
             String selectedColor = (String) addEditReservationTypeView.getColorCb().getSelectedItem();
             reservationTypeDTO.setReservationColor(selectedColor);
+            scheduleFacade.createReservationType(reservationTypeDTO);
         } else {
             for (ReservationTypeDTO reservationType : reservationTypes) {
                 if (reservationType.getShortDescription().equals(selectedItem)) {
@@ -83,7 +86,7 @@ public class AddEditReservationTypeMediator {
                         String selectedColor = (String) addEditReservationTypeView.getColorCb().getSelectedItem();
                         reservationTypeDTO.setReservationColor(selectedColor);
                         reservationTypeDTO.setId(reservationType.getId());
-                        //TODO Edit
+                        scheduleFacade.editReservationType(reservationType);
                         return;
                     }
                 }
@@ -97,9 +100,9 @@ public class AddEditReservationTypeMediator {
         if (selectedItem.equals("Create new")) {
             return;
         }
-        for(ReservationTypeDTO reservationType : reservationTypes){
-            if(reservationType.getShortDescription().equals(selectedItem)){
-                //TODO delete
+        for (ReservationTypeDTO reservationType : reservationTypes) {
+            if (reservationType.getShortDescription().equals(selectedItem)) {
+                scheduleFacade.removeReservationType(reservationType.getId().intValue());
                 return;
             }
         }

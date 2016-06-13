@@ -1,10 +1,13 @@
 package pl.polsl.reservations.client.mediators;
 
 import java.util.List;
+import java.util.Objects;
 import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.views.AddEditInstituteView;
 import pl.polsl.reservations.client.views.MainView;
+import pl.polsl.reservations.client.views.utils.ButtonStyle;
 import pl.polsl.reservations.dto.InstituteDTO;
+import pl.polsl.reservations.dto.UserDTO;
 import pl.polsl.reservations.ejb.remote.RoomManagementFacade;
 import pl.polsl.reservations.ejb.remote.UserManagementFacade;
 
@@ -36,18 +39,46 @@ public class AddEditInstituteMediator {
             addEditInstituteView.getInstituteCb().addItem(institute.getName());
         }
         addEditInstituteView.getInstituteCb().setSelectedIndex(0);
+        List<UserDTO> possibleChiefs = userManagementFacade.getPossibleChiefs(3);
+        Long chefId = allInstitutes.get(0).getChefId();
+        UserDTO userDetails = userManagementFacade.getUserDetails(chefId.intValue());
+        Integer selectedIndex = 0;
+        Integer counter = 0;
+        for (UserDTO user : possibleChiefs) {
+            addEditInstituteView.getChiefCb().addItem(user.getName() + " " + user.getSurname());
+            if (Objects.equals(user.getId(), userDetails.getId())) {
+                selectedIndex = counter;
+            }
+            counter++;
+        }
+        addEditInstituteView.getChiefCb().setSelectedIndex(selectedIndex);
     }
 
     public void onSelectionChange() {
         List<InstituteDTO> allInstitutes = userManagementFacade.getAllInstitutes();
         String selectedItem = (String) addEditInstituteView.getInstituteCb().getSelectedItem();
+        List<UserDTO> possibleChiefs = userManagementFacade.getPossibleChiefs(3);
         if (selectedItem.equals("Create new")) {
             addEditInstituteView.getNameTf().setText("");
+            ButtonStyle.setStyle(addEditInstituteView.getAddButton(), addEditInstituteView.getAddImg());
             return;
         }
         for (InstituteDTO institute : allInstitutes) {
             if (selectedItem.equals(institute.getName())) {
                 addEditInstituteView.getNameTf().setText(institute.getName());
+                Long chefId = institute.getChefId();
+                UserDTO userDetails = userManagementFacade.getUserDetails(chefId.intValue());
+                Integer selectedIndex = 0;
+                Integer counter = 0;
+                for (UserDTO user : possibleChiefs) {
+                    if (Objects.equals(user.getId(), userDetails.getId())) {
+                        selectedIndex = counter;
+                    }
+                    counter++;
+                }
+                addEditInstituteView.getChiefCb().setSelectedIndex(selectedIndex);
+                ButtonStyle.setStyle(addEditInstituteView.getAddButton(), addEditInstituteView.getEditImg());
+                return;
             }
         }
     }
@@ -60,6 +91,7 @@ public class AddEditInstituteMediator {
             String name = addEditInstituteView.getNameTf().getText();
             instituteDTO.setName(name);
             roomManagementFacade.addInstitute(instituteDTO);
+            instituteDTO.setChefId(getSelectedChief());
             return;
         }
         for (InstituteDTO institute : allInstitutes) {
@@ -69,6 +101,7 @@ public class AddEditInstituteMediator {
                 }
                 String name = addEditInstituteView.getNameTf().getText();
                 instituteDTO.setName(name);
+                instituteDTO.setChefId(getSelectedChief());
                 instituteDTO.setId(institute.getId());
                 roomManagementFacade.addInstitute(instituteDTO);
                 return;
@@ -84,8 +117,15 @@ public class AddEditInstituteMediator {
         }
         for (InstituteDTO institute : allInstitutes) {
             if (selectedItem.equals(institute.getName())) {
-                roomManagementFacade.removeInstitute(institute);
+                roomManagementFacade.removeInstitute(institute.getId());
+                return;
             }
         }
+    }
+    
+    private Long getSelectedChief(){
+        List<UserDTO> possibleChiefs = userManagementFacade.getPossibleChiefs(3);
+        int selectedIndex = addEditInstituteView.getChiefCb().getSelectedIndex();
+        return possibleChiefs.get(selectedIndex).getId();
     }
 }

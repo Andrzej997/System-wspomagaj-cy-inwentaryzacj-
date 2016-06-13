@@ -48,6 +48,7 @@ public class AddEditRoomTypeView extends JPanel {
     private JPanel labelPanel;
     private JPanel dataPanel;
     private JPanel mainPanel;
+    private JPanel navPanel;
     
     private JButton addButton;
     private JButton deleteButton;
@@ -81,6 +82,7 @@ public class AddEditRoomTypeView extends JPanel {
         mainPanel = new JPanel(new GridLayout(1, 2));
         dataPanel = new JPanel();
         labelPanel = new JPanel();
+        navPanel = new JPanel();
         addButton = new JButton();
         deleteButton = new JButton();
         keyInputDispatcher();
@@ -93,9 +95,8 @@ public class AddEditRoomTypeView extends JPanel {
         PanelStyle.setSize(roomTypeDescField, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(roomTypesLb, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(roomTypes, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 270);
-        PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 270);
-        PanelStyle.setSize(mainPanel, 2 * NORMAL_WIDTH, 330);
+        PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 3*NORMAL_HEIGHT);
+        PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 3*NORMAL_HEIGHT);
     }
 
     private void setupView() {
@@ -116,9 +117,10 @@ public class AddEditRoomTypeView extends JPanel {
         dataPanel.add(roomTypeDescField);
         mainPanel.add(labelPanel);
         mainPanel.add(dataPanel);
-        mainPanel.add(addButton);
-        mainPanel.add(deleteButton);
+        navPanel.add(addButton);
+        navPanel.add(deleteButton);
         add(mainPanel);
+        add(navPanel);
     }
 
     private void initPanels() {
@@ -126,6 +128,8 @@ public class AddEditRoomTypeView extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS));
         dataPanel.setLayout(new BoxLayout(dataPanel, BoxLayout.Y_AXIS));
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
+        navPanel.setLayout(new BoxLayout(navPanel, BoxLayout.X_AXIS));
     }
 
     private void setupListeners() {
