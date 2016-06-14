@@ -168,7 +168,7 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
         Long id = user.getId();
         workersFacade.edit(workerDB);
         newUser.setWorkers(workerDB);
-        usersFacade.edit(user);
+        usersFacade.edit(newUser);
         if (Objects.equals(id, getCurrentUserContext().getUser().getId())) {
             getCurrentUserContext().setUser(usersFacade.find(id));
         }

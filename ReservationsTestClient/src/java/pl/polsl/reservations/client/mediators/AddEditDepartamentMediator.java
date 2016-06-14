@@ -72,7 +72,7 @@ public class AddEditDepartamentMediator {
         for (DepartamentDTO departamentDTO : allDepartaments) {
             if (departamentDTO.getName().equals(selectedItem)) {
                 addEditDepartamentView.getNameTf().setText(departamentDTO.getName());
-                addEditDepartamentView.getDepartamentCb().setSelectedItem(departamentDTO.getInstitute().getName());
+                addEditDepartamentView.getInstituteCb().setSelectedItem(departamentDTO.getInstitute().getName());
                 List<UserDTO> possibleChiefs = userManagementFacade.getPossibleChiefs(4);
                 Long departamentChiefID = roomManagementFacade.getDepartamentChief(departamentDTO.getId());
                 UserDTO chief = null;

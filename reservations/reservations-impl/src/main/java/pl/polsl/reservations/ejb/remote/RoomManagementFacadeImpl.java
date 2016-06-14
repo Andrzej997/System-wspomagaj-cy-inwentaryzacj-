@@ -483,7 +483,7 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
             return false;
         }
 
-        List<Room> rooms = departament.getRoomCollection();
+      /*  List<Room> rooms = departament.getRoomCollection();
         if (rooms != null && !rooms.isEmpty()) {
             for (Room room : rooms) {
                 room.setDepartament(null);
@@ -497,7 +497,7 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
                 worker.setDepartament(null);
                 workersDAO.edit(worker);
             }
-        }
+        }*/
 
         departmentDAO.remove(departament);
         return true;

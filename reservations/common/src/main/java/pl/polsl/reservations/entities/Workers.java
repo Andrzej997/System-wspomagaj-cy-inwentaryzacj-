@@ -35,7 +35,7 @@ public class Workers implements Serializable {
     private String grade;
 
     @OneToMany(targetEntity = Room.class, mappedBy = "keeper",
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH}
+            cascade = {CascadeType.ALL}
             , fetch = FetchType.LAZY)
     private List<Room> roomCollection;
 
@@ -56,7 +56,7 @@ public class Workers implements Serializable {
     private Room room;
 
     @ManyToOne(targetEntity = Workers.class,
-            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.EAGER, optional = true)
+            cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, optional = true)
     @JoinColumn(updatable = true, nullable = true)
     private Workers chief;
 

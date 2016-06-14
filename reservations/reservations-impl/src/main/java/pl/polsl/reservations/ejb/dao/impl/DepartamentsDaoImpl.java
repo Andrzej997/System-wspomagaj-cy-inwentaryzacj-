@@ -81,7 +81,7 @@ public class DepartamentsDaoImpl extends AbstractDaoImpl<Departaments> implement
         getDependencies();
 
         Departaments departament = this.find(entity.getId());
-        List<Room> roomCollection = departament.getRoomCollection();
+       /* List<Room> roomCollection = departament.getRoomCollection();
         for (Room room : roomCollection) {
             room.setDepartament(null);
             roomFacadeRemote.merge(room);
@@ -99,7 +99,7 @@ public class DepartamentsDaoImpl extends AbstractDaoImpl<Departaments> implement
         departamentsCollection.remove(departament);
         institute.setDepartamentsCollection(departamentsCollection);
         institutesFacadeRemote.merge(institute);
-        departament.setInstitute(null);
+        departament.setInstitute(null);*/
 
         super.remove(departament);
     }

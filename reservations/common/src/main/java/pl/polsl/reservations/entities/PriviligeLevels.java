@@ -21,7 +21,7 @@ public class PriviligeLevels implements Serializable {
     @Column(name = "PRIVILIGE_LEVEL", updatable = true, insertable = true, nullable = false)
     private Long priviligeLevel;
 
-    @ManyToMany(targetEntity = Priviliges.class, fetch = FetchType.LAZY)
+    @ManyToMany(targetEntity = Priviliges.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "PRIVILIGE_MAP", joinColumns = {
             @JoinColumn(name = "PRIVILIGE_LEVEL", insertable = true, nullable = false, updatable = true)}, inverseJoinColumns = {
             @JoinColumn(name = "PRIVILIGE_ID", insertable = true, nullable = false, updatable = true)})
@@ -31,7 +31,7 @@ public class PriviligeLevels implements Serializable {
     @Lob
     private String description;
 
-    @OneToMany(targetEntity = Users.class, mappedBy = "priviligeLevel", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = Users.class, mappedBy = "priviligeLevel", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Users> usersCollection;
 
     public PriviligeLevels() {
