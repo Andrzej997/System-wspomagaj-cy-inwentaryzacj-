@@ -12,6 +12,8 @@ import javax.swing.JPanel;
 
 public class RoomComboBox extends JPanel {
 
+    private static final long serialVersionUID = 4605613990898981677L;
+
     private final JComboBox mainComboBox;
     private final JComboBox subComboBox;
     private final Hashtable subItems = new Hashtable();
