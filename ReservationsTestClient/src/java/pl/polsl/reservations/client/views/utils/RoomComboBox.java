@@ -24,8 +24,10 @@ public class RoomComboBox extends JPanel {
         mainComboBox = new JComboBox();
         add(mainComboBox, BorderLayout.WEST);
         subComboBox = new JComboBox();
+        PanelStyle.setSize(mainComboBox, 90, 25);
         subComboBox.setPrototypeDisplayValue("XXXXXXXXXX");
         add(subComboBox, BorderLayout.EAST);
+          PanelStyle.setSize(subComboBox, 90, 25);
         previouslySelectedRoom = null;
     }
 

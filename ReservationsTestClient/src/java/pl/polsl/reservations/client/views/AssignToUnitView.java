@@ -94,17 +94,18 @@ public class AssignToUnitView extends JPanel {
 
     private void prepareObjects() {
         PanelStyle.setSize(instituteLb, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(instituteContentLb, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(instituteContentLb, NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(departamentLb, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(departamentCb, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(departamentCb, NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(roomLb, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(roomTypeLb, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(roomTypeContentLb, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(roomCb, NORMAL_WIDTH, NORMAL_HEIGHT, true);
+        PanelStyle.setSize(roomTypeContentLb, NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(depRoomsLb, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(depRoomsLst, NORMAL_WIDTH, NORMAL_WIDTH);
+        PanelStyle.setSize(depRoomsLst, NORMAL_WIDTH, NORMAL_WIDTH, true);
         PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 270);
         PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 270);
-        PanelStyle.setSize(mainPanel, 2 * NORMAL_WIDTH, 330);
+        PanelStyle.setSize(mainPanel, 2 * NORMAL_WIDTH, 270);
     }
 
     private void setupView() {
@@ -119,15 +120,16 @@ public class AssignToUnitView extends JPanel {
         labelPanel.add(departamentLb);
         dataPanel.add(departamentCb);
         labelPanel.add(roomLb);
-        dataPanel.add(roomTypeLb);
-        labelPanel.add(roomTypeContentLb);
+        labelPanel.add(roomTypeLb);
+        dataPanel.add(roomCb);
+        dataPanel.add(roomTypeContentLb);
         dataPanel.add(depRoomsLb);
+          labelPanel.add(depRoomsLb);
+        dataPanel.add(depRoomsLst);
         mainPanel.add(labelPanel);
         mainPanel.add(dataPanel);
-        mainPanel.add(depRoomsLb);
-        mainPanel.add(depRoomsLst);
-        add(addButton);
         add(mainPanel);
+           add(addButton);
     }
 
     private void initPanels() {
@@ -135,6 +137,7 @@ public class AssignToUnitView extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS));
         dataPanel.setLayout(new BoxLayout(dataPanel, BoxLayout.Y_AXIS));
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
     }
     
     private void setupListeners(){
