@@ -174,9 +174,7 @@ public class MainView extends JFrame {
     }
 
     private void tutorialMenuItemActionPerformed(ActionEvent evt) {
-        if (isLoggedIn) {
             tutorialFrame = FrameStyle.dialogStyle(new TutorialViewMediator().createView(this), "Tutorial");
-        }
     }
 
     private void exitMenuItemActionPerformed(ActionEvent evt) {
