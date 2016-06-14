@@ -18,6 +18,7 @@ import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.rmi.PortableRemoteObject;
 import javax.sql.DataSource;
+import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -51,7 +52,6 @@ public class Lookup {
             InputStream resourceAsStream = p.getClass().getResourceAsStream(pathPropertiesFile);
             Document doc = dBuilder.parse(resourceAsStream);
             doc.getDocumentElement().normalize();
-            System.out.println(doc.getDocumentElement().getNodeName());
             NodeList hostAddress = doc.getElementsByTagName("hostAddress");
             NodeList hostPort = doc.getElementsByTagName("hostPort");
             Node node = hostAddress.item(0);
@@ -110,6 +110,7 @@ public class Lookup {
         Object o = null;
         try {
             o = Lookup.lookup(jndiName);
+            JOptionPane.showMessageDialog(null, "No i chuj");
             if (o instanceof AbstractBusinessFacade) {
                 try {
                     ((AbstractBusinessFacade) o).certificateBean(clientSessionCertificate.getCertificate());
