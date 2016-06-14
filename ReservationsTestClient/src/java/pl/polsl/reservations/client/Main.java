@@ -83,7 +83,7 @@ public class Main {
 
             }
         });
-        
+           UIManager.getLookAndFeelDefaults().put("List.background", new Color(230, 230, 250));
         UIManager.getLookAndFeelDefaults().put("background", new Color(230, 230, 250));
         UIManager.put("ScrollPane.background", new Color(230, 230, 250));
         UIManager.getLookAndFeelDefaults().put("Table.font",
