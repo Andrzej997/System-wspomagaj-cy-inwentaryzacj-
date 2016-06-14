@@ -20,7 +20,6 @@ import pl.polsl.reservations.client.views.utils.DayTableModel;
 import pl.polsl.reservations.dto.ReservationDTO;
 import pl.polsl.reservations.dto.ReservationTypeDTO;
 import pl.polsl.reservations.dto.RoomDTO;
-import pl.polsl.reservations.dto.RoomTypesDTO;
 import pl.polsl.reservations.dto.UnauthorizedAccessException;
 import pl.polsl.reservations.dto.UserDTO;
 import pl.polsl.reservations.ejb.remote.RoomManagementFacade;

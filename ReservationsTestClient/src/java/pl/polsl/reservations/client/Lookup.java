@@ -1,5 +1,7 @@
 package pl.polsl.reservations.client;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.Properties;
@@ -16,6 +18,13 @@ import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.rmi.PortableRemoteObject;
 import javax.sql.DataSource;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 import pl.polsl.reservations.ejb.remote.AbstractBusinessFacade;
 import pl.polsl.reservations.ejb.remote.RoomManagementFacade;
 import pl.polsl.reservations.ejb.remote.ScheduleFacade;
@@ -30,13 +39,25 @@ public class Lookup {
 
     private static InitialContext ic;
     private static ClientSessionCertificate clientSessionCertificate;
+    
 
     static {
         try {
             clientSessionCertificate = ClientSessionCertificate.getInstance();
             Properties p = new Properties();
+            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = documentBuilderFactory.newDocumentBuilder();
+            String pathPropertiesFile = "/resources/server.xml";
+            InputStream resourceAsStream = p.getClass().getResourceAsStream(pathPropertiesFile);
+            Document doc = dBuilder.parse(resourceAsStream);
+            doc.getDocumentElement().normalize();
+            NodeList hostAddress = doc.getElementsByTagName("hostAddress");
+            NodeList hostPort = doc.getElementsByTagName("hostPort");
+            Node node = hostAddress.item(0);
+            String address = node.getNodeValue();
+            node = hostPort.item(0);
+            String port = node.getNodeValue();
             p.put("java.rmi.server.useCodebaseOnly", "false");
-            /*
             p.setProperty("java.naming.factory.initial",
                     "com.sun.enterprise.naming.SerialInitContextFactory");
 
@@ -48,11 +69,10 @@ public class Lookup {
 
             // optional.  Defaults to localhost.  Only needed if web server is running
             // on a different host than the appserver   
-            p.setProperty("org.omg.CORBA.ORBInitialHost", "192.168.254.100");
+            p.setProperty("org.omg.CORBA.ORBInitialHost", "localhost");
 
             // optional.  Defaults to 3700.  Only needed if target orb port is not 3700.
             p.setProperty("org.omg.CORBA.ORBInitialPort", "3700");
-            */
             ic = new InitialContext(p);
             NamingEnumeration<NameClassPair> list = ic.list("");
             while (list.hasMore()) {
@@ -60,6 +80,8 @@ public class Lookup {
             }
         } catch (NamingException ne) {
             throw new RuntimeException(ne);
+        } catch (ParserConfigurationException | SAXException | IOException ex) {
+            Logger.getLogger(Lookup.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
