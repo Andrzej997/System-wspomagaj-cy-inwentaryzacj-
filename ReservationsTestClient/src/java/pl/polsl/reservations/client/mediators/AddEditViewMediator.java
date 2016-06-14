@@ -178,7 +178,7 @@ public class AddEditViewMediator {
 
             }
         } else {
-            
+
             for (int i = 1; i <= 17; i++) {
                 List<ReservationDTO> roomSchedule
                         = scheduleFacade.getDetailedRoomSchedule(roomNumber, calendar.get(Calendar.YEAR),
@@ -193,26 +193,24 @@ public class AddEditViewMediator {
                         }
                     }
 
-
                     if (startTime < roomStart && endTime >= roomStart) {
-                            
-                            return false;
-                        
+
+                        return false;
+
                     }
                     if (startTime <= roomEnd && endTime > roomEnd) {
-                       
-                            return false;
-                        
+
+                        return false;
+
                     }
                     if (startTime >= roomStart && endTime <= roomEnd) {
-                       
-                            return false;
-                        }
-                    
+
+                        return false;
+                    }
+
                 }
             }
-            
-            
+
         }
         return true;
     }
@@ -232,7 +230,7 @@ public class AddEditViewMediator {
             if (checkIfReservationAvaliable(startTime, endTime)) {
 
                 Calendar calendar = date;
-                Integer typeId = getType().getId();
+                Integer typeId = getType().getId().intValue();
                 Integer userId = getWorkersData().getId().intValue();
 
                 Integer weekOfSemester = DateUtils.getWeekOfSemester(date);
@@ -482,6 +480,9 @@ public class AddEditViewMediator {
     public UserDTO getWorkersData() {
         int selectedIndex = addEditView.getTeacherCb().getSelectedIndex();
         List<UserDTO> userDetailsList = userFacade.getUsersWithLowerPrivilegeLevel();
+        if (selectedIndex >= userDetailsList.size()) {
+            return userManagementFacade.getUserDetails(ClientContext.getInstance().getUsername());
+        }
         UserDTO selectedUser = userDetailsList.get(selectedIndex);
         return selectedUser;
     }
@@ -497,10 +498,10 @@ public class AddEditViewMediator {
         addEditView.getTeacherCb().setSelectedItem(name);
     }
 
-    public RoomTypesDTO getType() {
+    public ReservationTypeDTO getType() {
         Integer selectedIndex = addEditView.getGroupCb().getSelectedIndex();
-        List<RoomTypesDTO> roomTypes = roomManagementFacade.getRoomTypes();
-        return roomTypes.get(selectedIndex);
+        List<ReservationTypeDTO> reservationTypeDTO = scheduleFacade.getReservationTypes();
+        return reservationTypeDTO.get(selectedIndex);
     }
 
     public void setTargetData() {
