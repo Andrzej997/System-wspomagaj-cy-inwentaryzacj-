@@ -35,8 +35,8 @@ public class DayDataView extends javax.swing.JPanel {
     private JButton backBtn;
     private JTable planTable;
     private JButton calendarBtn;
-    private Calendar startDate;
-    private Calendar endDate;
+    // private Calendar startDate;
+    //private Calendar endDate;
     private SimpleDateFormat dateFormat;
     private CustomDatePicker datePicker;
 
@@ -92,7 +92,7 @@ public class DayDataView extends javax.swing.JPanel {
 
     private void setupListeners() {
         backBtn.addActionListener((ActionEvent e) -> {
-             window.setView(new WeekDataViewMediator().createView(window, chooseRoomDropdown.getSelectedItem()));
+            window.setView(new WeekDataViewMediator().createView(window, chooseRoomDropdown.getSelectedItem()));
         });
 
         prevBtn.addActionListener((ActionEvent e) -> {
@@ -137,10 +137,10 @@ public class DayDataView extends javax.swing.JPanel {
         datePicker = CustomDatePicker.getDayInstance();
         datePicker.setDate(date);
         backBtn = new JButton();
-        startDate = Calendar.getInstance();
-        startDate.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        endDate = Calendar.getInstance();
-        endDate.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        // startDate = Calendar.getInstance();
+        // startDate.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        // endDate = Calendar.getInstance();
+        // endDate.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
         dateFormat = new WeekDateFormatter().dateFormatter;
     }
 
@@ -163,59 +163,50 @@ public class DayDataView extends javax.swing.JPanel {
     private void datePickerChange(ActionEvent e) {
         Calendar data = datePicker.getDate();
         if (data != null) {
-            startDate.set(data.get(Calendar.YEAR), data.get(Calendar.MONTH), data.get(Calendar.DATE));
-            startDate.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-            endDate.set(data.get(Calendar.YEAR), data.get(Calendar.MONTH), data.get(Calendar.DATE));
-            endDate.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+            date.set(data.get(Calendar.YEAR), data.get(Calendar.MONTH), data.get(Calendar.DATE));
+            date.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+            // endDate.set(data.get(Calendar.YEAR), data.get(Calendar.MONTH), data.get(Calendar.DATE));
+            // endDate.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
         }
         dayDataViewMediator.setDate(data);
         dayDataViewMediator.getReservations();
     }
 
     private void onClickBtnNext(ActionEvent e) {
-        startDate.set(datePicker.getModel().getYear(),
+        date.set(datePicker.getModel().getYear(),
                 datePicker.getModel().getMonth(),
                 datePicker.getModel().getDay());
-        startDate.add(Calendar.DATE, 1);
-        int dayOfWeek = startDate.get(Calendar.DAY_OF_WEEK);
-        dayOfWeek -= 2;
-        startDate.add(Calendar.DAY_OF_MONTH, -dayOfWeek);
-        endDate.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH),
-                startDate.get(Calendar.DATE));
-        endDate.add(Calendar.DATE, 6);
+        date.add(Calendar.DATE, 1);
+
         setDateText();
 
+        dayDataViewMediator.setDate(date);
+        
         dayDataViewMediator.getReservations();
     }
 
     private void onClickBtnPrevious(ActionEvent e) {
-        startDate.set(datePicker.getModel().getYear(),
+        date.set(datePicker.getModel().getYear(),
                 datePicker.getModel().getMonth(),
                 datePicker.getModel().getDay());
-        startDate.add(Calendar.DAY_OF_MONTH, -1);
-        int dayOfWeek = startDate.get(Calendar.DAY_OF_WEEK);
-        dayOfWeek -= 2;
-        startDate.add(Calendar.DAY_OF_MONTH, -dayOfWeek);
+        date.add(Calendar.DAY_OF_MONTH, -1);
 
-        endDate.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH),
-                startDate.get(Calendar.DATE));
-        endDate.add(Calendar.DATE, 6);
         setDateText();
 
+        dayDataViewMediator.setDate(date);
+        
         dayDataViewMediator.getReservations();
     }
 
     private void setDateText() {
-        datePicker.getModel().setDay(startDate.get(Calendar.DAY_OF_MONTH));
-        datePicker.getModel().setMonth(startDate.get(Calendar.MONTH));
-        datePicker.getModel().setYear(startDate.get(Calendar.YEAR));
+        datePicker.getModel().setDay(date.get(Calendar.DAY_OF_MONTH));
+        datePicker.getModel().setMonth(date.get(Calendar.MONTH));
+        datePicker.getModel().setYear(date.get(Calendar.YEAR));
         datePicker
                 .getJFormattedTextField()
                 .setText(dateFormat
-                        .format(startDate
-                                .getTime()) + " - "
-                        + dateFormat
-                        .format(endDate.getTime()));
+                        .format(date
+                                .getTime()));
     }
 
     public MainView getWindow() {
@@ -280,22 +271,6 @@ public class DayDataView extends javax.swing.JPanel {
 
     public void setCalendarBtn(JButton calendarBtn) {
         this.calendarBtn = calendarBtn;
-    }
-
-    public Calendar getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Calendar startDate) {
-        this.startDate = startDate;
-    }
-
-    public Calendar getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Calendar endDate) {
-        this.endDate = endDate;
     }
 
     public CustomDatePicker getDatePicker() {

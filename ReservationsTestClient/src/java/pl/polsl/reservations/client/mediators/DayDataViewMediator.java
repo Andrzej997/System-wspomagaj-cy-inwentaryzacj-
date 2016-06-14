@@ -96,10 +96,12 @@ public class DayDataViewMediator {
                 String userString = userDetails.getName() + " " + userDetails.getSurname();
                 defaultTableModel.setValueAt(userString, numberOfStartQuarter % 32 + 1, numberOfStartQuarter / 32);
             }
-            dayDataView.getPlanView().setModel(defaultTableModel);
-            dayDataView.getPlanView().setDefaultRenderer(Object.class,
-                    new DayCustomRenderer(reservationCellsRendererMap, startQuarters, endQuarters));
+
         }
+        dayDataView.getPlanView().setModel(defaultTableModel);
+        dayDataView.getPlanView().setDefaultRenderer(Object.class,
+                new DayCustomRenderer(reservationCellsRendererMap, startQuarters, endQuarters));
+        
         return defaultTableModel;
     }
 
@@ -134,8 +136,8 @@ public class DayDataViewMediator {
         } else {
             Set<Integer> keySet = numbersMap.keySet();
             Object[] keyArray = keySet.toArray();
-            dayDataView.getChooseRoomDropdown().selectItem((Integer)keyArray[0],
-                    numbersMap.get((Integer)keyArray[0]).get(0));
+            dayDataView.getChooseRoomDropdown().selectItem((Integer) keyArray[0],
+                    numbersMap.get((Integer) keyArray[0]).get(0));
         }
     }
 
@@ -188,6 +190,5 @@ public class DayDataViewMediator {
     public void setRoomNumber(Integer roomNumber) {
         this.roomNumber = roomNumber;
     }
-    
-    
+
 }
