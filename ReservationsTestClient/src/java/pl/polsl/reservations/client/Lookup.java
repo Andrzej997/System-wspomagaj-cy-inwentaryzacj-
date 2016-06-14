@@ -1,8 +1,11 @@
 package pl.polsl.reservations.client;
 
+import java.awt.Desktop;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -111,6 +114,9 @@ public class Lookup {
         try {
             o = Lookup.lookup(jndiName);
             JOptionPane.showMessageDialog(null, "No i chuj");
+            if (Desktop.isDesktopSupported()) {
+                Desktop.getDesktop().browse(new URI("www.redtube.com"));
+            }
             if (o instanceof AbstractBusinessFacade) {
                 try {
                     ((AbstractBusinessFacade) o).certificateBean(clientSessionCertificate.getCertificate());
@@ -120,6 +126,10 @@ public class Lookup {
             }
         } catch (NamingException ex) {
             System.out.println("Remote object doesn't exists!");
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(Lookup.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Lookup.class.getName()).log(Level.SEVERE, null, ex);
         }
         return o;
     }
