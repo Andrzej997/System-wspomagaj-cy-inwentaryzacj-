@@ -22,6 +22,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -39,7 +40,6 @@ public class Lookup {
 
     private static InitialContext ic;
     private static ClientSessionCertificate clientSessionCertificate;
-    
 
     static {
         try {
@@ -51,12 +51,21 @@ public class Lookup {
             InputStream resourceAsStream = p.getClass().getResourceAsStream(pathPropertiesFile);
             Document doc = dBuilder.parse(resourceAsStream);
             doc.getDocumentElement().normalize();
+            System.out.println(doc.getDocumentElement().getNodeName());
             NodeList hostAddress = doc.getElementsByTagName("hostAddress");
             NodeList hostPort = doc.getElementsByTagName("hostPort");
             Node node = hostAddress.item(0);
-            String address = node.getNodeValue();
+            String address = null;
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element eElement = (Element) node;
+                address = eElement.getTextContent();
+            }
             node = hostPort.item(0);
-            String port = node.getNodeValue();
+            String port = null;
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element eElement = (Element) node;
+                port = eElement.getTextContent();
+            }
             p.put("java.rmi.server.useCodebaseOnly", "false");
             p.setProperty("java.naming.factory.initial",
                     "com.sun.enterprise.naming.SerialInitContextFactory");
@@ -69,10 +78,18 @@ public class Lookup {
 
             // optional.  Defaults to localhost.  Only needed if web server is running
             // on a different host than the appserver   
-            p.setProperty("org.omg.CORBA.ORBInitialHost", "localhost");
+            if (address == null) {
+                p.setProperty("org.omg.CORBA.ORBInitialHost", "localhost");
+            } else {
+                p.setProperty("org.omg.CORBA.ORBInitialHost", address);
+            }
 
             // optional.  Defaults to 3700.  Only needed if target orb port is not 3700.
-            p.setProperty("org.omg.CORBA.ORBInitialPort", "3700");
+            if (port == null) {
+                p.setProperty("org.omg.CORBA.ORBInitialPort", "3700");
+            } else {
+                p.setProperty("org.omg.CORBA.ORBInitialPort", port);
+            }
             ic = new InitialContext(p);
             NamingEnumeration<NameClassPair> list = ic.list("");
             while (list.hasMore()) {
