@@ -35,6 +35,8 @@ public class TutorialView extends JPanel {
     private JButton prevBtn;
     private JButton nextBtn;
     private JLabel picLabel;
+    private JLabel textLabel;
+    private JPanel mainPanel;
 
     private final TutorialViewMediator tutorialViewMediator;
 
@@ -46,25 +48,28 @@ public class TutorialView extends JPanel {
 
     private void initComponents() {
         initObjects();
-        try{
+        try {
             Image img = ImageIO.read(getClass().getResource("/resources/left.png"));
             ButtonStyle.setStyle(prevBtn, img);
             Image img2 = ImageIO.read(getClass().getResource("/resources/right.png"));
             ButtonStyle.setStyle(nextBtn, img2);
-            setupTutorial();}
-        catch(IOException e){
-            System.out.println("RESOURCE ERROR: " + e.toString()); 
+            setupTutorial();
+        } catch (IOException e) {
+            System.out.println("RESOURCE ERROR: " + e.toString());
         }
-        setSize();
         setListeners();
-        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-        add(prevBtn);
-        add(picLabel);
-        add(nextBtn);
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
+        mainPanel.add(prevBtn);
+        mainPanel.add(picLabel);
+        mainPanel.add(nextBtn);
+        add(mainPanel);
+        add(textLabel);
         keyInputDispatcher();
     }
-    
-    private void setListeners(){
+
+    private void setListeners() {
         prevBtn.addActionListener((ActionEvent e) -> {
             try {
                 counter--;
@@ -73,7 +78,7 @@ public class TutorialView extends JPanel {
                 Logger.getLogger(TutorialView.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-      nextBtn.addActionListener((ActionEvent e) -> {
+        nextBtn.addActionListener((ActionEvent e) -> {
             try {
                 counter++;
                 setupTutorial();
@@ -82,45 +87,52 @@ public class TutorialView extends JPanel {
             }
         });
     }
-    
-    private void setSize(){
-        setBorder(new EmptyBorder(10, 10, 10, 10));
-        PanelStyle.setSize(this, 500,400);
-
-    }
 
     private void setupTutorial() throws IOException {
         Image myPicture;
-        switch(counter){
-         /*   case 0:
-                path = "/resources/login.png";
+        switch (counter) {
+            case 0:
+                myPicture = ImageIO.read(getClass().getResource("/resources/login.png"));
+                textLabel.setText("TEST1");
                 break;
             case 1:
-                path = "/resources/add.png";
+                myPicture = ImageIO.read(getClass().getResource("/resources/add.png"));
+                 textLabel.setText("TEST2");
                 break;
             case 2:
+                myPicture = ImageIO.read(getClass().getResource("/resources/back.png"));
                 break;
             case 3:
+                myPicture = ImageIO.read(getClass().getResource("/resources/left.png"));
                 break;
-            case 4: 
-                break; 
+            case 4:
+                myPicture = ImageIO.read(getClass().getResource("/resources/login.png"));
+                break;
             case 5:
+                myPicture = ImageIO.read(getClass().getResource("/resources/login.png"));
                 break;
             case 6:
-                break;*/
+                myPicture = ImageIO.read(getClass().getResource("/resources/login.png"));
+                break;
             default:
                 myPicture = ImageIO.read(getClass().getResource("/resources/login.png"));
                 break;
         }
-        picLabel = new JLabel(new ImageIcon(myPicture));
-        PanelStyle.setSize(picLabel, 350, 350);
+        picLabel.setIcon(new ImageIcon(myPicture.getScaledInstance(250, 250,
+                java.awt.Image.SCALE_SMOOTH)));
         picLabel.repaint();
+        textLabel.repaint();
     }
 
     private void initObjects() {
-        picLabel = new JLabel();
+        picLabel = new JLabel("");
+        picLabel.setBorder(new EmptyBorder(20, 20, 20, 20));
         prevBtn = new JButton();
         nextBtn = new JButton();
+        textLabel = new JLabel();
+        PanelStyle.setSize(textLabel, 300, 50);
+        setBorder(new EmptyBorder(20, 20, 20, 20));
+        PanelStyle.setSize(this, 500, 370);
     }
 
     private void keyInputDispatcher() {
