@@ -1,5 +1,6 @@
 package pl.polsl.reservations.client.views;
 
+import java.awt.AWTEvent;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -62,21 +63,35 @@ public class TutorialView extends JPanel {
 
     private void setListeners() {
         prevBtn.addActionListener((ActionEvent e) -> {
-            try {
-                counter--;
-                setupTutorial();
-            } catch (IOException ex) {
-                Logger.getLogger(TutorialView.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            onPreviousEvent(e);
         });
         nextBtn.addActionListener((ActionEvent e) -> {
-            try {
-                counter++;
-                setupTutorial();
-            } catch (IOException ex) {
-                Logger.getLogger(TutorialView.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            onNextEvent(e);
         });
+    }
+
+    public void onNextEvent(ActionEvent evt) {
+        try {
+            counter++;
+            if (counter > 14) {
+                counter = 14;
+            }
+            setupTutorial();
+        } catch (IOException ex) {
+            Logger.getLogger(TutorialView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void onPreviousEvent(ActionEvent evt) {
+        try {
+            counter--;
+            if (counter < 0) {
+                counter = 0;
+            }
+            setupTutorial();
+        } catch (IOException ex) {
+            Logger.getLogger(TutorialView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void setupTutorial() throws IOException {
@@ -151,7 +166,7 @@ public class TutorialView extends JPanel {
     }
 
     private void initObjects() {
-        picLabel = new JLabel("",SwingConstants.CENTER);
+        picLabel = new JLabel("", SwingConstants.CENTER);
         prevBtn = new JButton();
         nextBtn = new JButton();
         textLabel = new JLabel();
@@ -165,7 +180,7 @@ public class TutorialView extends JPanel {
         textLabel.setHorizontalAlignment(SwingConstants.CENTER);
         PanelStyle.setSize(mainPanel, 460, 300, true);
         setBorder(new EmptyBorder(20, 20, 20, 20));
-        PanelStyle.setSize(this, 460, 380,true);
+        PanelStyle.setSize(this, 460, 380, true);
 
     }
 
@@ -181,8 +196,24 @@ public class TutorialView extends JPanel {
                 System.exit(0);
             }
         };
+        AbstractAction leftAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TutorialView.this.onPreviousEvent(e);
+            }
+        };
+        AbstractAction rightAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TutorialView.this.onNextEvent(e);
+            }
+        };
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "escape");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "left");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "right");
         actionMap.put("escape", escapeAction);
+        actionMap.put("left", leftAction);
+        actionMap.put("right", rightAction);
     }
 
     public MainView getWindow() {
