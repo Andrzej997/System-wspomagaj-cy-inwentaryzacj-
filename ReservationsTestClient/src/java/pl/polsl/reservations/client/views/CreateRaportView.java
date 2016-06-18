@@ -1,6 +1,5 @@
 package pl.polsl.reservations.client.views;
 
-import com.sun.corba.se.impl.protocol.giopmsgheaders.MessageBase;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;

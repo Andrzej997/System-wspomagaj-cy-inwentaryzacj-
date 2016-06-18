@@ -476,8 +476,8 @@ public class MainView extends JFrame {
             }
         });
         addRoomMenuItem.addActionListener((ActionEvent evt) -> {
-            if (!ClientContext.getInstance().checkUserPrivilegesToAction("ADMIN")) {
-                if (!ClientContext.getInstance().canRequestLevel("ADMIN")) {
+            if (!ClientContext.getInstance().checkUserPrivilegesToAction("INSTITUTE_CHIEF")) {
+                if (!ClientContext.getInstance().canRequestLevel("INSTITUTE_CHIEF")) {
                     MessageBoxUtils.createPrivilegeErrorPane(fileMenu);
                 } else {
                     MessageBoxUtils.createPrivilegeError(fileMenu);
@@ -487,8 +487,8 @@ public class MainView extends JFrame {
             }
         });
         addDeviceMenuItem.addActionListener((ActionEvent evt) -> {
-            if (!ClientContext.getInstance().checkUserPrivilegesToAction("ADMIN")) {
-                if (!ClientContext.getInstance().canRequestLevel("ADMIN")) {
+            if (!ClientContext.getInstance().checkUserPrivilegesToAction("TECHNICAL_CHIEF")) {
+                if (!ClientContext.getInstance().canRequestLevel("TECHNICAL_CHIEF")) {
                     MessageBoxUtils.createPrivilegeErrorPane(fileMenu);
                 } else {
                     MessageBoxUtils.createPrivilegeError(fileMenu);

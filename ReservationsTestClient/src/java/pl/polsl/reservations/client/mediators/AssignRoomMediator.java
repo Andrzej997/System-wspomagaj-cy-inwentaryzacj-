@@ -53,7 +53,7 @@ public class AssignRoomMediator {
         for (UserDTO worker : underlings) {
             assignRoomView.getWorkerCb().addItem(worker.getId() + " " + worker.getName() + " " + worker.getSurname());
         }
-        if (underlings != null) {
+        if (underlings != null && !underlings.isEmpty()) {
             assignRoomView.getWorkerCb().setSelectedIndex(0);
         }
     }
