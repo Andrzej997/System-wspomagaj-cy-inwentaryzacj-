@@ -92,9 +92,10 @@ public class LoginView extends JPanel {
     }
 
     private void onClickGuest(ActionEvent evt) {
+        loginMediator.loginAsGuest();
         window.setOptionsAvailable(Color.black);
-        window.setView(new WeekDataViewMediator().createView(window, loginMediator.getFirstRoom()));
         window.setLogged(true);
+        window.setView(new WeekDataViewMediator().createView(window, loginMediator.getFirstRoom()));
     }
 
     private void initialize() {

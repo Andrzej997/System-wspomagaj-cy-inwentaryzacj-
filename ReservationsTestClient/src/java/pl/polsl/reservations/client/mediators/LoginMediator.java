@@ -34,4 +34,8 @@ public class LoginMediator {
         loginWindow = new LoginView(parent, this);
         return loginWindow;
     }
+    
+    public void loginAsGuest(){
+        userFacade.loginAsGuest();
+    }
 }
