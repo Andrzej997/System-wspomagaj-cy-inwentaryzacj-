@@ -232,9 +232,8 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
         if (user == null) {
             return null;
         }
-        Integer adminLevel = PrivilegeLevelEnum.ADMIN.getValue();
         Long obtainableLevel = user.getPriviligeLevel().getPriviligeLevel() - 1;
-        if (obtainableLevel > adminLevel) {
+        if (obtainableLevel > 0) {
             return DTOBuilder.buildPrivilegeLevelDTO(privilegeFacade.getPrivligeLevelsEntityByLevelValue(obtainableLevel));
         } else {
             return null;
@@ -265,7 +264,8 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
         if (user == null) {
             return false;
         }
-        Long level = getObtainablePrivilegeLevel().getPrivilegeLevel();
+        PrivilegeLevelDTO obtainablePrivilegeLevel = getObtainablePrivilegeLevel();
+        Long level = obtainablePrivilegeLevel.getPrivilegeLevel();
         PrivilegeRequest pr = new PrivilegeRequest(level, user.getId(), "");
         return levelRequestsQueue.findRequest(pr);
     }
