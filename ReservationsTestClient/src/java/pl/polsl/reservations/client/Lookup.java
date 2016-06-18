@@ -113,10 +113,6 @@ public class Lookup {
         Object o = null;
         try {
             o = Lookup.lookup(jndiName);
-          /*  JOptionPane.showMessageDialog(null, "No i chuj");
-            if (Desktop.isDesktopSupported()) {
-                Desktop.getDesktop().browse(new URI("www.redtube.com"));
-            }*/
             if (o instanceof AbstractBusinessFacade) {
                 try {
                     ((AbstractBusinessFacade) o).certificateBean(clientSessionCertificate.getCertificate());
