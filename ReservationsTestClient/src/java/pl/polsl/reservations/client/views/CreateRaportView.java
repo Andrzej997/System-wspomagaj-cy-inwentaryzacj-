@@ -1,5 +1,6 @@
 package pl.polsl.reservations.client.views;
 
+import com.sun.corba.se.impl.protocol.giopmsgheaders.MessageBase;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -18,10 +19,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
+import pl.polsl.reservations.client.ClientContext;
 import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.mediators.CreateReportViewMediator;
 import pl.polsl.reservations.client.views.utils.AddTypeEnum;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
+import pl.polsl.reservations.client.views.utils.MessageBoxUtils;
 import pl.polsl.reservations.client.views.utils.NumberFormatUtils;
 import pl.polsl.reservations.client.views.utils.PanelStyle;
 import pl.polsl.reservations.client.views.utils.RoomComboBox;
@@ -165,7 +168,11 @@ public class CreateRaportView extends JPanel {
                     window.getAddRoomFrame().dispose();
                     break;
                 case DEVICE:
-                    createReportViewMediator.onAddDevice();
+                    if (ClientContext.getInstance().checkUserPrivilegesToAction("TECHNICAL_CHIEF")) {
+                        createReportViewMediator.onAddDevice();
+                    } else {
+                        MessageBoxUtils.createPrivilegeError(this);
+                    }
                     window.getAddDeviceFrame().dispose();
                     break;
                 case STATE:
@@ -189,14 +196,22 @@ public class CreateRaportView extends JPanel {
             if (!validateAll()) {
                 return;
             }
+            if (ClientContext.getInstance().checkUserPrivilegesToAction("TECHNICAL_CHIEF")) {
             createReportViewMediator.onEditAction();
+            } else {
+                MessageBoxUtils.createPrivilegeError(this);
+            }
             window.getAddDeviceFrame().dispose();
         });
         deleteButton.addActionListener((ActionEvent e) -> {
             if (!validateAll()) {
                 return;
             }
-            createReportViewMediator.onDeleteAction();
+            if (ClientContext.getInstance().checkUserPrivilegesToAction("TECHNICAL_CHIEF")) {
+                createReportViewMediator.onDeleteAction();
+            } else {
+                MessageBoxUtils.createPrivilegeError(this);
+            }
             window.getAddDeviceFrame().dispose();
         });
     }
@@ -311,7 +326,7 @@ public class CreateRaportView extends JPanel {
         labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS));
         dataPanel.setLayout(new BoxLayout(dataPanel, BoxLayout.Y_AXIS));
     }
-    
+
     private void keyInputDispatcher() {
 
         InputMap inputMap = this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
