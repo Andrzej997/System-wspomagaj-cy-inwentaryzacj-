@@ -141,6 +141,7 @@ public class TutorialView extends JPanel {
                 break;
             case 14:
                 window.getTutorialFrame().dispose();
+                return;
 
         }
         picLabel.setIcon(new ImageIcon(myPicture.getScaledInstance(300, -1,
