@@ -2,6 +2,8 @@ package pl.polsl.reservations.client.views;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import pl.polsl.reservations.client.ClientContext;
@@ -125,7 +127,7 @@ public class MainView extends JFrame {
 
     private void initComponents() {
         initFields();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         contentView.setPreferredSize(new java.awt.Dimension(800, 600));
         generateMenu();
 
@@ -136,6 +138,16 @@ public class MainView extends JFrame {
         setJMenuBar(menuBar);
 
         pack();
+
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                Lookup.removeUserCertificate();
+                System.exit(0);
+            }
+        }
+        );
+
     }
 
     private void initFields() {
@@ -211,9 +223,9 @@ public class MainView extends JFrame {
             assignRoomFrame = FrameStyle.dialogStyle(new AssignRoomMediator().createView(this), "Assign user to room");
         }
     }
-    
-    private void assignRoomToDepartamentMenuItemActionPerformed(ActionEvent evt){
-        if(isLoggedIn){
+
+    private void assignRoomToDepartamentMenuItemActionPerformed(ActionEvent evt) {
+        if (isLoggedIn) {
             assignRoomToDepartamentFrame = FrameStyle.dialogStyle(new AssignToUnitMediator().createView(this), "Assing room to departament");
         }
     }
@@ -944,7 +956,5 @@ public class MainView extends JFrame {
     public JDialog getAssignRoomToDepartamentFrame() {
         return assignRoomToDepartamentFrame;
     }
-    
-    
 
 }
