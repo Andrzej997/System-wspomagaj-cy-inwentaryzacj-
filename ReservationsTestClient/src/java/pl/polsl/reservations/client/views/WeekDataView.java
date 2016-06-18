@@ -66,12 +66,7 @@ public class WeekDataView extends JPanel {
         PanelStyle.setSize(this, 800, 600);
         setupLayouts();
         keyInputDispatcher();
-        chooseRoomDropdown.addActionListener((ActionEvent e) -> {
-            if (chooseRoomDropdown.getSelectedItem() != null) {
-                chooseRoomDropdown.onAction();
-                weekDataViewMediator.getReservations();
-            }
-        });
+        unsetMenuItems();
     }
 
     private void setupLayouts() {
@@ -121,6 +116,12 @@ public class WeekDataView extends JPanel {
         backBtn.addActionListener((ActionEvent e) -> {
             window.logoutMenuItemActionPerformed(e);
         });
+        chooseRoomDropdown.addActionListener((ActionEvent e) -> {
+            if (chooseRoomDropdown.getSelectedItem() != null) {
+                chooseRoomDropdown.onAction();
+                weekDataViewMediator.getReservations();
+            }
+        });
     }
 
     private void setupButtons() {
@@ -164,10 +165,11 @@ public class WeekDataView extends JPanel {
         planTable.setDefaultRenderer(Object.class, new WeekCustomRenderer());
 
         planTable.addMouseListener(new MouseListenerImpl());
+        planTable.getTableHeader().setReorderingAllowed(false);
         planTable.getTableHeader().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2) {
+                if (e.getClickCount() == 1) {
                     Integer column = planTable.columnAtPoint(e.getPoint());
                     if (column != 0) {
                         Calendar cal = startDate;
@@ -269,6 +271,55 @@ public class WeekDataView extends JPanel {
         actionMap.put("next", nextAction);
         actionMap.put("previous", previousAction);
         actionMap.put("escape", escapeAction);
+    }
+
+    private void unsetMenuItems() {
+        if (!ClientContext.getInstance().checkUserPrivilegesToAction("INSTITUTE_CHIEF")) {
+            window.getAdminMenu().setVisible(false);
+        } else {
+            window.getAdminMenu().setVisible(true);
+        }
+        if (!ClientContext.getInstance().checkUserPrivilegesToAction("DEPARTAMENT_CHIEF")) {
+            window.getAllRaportMenuItem().setVisible(false);
+            window.getAddRoomMenuItem().setVisible(false);
+            window.getAssignRoomToDepartamentMenuItem().setVisible(false);
+        } else {
+            window.getAllRaportMenuItem().setVisible(true);
+            window.getAddRoomMenuItem().setVisible(true);
+            window.getAssignRoomToDepartamentMenuItem().setVisible(true);
+        }
+        if (!ClientContext.getInstance().checkUserPrivilegesToAction("TECHNICAL_CHIEF")) {
+            window.getDepartmentRaportMenuItem().setVisible(false);
+            window.getAssignRoomMenuItem().setVisible(false);
+        } else {
+            window.getDepartmentRaportMenuItem().setVisible(true);
+            window.getAssignRoomMenuItem().setVisible(true);
+        }
+        if (!ClientContext.getInstance().checkUserPrivilegesToAction("TECHNICAL_WORKER")) {
+            window.getRoomRaportMenuItem().setVisible(false);
+            window.getAddDeviceMenuItem().setVisible(false);
+            window.getEditRoomEquipmentMenuItem().setVisible(false);
+            window.getAddMenuItem().setVisible(false);
+        } else {
+            window.getRoomRaportMenuItem().setVisible(true);
+            window.getAddDeviceMenuItem().setVisible(true);
+            window.getEditRoomEquipmentMenuItem().setVisible(true);
+            window.getAddMenuItem().setVisible(true);
+        }
+        if (ClientContext.getInstance().isStandardUser()) {
+            window.getGenerateMenu().setVisible(false);
+            window.getCreateRaportMenu().setVisible(false);
+        } else {
+            window.getGenerateMenu().setVisible(true);
+            window.getCreateRaportMenu().setVisible(true);
+        }
+        if (ClientContext.getInstance().isGuest()) {
+            window.getGenerateMenu().setVisible(false);
+            window.getCreateRaportMenu().setVisible(false);
+            window.getAccountMenu().setVisible(false);
+        } else {
+            window.getAccountMenu().setVisible(true);
+        }
     }
 
     public MainView getWindow() {

@@ -289,8 +289,8 @@ public class MainView extends JFrame {
 
     private void addUserActionPerformed(ActionEvent evt) {
         if (isLoggedIn) {
-            if (!ClientContext.getInstance().checkUserPrivilegesToAction("TECHNICAL_WORKER")) {
-                if (!ClientContext.getInstance().canRequestLevel("TECHNICAL_WORKER")) {
+            if (!ClientContext.getInstance().checkUserPrivilegesToAction("ADMIN")) {
+                if (!ClientContext.getInstance().canRequestLevel("ADMIN")) {
                     MessageBoxUtils.createPrivilegeErrorPane(fileMenu);
                 } else {
                     MessageBoxUtils.createPrivilegeError(fileMenu);
