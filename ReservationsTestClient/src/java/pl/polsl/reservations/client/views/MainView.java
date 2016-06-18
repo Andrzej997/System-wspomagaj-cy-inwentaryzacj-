@@ -18,7 +18,6 @@ import pl.polsl.reservations.client.mediators.ChangePasswordViewMediator;
 import pl.polsl.reservations.client.mediators.CreateReportViewMediator;
 import pl.polsl.reservations.client.mediators.LoginMediator;
 import pl.polsl.reservations.client.mediators.MainViewMediator;
-import pl.polsl.reservations.client.mediators.TutorialViewMediator;
 import pl.polsl.reservations.client.reports.DocumentGenerator;
 import pl.polsl.reservations.client.views.utils.AddTypeEnum;
 import pl.polsl.reservations.client.views.utils.AddUserEnum;
@@ -174,7 +173,7 @@ public class MainView extends JFrame {
     }
 
     private void tutorialMenuItemActionPerformed(ActionEvent evt) {
-            tutorialFrame = FrameStyle.dialogStyle(new TutorialViewMediator().createView(this), "Tutorial");
+            tutorialFrame = FrameStyle.dialogStyle(new TutorialView(this), "Tutorial");
     }
 
     private void exitMenuItemActionPerformed(ActionEvent evt) {
