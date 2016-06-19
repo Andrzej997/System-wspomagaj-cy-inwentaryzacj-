@@ -3,17 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pl.polsl.reservations.client.views;
-
-import javax.swing.JPanel;
+package pl.polsl.reservations.client.views.utils;
 
 /**
  *
- * @author Ola
+ * @author abienioszek
  */
-class GenerateRaportView extends JPanel {
-
-    public GenerateRaportView(MainView window) {
-    }
-
+public enum AddUserEnum {
+    ADD,
+    EDIT,
+    ADMIN
 }

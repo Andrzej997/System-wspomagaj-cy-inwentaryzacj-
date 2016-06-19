@@ -1,5 +1,7 @@
 package pl.polsl.reservations.client;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.Properties;
@@ -16,8 +18,19 @@ import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.rmi.PortableRemoteObject;
 import javax.sql.DataSource;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 import pl.polsl.reservations.ejb.remote.AbstractBusinessFacade;
+import pl.polsl.reservations.ejb.remote.RoomManagementFacade;
+import pl.polsl.reservations.ejb.remote.ScheduleFacade;
 import pl.polsl.reservations.ejb.remote.UserFacade;
+import pl.polsl.reservations.ejb.remote.UserManagementFacade;
 
 /**
  *
@@ -29,10 +42,58 @@ public class Lookup {
     private static ClientSessionCertificate clientSessionCertificate;
 
     static {
+        InputStream resourceAsStream = null;
+        String address = null;
+        String port = null;
         try {
             clientSessionCertificate = ClientSessionCertificate.getInstance();
             Properties p = new Properties();
+            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = documentBuilderFactory.newDocumentBuilder();
+            String pathPropertiesFile = "/resources/server.xml";
+            resourceAsStream = p.getClass().getResourceAsStream(pathPropertiesFile);
+            if (resourceAsStream != null) {
+                Document doc = dBuilder.parse(resourceAsStream);
+                doc.getDocumentElement().normalize();
+                NodeList hostAddress = doc.getElementsByTagName("hostAddress");
+                NodeList hostPort = doc.getElementsByTagName("hostPort");
+                Node node = hostAddress.item(0);
+                address = null;
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+                    Element eElement = (Element) node;
+                    address = eElement.getTextContent();
+                }
+                node = hostPort.item(0);
+                port = null;
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+                    Element eElement = (Element) node;
+                    port = eElement.getTextContent();
+                }
+            }
             p.put("java.rmi.server.useCodebaseOnly", "false");
+            p.setProperty("java.naming.factory.initial",
+                    "com.sun.enterprise.naming.SerialInitContextFactory");
+
+            p.setProperty("java.naming.factory.url.pkgs",
+                    "com.sun.enterprise.naming");
+
+            p.setProperty("java.naming.factory.state",
+                    "com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl");
+
+            // optional.  Defaults to localhost.  Only needed if web server is running
+            // on a different host than the appserver   
+            if (address == null) {
+                p.setProperty("org.omg.CORBA.ORBInitialHost", "localhost");
+            } else {
+                p.setProperty("org.omg.CORBA.ORBInitialHost", address);
+            }
+
+            // optional.  Defaults to 3700.  Only needed if target orb port is not 3700.
+            if (port == null) {
+                p.setProperty("org.omg.CORBA.ORBInitialPort", "3700");
+            } else {
+                p.setProperty("org.omg.CORBA.ORBInitialPort", port);
+            }
             ic = new InitialContext(p);
             NamingEnumeration<NameClassPair> list = ic.list("");
             while (list.hasMore()) {
@@ -40,6 +101,16 @@ public class Lookup {
             }
         } catch (NamingException ne) {
             throw new RuntimeException(ne);
+        } catch (ParserConfigurationException | SAXException | IOException ex) {
+            Logger.getLogger(Lookup.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (resourceAsStream != null) {
+                try {
+                    resourceAsStream.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(Lookup.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
     }
 
@@ -175,6 +246,22 @@ public class Lookup {
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(Lookup.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public static RoomManagementFacade getRoomManagementFacade() {
+        return (RoomManagementFacade) getRemote("RoomManagementFacade");
+    }
+
+    public static UserFacade getUserFacade() {
+        return (UserFacade) getRemote("UserFacade");
+    }
+
+    public static UserManagementFacade getUserManagementFacade() {
+        return (UserManagementFacade) getRemote("UserManagementFacade");
+    }
+
+    public static ScheduleFacade getScheduleFacade() {
+        return (ScheduleFacade) getRemote("ScheduleFacade");
     }
 
 }

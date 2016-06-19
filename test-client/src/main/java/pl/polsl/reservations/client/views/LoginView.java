@@ -2,25 +2,36 @@ package pl.polsl.reservations.client.views;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.*;
-import pl.polsl.reservations.client.mediators.AccountViewMediator;
+import javax.swing.border.EmptyBorder;
+import pl.polsl.reservations.client.ClientContext;
+import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.mediators.LoginMediator;
+import pl.polsl.reservations.client.mediators.WeekDataViewMediator;
+import pl.polsl.reservations.client.views.utils.ButtonStyle;
+import pl.polsl.reservations.client.views.utils.MessageBoxUtils;
+import pl.polsl.reservations.client.views.utils.PanelStyle;
+import pl.polsl.reservations.client.views.utils.ValidationErrorMessanger;
 
 public class LoginView extends JPanel {
 
+    private static final int NORMAL_WIDTH = 130;
+    private static final int NORMAL_HEIGHT = 30;
     private static final long serialVersionUID = 7390610748297788567L;
 
     private final MainView window;
 
     private JButton loginButton;
-    private JButton registerButton;
     private JButton guestButton;
-    private JFormattedTextField loginEditText;
+    private JTextField loginTf;
     private JLabel loginLabel;
     private JLabel passwordLabel;
-    private JPasswordField passwordEditText;
+    private JPasswordField passwordTf;
 
-    private transient final LoginMediator loginMediator;
+    private final transient LoginMediator loginMediator;
 
     public LoginView(MainView window, LoginMediator loginMediator) {
         super(new BorderLayout());
@@ -31,100 +42,145 @@ public class LoginView extends JPanel {
 
     private void initComponents() {
         initialize();
-
-        setSize();
+        PanelStyle.setSize(this, 300, 200);
+        setBorder(new EmptyBorder(20, 20, 20, 20));
         initLoginFields();
         initButtons();
 
-        JPanel loginLayout = new JPanel(new BorderLayout());
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        loginLayout.add(loginLabel, BorderLayout.WEST);
-        loginLayout.add(loginEditText, BorderLayout.EAST);
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
 
-        JPanel passwordLayout = new JPanel(new BorderLayout());
+        JPanel labelPanel = new JPanel();
+        labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS));
+        JPanel dataPanel = new JPanel();
+        dataPanel.setLayout(new BoxLayout(dataPanel, BoxLayout.Y_AXIS));
+        labelPanel.add(loginLabel);
+        dataPanel.add(loginTf);
+        labelPanel.add(passwordLabel);
+        dataPanel.add(passwordTf);
 
-        passwordLayout.add(passwordLabel, BorderLayout.WEST);
-        passwordLayout.add(passwordEditText, BorderLayout.EAST);
+        PanelStyle.setSize(loginLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
 
-        JPanel navLayout = new JPanel(new BorderLayout());
-        navLayout.add(loginButton, BorderLayout.NORTH);
-        navLayout.add(registerButton, BorderLayout.CENTER);
-        navLayout.add(guestButton, BorderLayout.SOUTH);
+        PanelStyle.setSize(passwordLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(loginTf, NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(passwordTf, NORMAL_WIDTH, NORMAL_HEIGHT);
 
-        JPanel dataLayout = new JPanel(new BorderLayout());
-        dataLayout.add(loginLayout, BorderLayout.NORTH);
-        dataLayout.add(passwordLayout, BorderLayout.CENTER);
-        dataLayout.add(navLayout, BorderLayout.SOUTH);
-
-        JPanel mainLayout = new JPanel(new GridBagLayout());
-        GridBagConstraints position = new GridBagConstraints();
-        mainLayout.add(dataLayout, position);
-        add(mainLayout, BorderLayout.CENTER);
+        mainPanel.add(labelPanel);
+        mainPanel.add(dataPanel);
+        add(mainPanel);
+        add(loginButton);
+        add(guestButton);
+        setupListeners();
+        keyInputDispatcher();
     }
 
     private void onClickLogin(java.awt.event.ActionEvent evt) {
-        if (passwordEditText.getText().length() > 0 && loginEditText.getText().length() > 0) {
+        if (!validateAll()) {
+            return;
+        }
+        if (loginMediator.getUserData(loginTf.getText(), passwordTf.getText())) {
             window.setOptionsAvailable(Color.black);
-            if (loginMediator.getUserData(loginEditText.getText(), passwordEditText.getText())) {
-                window.setView(new AccountViewMediator().createView(window));
-                window.setLogged(true);
-            } else {
-                JOptionPane.showMessageDialog(this, "Wrong login or password!!.");
-            }
+            ClientContext.getInstance().setUsername(loginTf.getText());
+            window.setLogged(true);
+            window.setView(new WeekDataViewMediator().createView(window, loginMediator.getFirstRoom()));
+            MessageBoxUtils.createAvaliableRequestsMessage(this);
         } else {
-            JOptionPane.showMessageDialog(this, "Login and password required.");
+            JOptionPane.showMessageDialog(this, "Wrong login or password!");
         }
     }
 
-    private void onClickRegister(ActionEvent evt) {
-
-    }
-
     private void onClickGuest(ActionEvent evt) {
+        loginMediator.loginAsGuest();
         window.setOptionsAvailable(Color.black);
-        window.setView(new AccountViewMediator().createView(window));
         window.setLogged(true);
+        window.setView(new WeekDataViewMediator().createView(window, loginMediator.getFirstRoom()));
     }
 
     private void initialize() {
-        loginEditText = new JFormattedTextField();
-        passwordEditText = new JPasswordField();
+        loginTf = new JFormattedTextField();
+        passwordTf = new JPasswordField();
         loginLabel = new JLabel();
         passwordLabel = new JLabel();
         loginButton = new JButton();
-        registerButton = new JButton();
         guestButton = new JButton();
     }
 
-    private void setSize() {
-        setMaximumSize(new Dimension(800, 600));
-        setMinimumSize(new Dimension(800, 600));
-        setPreferredSize(new Dimension(800, 600));
-    }
-
     private void initLoginFields() {
-        loginEditText.setToolTipText("You username");
-        loginEditText.setPreferredSize(new Dimension(200, 30));
-        passwordEditText.setToolTipText("Your password");
-        passwordEditText.setPreferredSize(new Dimension(200, 30));
 
         loginLabel.setText("Login: ");
         passwordLabel.setText("Password: ");
-        loginButton.setText("Login");
+        try {
+            Image img = ImageIO.read(LoginView.class.getResource("/resources/login.png"));
+            ButtonStyle.setStyle(loginButton, img);
+        } catch (IOException ex) {
+            System.out.println("RESOURCE ERROR: " + ex.toString());
+        }
+    }
+
+    private void initButtons() {
+
+        try {
+            Image img = ImageIO.read(LoginView.class.getResource("/resources/guest_login.png"));
+            ButtonStyle.setStyle(guestButton, img);
+        } catch (IOException ex) {
+            System.out.println("RESOURCE ERROR: " + ex.toString());
+        }
+    }
+
+    private void setupListeners() {
+        guestButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+            onClickGuest(evt);
+        });
         loginButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+            if (!validateAll()) {
+                return;
+            }
             onClickLogin(evt);
         });
     }
 
-    private void initButtons() {
-        registerButton.setText("Register");
-        registerButton.addActionListener((java.awt.event.ActionEvent evt) -> {
-            onClickRegister(evt);
-        });
-        guestButton.setText("Guest login");
-        guestButton.addActionListener((java.awt.event.ActionEvent evt) -> {
-            onClickGuest(evt);
-        });
+    private void keyInputDispatcher() {
+
+        InputMap inputMap = this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = this.getActionMap();
+
+        AbstractAction loginAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                LoginView.this.onClickLogin(e);
+            }
+        };
+        AbstractAction guestLoginAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                LoginView.this.onClickGuest(e);
+            }
+        };
+        AbstractAction escapeAction = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                LoginView.this.getWindow().dispose();
+                Lookup.removeUserCertificate();
+                System.exit(0);
+            }
+        };
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "login");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_F12, 0), "guestLogin");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "escape");
+        actionMap.put("login", loginAction);
+        actionMap.put("guestLogin", guestLoginAction);
+        actionMap.put("escape", escapeAction);
+    }
+
+    private Boolean validateAll() {
+        Boolean validationFlag = true;
+        if (loginTf.getText().isEmpty()) {
+            ValidationErrorMessanger.showErrorMessage(loginTf, "Username field cannot be empty");
+            validationFlag = false;
+        }
+        return validationFlag;
     }
 
     public MainView getWindow() {
@@ -135,16 +191,12 @@ public class LoginView extends JPanel {
         return loginButton;
     }
 
-    public JButton getRegisterButton() {
-        return registerButton;
-    }
-
     public JButton getGuestButton() {
         return guestButton;
     }
 
-    public JFormattedTextField getLoginEditText() {
-        return loginEditText;
+    public JTextField getLoginEditText() {
+        return loginTf;
     }
 
     public JLabel getLoginLabel() {
@@ -156,7 +208,7 @@ public class LoginView extends JPanel {
     }
 
     public JPasswordField getPasswordEditText() {
-        return passwordEditText;
+        return passwordTf;
     }
 
 }
