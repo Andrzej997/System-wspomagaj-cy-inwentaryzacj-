@@ -18,14 +18,6 @@ import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.rmi.PortableRemoteObject;
 import javax.sql.DataSource;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 import pl.polsl.reservations.ejb.remote.AbstractBusinessFacade;
 import pl.polsl.reservations.ejb.remote.RoomManagementFacade;
 import pl.polsl.reservations.ejb.remote.ScheduleFacade;
@@ -46,58 +38,16 @@ public class Lookup {
         try {
             clientSessionCertificate = ClientSessionCertificate.getInstance();
             Properties p = new Properties();
-            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = documentBuilderFactory.newDocumentBuilder();
-            String pathPropertiesFile = "/resources/server.xml";
-            resourceAsStream = p.getClass().getResourceAsStream(pathPropertiesFile);
-            Document doc = dBuilder.parse(resourceAsStream);
-            doc.getDocumentElement().normalize();
-            NodeList hostAddress = doc.getElementsByTagName("hostAddress");
-            NodeList hostPort = doc.getElementsByTagName("hostPort");
-            Node node = hostAddress.item(0);
-            String address = null;
-            if (node.getNodeType() == Node.ELEMENT_NODE) {
-                Element eElement = (Element) node;
-                address = eElement.getTextContent();
-            }
-            node = hostPort.item(0);
-            String port = null;
-            if (node.getNodeType() == Node.ELEMENT_NODE) {
-                Element eElement = (Element) node;
-                port = eElement.getTextContent();
-            }
-            p.put("java.rmi.server.useCodebaseOnly", "false");
-            p.setProperty("java.naming.factory.initial",
-                    "com.sun.enterprise.naming.SerialInitContextFactory");
-
-            p.setProperty("java.naming.factory.url.pkgs",
-                    "com.sun.enterprise.naming");
-
-            p.setProperty("java.naming.factory.state",
-                    "com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl");
-
-            // optional.  Defaults to localhost.  Only needed if web server is running
-            // on a different host than the appserver   
-            if (address == null) {
-                p.setProperty("org.omg.CORBA.ORBInitialHost", "localhost");
-            } else {
-                p.setProperty("org.omg.CORBA.ORBInitialHost", address);
-            }
-
-            // optional.  Defaults to 3700.  Only needed if target orb port is not 3700.
-            if (port == null) {
-                p.setProperty("org.omg.CORBA.ORBInitialPort", "3700");
-            } else {
-                p.setProperty("org.omg.CORBA.ORBInitialPort", port);
-            }
-            ic = new InitialContext(p);
+            resourceAsStream = p.getClass().getResourceAsStream("/resources/jndi.properties");
+            p.load(resourceAsStream);
+            ic = new InitialContext();
             NamingEnumeration<NameClassPair> list = ic.list("");
             while (list.hasMore()) {
                 System.out.println(list.next().getName());
             }
         } catch (NamingException ne) {
             throw new RuntimeException(ne);
-        } catch (ParserConfigurationException | SAXException | IOException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(Lookup.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             if (resourceAsStream != null) {
@@ -236,7 +186,7 @@ public class Lookup {
     }
 
     public static void removeUserCertificate() {
-        UserFacade userFacade = (UserFacade) getRemote("UserFacade");
+        UserFacade userFacade = (UserFacade) getRemote("java:global/reservations-ear/reservations-impl-0.7/UserFacadeImpl!pl.polsl.reservations.ejb.remote.UserFacade");
         try {
             userFacade.removeCertificate(clientSessionCertificate.getCertificate());
         } catch (UnsupportedEncodingException ex) {
@@ -245,19 +195,19 @@ public class Lookup {
     }
 
     public static RoomManagementFacade getRoomManagementFacade() {
-        return (RoomManagementFacade) getRemote("RoomManagementFacade");
+        return (RoomManagementFacade) getRemote("java:global/reservations-ear/reservations-impl-0.7/RoomManagementFacadeImpl!pl.polsl.reservations.ejb.remote.RoomManagementFacade");
     }
 
     public static UserFacade getUserFacade() {
-        return (UserFacade) getRemote("UserFacade");
+        return (UserFacade) getRemote("java:global/reservations-ear/reservations-impl-0.7/UserFacadeImpl!pl.polsl.reservations.ejb.remote.UserFacade");
     }
 
     public static UserManagementFacade getUserManagementFacade() {
-        return (UserManagementFacade) getRemote("UserManagementFacade");
+        return (UserManagementFacade) getRemote("java:global/reservations-ear/reservations-impl-0.7/UserManagementFacadeImpl!pl.polsl.reservations.ejb.remote.UserManagementFacade");
     }
 
     public static ScheduleFacade getScheduleFacade() {
-        return (ScheduleFacade) getRemote("ScheduleFacade");
+        return (ScheduleFacade) getRemote("java:global/reservations-ear/reservations-impl-0.7/ScheduleFacadeImpl!pl.polsl.reservations.ejb.remote.ScheduleFacade");
     }
 
 }

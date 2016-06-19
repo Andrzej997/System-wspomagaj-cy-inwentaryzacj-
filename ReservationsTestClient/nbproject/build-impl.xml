@@ -18,7 +18,7 @@
         - applet
         - cleanup
 
--->
+        -->
 <project xmlns:carproject="http://www.netbeans.org/ns/car-project/1" basedir=".." default="default" name="ReservationsTestClient-impl">
     <import file="ant-deploy.xml"/>
     <fail message="Please build using Ant 1.7.1 or higher.">
@@ -30,10 +30,10 @@
     </fail>
     <target depends="dist,javadoc" description="Build whole project." name="default"/>
     <!-- 
-        ======================
-        INITIALIZATION SECTION 
-        ======================
-    -->
+                ======================
+                INITIALIZATION SECTION 
+                ======================
+            -->
     <target name="-pre-init">
         <!-- Empty placeholder for easier customization. -->
         <!-- You can override this target in the ../build.xml file. -->
@@ -220,18 +220,18 @@
             </and>
         </condition>
         <fail if="missing.j2ee.server.home">
-            The Java EE server classpath is not correctly set up - server home directory is missing.
-            Either open the project in the IDE and assign the server or setup the server classpath manually.
-            For example like this:
-            ant -Dj2ee.server.home=&lt;app_server_installation_directory&gt;
-        </fail>
+The Java EE server classpath is not correctly set up - server home directory is missing.
+Either open the project in the IDE and assign the server or setup the server classpath manually.
+For example like this:
+   ant -Dj2ee.server.home=&lt;app_server_installation_directory&gt;
+                </fail>
         <fail unless="j2ee.platform.classpath">
-            The Java EE server classpath is not correctly set up. Your active server type is ${j2ee.server.type}.
-            Either open the project in the IDE and assign the server or setup the server classpath manually.
-            For example like this:
-            ant -Duser.properties.file=&lt;path_to_property_file&gt; (where you put the property "j2ee.platform.classpath" in a .properties file)
-            or ant -Dj2ee.platform.classpath=&lt;server_classpath&gt; (where no properties file is used)
-        </fail>
+The Java EE server classpath is not correctly set up. Your active server type is ${j2ee.server.type}.
+Either open the project in the IDE and assign the server or setup the server classpath manually.
+For example like this:
+   ant -Duser.properties.file=&lt;path_to_property_file&gt; (where you put the property "j2ee.platform.classpath" in a .properties file)
+or ant -Dj2ee.platform.classpath=&lt;server_classpath&gt; (where no properties file is used)
+                </fail>
     </target>
     <target name="-init-macrodef-property">
         <macrodef name="property" uri="http://www.netbeans.org/ns/car-project/1">
@@ -741,15 +741,15 @@
     </target>
     <target name="-init-taskdefs">
         <fail unless="libs.CopyLibs.classpath">
-            The libs.CopyLibs.classpath property is not set up.
-            This property must point to 
-            org-netbeans-modules-java-j2seproject-copylibstask.jar file which is part
-            of NetBeans IDE installation and is usually located at 
+The libs.CopyLibs.classpath property is not set up.
+This property must point to 
+org-netbeans-modules-java-j2seproject-copylibstask.jar file which is part
+of NetBeans IDE installation and is usually located at 
 &lt;netbeans_installation&gt;/java&lt;version&gt;/ant/extra folder.
-            Either open the project in the IDE and make sure CopyLibs library
-            exists or setup the property manually. For example like this:
-            ant -Dlibs.CopyLibs.classpath=a/path/to/org-netbeans-modules-java-j2seproject-copylibstask.jar
-        </fail>
+Either open the project in the IDE and make sure CopyLibs library
+exists or setup the property manually. For example like this:
+ ant -Dlibs.CopyLibs.classpath=a/path/to/org-netbeans-modules-java-j2seproject-copylibstask.jar
+                </fail>
         <taskdef classpath="${libs.CopyLibs.classpath}" resource="org/netbeans/modules/java/j2seproject/copylibstask/antlib.xml"/>
     </target>
     <target name="-init-ap-cmdline-properties">
@@ -777,14 +777,14 @@
     </target>
     <target depends="-pre-init,-pre-init-am,-init-private,-init-user,-init-project,-do-init,-post-init,-init-check,-init-macrodef-property,-init-macrodef-javac,-init-macrodef-test,-init-macrodef-test-debug,-init-macrodef-java,-init-macrodef-nbjpda,-init-macrodef-debug,-init-taskdefs,-init-ap-cmdline" name="init"/>
     <!--
-        ===================
-        COMPILATION SECTION
-        ===================
-    -->
+                ===================
+                COMPILATION SECTION
+                ===================
+            -->
     <target name="-check-main-class">
         <fail>
-            Main class must be set. Go to ReservationsTestClient project properties -&gt; Run and set the main class there.
-            <condition>
+                    Main class must be set. Go to ReservationsTestClient project properties -&gt; Run and set the main class there.
+                    <condition>
                 <not>
                     <or>
                         <isset property="dist.ear.dir"/>
@@ -822,8 +822,10 @@
         <basename file="${libs.javaee-api-7.0.classpath}" property="manifest.libs.javaee-api-7.0.classpath"/>
         <basename file="${file.reference.balloontip-1.2.4.1.jar}" property="manifest.file.reference.balloontip-1.2.4.1.jar"/>
         <basename file="${file.reference.jdatepicker-1.3.4.jar}" property="manifest.file.reference.jdatepicker-1.3.4.jar"/>
+        <basename file="${file.reference.javaee.jar}" property="manifest.file.reference.javaee.jar"/>
+        <basename file="${file.reference.appserv-rt.jar}" property="manifest.file.reference.appserv-rt.jar"/>
         <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update">
-            <attribute name="Extension-List" value="jar-1 jar-2 jar-3 jar-4 jar-5 jar-6 jar-7 jar-8 jar-9 jar-10 jar-11 jar-12 jar-13 jar-14 jar-15 jar-16 jar-17 "/>
+            <attribute name="Extension-List" value="jar-1 jar-2 jar-3 jar-4 jar-5 jar-6 jar-7 jar-8 jar-9 jar-10 jar-11 jar-12 jar-13 jar-14 jar-15 jar-16 jar-17 jar-18 jar-19 "/>
             <attribute name="jar-1-Extension-Name" value="${manifest.libs.hibernate4-persistence.classpath}"/>
             <attribute name="jar-2-Extension-Name" value="${manifest.file.reference.remote-0.7.jar}"/>
             <attribute name="jar-3-Extension-Name" value="${manifest.file.reference.itext-pdfa-5.5.9-javadoc.jar}"/>
@@ -841,6 +843,8 @@
             <attribute name="jar-15-Extension-Name" value="${manifest.libs.javaee-api-7.0.classpath}"/>
             <attribute name="jar-16-Extension-Name" value="${manifest.file.reference.balloontip-1.2.4.1.jar}"/>
             <attribute name="jar-17-Extension-Name" value="${manifest.file.reference.jdatepicker-1.3.4.jar}"/>
+            <attribute name="jar-18-Extension-Name" value="${manifest.file.reference.javaee.jar}"/>
+            <attribute name="jar-19-Extension-Name" value="${manifest.file.reference.appserv-rt.jar}"/>
         </manifest>
     </target>
     <target depends="compile" if="dist.ear.dir" name="library-inclusion-in-manifest">
@@ -861,8 +865,10 @@
         <copyfiles files="${libs.javaee-api-7.0.classpath}" manifestproperty="manifest.libs.javaee-api-7.0.classpath" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.balloontip-1.2.4.1.jar}" manifestproperty="manifest.file.reference.balloontip-1.2.4.1.jar" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.jdatepicker-1.3.4.jar}" manifestproperty="manifest.file.reference.jdatepicker-1.3.4.jar" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.javaee.jar}" manifestproperty="manifest.file.reference.javaee.jar" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.appserv-rt.jar}" manifestproperty="manifest.file.reference.appserv-rt.jar" todir="${dist.ear.dir}/lib"/>
         <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update">
-            <attribute name="Class-Path" value="${manifest.libs.hibernate4-persistence.classpath} lib/${manifest.libs.hibernate4-persistence.classpath} ${manifest.file.reference.remote-0.7.jar} lib/${manifest.file.reference.remote-0.7.jar} ${manifest.file.reference.itext-pdfa-5.5.9-javadoc.jar} lib/${manifest.file.reference.itext-pdfa-5.5.9-javadoc.jar} ${manifest.file.reference.itext-pdfa-5.5.9-sources.jar} lib/${manifest.file.reference.itext-pdfa-5.5.9-sources.jar} ${manifest.file.reference.itext-pdfa-5.5.9.jar} lib/${manifest.file.reference.itext-pdfa-5.5.9.jar} ${manifest.file.reference.itext-xtra-5.5.9-javadoc.jar} lib/${manifest.file.reference.itext-xtra-5.5.9-javadoc.jar} ${manifest.file.reference.itext-xtra-5.5.9-sources.jar} lib/${manifest.file.reference.itext-xtra-5.5.9-sources.jar} ${manifest.file.reference.itext-xtra-5.5.9.jar} lib/${manifest.file.reference.itext-xtra-5.5.9.jar} ${manifest.file.reference.itextpdf-5.5.9-javadoc.jar} lib/${manifest.file.reference.itextpdf-5.5.9-javadoc.jar} ${manifest.file.reference.itextpdf-5.5.9-sources.jar} lib/${manifest.file.reference.itextpdf-5.5.9-sources.jar} ${manifest.file.reference.itextpdf-5.5.9.jar} lib/${manifest.file.reference.itextpdf-5.5.9.jar} ${manifest.file.reference.xmlworker-5.5.9-javadoc.jar} lib/${manifest.file.reference.xmlworker-5.5.9-javadoc.jar} ${manifest.file.reference.xmlworker-5.5.9-sources.jar} lib/${manifest.file.reference.xmlworker-5.5.9-sources.jar} ${manifest.file.reference.xmlworker-5.5.9.jar} lib/${manifest.file.reference.xmlworker-5.5.9.jar} ${manifest.libs.javaee-api-7.0.classpath} lib/${manifest.libs.javaee-api-7.0.classpath} ${manifest.file.reference.balloontip-1.2.4.1.jar} lib/${manifest.file.reference.balloontip-1.2.4.1.jar} ${manifest.file.reference.jdatepicker-1.3.4.jar} lib/${manifest.file.reference.jdatepicker-1.3.4.jar} "/>
+            <attribute name="Class-Path" value="${manifest.libs.hibernate4-persistence.classpath} lib/${manifest.libs.hibernate4-persistence.classpath} ${manifest.file.reference.remote-0.7.jar} lib/${manifest.file.reference.remote-0.7.jar} ${manifest.file.reference.itext-pdfa-5.5.9-javadoc.jar} lib/${manifest.file.reference.itext-pdfa-5.5.9-javadoc.jar} ${manifest.file.reference.itext-pdfa-5.5.9-sources.jar} lib/${manifest.file.reference.itext-pdfa-5.5.9-sources.jar} ${manifest.file.reference.itext-pdfa-5.5.9.jar} lib/${manifest.file.reference.itext-pdfa-5.5.9.jar} ${manifest.file.reference.itext-xtra-5.5.9-javadoc.jar} lib/${manifest.file.reference.itext-xtra-5.5.9-javadoc.jar} ${manifest.file.reference.itext-xtra-5.5.9-sources.jar} lib/${manifest.file.reference.itext-xtra-5.5.9-sources.jar} ${manifest.file.reference.itext-xtra-5.5.9.jar} lib/${manifest.file.reference.itext-xtra-5.5.9.jar} ${manifest.file.reference.itextpdf-5.5.9-javadoc.jar} lib/${manifest.file.reference.itextpdf-5.5.9-javadoc.jar} ${manifest.file.reference.itextpdf-5.5.9-sources.jar} lib/${manifest.file.reference.itextpdf-5.5.9-sources.jar} ${manifest.file.reference.itextpdf-5.5.9.jar} lib/${manifest.file.reference.itextpdf-5.5.9.jar} ${manifest.file.reference.xmlworker-5.5.9-javadoc.jar} lib/${manifest.file.reference.xmlworker-5.5.9-javadoc.jar} ${manifest.file.reference.xmlworker-5.5.9-sources.jar} lib/${manifest.file.reference.xmlworker-5.5.9-sources.jar} ${manifest.file.reference.xmlworker-5.5.9.jar} lib/${manifest.file.reference.xmlworker-5.5.9.jar} ${manifest.libs.javaee-api-7.0.classpath} lib/${manifest.libs.javaee-api-7.0.classpath} ${manifest.file.reference.balloontip-1.2.4.1.jar} lib/${manifest.file.reference.balloontip-1.2.4.1.jar} ${manifest.file.reference.jdatepicker-1.3.4.jar} lib/${manifest.file.reference.jdatepicker-1.3.4.jar} ${manifest.file.reference.javaee.jar} lib/${manifest.file.reference.javaee.jar} ${manifest.file.reference.appserv-rt.jar} lib/${manifest.file.reference.appserv-rt.jar} "/>
         </manifest>
     </target>
     <target name="-copy-meta-inf">
@@ -898,10 +904,10 @@
     </target>
     <target depends="init,deps-jar,-pre-pre-compile,-pre-compile-single,-do-compile-single,-post-compile-single" name="compile-single"/>
     <!--
-        ====================
-        DIST BUILDING SECTION
-        ====================
-    -->
+                ====================
+                DIST BUILDING SECTION
+                ====================
+            -->
     <target depends="init" name="-pre-pre-dist">
         <dirname file="${dist.jar}" property="dist.jar.dir"/>
         <mkdir dir="${dist.jar.dir}"/>
@@ -953,10 +959,10 @@
     <target depends="init,compile,-pre-dist,-do-dist,-post-dist" description="Build distribution (JAR)." name="dist"/>
     <target depends="init,compile,-pre-dist,-do-ear-dist,-post-dist" description="Build distribution (JAR) to be packaged into an EAR." name="dist-ear"/>
     <!--
-        =================
-        EXECUTION SECTION
-        =================
-    -->
+                =================
+                EXECUTION SECTION
+                =================
+            -->
     <target depends="dist,run-deploy,-as-retrieve-option-workaround,-init-run-macros,-run-pregfv3,-run" description="Run a main class." name="run"/>
     <target if="j2ee.appclient.tool.args" name="-run-pregfv3">
         <carproject:run-appclient-pregfv3/>
@@ -1118,8 +1124,8 @@
     </target>
     <target depends="-get-browser" if="do.display.browser.cl" name="-display-browser-cl">
         <fail unless="browser">
-            Browser not found, cannot launch the deployed application. Try to set the BROWSER environment variable.
-        </fail>
+                    Browser not found, cannot launch the deployed application. Try to set the BROWSER environment variable.
+                </fail>
         <property name="browse.url" value="${deploy.ant.client.url}${client.urlPart}"/>
         <echo>Launching ${browse.url}</echo>
         <exec executable="${browser}" spawn="true">
@@ -1137,10 +1143,10 @@
         <carproject:nbjpdaappreloaded/>
     </target>
     <!--
-        =================
-        DEBUGGING SECTION
-        =================
-    -->
+                =================
+                DEBUGGING SECTION
+                =================
+            -->
     <target depends="init,-init-debug-args,-as-retrieve-option-workaround,-init-run-macros" name="-init-debug-macros">
         <macrodef name="debug-appclient" uri="http://www.netbeans.org/ns/car-project/1">
             <attribute default="${j2ee.appclient.tool.jvmoptions}${client.jar}" name="serverparams"/>
@@ -1204,10 +1210,10 @@
     </target>
     <target depends="init,-pre-debug-fix,-do-debug-fix" if="netbeans.home" name="debug-fix"/>
     <!--
-        ===============
-        JAVADOC SECTION
-        ===============
-    -->
+                ===============
+                JAVADOC SECTION
+                ===============
+            -->
     <target depends="init" if="have.sources" name="-javadoc-build">
         <mkdir dir="${dist.javadoc.dir}"/>
         <javadoc additionalparam="${javadoc.additionalparam}" author="${javadoc.author}" charset="UTF-8" destdir="${dist.javadoc.dir}" docencoding="UTF-8" encoding="${javadoc.encoding.used}" failonerror="true" noindex="${javadoc.noindex}" nonavbar="${javadoc.nonavbar}" notree="${javadoc.notree}" private="${javadoc.private}" source="${javac.source}" splitindex="${javadoc.splitindex}" use="${javadoc.use}" useexternalfile="true" version="${javadoc.version}" windowtitle="${javadoc.windowtitle}">
@@ -1235,10 +1241,10 @@
     </target>
     <target depends="init,-javadoc-build,-javadoc-browse" description="Build Javadoc." name="javadoc"/>
     <!--
-        =========================
-        TEST COMPILATION SECTION
-        =========================
-    -->
+                =========================
+                TEST COMPILATION SECTION
+                =========================
+            -->
     <target depends="init,compile" if="have.tests" name="-pre-pre-compile-test">
         <mkdir dir="${build.test.classes.dir}"/>
     </target>
@@ -1274,10 +1280,10 @@
     </target>
     <target depends="init,compile,-pre-pre-compile-test,-pre-compile-test-single,-do-compile-test-single,-post-compile-test-single" name="compile-test-single"/>
     <!--
-        =======================
-        TEST EXECUTION SECTION
-        =======================
-    -->
+                =======================
+                TEST EXECUTION SECTION
+                =======================
+            -->
     <target depends="init" if="have.tests" name="-pre-test-run">
         <mkdir dir="${build.test.results.dir}"/>
     </target>
@@ -1311,10 +1317,10 @@
     </target>
     <target depends="init,compile-test-single,-pre-test-run-single,-do-test-run-single-method,-post-test-run-single-method" description="Run single unit test." name="test-single-method"/>
     <!--
-        =======================
-        TEST DEBUGGING SECTION
-        =======================
-    -->
+                =======================
+                TEST DEBUGGING SECTION
+                =======================
+            -->
     <target depends="init,compile-test-single,-pre-test-run-single" if="have.tests" name="-debug-start-debuggee-test">
         <fail unless="test.class">Must select one file in the IDE or set test.class</fail>
         <carproject:test-debug excludes="" includes="${javac.includes}" testClass="${test.class}" testincludes="${javac.includes}"/>
@@ -1334,10 +1340,10 @@
     </target>
     <target depends="init,-pre-debug-fix,-do-debug-fix-test" if="netbeans.home" name="debug-fix-test"/>
     <!--
-        =========================
-        APPLET EXECUTION SECTION
-        =========================
-    -->
+                =========================
+                APPLET EXECUTION SECTION
+                =========================
+            -->
     <target depends="init,compile-single" name="run-applet">
         <fail unless="applet.url">Must select one file in the IDE or set applet.url</fail>
         <carproject:java classname="sun.applet.AppletViewer">
@@ -1347,10 +1353,10 @@
         </carproject:java>
     </target>
     <!--
-        =========================
-        APPLET DEBUGGING  SECTION
-        =========================
-    -->
+                =========================
+                APPLET DEBUGGING  SECTION
+                =========================
+            -->
     <target depends="init,compile-single" if="netbeans.home" name="-debug-start-debuggee-applet">
         <fail unless="applet.url">Must select one file in the IDE or set applet.url</fail>
         <carproject:debug classname="sun.applet.AppletViewer">
@@ -1361,10 +1367,10 @@
     </target>
     <target depends="init,compile-single,-debug-start-debugger,-debug-start-debuggee-applet" if="netbeans.home" name="debug-applet"/>
     <!--
-        ===============
-        CLEANUP SECTION
-        ===============
-    -->
+                ===============
+                CLEANUP SECTION
+                ===============
+            -->
     <target depends="init" name="deps-clean" unless="no.deps"/>
     <target depends="init" name="-do-clean">
         <delete dir="${build.dir}"/>
