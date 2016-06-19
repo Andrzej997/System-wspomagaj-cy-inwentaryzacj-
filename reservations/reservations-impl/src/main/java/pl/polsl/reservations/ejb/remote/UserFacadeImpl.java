@@ -144,7 +144,7 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
     @Override
     public boolean changeUserDetails(UserDTO userDTO) {
         user = getCurrentUserContext().getUser();
-        if (user == null && !user.getId().equals(userDTO.getId())) {
+        if (user == null || !user.getId().equals(userDTO.getId())) {
             return false;
         }
         Users newUser = new Users();
@@ -180,10 +180,10 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
     public Boolean changeAnotherUserDetails(UserDTO userDTO) {
         Users newUser = new Users();
         user = getCurrentUserContext().getUser();
-        if(user.getPriviligeLevel().getPriviligeLevel() != 1l){
+        if (user.getPriviligeLevel().getPriviligeLevel() != 1l) {
             return false;
         }
-        
+
         Users old = usersFacade.find(userDTO.getId());
         newUser.setEmail(userDTO.getEmail());
         newUser.setPhoneNumber(Long.parseLong(userDTO.getPhoneNumber()));
@@ -202,7 +202,6 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
         workerDB.setSurname(userDTO.getSurname());
         workerDB.setWorkerName(userDTO.getName());
 
-        Long id = userDTO.getId();
         workersFacade.edit(workerDB);
         newUser.setWorkers(workerDB);
         usersFacade.edit(user);

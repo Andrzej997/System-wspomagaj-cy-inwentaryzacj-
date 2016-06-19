@@ -1,6 +1,5 @@
 package pl.polsl.reservations.ejb.dao;
 
-
 import java.util.List;
 import javax.ejb.Local;
 import pl.polsl.reservations.ejb.local.AbstractDao;

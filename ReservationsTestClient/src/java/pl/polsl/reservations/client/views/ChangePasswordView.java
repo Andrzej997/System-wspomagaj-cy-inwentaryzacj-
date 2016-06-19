@@ -32,8 +32,8 @@ public class ChangePasswordView extends JPanel {
 
     private static final long serialVersionUID = 4265560895158715456L;
 
-    private final int NORMAL_WIDTH = 200;
-    private final int NORMAL_HEIGHT = 30;
+    private static final int NORMAL_WIDTH = 200;
+    private static final int NORMAL_HEIGHT = 30;
 
     private MainView window;
     private JLabel oldLabel;
@@ -47,7 +47,7 @@ public class ChangePasswordView extends JPanel {
     private JPanel dataPanel;
     private JPanel mainPanel;
 
-    private final ChangePasswordViewMediator changePasswordViewMediator;
+    private final transient ChangePasswordViewMediator changePasswordViewMediator;
 
     public ChangePasswordView(MainView window, ChangePasswordViewMediator changePasswordViewMediator) {
         this.window = window;
@@ -74,7 +74,7 @@ public class ChangePasswordView extends JPanel {
 
     private void setupButton() {
         try {
-            Image img = ImageIO.read(getClass().getResource("/resources/ok.png"));
+            Image img = ImageIO.read(ChangePasswordView.class.getResource("/resources/ok.png"));
             ButtonStyle.setStyle(okButton, img);
         } catch (IOException ex) {
             System.out.println("RESOURCE ERROR: " + ex.toString());

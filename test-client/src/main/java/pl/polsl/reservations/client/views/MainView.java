@@ -135,7 +135,7 @@ public class MainView extends JFrame {
 
     private void generateMenu() {
         fileMenu.setText("File");
-        
+
         addMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         addMenuItem.setText("Add");
         addMenuItem.addActionListener((ActionEvent evt) -> {
@@ -156,7 +156,7 @@ public class MainView extends JFrame {
             accountMenuItemActionPerformed(evt);
         });
         fileMenu.add(accountMenuItem);
-        
+
         logoutMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         logoutMenuItem.setText("Logout");
         logoutMenuItem.addActionListener((ActionEvent evt) -> {

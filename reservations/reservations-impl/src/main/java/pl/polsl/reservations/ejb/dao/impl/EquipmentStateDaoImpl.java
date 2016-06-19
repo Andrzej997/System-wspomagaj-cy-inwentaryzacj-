@@ -30,7 +30,7 @@ public class EquipmentStateDaoImpl extends AbstractDaoImpl<EqupmentState> implem
     }
 
     @Override
-    public List<Equipment> getEquipmentCollectionById(Number id){
+    public List<Equipment> getEquipmentCollectionById(Number id) {
         EqupmentState equipmentType = this.find(id);
         return equipmentType.getEquipmentCollection();
     }
@@ -41,7 +41,7 @@ public class EquipmentStateDaoImpl extends AbstractDaoImpl<EqupmentState> implem
 
         EqupmentState equpmentState = this.find(entity.getId());
         List<Equipment> equipmentCollection = equpmentState.getEquipmentCollection();
-        for(Equipment equipment : equipmentCollection){
+        for (Equipment equipment : equipmentCollection) {
             equipmentFacadeRemote.remove(equipment);
         }
         equpmentState.setEquipmentCollection(equipmentCollection);

@@ -6,7 +6,7 @@ import java.io.Serializable;
  *
  * @author wojcdeb448
  */
-public class PrivilegeRequestDTO implements Serializable{
+public class PrivilegeRequestDTO implements Serializable {
 
     private static final long serialVersionUID = 6787480726890987711L;
 

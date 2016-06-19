@@ -10,8 +10,9 @@ import pl.polsl.reservations.ejb.dao.RoomScheduleDao;
  * Created by Krzysztof Stręk on 2016-05-12.
  */
 public interface ScheduleStrategy {
+
     List<ReservationDTO> createSchedule(int roomNumber, int year, boolean semester,
-                                        ReservationsDao reservationsDAO,
-                                        RoomScheduleDao roomScheduleDAO,
-                                        RoomDao roomDAO);
+            ReservationsDao reservationsDAO,
+            RoomScheduleDao roomScheduleDAO,
+            RoomDao roomDAO);
 }

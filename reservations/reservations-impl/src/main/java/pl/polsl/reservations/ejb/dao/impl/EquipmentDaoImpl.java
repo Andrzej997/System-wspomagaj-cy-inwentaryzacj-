@@ -33,7 +33,7 @@ public class EquipmentDaoImpl extends AbstractDaoImpl<Equipment> implements Equi
     }
 
     @Override
-    public List<Equipment> getEquipmentByRoomNumber(int roomNumber){
+    public List<Equipment> getEquipmentByRoomNumber(int roomNumber) {
         Query query = getEntityManager().createNamedQuery("getEquipmentByRoomNumber", Equipment.class);
         query.setParameter("roomNumber", roomNumber);
         return query.getResultList();
@@ -44,7 +44,7 @@ public class EquipmentDaoImpl extends AbstractDaoImpl<Equipment> implements Equi
         getDependencies();
 
         Equipment equipment = this.find(entity.getId());
-       /* EqupmentState equipmentState = equipment.getEquipmentState();
+        /* EqupmentState equipmentState = equipment.getEquipmentState();
         List<Equipment> equipmentCollection = equipmentState.getEquipmentCollection();
         equipmentCollection.remove(equipment);
         equipmentState.setEquipmentCollection(equipmentCollection);

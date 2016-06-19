@@ -7,7 +7,7 @@ import java.util.HashMap;
  *
  * @author matis
  */
-public class UsersCertifcatesPoolImpl implements UsersCertifcatesPool, Serializable{
+public class UsersCertifcatesPoolImpl implements UsersCertifcatesPool, Serializable {
 
     private static final long serialVersionUID = -6291443263110524272L;
 

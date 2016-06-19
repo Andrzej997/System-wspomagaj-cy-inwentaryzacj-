@@ -123,7 +123,7 @@ public class ScheduleFacadeImpl extends AbstractBusinessFacadeImpl implements Sc
     @Override
     @RequiredPrivilege(PrivilegeEnum.MODIFY_RESERVATION_OWN)
     public Boolean editReservation(ReservationDTO dTO, Integer year, Boolean semester, Integer week) {
-         RoomSchedule currentDateSchedule = null;
+        RoomSchedule currentDateSchedule = null;
         if (dTO.getRoomNumber() != null) {
             Room room = roomDAO.getRoomByNumber(dTO.getRoomNumber());
             if (year != null && week != null && semester != null && room != null) {
@@ -191,7 +191,7 @@ public class ScheduleFacadeImpl extends AbstractBusinessFacadeImpl implements Sc
     public void removeReservationType(int id) {
         ReservationTypes type = reservationTypeDAO.find(id);
 
-        for(Reservations r : type.getReservationsCollection()) {
+        for (Reservations r : type.getReservationsCollection()) {
             r.setReservationType(null);
             reservationsDAO.edit(r);
         }

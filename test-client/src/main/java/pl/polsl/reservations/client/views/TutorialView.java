@@ -15,5 +15,5 @@ class TutorialView extends JPanel {
 
     public TutorialView(MainView window) {
     }
-    
+
 }

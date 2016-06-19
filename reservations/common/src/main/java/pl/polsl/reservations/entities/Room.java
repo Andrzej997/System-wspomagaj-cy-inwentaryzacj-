@@ -7,7 +7,7 @@ import pl.polsl.reservations.logger.LoggerImpl;
 
 @NamedQueries({
     @NamedQuery(name = "getRoomByNumber", query = "select r from Room  r where r.roomNumber = :roomNumber"),
-    @NamedQuery(name = "getRoomWithNumOfSeatsHigherOrEqualThan", query="select r from Room r where r.numberOfSeats >= :numberOfSeats"),
+    @NamedQuery(name = "getRoomWithNumOfSeatsHigherOrEqualThan", query = "select r from Room r where r.numberOfSeats >= :numberOfSeats"),
     @NamedQuery(name = "getRoomByKeeper", query = "select r from Room  r where r.keeper = :keeper")
 })
 

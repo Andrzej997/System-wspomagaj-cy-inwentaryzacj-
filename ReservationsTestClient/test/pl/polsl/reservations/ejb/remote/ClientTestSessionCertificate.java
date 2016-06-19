@@ -9,17 +9,18 @@ import java.util.UUID;
  * @author matis
  */
 public class ClientTestSessionCertificate {
-    
+
     private static final String randomUUID = UUID.randomUUID().toString();
     //Singleton
     private static final ClientTestSessionCertificate clientSessionCertificate = new ClientTestSessionCertificate();
-    
-    private ClientTestSessionCertificate(){}
 
-    public static ClientTestSessionCertificate getInstance(){
+    private ClientTestSessionCertificate() {
+    }
+
+    public static ClientTestSessionCertificate getInstance() {
         return clientSessionCertificate;
     }
-    
+
     public String getCertificate() throws UnsupportedEncodingException {
         return Base64.getMimeEncoder().encodeToString(randomUUID.getBytes("utf-8"));
     }
@@ -27,5 +28,5 @@ public class ClientTestSessionCertificate {
     public String getRandomUUID() {
         return randomUUID;
     }
-    
+
 }

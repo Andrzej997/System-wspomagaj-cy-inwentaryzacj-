@@ -99,14 +99,14 @@ public class WeekCustomRenderer extends DefaultTableCellRenderer {
         Border b;
 
         b = BorderFactory.createCompoundBorder();
-        if (row%4==0) {
+        if (row % 4 == 0) {
             b = BorderFactory.createCompoundBorder(b, BorderFactory.createMatteBorder(2, 0, 0, 0, Color.GRAY));
-        }else{
-             b = BorderFactory.createCompoundBorder(b, BorderFactory.createMatteBorder(1, 0, 0, 0, Color.GRAY));
+        } else {
+            b = BorderFactory.createCompoundBorder(b, BorderFactory.createMatteBorder(1, 0, 0, 0, Color.GRAY));
         }
-        if ((row+1)%4==0) {
+        if ((row + 1) % 4 == 0) {
             b = BorderFactory.createCompoundBorder(b, BorderFactory.createMatteBorder(0, 0, 2, 0, Color.GRAY));
-        }else{
+        } else {
             b = BorderFactory.createCompoundBorder(b, BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
         }
         b = BorderFactory.createCompoundBorder(b, BorderFactory.createMatteBorder(0, 1, 0, 0, Color.GRAY));
@@ -121,9 +121,9 @@ public class WeekCustomRenderer extends DefaultTableCellRenderer {
         JComponent c = (JComponent) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
         if (column != 0) {
-            
+
             drawTimeBorders(row, c);
-            
+
             if (paintCell(row, column, c)) {
                 c.setFont(Font.getFont("ArialBlack"));
             } else {

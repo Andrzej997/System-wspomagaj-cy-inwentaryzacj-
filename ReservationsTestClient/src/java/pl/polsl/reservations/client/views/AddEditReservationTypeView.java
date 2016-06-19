@@ -33,8 +33,8 @@ public class AddEditReservationTypeView extends JPanel {
 
     private static final long serialVersionUID = 1364615314569519183L;
 
-    private final int NORMAL_WIDTH = 200;
-    private final int NORMAL_HEIGHT = 30;
+    private static final int NORMAL_WIDTH = 200;
+    private static final int NORMAL_HEIGHT = 30;
 
     private JLabel typeLb;
     private JComboBox<String> typeCb;
@@ -56,12 +56,12 @@ public class AddEditReservationTypeView extends JPanel {
     private JPanel mainPanel;
     private JPanel navPanel;
 
-    private Image addImg;
-    private Image editImg;
-    private Image deleteImg;
+    private transient Image addImg;
+    private transient Image editImg;
+    private transient Image deleteImg;
 
     private MainView window;
-    private final AddEditReservationTypeMediator addEditReservationTypeMediator;
+    private final transient AddEditReservationTypeMediator addEditReservationTypeMediator;
 
     public AddEditReservationTypeView(MainView window, AddEditReservationTypeMediator addEditReservationTypeMediator) {
         super();
@@ -107,10 +107,10 @@ public class AddEditReservationTypeView extends JPanel {
 
     private void setupView() {
         try {
-            addImg = ImageIO.read(getClass().getResource("/resources/add.png"));
+            addImg = ImageIO.read(AddEditReservationTypeView.class.getResource("/resources/add.png"));
             ButtonStyle.setStyle(addButton, addImg);
-            editImg = ImageIO.read(getClass().getResource("/resources/ok.png"));
-            deleteImg = ImageIO.read(getClass().getResource("/resources/error.png"));
+            editImg = ImageIO.read(AddEditReservationTypeView.class.getResource("/resources/ok.png"));
+            deleteImg = ImageIO.read(AddEditReservationTypeView.class.getResource("/resources/error.png"));
             ButtonStyle.setStyle(deleteButton, deleteImg);
         } catch (IOException ex) {
             Logger.getLogger(AddEditRoomTypeView.class.getName()).log(Level.SEVERE, null, ex);

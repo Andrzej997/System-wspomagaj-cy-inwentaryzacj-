@@ -65,7 +65,7 @@ public class LoginView extends JPanel {
     private void onClickLogin(java.awt.event.ActionEvent evt) {
         if (passwordEditText.getText().length() > 0 && loginEditText.getText().length() > 0) {
             window.setOptionsAvailable(Color.black);
-            if(loginMediator.getUserData(loginEditText.getText(), passwordEditText.getText())){
+            if (loginMediator.getUserData(loginEditText.getText(), passwordEditText.getText())) {
                 window.setView(new AccountViewMediator().createView(window));
                 window.setLogged(true);
             } else {

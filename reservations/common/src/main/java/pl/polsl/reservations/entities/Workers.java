@@ -5,16 +5,17 @@ import java.util.List;
 import javax.persistence.*;
 import pl.polsl.reservations.logger.LoggerImpl;
 
-@NamedQueries({@NamedQuery(name = "getWorkersByName", query = "select w from Workers w where w.workerName = :workerName"),
-                @NamedQuery(name = "getWorkersBySurname", query = "select w from Workers w where w.surname = :surname"),
-                @NamedQuery(name = "getWorkersByGrade", query = "select w from Workers  w where w.grade = :grade"),
-                @NamedQuery(name = "getWorkersByAdress", query = "select w from Workers  w where w.adress = :adress"),
-                @NamedQuery(name = "getWorkerByPesel", query = "select w from Workers  w where w.pesel = :pesel"),
-                @NamedQuery(name = "getRoomsCollectionByKeeperId", query = "select r from Room r where r.keeper.id = :id"),
-                @NamedQuery(name = "getDepartamentByWorkerId", query = "select w.departament from Workers w where w.id = :id"),
-                @NamedQuery(name = "getAllChiefs", query = "select w from Workers w where w.chief is null"),
-                @NamedQuery(name = "getWorkersWhichHaveChief", query = "select w from Workers w where w.chief is not null")
-            })
+@NamedQueries({
+    @NamedQuery(name = "getWorkersByName", query = "select w from Workers w where w.workerName = :workerName"),
+    @NamedQuery(name = "getWorkersBySurname", query = "select w from Workers w where w.surname = :surname"),
+    @NamedQuery(name = "getWorkersByGrade", query = "select w from Workers  w where w.grade = :grade"),
+    @NamedQuery(name = "getWorkersByAdress", query = "select w from Workers  w where w.adress = :adress"),
+    @NamedQuery(name = "getWorkerByPesel", query = "select w from Workers  w where w.pesel = :pesel"),
+    @NamedQuery(name = "getRoomsCollectionByKeeperId", query = "select r from Room r where r.keeper.id = :id"),
+    @NamedQuery(name = "getDepartamentByWorkerId", query = "select w.departament from Workers w where w.id = :id"),
+    @NamedQuery(name = "getAllChiefs", query = "select w from Workers w where w.chief is null"),
+    @NamedQuery(name = "getWorkersWhichHaveChief", query = "select w from Workers w where w.chief is not null")
+})
 
 @Entity
 @Table(name = "WORKERS")
@@ -35,8 +36,7 @@ public class Workers implements Serializable {
     private String grade;
 
     @OneToMany(targetEntity = Room.class, mappedBy = "keeper",
-            cascade = {CascadeType.ALL}
-            , fetch = FetchType.LAZY)
+            cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<Room> roomCollection;
 
     @Column(name = "ADRESS", updatable = true, insertable = true, nullable = false)

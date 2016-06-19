@@ -22,7 +22,7 @@ public interface RoomDao extends AbstractDao<Room> {
     List<Equipment> getEquipmentCollectionById(Number id);
 
     List<RoomSchedule> getRoomScheduleCollectionById(Number id);
-    
+
     List<Room> getRoomWithNumOfSeatsHigherOrEqualThan(Number numberOfSeats);
 
     Room getRoomByKeeper(Workers worker);

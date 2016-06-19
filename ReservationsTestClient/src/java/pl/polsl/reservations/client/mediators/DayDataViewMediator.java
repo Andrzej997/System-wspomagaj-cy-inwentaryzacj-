@@ -73,7 +73,6 @@ public class DayDataViewMediator {
     private DefaultTableModel fillTable(List<ReservationDTO> roomSchedule) {
         DefaultTableModel defaultTableModel = new DayTableModel(32, 3);
         for (ReservationDTO reservation : roomSchedule) {
-            int endDay = reservation.getEndTime() / 96;
             int startDay = reservation.getStartTime() / 96;
             int numberOfEndQuarter = reservation.getEndTime() % 96;
             int numberOfStartQuarter = reservation.getStartTime() % 96;
@@ -101,7 +100,7 @@ public class DayDataViewMediator {
         dayDataView.getPlanView().setModel(defaultTableModel);
         dayDataView.getPlanView().setDefaultRenderer(Object.class,
                 new DayCustomRenderer(reservationCellsRendererMap, startQuarters, endQuarters));
-        
+
         return defaultTableModel;
     }
 

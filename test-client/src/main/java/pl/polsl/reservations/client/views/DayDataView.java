@@ -28,15 +28,15 @@ public class DayDataView extends javax.swing.JPanel {
     private JButton backButton;
     private JTable planView;
     private JLabel weekTv;
-    
+
     private final transient DayDataViewMediator dayDataViewMediator;
 
-    public DayDataView(MainView window, Object i ,DayDataViewMediator dayDataViewMediator) {
+    public DayDataView(MainView window, Object i, DayDataViewMediator dayDataViewMediator) {
         this.window = window;
         this.date = i;
         this.dayDataViewMediator = dayDataViewMediator;
         initComponents();
-        
+
     }
 
     private void initComponents() {
@@ -125,8 +125,8 @@ public class DayDataView extends javax.swing.JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-          //  window.setView(new DayDataView(window, index));
-          window.setView(new DayDataViewMediator().createView(window, index));
+            //  window.setView(new DayDataView(window, index));
+            window.setView(new DayDataViewMediator().createView(window, index));
         }
     }
 
@@ -179,7 +179,7 @@ public class DayDataView extends javax.swing.JPanel {
     }
 
     private void onOkClick(ActionEvent evt) {
-        if(chooseRoomDropdown.getSelectedItem() != null){
+        if (chooseRoomDropdown.getSelectedItem() != null) {
             dayDataViewMediator.getReservations();
         }
     }

@@ -16,6 +16,6 @@ public interface PriviligeLevelsDao extends AbstractDao<PriviligeLevels> {
     List<Priviliges> getPriviligesCollectionById(Number id);
 
     List<Users> getUsersCollectionById(Number id);
-    
+
     PriviligeLevels getPrivligeLevelsEntityByLevelValue(Long levelValue);
 }

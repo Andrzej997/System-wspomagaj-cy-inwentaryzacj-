@@ -6,8 +6,8 @@ import javax.persistence.*;
 import pl.polsl.reservations.logger.LoggerImpl;
 
 @NamedQueries({
-        @NamedQuery(name = "getInstituteByName", query = "select i from Institutes i where i.instituteName = :name"),
-        @NamedQuery(name = "getInstituteByChiefId", query = "select i from Institutes i where i.chief.id = :id")
+    @NamedQuery(name = "getInstituteByName", query = "select i from Institutes i where i.instituteName = :name"),
+    @NamedQuery(name = "getInstituteByChiefId", query = "select i from Institutes i where i.chief.id = :id")
 })
 
 @Entity

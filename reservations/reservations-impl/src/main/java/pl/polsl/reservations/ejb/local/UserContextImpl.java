@@ -14,15 +14,14 @@ import pl.polsl.reservations.privileges.PrivilegeEnum;
 /**
  * Created by Krzysztof Stręk on 2016-05-19.
  */
-public class UserContextImpl implements UserContext, Serializable{
+public class UserContextImpl implements UserContext, Serializable {
 
     private static final long serialVersionUID = 6015626090282768654L;
 
     private EnumSet<PrivilegeEnum> privileges;
     private PrivilegeLevelEnum privilegeLevel;
-    private EntityManager entityManager;
+    private transient EntityManager entityManager;
     private Users user;
-
 
     public UserContextImpl() {
         setPrivilegeLevel(PrivilegeLevelEnum.ADMIN);
@@ -51,9 +50,9 @@ public class UserContextImpl implements UserContext, Serializable{
     public Users getUser() {
         return user;
     }
-    
+
     @Override
-    public void setUser(Users user){
+    public void setUser(Users user) {
         this.user = user;
     }
 

@@ -18,12 +18,12 @@ import pl.polsl.reservations.entities.Users;
  * @author wojcdeb448
  */
 @Singleton
-public class TimerSessionImpl implements TimerSession, Serializable{
+public class TimerSessionImpl implements TimerSession, Serializable {
 
     private static final long serialVersionUID = -8590964040735192767L;
 
     @Resource
-    private SessionContext context;
+    private transient SessionContext context;
 
     @EJB
     UsersDao usersDao;

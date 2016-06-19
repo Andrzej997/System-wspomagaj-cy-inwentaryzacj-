@@ -6,15 +6,15 @@ import java.io.Serializable;
  *
  * @author matis
  */
-public class RoomTypesDTO implements Serializable{
+public class RoomTypesDTO implements Serializable {
 
     private static final long serialVersionUID = 1773308257625843597L;
-    
+
     private Integer id;
     private String shortDescription;
     private String longDescription;
-    
-    public RoomTypesDTO(){
+
+    public RoomTypesDTO() {
     }
 
     /**
@@ -58,6 +58,5 @@ public class RoomTypesDTO implements Serializable{
     public void setLongDescription(String longDescription) {
         this.longDescription = longDescription;
     }
-    
-    
+
 }

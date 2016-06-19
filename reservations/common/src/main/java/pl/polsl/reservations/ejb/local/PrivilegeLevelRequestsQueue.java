@@ -10,10 +10,10 @@ import pl.polsl.reservations.privileges.PrivilegeRequest;
 public interface PrivilegeLevelRequestsQueue {
 
     public boolean addRequest(PrivilegeRequest privilegeRequest);
-    
+
     public boolean removeRequest(PrivilegeRequest privilegeRequest);
-    
+
     public boolean findRequest(PrivilegeRequest privilegeRequest);
-    
+
     public List<PrivilegeRequest> getOperationableRequests(Long maxLevel);
 }

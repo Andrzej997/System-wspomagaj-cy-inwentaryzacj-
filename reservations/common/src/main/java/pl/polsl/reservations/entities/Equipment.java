@@ -3,8 +3,9 @@ package pl.polsl.reservations.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 import pl.polsl.reservations.logger.LoggerImpl;
+
 @NamedQueries({
-        @NamedQuery(name = "getEquipmentByRoomNumber", query = "select e from Equipment e where e.room.roomNumber = :roomNumber")
+    @NamedQuery(name = "getEquipmentByRoomNumber", query = "select e from Equipment e where e.room.roomNumber = :roomNumber")
 })
 
 @Entity

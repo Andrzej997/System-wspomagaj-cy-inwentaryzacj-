@@ -34,7 +34,7 @@ public class WeekDataViewMediator {
         weekDataView.getChooseRoomDropdown()
                 .setSelectedItem(weekDataView.getSelectedItem());
         getReservations();
-        
+
         return weekDataView;
     }
 
@@ -45,7 +45,7 @@ public class WeekDataViewMediator {
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         int weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
 
-        List<ReservationDTO> roomSchedule = scheduleFacade.getRoomSchedule((Integer)weekDataView.getChooseRoomDropdown().getSelectedItem(), 2016, true);
+        List<ReservationDTO> roomSchedule = scheduleFacade.getRoomSchedule((Integer) weekDataView.getChooseRoomDropdown().getSelectedItem(), 2016, true);
 
         DefaultTableModel defaultTableModel = new DefaultTableModel(32, 7);
 
@@ -54,44 +54,44 @@ public class WeekDataViewMediator {
             int startDay = reservation.getEndTime() / 96;
             int numberOfEndQuarter = reservation.getStartTime() % 96 - 32; //r�znica mi�dzy godzinami w bazie i tabeli
             int numberOfStartQuarter = reservation.getEndTime() % 96 - 32;
-            
-            if(numberOfEndQuarter>31){
-                numberOfEndQuarter=31;
+
+            if (numberOfEndQuarter > 31) {
+                numberOfEndQuarter = 31;
             }
-            
-            if(numberOfEndQuarter<0){
-                numberOfEndQuarter=0;
+
+            if (numberOfEndQuarter < 0) {
+                numberOfEndQuarter = 0;
             }
-            
-            if(numberOfStartQuarter>31){
-                numberOfStartQuarter=31;
+
+            if (numberOfStartQuarter > 31) {
+                numberOfStartQuarter = 31;
             }
-            
-            if(numberOfStartQuarter<0){
-                numberOfStartQuarter=0;
+
+            if (numberOfStartQuarter < 0) {
+                numberOfStartQuarter = 0;
             }
-            
 
             for (int i = startDay; i <= endDay; i++) {
                 for (int j = numberOfStartQuarter; j <= numberOfEndQuarter; j++) {
                     defaultTableModel.setValueAt("T", j, i);
-                    
+
                 }
             }
         });
         weekDataView.getPlanView().setModel(defaultTableModel);
         weekDataView.getPlanView().setDefaultRenderer(Object.class, new CustomRenderer());
-    /*    
+        /*    
         DefaultTableModel model = (DefaultTableModel)weekDataView.getPlanView().getModel();
         TableColumnModel columnModel = weekDataView.getPlanView().getColumnModel();
         for(int i = 0; i< columnModel.getColumnCount(); i++){
             columnModel.getColumn(i).setCellRenderer(new CustomRenderer());
         }*/
     }
-    public void getRooms(){
+
+    public void getRooms() {
         List<RoomDTO> roomsList = roomManagementFacade.getRoomsList();
         roomsList.stream().forEach((room) -> {
             weekDataView.getChooseRoomDropdown().addItem(room.getNumber());
-        });    
+        });
     }
 }

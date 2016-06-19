@@ -1,6 +1,5 @@
 package pl.polsl.reservations.interceptors;
 
-
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;

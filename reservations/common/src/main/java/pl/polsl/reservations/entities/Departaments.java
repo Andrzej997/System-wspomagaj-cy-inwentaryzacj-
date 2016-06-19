@@ -6,15 +6,15 @@ import javax.persistence.*;
 import pl.polsl.reservations.logger.LoggerImpl;
 
 @NamedQueries({
-        @NamedQuery(name = "getDepartamentByName", query = "select d from Departaments d where d.depratamentName like :name"),
-        @NamedQuery(name = "findDepartametsHavingWorkers", query = "select d from Departaments d where d.workersCollection is not empty"),
-        @NamedQuery(name = "getDepartamentByChiefId", query = "select d from Departaments d where d.chief.id = :id")
+    @NamedQuery(name = "getDepartamentByName", query = "select d from Departaments d where d.depratamentName like :name"),
+    @NamedQuery(name = "findDepartametsHavingWorkers", query = "select d from Departaments d where d.workersCollection is not empty"),
+    @NamedQuery(name = "getDepartamentByChiefId", query = "select d from Departaments d where d.chief.id = :id")
 })
 
 @Entity
 @Table(name = "DEPARTAMENTS")
 @EntityListeners(LoggerImpl.class)
-public class Departaments implements Serializable{
+public class Departaments implements Serializable {
 
     private static final long serialVersionUID = 61654414912214227L;
 

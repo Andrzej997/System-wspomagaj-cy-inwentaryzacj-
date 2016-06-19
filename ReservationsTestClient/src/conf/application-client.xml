@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <application-client version="7" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/application-client_7.xsd">
-  <display-name>ReservationsTestClient</display-name>
-  <resource-ref>
-    <res-ref-name>jms/reservationsQueueFactory</res-ref-name>
-    <res-type>javax.jms.ConnectionFactory</res-type>
-    <res-auth>Container</res-auth>
-    <res-sharing-scope>Shareable</res-sharing-scope>
-  </resource-ref>
-  <message-destination-ref>
-    <message-destination-ref-name>jms/reservationsQueue</message-destination-ref-name>
-    <message-destination-type>javax.jms.Queue</message-destination-type>
-    <message-destination-usage>Produces</message-destination-usage>
-    <message-destination-link>jms/reservationsQueue</message-destination-link>
-  </message-destination-ref>
-  <message-destination-ref>
-    <message-destination-ref-name>jms/reservationsQueue1</message-destination-ref-name>
-    <message-destination-type>javax.jms.Queue</message-destination-type>
-    <message-destination-usage>Produces</message-destination-usage>
-    <message-destination-link>jms/reservationsQueue</message-destination-link>
-  </message-destination-ref>
+    <display-name>ReservationsTestClient</display-name>
+    <resource-ref>
+        <res-ref-name>jms/reservationsQueueFactory</res-ref-name>
+        <res-type>javax.jms.ConnectionFactory</res-type>
+        <res-auth>Container</res-auth>
+        <res-sharing-scope>Shareable</res-sharing-scope>
+    </resource-ref>
+    <message-destination-ref>
+        <message-destination-ref-name>jms/reservationsQueue</message-destination-ref-name>
+        <message-destination-type>javax.jms.Queue</message-destination-type>
+        <message-destination-usage>Produces</message-destination-usage>
+        <message-destination-link>jms/reservationsQueue</message-destination-link>
+    </message-destination-ref>
+    <message-destination-ref>
+        <message-destination-ref-name>jms/reservationsQueue1</message-destination-ref-name>
+        <message-destination-type>javax.jms.Queue</message-destination-type>
+        <message-destination-usage>Produces</message-destination-usage>
+        <message-destination-link>jms/reservationsQueue</message-destination-link>
+    </message-destination-ref>
 </application-client>

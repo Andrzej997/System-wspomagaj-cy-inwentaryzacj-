@@ -37,10 +37,10 @@ public class AddEditView extends JPanel {
     private JComboBox hourStopCb;
     private JTextField titleTf;
     private JComboBox teacherCb;
-    
+
     private final transient AddEditViewMediator addEditViewMediator;
 
-    public AddEditView(MainView window,AddEditViewMediator addEditViewMediator) {
+    public AddEditView(MainView window, AddEditViewMediator addEditViewMediator) {
         super(new BorderLayout());
         this.window = window;
         this.addEditViewMediator = addEditViewMediator;

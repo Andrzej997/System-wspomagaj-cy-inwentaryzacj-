@@ -9,9 +9,9 @@ import javax.transaction.UserTransaction;
 public interface AbstractDao<T> {
 
     void setUserContext(String userCertificate);
-    
+
     void setUserContext(UserContext userContext);
-    
+
     UsersCertifcatesPool getUsersCertifcatesPool();
 
     UserTransaction getUserTransaction();

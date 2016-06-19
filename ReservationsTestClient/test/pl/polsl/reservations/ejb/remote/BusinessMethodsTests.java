@@ -9,5 +9,5 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({RoomManagementFacadeTests.class})
-public class BusinessMethodsTests {    
+public class BusinessMethodsTests {
 }

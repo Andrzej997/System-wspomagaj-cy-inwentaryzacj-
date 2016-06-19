@@ -33,8 +33,8 @@ public class AddEditInstituteView extends JPanel {
 
     private static final long serialVersionUID = 1364615314569519183L;
 
-    private final int NORMAL_WIDTH = 200;
-    private final int NORMAL_HEIGHT = 30;
+    private static final int NORMAL_WIDTH = 200;
+    private static final int NORMAL_HEIGHT = 30;
 
     private JLabel instituteLb;
     private JComboBox<String> instituteCb;
@@ -53,12 +53,12 @@ public class AddEditInstituteView extends JPanel {
     private JPanel mainPanel;
     private JPanel navPanel;
 
-    private Image addImg;
-    private Image editImg;
-    private Image deleteImg;
+    private transient Image addImg;
+    private transient Image editImg;
+    private transient Image deleteImg;
 
     private final MainView window;
-    private final AddEditInstituteMediator addEditInstituteMediator;
+    private final transient AddEditInstituteMediator addEditInstituteMediator;
 
     public AddEditInstituteView(MainView window, AddEditInstituteMediator addEditInstituteMediator) {
         super();
@@ -109,10 +109,10 @@ public class AddEditInstituteView extends JPanel {
 
     private void setupView() {
         try {
-            addImg = ImageIO.read(getClass().getResource("/resources/add.png"));
+            addImg = ImageIO.read(AddEditInstituteView.class.getResource("/resources/add.png"));
             ButtonStyle.setStyle(addButton, addImg);
-            editImg = ImageIO.read(getClass().getResource("/resources/ok.png"));
-            deleteImg = ImageIO.read(getClass().getResource("/resources/error.png"));
+            editImg = ImageIO.read(AddEditInstituteView.class.getResource("/resources/ok.png"));
+            deleteImg = ImageIO.read(AddEditInstituteView.class.getResource("/resources/error.png"));
             ButtonStyle.setStyle(deleteButton, deleteImg);
         } catch (IOException ex) {
             Logger.getLogger(AddEditRoomTypeView.class.getName()).log(Level.SEVERE, null, ex);

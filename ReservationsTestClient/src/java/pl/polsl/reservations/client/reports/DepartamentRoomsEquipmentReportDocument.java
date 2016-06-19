@@ -147,7 +147,7 @@ public class DepartamentRoomsEquipmentReportDocument extends PDFDocument {
         Phrase roomNumber = new Phrase(roomNumberString, FontUtils.BOLD);
         header.add(roomNumber);
         header.add(Chunk.NEWLINE);
-        if (roomDTO.getKeeperId().toString() != null) {
+        if (roomDTO.getKeeperId() != null) {
             String roomKeeperString = "Room keeper: " + roomDTO.getKeeperId().toString();
             Phrase roomKeeper = new Phrase(roomKeeperString, FontUtils.BOLD);
             header.add(roomKeeper);
@@ -308,7 +308,7 @@ public class DepartamentRoomsEquipmentReportDocument extends PDFDocument {
     }
 
     private PdfPCell createContentTable(ReservationDTO reservation, Integer startTime, Integer endTime, Integer row) {
-        PdfPCell cell = new PdfPCell(new Phrase("", FontUtils.SMALL));
+        PdfPCell cell = null;
         if (Objects.equals(row, startTime)) {
             cell = new PdfPCell(new Phrase(reservation.getType(), FontUtils.SMALL));
             cell.setBorder(Rectangle.TOP + Rectangle.LEFT + Rectangle.RIGHT);

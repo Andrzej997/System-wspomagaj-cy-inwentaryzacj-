@@ -46,14 +46,12 @@ public class AssignToUnitMediator {
     private void getInstituteData() {
         Long currentUserId = ClientContext.getInstance().getCurrentUserId();
         List<InstituteDTO> allInstitutes = userManagementFacade.getAllInstitutes();
-        if(allInstitutes == null || allInstitutes.isEmpty()){
+        if (allInstitutes == null || allInstitutes.isEmpty()) {
             return;
         }
-        if (allInstitutes != null) {
-            for (InstituteDTO institute : allInstitutes) {
-                if (institute.getChefId().equals(currentUserId)) {
-                    selectedInstitute = institute;
-                }
+        for (InstituteDTO institute : allInstitutes) {
+            if (institute.getChefId().equals(currentUserId)) {
+                selectedInstitute = institute;
             }
         }
         if (ClientContext.getInstance().isAdmin()) {
@@ -70,7 +68,7 @@ public class AssignToUnitMediator {
             return;
         }
         List<DepartamentDTO> allDepartaments = userManagementFacade.getAllDepartaments();
-        if(allDepartaments == null || allDepartaments.isEmpty()){
+        if (allDepartaments == null || allDepartaments.isEmpty()) {
             return;
         }
         for (DepartamentDTO departament : allDepartaments) {
@@ -86,7 +84,7 @@ public class AssignToUnitMediator {
 
     private void getRooms() {
         List<RoomDTO> roomsList = roomManagementFacade.getRoomsList();
-        if(roomsList == null || roomsList.isEmpty()){
+        if (roomsList == null || roomsList.isEmpty()) {
             return;
         }
         HashMap<Integer, List<Integer>> numbersMap = new HashMap<>();
@@ -171,16 +169,16 @@ public class AssignToUnitMediator {
         if (room == null) {
             return;
         }
-        if(!room.getDepartment().equals(departament.getName())){
-            if(!MessageBoxUtils.roomAlreadyAssignedWarrning(assignToUnitView, room.getDepartment())){
+        if (!room.getDepartment().equals(departament.getName())) {
+            if (!MessageBoxUtils.roomAlreadyAssignedWarrning(assignToUnitView, room.getDepartment())) {
                 return;
             }
         }
-        if(room.getDepartment().equals(departament.getName())){
+        if (room.getDepartment().equals(departament.getName())) {
             return;
         }
         roomManagementFacade.assignRoomToDepartament(room.getId(), departament.getId());
-        
+
     }
 
 }

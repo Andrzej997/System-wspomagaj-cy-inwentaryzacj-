@@ -76,12 +76,12 @@ public class AddEditDepartamentMediator {
                 List<UserDTO> possibleChiefs = userManagementFacade.getPossibleChiefs(4);
                 Long departamentChiefID = roomManagementFacade.getDepartamentChief(departamentDTO.getId());
                 UserDTO chief = null;
-                for(UserDTO user : possibleChiefs){
-                    if(user.getId().equals(departamentChiefID)){
+                for (UserDTO user : possibleChiefs) {
+                    if (user.getId().equals(departamentChiefID)) {
                         chief = user;
                     }
                 }
-                if(chief == null){
+                if (chief == null) {
                     return;
                 }
                 Integer counter = 0;

@@ -11,19 +11,19 @@ public class InstituteDTO implements Serializable {
     private static final long serialVersionUID = -4052463672452317142L;
 
     private Long id;
-    
+
     private String name;
 
     private Long chefId;
 
-    public InstituteDTO(){
+    public InstituteDTO() {
     }
 
     public InstituteDTO(Long id, String name) {
         this.id = id;
         this.name = name;
     }
-    
+
     public Long getId() {
         return id;
     }

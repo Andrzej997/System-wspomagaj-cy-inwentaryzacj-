@@ -30,12 +30,13 @@ public class LoginMediator {
 
         return roomsList.get(0).getNumber();
     }
+
     public LoginView createView(MainView parent) {
         loginWindow = new LoginView(parent, this);
         return loginWindow;
     }
-    
-    public void loginAsGuest(){
+
+    public void loginAsGuest() {
         userFacade.loginAsGuest();
     }
 }

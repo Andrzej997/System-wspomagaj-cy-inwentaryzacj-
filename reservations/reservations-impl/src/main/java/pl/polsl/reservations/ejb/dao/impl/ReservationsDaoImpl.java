@@ -34,14 +34,14 @@ public class ReservationsDaoImpl extends AbstractDaoImpl<Reservations> implement
     }
 
     @Override
-    public List<Reservations> getAllReservationsByRoomSchedule(RoomSchedule roomSchedule){
+    public List<Reservations> getAllReservationsByRoomSchedule(RoomSchedule roomSchedule) {
         Query query = getEntityManager().createNamedQuery("getAllReservationsByRoomSchedule", Reservations.class);
         query.setParameter("roomSchedule", roomSchedule);
         return query.getResultList();
     }
 
     @Override
-    public List<Reservations> getAllWeekReservations(int week, int year){
+    public List<Reservations> getAllWeekReservations(int week, int year) {
         Query query = getEntityManager().createNamedQuery("getAllWeekReservations", Reservations.class);
         query.setParameter("year", year);
         query.setParameter("week", week);
@@ -49,7 +49,7 @@ public class ReservationsDaoImpl extends AbstractDaoImpl<Reservations> implement
     }
 
     @Override
-    public List<Reservations> getCurrentDateReservations(){
+    public List<Reservations> getCurrentDateReservations() {
         Query query = getEntityManager().createNamedQuery("getAllWeekReservations", Reservations.class);
         Calendar c = Calendar.getInstance();
         query.setParameter("year", c.get(Calendar.YEAR));
@@ -58,14 +58,14 @@ public class ReservationsDaoImpl extends AbstractDaoImpl<Reservations> implement
     }
 
     @Override
-    public List<Reservations> getAllReservationsByType(Long typeId){
+    public List<Reservations> getAllReservationsByType(Long typeId) {
         Query query = getEntityManager().createNamedQuery("getAllReservationsByType", Reservations.class);
         query.setParameter("typeId", typeId);
         return query.getResultList();
     }
 
     @Override
-    public List<Reservations> getAllReservationsByUser(Long userId){
+    public List<Reservations> getAllReservationsByUser(Long userId) {
         Query query = getEntityManager().createNamedQuery("getAllReservationsByUser", Reservations.class);
         query.setParameter("userId", userId);
         return query.getResultList();
@@ -92,7 +92,7 @@ public class ReservationsDaoImpl extends AbstractDaoImpl<Reservations> implement
     }
 
     @Override
-    protected void getDependencies(){
+    protected void getDependencies() {
         try {
             roomScheduleFacadeRemote = new RoomScheduleDaoImpl();
             reservationTypesFacadeRemote = new ReservationTypesDaoImpl();

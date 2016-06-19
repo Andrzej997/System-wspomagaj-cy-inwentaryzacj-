@@ -13,7 +13,7 @@ public class DepartamentDTO implements Serializable {
     private Long id;
 
     private String name;
-    
+
     private InstituteDTO institute;
 
     public DepartamentDTO() {
@@ -24,7 +24,7 @@ public class DepartamentDTO implements Serializable {
         this.name = name;
         this.institute = institute;
     }
-    
+
     public Long getId() {
         return id;
     }
@@ -48,6 +48,5 @@ public class DepartamentDTO implements Serializable {
     public void setInstitute(InstituteDTO institute) {
         this.institute = institute;
     }
-    
 
 }

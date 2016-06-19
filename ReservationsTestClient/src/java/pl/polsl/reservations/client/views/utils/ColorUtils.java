@@ -37,16 +37,16 @@ public class ColorUtils {
         }
         return color;
     }
-    
-    public static String[] getColorList(){
-        return COLORS;
+
+    public static String[] getColorList() {
+        return COLORS.clone();
     }
-    
-    public static List<Color> getColors(){
+
+    public static List<Color> getColors() {
         List<Color> result = new ArrayList<>();
-        for(String colorString : COLORS){
+        for (String colorString : COLORS) {
             Color color = getColor(colorString);
-            if(color != null){
+            if (color != null) {
                 result.add(color);
             }
         }

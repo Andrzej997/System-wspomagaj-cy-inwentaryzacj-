@@ -57,5 +57,4 @@ public abstract class PDFDocument {
         this.pathToResultFile = pathToResultFile;
     }
 
-
 }

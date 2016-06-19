@@ -139,14 +139,7 @@ public class MainView extends JFrame {
 
         pack();
 
-        this.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                Lookup.removeUserCertificate();
-                System.exit(0);
-            }
-        }
-        );
+        this.addWindowListener(new WindowAdapterImpl());
 
     }
 
@@ -185,7 +178,7 @@ public class MainView extends JFrame {
     }
 
     private void tutorialMenuItemActionPerformed(ActionEvent evt) {
-            tutorialFrame = FrameStyle.dialogStyle(new TutorialView(this), "Tutorial");
+        tutorialFrame = FrameStyle.dialogStyle(new TutorialView(this), "Tutorial");
     }
 
     private void exitMenuItemActionPerformed(ActionEvent evt) {
@@ -955,6 +948,18 @@ public class MainView extends JFrame {
 
     public JDialog getAssignRoomToDepartamentFrame() {
         return assignRoomToDepartamentFrame;
+    }
+
+    private static class WindowAdapterImpl extends WindowAdapter {
+
+        public WindowAdapterImpl() {
+        }
+
+        @Override
+        public void windowClosing(WindowEvent e) {
+            Lookup.removeUserCertificate();
+            System.exit(0);
+        }
     }
 
 }

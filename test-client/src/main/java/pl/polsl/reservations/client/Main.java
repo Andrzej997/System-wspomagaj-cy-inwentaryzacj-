@@ -19,29 +19,27 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-
     public static void main(String[] args) {
-        
+
         //pobranie lookupem dostępnych dla klienta fasad
         //generalnie pobierajcie wedle potrzeb tu macie przykład jak pobrać wszystkie
-        UserManagementFacade userManagementFacadeRemote =
-                (UserManagementFacade)Lookup.getRemote("UserManagementFacade");
+        UserManagementFacade userManagementFacadeRemote
+                = (UserManagementFacade) Lookup.getRemote("UserManagementFacade");
         UserFacade userFacadeRemote = (UserFacade) Lookup.getRemote("UserFacade");
-        RoomManagementFacade roomManagementFacade =
-                (RoomManagementFacade) Lookup.getRemote("RoomManagementFacade");
+        RoomManagementFacade roomManagementFacade
+                = (RoomManagementFacade) Lookup.getRemote("RoomManagementFacade");
         ScheduleFacade scheduleFacadeRemote = (ScheduleFacade) Lookup.getRemote("ScheduleFacade");
-        
+
         //uzycie dowolnej metody zdalnej:
         //Long privilige = userFacadeRemote.getUserPrivilege();
 //        System.out.println("Privilige level: " + privilige);
-
 //        List<RoomDTO> roomsList = roomManagementFacade.getRoomsList();
         userFacadeRemote.login("m1@onet.pl", "123");
         List<RoomDTO> roomsList2 = roomManagementFacade.getRoomsList();
 
         List<EquipmentDTO> res = roomManagementFacade.getDepartmentEquipment(1);
         try {
-            roomManagementFacade.addEquipment(6, "asdasdasd", 3, (short)1, (short)1);
+            roomManagementFacade.addEquipment(6, "asdasdasd", 3, (short) 1, (short) 1);
             roomManagementFacade.moveEquipment(1, 2);
         } catch (UnauthorizedAccessException e) {
             e.printStackTrace();

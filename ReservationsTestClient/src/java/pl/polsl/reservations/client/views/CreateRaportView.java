@@ -37,8 +37,8 @@ public class CreateRaportView extends JPanel {
 
     private static final long serialVersionUID = -2093933144982918107L;
 
-    private final int NORMAL_WIDTH = 200;
-    private final int NORMAL_HEIGHT = 30;
+    private static final int NORMAL_WIDTH = 200;
+    private static final int NORMAL_HEIGHT = 30;
 
     private MainView window;
     private AddTypeEnum option;
@@ -73,7 +73,7 @@ public class CreateRaportView extends JPanel {
     private JButton editButton;
     private JButton deleteButton;
 
-    private final CreateReportViewMediator createReportViewMediator;
+    private final transient CreateReportViewMediator createReportViewMediator;
 
     public CreateRaportView(MainView window, AddTypeEnum option, CreateReportViewMediator createReportViewMediator) {
         this.window = window;
@@ -196,7 +196,7 @@ public class CreateRaportView extends JPanel {
                 return;
             }
             if (ClientContext.getInstance().checkUserPrivilegesToAction("TECHNICAL_CHIEF")) {
-            createReportViewMediator.onEditAction();
+                createReportViewMediator.onEditAction();
             } else {
                 MessageBoxUtils.createPrivilegeError(this);
             }
@@ -217,11 +217,11 @@ public class CreateRaportView extends JPanel {
 
     private void setupButton() {
         try {
-            Image img = ImageIO.read(getClass().getResource("/resources/add.png"));
+            Image img = ImageIO.read(CreateRaportView.class.getResource("/resources/add.png"));
             ButtonStyle.setStyle(okButton, img);
-            Image img2 = ImageIO.read(getClass().getResource("/resources/ok.png"));
+            Image img2 = ImageIO.read(CreateRaportView.class.getResource("/resources/ok.png"));
             ButtonStyle.setStyle(editButton, img2);
-            Image img3 = ImageIO.read(getClass().getResource("/resources/error.png"));
+            Image img3 = ImageIO.read(CreateRaportView.class.getResource("/resources/error.png"));
             ButtonStyle.setStyle(deleteButton, img3);
         } catch (IOException ex) {
             System.out.println("RESOURCE ERROR: " + ex.toString());

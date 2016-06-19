@@ -5,10 +5,10 @@ import javax.persistence.*;
 import pl.polsl.reservations.logger.LoggerImpl;
 
 @NamedQueries({
-        @NamedQuery(name = "getAllReservationsByRoomSchedule", query = "select r from Reservations  r where r.roomSchedule = :roomSchedule"),
-        @NamedQuery(name = "getAllWeekReservations", query = "select r from Reservations  r where r.roomSchedule.week = :week and r.roomSchedule.year = :year"),
-        @NamedQuery(name = "getAllReservationsByType", query = "select r from Reservations r where r.reservationType.id = :id"),
-        @NamedQuery(name = "getAllReservationsByUser", query = "select r from Reservations r where r.user.id = :id")
+    @NamedQuery(name = "getAllReservationsByRoomSchedule", query = "select r from Reservations  r where r.roomSchedule = :roomSchedule"),
+    @NamedQuery(name = "getAllWeekReservations", query = "select r from Reservations  r where r.roomSchedule.week = :week and r.roomSchedule.year = :year"),
+    @NamedQuery(name = "getAllReservationsByType", query = "select r from Reservations r where r.reservationType.id = :id"),
+    @NamedQuery(name = "getAllReservationsByUser", query = "select r from Reservations r where r.user.id = :id")
 })
 
 @Entity

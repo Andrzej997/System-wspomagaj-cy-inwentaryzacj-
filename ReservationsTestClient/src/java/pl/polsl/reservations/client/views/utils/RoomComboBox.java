@@ -19,15 +19,14 @@ public class RoomComboBox extends JPanel {
     private final Hashtable subItems = new Hashtable();
     private String previouslySelectedRoom;
 
-    
-    public RoomComboBox(){
+    public RoomComboBox() {
         mainComboBox = new JComboBox();
         add(mainComboBox, BorderLayout.WEST);
         subComboBox = new JComboBox();
         PanelStyle.setSize(mainComboBox, 85, 22);
         subComboBox.setPrototypeDisplayValue("XXXXXXXXXX");
         add(subComboBox, BorderLayout.EAST);
-          PanelStyle.setSize(subComboBox, 85, 22);
+        PanelStyle.setSize(subComboBox, 85, 22);
         previouslySelectedRoom = null;
     }
 
@@ -54,8 +53,8 @@ public class RoomComboBox extends JPanel {
         mainComboBox.addActionListener(l);
         subComboBox.addActionListener(l);
     }
-    
-    public void addItemListener(ItemListener l){
+
+    public void addItemListener(ItemListener l) {
         mainComboBox.addItemListener(l);
         subComboBox.addItemListener(l);
     }
@@ -78,7 +77,7 @@ public class RoomComboBox extends JPanel {
     }
 
     public void selectItem(Integer floor, Integer roomNumber) {
-        if (floor == null && roomNumber == null) {
+        if (floor == null || roomNumber == null) {
             return;
         }
         mainComboBox.setSelectedItem(floor.toString());
@@ -86,7 +85,7 @@ public class RoomComboBox extends JPanel {
         if (selectedItem instanceof Object[]) {
             Object[] selectedStrings = (Object[]) selectedItem;
             for (Object item : selectedStrings) {
-                String stringItem = (String)item;
+                String stringItem = (String) item;
                 if (stringItem.equals(roomNumber.toString())) {
                     subComboBox.setModel(new DefaultComboBoxModel(selectedStrings));
                     subComboBox.setSelectedItem(stringItem);
@@ -97,12 +96,12 @@ public class RoomComboBox extends JPanel {
 
     public Integer getSelectedItem() {
         String selectedFloor = (String) mainComboBox.getSelectedItem();
-        if(selectedFloor == null){
+        if (selectedFloor == null) {
             return null;
         }
         Integer selectedFloorNumber = Integer.parseInt(selectedFloor);
         String selectedRoom = (String) subComboBox.getSelectedItem();
-        if(selectedRoom == null){
+        if (selectedRoom == null) {
             return null;
         }
         Integer selectedRoomNumber = Integer.parseInt(selectedRoom);

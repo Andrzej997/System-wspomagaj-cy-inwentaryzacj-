@@ -27,7 +27,8 @@ public class EquipmentDTO implements Serializable {
         this.state = state;
     }
 
-    public EquipmentDTO() {}
+    public EquipmentDTO() {
+    }
 
     public Long getId() {
         return id;

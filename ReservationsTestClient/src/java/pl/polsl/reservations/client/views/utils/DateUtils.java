@@ -47,36 +47,37 @@ public class DateUtils {
 
         return weekOfSemester;
     }
-    
+
     /**
-     * 
+     *
      * @param firstDate
      * @param secondDate
-     * @return 1 firstDate > secondDate, 0 firstDate == SecondDate, -1 firstDate < secondDate
+     * @return 1 firstDate > secondDate, 0 firstDate == SecondDate, -1 firstDate
+     * < secondDate
      */
-    public static Integer compareDates(Calendar firstDate, Calendar secondDate){
-        if(firstDate.after(secondDate)){
+    public static Integer compareDates(Calendar firstDate, Calendar secondDate) {
+        if (firstDate.after(secondDate)) {
             return 1;
-        } else if(firstDate.before(secondDate)){
+        } else if (firstDate.before(secondDate)) {
             return -1;
         } else {
             return 0;
         }
     }
-    
-    public static Calendar cutTime(Calendar date){
+
+    public static Calendar cutTime(Calendar date) {
         date.set(Calendar.HOUR_OF_DAY, 0);
-        date.set(Calendar.MINUTE,0);
+        date.set(Calendar.MINUTE, 0);
         date.set(Calendar.SECOND, 0);
         date.set(Calendar.MILLISECOND, 0);
         return date;
     }
-    
-    public static Integer compareDatesWithoutTime(Calendar firstDate, Calendar secondDate){
+
+    public static Integer compareDatesWithoutTime(Calendar firstDate, Calendar secondDate) {
         return compareDates(cutTime(firstDate), cutTime(secondDate));
     }
-    
-    public static Integer getYear(Calendar date){
+
+    public static Integer getYear(Calendar date) {
         return date.get(Calendar.YEAR);
     }
 }

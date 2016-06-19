@@ -13,7 +13,6 @@ import pl.polsl.reservations.logger.LoggerImpl;
 /**
  * Created by Krzysztof Stręk on 2016-05-12.
  */
-
 @Stateful
 @Interceptors({LoggerImpl.class})
 public class ScheduleFactoryImpl implements ScheduleFactory {
@@ -26,7 +25,7 @@ public class ScheduleFactoryImpl implements ScheduleFactory {
 
     @EJB
     RoomDao roomDAO;
-    
+
     public ScheduleFactoryImpl() {
     }
 

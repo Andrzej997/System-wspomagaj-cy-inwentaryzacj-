@@ -35,11 +35,11 @@ public class AssignRoomView extends JPanel {
 
     private static final long serialVersionUID = 5936728539420292688L;
 
-    private final int NORMAL_WIDTH = 200;
-    private final int NORMAL_HEIGHT = 30;
+    private static final int NORMAL_WIDTH = 200;
+    private static final int NORMAL_HEIGHT = 30;
 
     private final MainView window;
-    private final AssignRoomMediator assignRoomMediator;
+    private final transient AssignRoomMediator assignRoomMediator;
 
     private JLabel workerLb;
     private JComboBox<String> workerCb;
@@ -68,7 +68,7 @@ public class AssignRoomView extends JPanel {
 
     private JButton addButton;
 
-    private Image addImg;
+    private transient Image addImg;
 
     public AssignRoomView(MainView window, AssignRoomMediator assignRoomMediator) {
         super();
@@ -107,26 +107,26 @@ public class AssignRoomView extends JPanel {
         PanelStyle.setSize(workerLb, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(workerCb, NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(roomLb, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(roomCb,NORMAL_WIDTH, NORMAL_HEIGHT, true);
+        PanelStyle.setSize(roomCb, NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(currentKeeperLb, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(currentKeeperContentLb, NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(roomTypeLb, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(roomTypeContentLb,NORMAL_WIDTH, NORMAL_HEIGHT, true);
+        PanelStyle.setSize(roomTypeContentLb, NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(roomSeatsLb, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(roomSeatsContentLb,NORMAL_WIDTH, NORMAL_HEIGHT, true);
+        PanelStyle.setSize(roomSeatsContentLb, NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(asKeeperLb, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(asKeeperChb,NORMAL_WIDTH, NORMAL_HEIGHT);
+        PanelStyle.setSize(asKeeperChb, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(currentWorkersLb, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(currentWorkersLs, NORMAL_WIDTH, NORMAL_WIDTH, true);
         PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 270);
         PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 270);
-       
+
         PanelStyle.setSize(mainPanel, 2 * NORMAL_WIDTH, 330);
     }
 
     private void setupView() {
         try {
-            addImg = ImageIO.read(getClass().getResource("/resources/add.png"));
+            addImg = ImageIO.read(AssignRoomView.class.getResource("/resources/add.png"));
             ButtonStyle.setStyle(addButton, addImg);
         } catch (IOException ex) {
             Logger.getLogger(AddEditRoomTypeView.class.getName()).log(Level.SEVERE, null, ex);
@@ -178,7 +178,7 @@ public class AssignRoomView extends JPanel {
         labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS));
         dataPanel.setLayout(new BoxLayout(dataPanel, BoxLayout.Y_AXIS));
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
-        
+
     }
 
     private void keyInputDispatcher() {

@@ -15,5 +15,5 @@ class GenerateRaportView extends JPanel {
 
     public GenerateRaportView(MainView window) {
     }
-    
+
 }

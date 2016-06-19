@@ -115,13 +115,13 @@ public class DayDataView extends javax.swing.JPanel {
 
     private void setupButtons() {
         try {
-            Image img = ImageIO.read(getClass().getResource("/resources/left.png"));
+            Image img = ImageIO.read(DayDataView.class.getResource("/resources/left.png"));
             ButtonStyle.setStyle(prevBtn, img);
-            Image img2 = ImageIO.read(getClass().getResource("/resources/right.png"));
+            Image img2 = ImageIO.read(DayDataView.class.getResource("/resources/right.png"));
             ButtonStyle.setStyle(nextBtn, img2);
-            Image img3 = ImageIO.read(getClass().getResource("/resources/calendar.png"));
+            Image img3 = ImageIO.read(DayDataView.class.getResource("/resources/calendar.png"));
             ButtonStyle.setStyle(calendarBtn, img3);
-            Image img4 = ImageIO.read(getClass().getResource("/resources/back.png"));
+            Image img4 = ImageIO.read(DayDataView.class.getResource("/resources/back.png"));
             ButtonStyle.setStyle(backBtn, img4);
         } catch (IOException ex) {
             System.out.println("RESOURCE ERROR: " + ex.toString());
@@ -162,12 +162,8 @@ public class DayDataView extends javax.swing.JPanel {
 
     private void datePickerChange(ActionEvent e) {
         Calendar data = datePicker.getDate();
-        if (data != null) {
-            date.set(data.get(Calendar.YEAR), data.get(Calendar.MONTH), data.get(Calendar.DATE));
-            date.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-            // endDate.set(data.get(Calendar.YEAR), data.get(Calendar.MONTH), data.get(Calendar.DATE));
-            // endDate.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-        }
+        date.set(data.get(Calendar.YEAR), data.get(Calendar.MONTH), data.get(Calendar.DATE));
+        date.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         dayDataViewMediator.setDate(data);
         dayDataViewMediator.getReservations();
     }
@@ -181,7 +177,7 @@ public class DayDataView extends javax.swing.JPanel {
         setDateText();
 
         dayDataViewMediator.setDate(date);
-        
+
         dayDataViewMediator.getReservations();
     }
 
@@ -194,7 +190,7 @@ public class DayDataView extends javax.swing.JPanel {
         setDateText();
 
         dayDataViewMediator.setDate(date);
-        
+
         dayDataViewMediator.getReservations();
     }
 

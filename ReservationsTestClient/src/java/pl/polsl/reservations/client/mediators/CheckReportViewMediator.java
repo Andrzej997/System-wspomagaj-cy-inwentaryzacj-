@@ -8,17 +8,17 @@ import pl.polsl.reservations.client.views.MainView;
  * @author matis
  */
 public class CheckReportViewMediator {
-    
+
     private CheckRaportView checkRaportView;
-    
-    public CheckReportViewMediator(){
-        
+
+    public CheckReportViewMediator() {
+
     }
-    
-    public CheckRaportView createView(MainView view){
+
+    public CheckRaportView createView(MainView view) {
         checkRaportView = new CheckRaportView(view, this);
-        
+
         return checkRaportView;
     }
-    
+
 }

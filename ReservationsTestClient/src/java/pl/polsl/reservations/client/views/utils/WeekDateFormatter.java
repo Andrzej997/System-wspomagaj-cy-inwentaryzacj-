@@ -13,8 +13,8 @@ public class WeekDateFormatter extends AbstractFormatter {
 
     private static final long serialVersionUID = 775833091532800553L;
 
-    private final String datePattern = "dd.MM.yyyy";
-    public final SimpleDateFormat dateFormatter = new SimpleDateFormat(datePattern);
+    private final static String DATEPATTERN = "dd.MM.yyyy";
+    public final SimpleDateFormat dateFormatter = new SimpleDateFormat(DATEPATTERN);
 
     @Override
     public Object stringToValue(String text) throws ParseException {

@@ -13,7 +13,8 @@ public class EquipmentTypeDTO implements Serializable {
 
     private String description;
 
-    public EquipmentTypeDTO() {}
+    public EquipmentTypeDTO() {
+    }
 
     public EquipmentTypeDTO(Long id, String description) {
         this.id = id;

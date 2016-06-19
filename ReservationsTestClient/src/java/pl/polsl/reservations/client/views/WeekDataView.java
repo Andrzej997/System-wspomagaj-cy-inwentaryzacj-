@@ -126,13 +126,13 @@ public class WeekDataView extends JPanel {
 
     private void setupButtons() {
         try {
-            Image img = ImageIO.read(getClass().getResource("/resources/left.png"));
+            Image img = ImageIO.read(WeekDataView.class.getResource("/resources/left.png"));
             ButtonStyle.setStyle(prevBtn, img);
-            Image img2 = ImageIO.read(getClass().getResource("/resources/right.png"));
+            Image img2 = ImageIO.read(WeekDataView.class.getResource("/resources/right.png"));
             ButtonStyle.setStyle(nextBtn, img2);
-            Image img3 = ImageIO.read(getClass().getResource("/resources/calendar.png"));
+            Image img3 = ImageIO.read(WeekDataView.class.getResource("/resources/calendar.png"));
             ButtonStyle.setStyle(calendarBtn, img3);
-            Image img4 = ImageIO.read(getClass().getResource("/resources/back.png"));
+            Image img4 = ImageIO.read(WeekDataView.class.getResource("/resources/back.png"));
             ButtonStyle.setStyle(backBtn, img4);
         } catch (IOException ex) {
             System.out.println("RESOURCE ERROR: " + ex.toString());
@@ -185,12 +185,10 @@ public class WeekDataView extends JPanel {
 
     private void datePickerChange() {
         Calendar date = datePicker.getDate();
-        if (date != null) {
-            startDate.set(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DATE));
-            startDate.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-            endDate.set(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DATE));
-            endDate.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-        }
+        startDate.set(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DATE));
+        startDate.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        endDate.set(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DATE));
+        endDate.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
         weekDataViewMediator.getReservations();
     }
 

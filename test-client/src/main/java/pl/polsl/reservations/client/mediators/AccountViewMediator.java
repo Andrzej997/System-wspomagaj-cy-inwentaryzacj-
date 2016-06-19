@@ -10,61 +10,60 @@ import pl.polsl.reservations.dto.RoomDTO;
 import pl.polsl.reservations.ejb.remote.RoomManagementFacade;
 import pl.polsl.reservations.ejb.remote.UserFacade;
 
-
 /**
  *
  * @author matis
  */
 public class AccountViewMediator {
-    
+
     private AccountView accountView;
     private final UserFacade userFacade;
     private final RoomManagementFacade roomManagementFacade;
-       
-    public AccountViewMediator(){
+
+    public AccountViewMediator() {
         userFacade = (UserFacade) Lookup.getRemote("UserFacade");
         roomManagementFacade = (RoomManagementFacade) Lookup.getRemote("RoomManagementFacade");
     }
-    
-    public AccountView createView(MainView parent){
+
+    public AccountView createView(MainView parent) {
         accountView = new AccountView(parent, this);
-        if(userFacade.getUserPriviligeLevel().getPrivilegeLevel()!= 1){
-           accountView.getAddButton().setVisible(false);
+        if (userFacade.getUserPriviligeLevel().getPrivilegeLevel() != 1) {
+            accountView.getAddButton().setVisible(false);
         }
         getRoomData();
         return accountView;
     }
-    
+
     public AccountView getAccountView() {
         return accountView;
     }
-    
-    public void dispatchRoomClickEvent(ActionEvent evt){
+
+    public void dispatchRoomClickEvent(ActionEvent evt) {
         accountView.getWindow()
-                .setView(new WeekDataViewMediator().createView(accountView.getWindow(), 
+                .setView(new WeekDataViewMediator().createView(accountView.getWindow(),
                         accountView.getChooseRoomDropdown().getSelectedItem()));
     }
-    
-    public void dispatchChangePasswordClickEvent(ActionEvent evt){
+
+    public void dispatchChangePasswordClickEvent(ActionEvent evt) {
         String oldPassword = JOptionPane.showInputDialog("Type old password");
         String password = JOptionPane.showInputDialog("Type new password");
         String passwordConfirm = JOptionPane.showInputDialog("Confirm password");
         if (!password.equals(passwordConfirm)) {
             JOptionPane.showMessageDialog(accountView, "Passwords do not match.");
         }
-        if(oldPassword.equals(password)){
+        if (oldPassword.equals(password)) {
             JOptionPane.showMessageDialog(accountView, "Password is the same as old password");
         }
-        if(userFacade.changePassword(oldPassword, password)){
+        if (userFacade.changePassword(oldPassword, password)) {
             JOptionPane.showMessageDialog(accountView, "Password successfully changed!");
         } else {
             JOptionPane.showMessageDialog(accountView, "Password was not changed");
         }
     }
-    
-    public void dispatchAddUserEvent(ActionEvent evt){
-        if(userFacade.getUserPriviligeLevel().getPrivilegeLevel() == 1){
-            
+
+    public void dispatchAddUserEvent(ActionEvent evt) {
+        if (userFacade.getUserPriviligeLevel().getPrivilegeLevel() == 1) {
+
         }
     }
 
@@ -74,5 +73,5 @@ public class AccountViewMediator {
             accountView.getChooseRoomDropdown().addItem(roomDTO.getNumber());
         });
     }
-    
+
 }

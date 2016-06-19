@@ -34,11 +34,11 @@ public class AssignToUnitView extends JPanel {
 
     private static final long serialVersionUID = 5936728539420292688L;
 
-    private final int NORMAL_WIDTH = 200;
-    private final int NORMAL_HEIGHT = 30;
+    private static final int NORMAL_WIDTH = 200;
+    private static final int NORMAL_HEIGHT = 30;
 
     private final MainView window;
-    private final AssignToUnitMediator assignToUnitMediator;
+    private final transient AssignToUnitMediator assignToUnitMediator;
 
     private JLabel instituteLb;
     private JLabel instituteContentLb;
@@ -61,7 +61,7 @@ public class AssignToUnitView extends JPanel {
 
     private JButton addButton;
 
-    private Image addImg;
+    private transient Image addImg;
 
     public AssignToUnitView(MainView window, AssignToUnitMediator assignToUnitMediator) {
         super();
@@ -110,7 +110,7 @@ public class AssignToUnitView extends JPanel {
 
     private void setupView() {
         try {
-            addImg = ImageIO.read(getClass().getResource("/resources/add.png"));
+            addImg = ImageIO.read(AssignToUnitView.class.getResource("/resources/add.png"));
             ButtonStyle.setStyle(addButton, addImg);
         } catch (IOException ex) {
             Logger.getLogger(AddEditRoomTypeView.class.getName()).log(Level.SEVERE, null, ex);
@@ -124,12 +124,12 @@ public class AssignToUnitView extends JPanel {
         dataPanel.add(roomCb);
         dataPanel.add(roomTypeContentLb);
         dataPanel.add(depRoomsLb);
-          labelPanel.add(depRoomsLb);
+        labelPanel.add(depRoomsLb);
         dataPanel.add(depRoomsLst);
         mainPanel.add(labelPanel);
         mainPanel.add(dataPanel);
         add(mainPanel);
-           add(addButton);
+        add(addButton);
     }
 
     private void initPanels() {
@@ -139,22 +139,22 @@ public class AssignToUnitView extends JPanel {
         dataPanel.setLayout(new BoxLayout(dataPanel, BoxLayout.Y_AXIS));
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
     }
-    
-    private void setupListeners(){
-        departamentCb.addActionListener((ActionEvent e)->{
-            if(departamentCb.getSelectedItem() != null){
+
+    private void setupListeners() {
+        departamentCb.addActionListener((ActionEvent e) -> {
+            if (departamentCb.getSelectedItem() != null) {
                 assignToUnitMediator.onDepartamentChange();
             }
         });
-        
-        roomCb.addActionListener((ActionEvent e)->{
-            if(roomCb.getSelectedItem() != null){
+
+        roomCb.addActionListener((ActionEvent e) -> {
+            if (roomCb.getSelectedItem() != null) {
                 assignToUnitMediator.onRoomChange();
             }
         });
-        
-        addButton.addActionListener((ActionEvent e)->{
-            if(departamentCb.getSelectedItem() != null && roomCb.getSelectedItem() != null){
+
+        addButton.addActionListener((ActionEvent e) -> {
+            if (departamentCb.getSelectedItem() != null && roomCb.getSelectedItem() != null) {
                 assignToUnitMediator.onAssign();
             }
             window.getAssignRoomToDepartamentFrame().dispose();

@@ -33,8 +33,8 @@ public class AddEditDepartamentView extends JPanel {
 
     private static final long serialVersionUID = -6975785500186251759L;
 
-    private final int NORMAL_WIDTH = 200;
-    private final int NORMAL_HEIGHT = 30;
+    private static final int NORMAL_WIDTH = 200;
+    private static final int NORMAL_HEIGHT = 30;
 
     private JLabel departamentLb;
     private JComboBox<String> departamentCb;
@@ -56,12 +56,12 @@ public class AddEditDepartamentView extends JPanel {
     private JPanel mainPanel;
     private JPanel navPanel;
 
-    private Image addImg;
-    private Image editImg;
-    private Image deleteImg;
+    private transient Image addImg;
+    private transient Image editImg;
+    private transient Image deleteImg;
 
     private final MainView window;
-    private final AddEditDepartamentMediator addEditDepartamentMediator;
+    private final transient AddEditDepartamentMediator addEditDepartamentMediator;
 
     public AddEditDepartamentView(MainView window, AddEditDepartamentMediator addEditDepartamentMediator) {
         super();
@@ -116,10 +116,10 @@ public class AddEditDepartamentView extends JPanel {
 
     private void setupView() {
         try {
-            addImg = ImageIO.read(getClass().getResource("/resources/add.png"));
+            addImg = ImageIO.read(AddEditDepartamentView.class.getResource("/resources/add.png"));
             ButtonStyle.setStyle(addButton, addImg);
-            editImg = ImageIO.read(getClass().getResource("/resources/ok.png"));
-            deleteImg = ImageIO.read(getClass().getResource("/resources/error.png"));
+            editImg = ImageIO.read(AddEditDepartamentView.class.getResource("/resources/ok.png"));
+            deleteImg = ImageIO.read(AddEditDepartamentView.class.getResource("/resources/error.png"));
             ButtonStyle.setStyle(deleteButton, deleteImg);
         } catch (IOException ex) {
             Logger.getLogger(AddEditRoomTypeView.class.getName()).log(Level.SEVERE, null, ex);

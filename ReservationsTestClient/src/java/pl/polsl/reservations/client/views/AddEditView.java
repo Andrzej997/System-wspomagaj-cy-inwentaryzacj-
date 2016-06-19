@@ -30,8 +30,8 @@ import pl.polsl.reservations.dto.ReservationDTO;
 public class AddEditView extends JPanel {
 
     private static final long serialVersionUID = -6676295764328716585L;
-    private final int NORMAL_WIDTH = 150;
-    private final int NORMAL_HEIGHT = 30;
+    private static final int NORMAL_WIDTH = 150;
+    private static final int NORMAL_HEIGHT = 30;
 
     private MainView window;
     private JPanel mainPanel;
@@ -208,13 +208,13 @@ public class AddEditView extends JPanel {
 
     private void setText() {
         try {
-            Image img = ImageIO.read(getClass().getResource("/resources/add.png"));
+            Image img = ImageIO.read(AddEditView.class.getResource("/resources/add.png"));
             ButtonStyle.setStyle(addButton, img);
-            Image img2 = ImageIO.read(getClass().getResource("/resources/ok.png"));
+            Image img2 = ImageIO.read(AddEditView.class.getResource("/resources/ok.png"));
             ButtonStyle.setStyle(editButton, img2);
-            Image img3 = ImageIO.read(getClass().getResource("/resources/error.png"));
+            Image img3 = ImageIO.read(AddEditView.class.getResource("/resources/error.png"));
             ButtonStyle.setStyle(discardButton, img3);
-            Image img4 = ImageIO.read(getClass().getResource("/resources/back.png"));
+            Image img4 = ImageIO.read(AddEditView.class.getResource("/resources/back.png"));
             ButtonStyle.setStyle(backBtn, img4);
             backBtn.setBorder(new EmptyBorder(0, 0, 0, 260));
             if (edit) {
@@ -236,7 +236,7 @@ public class AddEditView extends JPanel {
     private void setSize() {
         setBorder(new EmptyBorder(10, 10, 10, 10));
         PanelStyle.setSize(this, 800, 600);
-        PanelStyle.setSize(addPanel,330, 200);
+        PanelStyle.setSize(addPanel, 330, 200);
         contentPanel.setBorder(new EmptyBorder(100, 0, 100, 0));
         PanelStyle.setSize(contentPanel, 330, 480);
         PanelStyle.setSize(dayTablePanel, 450, 550);
@@ -256,11 +256,9 @@ public class AddEditView extends JPanel {
     }
 
     private void setDataHourCb() {
-        Integer hour = 0;
-        Integer quarter = 0;
         for (int i = 0; i < 96; i++) {
-            hour = i / 4;
-            quarter = (i % 4) * 15;
+            Integer hour = i / 4;
+            Integer quarter = (i % 4) * 15;
             String hourString = hour.toString() + ":";
             if (quarter == 0) {
                 hourString += "00";
@@ -737,9 +735,9 @@ public class AddEditView extends JPanel {
                         hourStopCb.setSelectedIndex(endTime - dayOfWeek * 96 + 1);
                         teacherCb.setSelectedItem(addEditViewMediator.getUserName(reservation.getUserId()));
                         groupCb.setSelectedItem(reservation.getType());
-                       // if(reservation.getEndTime()<=7*96){
-                       //     isGeneralChb.setSelected(true);
-                       // }else{
+                        // if(reservation.getEndTime()<=7*96){
+                        //     isGeneralChb.setSelected(true);
+                        // }else{
                         //    isGeneralChb.setSelected(false);
                         //}
                         addEditViewMediator.setChosenReservation(reservation);

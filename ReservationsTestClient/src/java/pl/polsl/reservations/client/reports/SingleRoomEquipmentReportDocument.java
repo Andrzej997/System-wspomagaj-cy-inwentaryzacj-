@@ -77,7 +77,7 @@ public class SingleRoomEquipmentReportDocument extends PDFDocument {
             Phrase roomNumber = new Phrase(roomNumberString, FontUtils.BOLD);
             header.add(roomNumber);
             header.add(Chunk.NEWLINE);
-            if (roomDTO.getKeeperId().toString() != null) {
+            if (roomDTO.getKeeperId() != null) {
                 Long keeperId = roomDTO.getKeeperId();
                 UserDTO userDetails = userManagementFacade.getUserDetails(keeperId.intValue());
                 String roomKeeperString = "Room keeper: " + userDetails.getName() + " " + userDetails.getSurname();
@@ -154,7 +154,7 @@ public class SingleRoomEquipmentReportDocument extends PDFDocument {
     public void createWorkersList() {
         Long id = roomDTO.getId();
         List<UserDTO> roomWorkers = roomManagementFacade.getRoomWorkers(id);
-        if(roomWorkers == null || roomWorkers.isEmpty()){
+        if (roomWorkers == null || roomWorkers.isEmpty()) {
             return;
         }
         Paragraph paragraph = new Paragraph();
@@ -296,7 +296,7 @@ public class SingleRoomEquipmentReportDocument extends PDFDocument {
     }
 
     private PdfPCell createContentTable(ReservationDTO reservation, Integer startTime, Integer endTime, Integer row) {
-        PdfPCell cell = new PdfPCell(new Phrase("", FontUtils.SMALL));
+        PdfPCell cell = null;
         if (Objects.equals(row, startTime)) {
             cell = new PdfPCell(new Phrase(reservation.getType(), FontUtils.SMALL));
             cell.setBorder(Rectangle.TOP + Rectangle.LEFT + Rectangle.RIGHT);

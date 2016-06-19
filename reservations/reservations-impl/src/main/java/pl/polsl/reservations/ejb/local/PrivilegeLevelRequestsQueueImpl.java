@@ -10,7 +10,7 @@ import pl.polsl.reservations.privileges.PrivilegeRequest;
  *
  * @author wojcdeb448
  */
-public class PrivilegeLevelRequestsQueueImpl implements PrivilegeLevelRequestsQueue, Serializable{
+public class PrivilegeLevelRequestsQueueImpl implements PrivilegeLevelRequestsQueue, Serializable {
 
     private static final long serialVersionUID = 4380284070224771302L;
 

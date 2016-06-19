@@ -13,17 +13,18 @@ import pl.polsl.reservations.privileges.PrivilegeEnum;
  * @author matis
  */
 public interface UserContext {
+
     void initialize(List<Priviliges> privilegesList, Users user);
-    
+
     boolean checkPrivilege(PrivilegeEnum privilege);
-    
+
     EntityManager getEntityManager();
-    
+
     void setPrivilegeLevel(PrivilegeLevelEnum privilegeLevel);
-    
+
     PrivilegeLevelEnum getPrivilegeLevel();
 
     Users getUser();
-    
+
     void setUser(Users user);
 }

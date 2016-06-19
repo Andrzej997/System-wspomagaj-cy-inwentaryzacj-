@@ -8,7 +8,7 @@ import pl.polsl.reservations.logger.LoggerImpl;
 @Entity
 @Table(name = "EQUPMENT_STATE")
 @EntityListeners(LoggerImpl.class)
-public class EqupmentState  implements Serializable {
+public class EqupmentState implements Serializable {
 
     private static final long serialVersionUID = 2504464193763388953L;
 

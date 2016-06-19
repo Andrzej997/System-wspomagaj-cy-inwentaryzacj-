@@ -36,8 +36,8 @@ public class AddEditUserView extends JPanel {
 
     private static final long serialVersionUID = -2193290350545362057L;
 
-    private final int NORMAL_WIDTH = 200;
-    private final int NORMAL_HEIGHT = 30;
+    private static final int NORMAL_WIDTH = 200;
+    private static final int NORMAL_HEIGHT = 30;
 
     private MainView window;
     private AddUserEnum option;
@@ -84,7 +84,7 @@ public class AddEditUserView extends JPanel {
     private JButton editButton;
     private JButton deleteButton;
 
-    private final AddEditUserViewMediator addEditUserViewMediator;
+    private final transient AddEditUserViewMediator addEditUserViewMediator;
 
     public AddEditUserView(MainView window, AddUserEnum option, AddEditUserViewMediator addEditUserViewMediator) {
         super();
@@ -169,11 +169,11 @@ public class AddEditUserView extends JPanel {
 
     private void prepareObjects() {
         try {
-            Image img = ImageIO.read(getClass().getResource("/resources/add.png"));
+            Image img = ImageIO.read(AddEditUserView.class.getResource("/resources/add.png"));
             ButtonStyle.setStyle(addButton, img);
-            Image img2 = ImageIO.read(getClass().getResource("/resources/ok.png"));
+            Image img2 = ImageIO.read(AddEditUserView.class.getResource("/resources/ok.png"));
             ButtonStyle.setStyle(editButton, img2);
-            Image img3 = ImageIO.read(getClass().getResource("/resources/error.png"));
+            Image img3 = ImageIO.read(AddEditUserView.class.getResource("/resources/error.png"));
             ButtonStyle.setStyle(deleteButton, img3);
         } catch (IOException ex) {
             System.out.println("RESOURCE ERROR: " + ex.toString());
@@ -186,31 +186,31 @@ public class AddEditUserView extends JPanel {
         PanelStyle.setSize(surnameLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(nameTf, NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(nameLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(phoneTf,  NORMAL_WIDTH, NORMAL_HEIGHT, true);
+        PanelStyle.setSize(phoneTf, NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(phoneLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(emailTf, NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(emailLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(addressTf,  NORMAL_WIDTH, NORMAL_HEIGHT, true);
+        PanelStyle.setSize(addressTf, NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(addressLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(departmentContentLabel,  NORMAL_WIDTH, NORMAL_HEIGHT, true);
+        PanelStyle.setSize(departmentContentLabel, NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(departmentLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(departmentCb, NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(peselContentLabel, NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(peselLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(peselTf,  NORMAL_WIDTH, NORMAL_HEIGHT, true);
+        PanelStyle.setSize(peselTf, NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(gradeTf, NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(gradeLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(gradeContentLabel, NORMAL_WIDTH, NORMAL_HEIGHT, true);
-        PanelStyle.setSize(roomContentLabel,  NORMAL_WIDTH, NORMAL_HEIGHT, true);
+        PanelStyle.setSize(roomContentLabel, NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(roomLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(roomCb,  NORMAL_WIDTH, NORMAL_HEIGHT, true);
-        PanelStyle.setSize(permissionContentLabel,  NORMAL_WIDTH, NORMAL_HEIGHT, true);
+        PanelStyle.setSize(roomCb, NORMAL_WIDTH, NORMAL_HEIGHT, true);
+        PanelStyle.setSize(permissionContentLabel, NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(permissionLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
-        PanelStyle.setSize(permissionCb,  NORMAL_WIDTH, NORMAL_HEIGHT, true);
+        PanelStyle.setSize(permissionCb, NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(chiefContentLabel, NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(chiefLabel, NORMAL_WIDTH, NORMAL_HEIGHT);
         PanelStyle.setSize(chiefCb, NORMAL_WIDTH, NORMAL_HEIGHT, true);
-        PanelStyle.setSize(userCb, 2 *  NORMAL_WIDTH, NORMAL_HEIGHT, true);
+        PanelStyle.setSize(userCb, 2 * NORMAL_WIDTH, NORMAL_HEIGHT, true);
         PanelStyle.setSize(labelPanel, NORMAL_WIDTH, 300);
         PanelStyle.setSize(dataPanel, NORMAL_WIDTH, 300);
         PanelStyle.setSize(mainPanel, 2 * NORMAL_WIDTH, 360);

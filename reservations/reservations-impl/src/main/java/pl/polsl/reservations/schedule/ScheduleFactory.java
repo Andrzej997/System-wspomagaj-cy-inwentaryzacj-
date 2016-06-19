@@ -9,6 +9,8 @@ import pl.polsl.reservations.dto.ReservationDTO;
  */
 @Local
 public interface ScheduleFactory {
+
     void setUserContext(String certificate);
+
     List<ReservationDTO> createSchedule(ScheduleStrategy strategy, int roomId, int year, boolean semester);
 }

@@ -5,10 +5,11 @@ import java.util.List;
 import javax.persistence.*;
 import pl.polsl.reservations.logger.LoggerImpl;
 
-@NamedQueries({@NamedQuery(name = "getAllSchedulesByYearAndSemester", query = "select rs from RoomSchedule rs where rs.semester = :semester and rs.year = :year "),
-                @NamedQuery(name = "getAllSchedulesAtSession", query = "select rs from RoomSchedule rs where rs.semester = :semester and rs.year = :year and rs.examinationSession = true "),
-                @NamedQuery(name = "getCurrentDateSchedule", query = "select rs from RoomSchedule  rs where rs.year = :year and rs.week = :week and rs.room = :room and rs.semester = :semester" ),
-                @NamedQuery(name = "getCurrentScheduleForRoom", query = "select rs from RoomSchedule rs where rs = :RoomSchedule and rs.room.roomNumber = :roomNumber")
+@NamedQueries({
+    @NamedQuery(name = "getAllSchedulesByYearAndSemester", query = "select rs from RoomSchedule rs where rs.semester = :semester and rs.year = :year "),
+    @NamedQuery(name = "getAllSchedulesAtSession", query = "select rs from RoomSchedule rs where rs.semester = :semester and rs.year = :year and rs.examinationSession = true "),
+    @NamedQuery(name = "getCurrentDateSchedule", query = "select rs from RoomSchedule  rs where rs.year = :year and rs.week = :week and rs.room = :room and rs.semester = :semester"),
+    @NamedQuery(name = "getCurrentScheduleForRoom", query = "select rs from RoomSchedule rs where rs = :RoomSchedule and rs.room.roomNumber = :roomNumber")
 
 })
 

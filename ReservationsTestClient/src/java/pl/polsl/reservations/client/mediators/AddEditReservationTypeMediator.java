@@ -32,10 +32,10 @@ public class AddEditReservationTypeMediator {
     private void getReservationTypes() {
         List<ReservationTypeDTO> reservationTypes = scheduleFacade.getReservationTypes();
         addEditReservationTypeView.getTypeCb().addItem("Create new");
-        for (ReservationTypeDTO reservationType : reservationTypes) {
-            addEditReservationTypeView.getTypeCb().addItem(reservationType.getShortDescription());
-        }
         if (reservationTypes != null) {
+            for (ReservationTypeDTO reservationType : reservationTypes) {
+                addEditReservationTypeView.getTypeCb().addItem(reservationType.getShortDescription());
+            }
             addEditReservationTypeView.getTypeCb().setSelectedIndex(0);
         }
         String[] colorList = ColorUtils.getColorList();

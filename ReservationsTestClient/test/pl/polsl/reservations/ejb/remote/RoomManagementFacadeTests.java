@@ -16,7 +16,7 @@ public class RoomManagementFacadeTests {
     private RoomManagementFacade roomManagementFacade;
 
     private UserFacade userFacade;
-    
+
     @Before
     public void setUp() throws Exception {
         roomManagementFacade = (RoomManagementFacade) Lookup.getRemote("RoomManagementFacade");
@@ -28,12 +28,12 @@ public class RoomManagementFacadeTests {
         userFacade.logout();
         Lookup.removeUserCertificate();
     }
-    
+
     @Test
-    public void test1(){
+    public void test1() {
         List<EquipmentStateDTO> equipmentStates = roomManagementFacade.getEquipmentStates();
         int expected = 4;
         Assert.assertEquals(equipmentStates.size(), expected);
     }
-    
+
 }

@@ -22,7 +22,7 @@ public class CustomDatePicker extends JPanel {
     private static final long serialVersionUID = 3512548187838571101L;
     private final JDatePanelImpl datePanel;
     private final JDatePickerImpl datePicker;
-    private final UtilDateModel model;
+    private final transient UtilDateModel model;
 
     private CustomDatePicker(boolean day) {
         model = new UtilDateModel();

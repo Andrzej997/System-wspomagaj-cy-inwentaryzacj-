@@ -17,24 +17,24 @@ public class AddEditViewMediator {
     private final ScheduleFacade scheduleFacade;
     private final RoomManagementFacade roomManagementFacade;
     private AddEditView addEditWindow;
-    
+
     public AddEditViewMediator() {
         scheduleFacade = (ScheduleFacade) Lookup.getRemote("ScheduleFacade");
         roomManagementFacade = (RoomManagementFacade) Lookup.getRemote("RoomManagementFacade");
-        
+
     }
-    
+
     public AddEditView createView(MainView parent) {
         addEditWindow = new AddEditView(parent, this);
         getRooms();
         return addEditWindow;
     }
-    
+
     public void getRooms() {
         List<RoomDTO> roomsList = roomManagementFacade.getRoomsList();
         roomsList.stream().forEach((room) -> {
             addEditWindow.getRoomCb().addItem(room.getNumber());
-        });    
+        });
     }
-    
+
 }

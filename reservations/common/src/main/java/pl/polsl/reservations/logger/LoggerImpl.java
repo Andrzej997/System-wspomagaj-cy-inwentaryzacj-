@@ -12,11 +12,9 @@ import javax.interceptor.InvocationContext;
 import javax.persistence.*;
 import pl.polsl.reservations.ejb.local.AbstractDao;
 
-
 /**
- * Created by matis on 05.05.2016.
- * Log zapisuje sie z reguly na glassfishu w sciezce:
- * \glassfish4\glassfish\domains\domain1\config
+ * Created by matis on 05.05.2016. Log zapisuje sie z reguly na glassfishu w
+ * sciezce: \glassfish4\glassfish\domains\domain1\config
  */
 @Interceptor
 public class LoggerImpl {
@@ -50,8 +48,8 @@ public class LoggerImpl {
         log.log(Level.INFO, "*** Intercepting call to ReservationsDatabaseBean method: {0}\n", ctx.getMethod().getName());
         if (ctx.getMethod().getParameters() != null) {
             Parameter[] parameters = ctx.getMethod().getParameters();
-            Arrays.stream(parameters).forEach(parameter ->
-                    log.log(Level.FINE, "*** Method parameter: {0} of {1}\n",
+            Arrays.stream(parameters).forEach(parameter
+                    -> log.log(Level.FINE, "*** Method parameter: {0} of {1}\n",
                             new String[]{parameter.toString(), parameter.getType().getName()})
             );
         }
@@ -101,7 +99,6 @@ public class LoggerImpl {
         log.log(Level.FINE, object.toString());
     }
 
-
     @PostRemove
     public void postRemove(Object object) {
         log.log(Level.INFO, "*** Entity: {0} was removed\n", object.getClass().getName());
@@ -114,18 +111,16 @@ public class LoggerImpl {
         log.log(Level.FINE, object.toString());
     }
 
-
     @PostUpdate
     public void postUpdate(Object object) {
         log.log(Level.CONFIG, "*** Entity: {0} was updated\n", object.getClass().getName());
         log.log(Level.FINE, object.toString());
     }
 
-
     @PostLoad
     public void postLoad(Object object) {
         log.log(Level.CONFIG, "*** Entity: {0} was loaded\n", object.getClass().getName());
         log.log(Level.FINE, object.toString());
     }
-    
+
 }

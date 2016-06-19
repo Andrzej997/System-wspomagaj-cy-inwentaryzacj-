@@ -228,7 +228,6 @@ public class AddEditViewMediator {
         if (startTime <= endTime) {
             if (checkIfReservationAvaliable(startTime, endTime)) {
 
-                Calendar calendar = date;
                 Integer typeId = getType().getId().intValue();
                 Integer userId = getWorkersData().getId().intValue();
 
@@ -348,7 +347,6 @@ public class AddEditViewMediator {
         DefaultTableModel defaultTableModel = new DayTableModel(32, 3);
 
         for (ReservationDTO reservation : roomSchedule) {
-            int endDay = reservation.getEndTime() / 96;
             int startDay = reservation.getStartTime() / 96;
             int numberOfEndQuarter = reservation.getEndTime() % 96;
             int numberOfStartQuarter = reservation.getStartTime() % 96;

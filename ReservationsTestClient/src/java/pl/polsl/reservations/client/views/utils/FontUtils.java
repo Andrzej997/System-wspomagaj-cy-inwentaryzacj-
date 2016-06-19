@@ -14,24 +14,24 @@ import pl.polsl.reservations.client.reports.PDFDocument;
  */
 public class FontUtils {
 
-    protected static BaseFont TimesRomanBase;
+    protected static BaseFont timesRomanBase;
 
     static {
         try {
-            TimesRomanBase = BaseFont.createFont(BaseFont.TIMES_ROMAN, BaseFont.CP1250, BaseFont.EMBEDDED);
+            timesRomanBase = BaseFont.createFont(BaseFont.TIMES_ROMAN, BaseFont.CP1250, BaseFont.EMBEDDED);
         } catch (DocumentException | IOException ex) {
             Logger.getLogger(PDFDocument.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     public static final Font TITLE_BOLD_UNDERLINED
-            = new Font(TimesRomanBase, 20, Font.BOLD | Font.UNDERLINE);
+            = new Font(timesRomanBase, 20, Font.BOLD | Font.UNDERLINE);
     public static final Font BOLD
-            = new Font(TimesRomanBase, 12, Font.BOLD);
+            = new Font(timesRomanBase, 12, Font.BOLD);
     public static final Font NORMAL
-            = new Font(TimesRomanBase, 12);
+            = new Font(timesRomanBase, 12);
     public static final Font SMALL
-            = new Font(TimesRomanBase, 5);
+            = new Font(timesRomanBase, 5);
     public static final Font SMALL_BOLD
-            = new Font(TimesRomanBase, 5, Font.BOLD);
+            = new Font(timesRomanBase, 5, Font.BOLD);
 }

@@ -59,13 +59,7 @@ public class WeekDataViewMediator {
                 = scheduleFacade.getDetailedRoomSchedule(weekDataView.getChooseRoomDropdown().getSelectedItem(),
                         calendar.get(Calendar.YEAR), DateUtils.getWeekOfSemester(calendar), DateUtils.getSemesterFromDate(calendar));
 
-        Integer dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        if (dayOfWeek == 1) {
-            dayOfWeek = 6;
-        } else {
-            dayOfWeek -= 2;
-        }
-        Integer selectedTime =  (column-1) * 96 + row+32;
+        Integer selectedTime = (column - 1) * 96 + row + 32;
 
         for (ReservationDTO reservation : roomSchedule) {
             Integer startTime = reservation.getStartTime();

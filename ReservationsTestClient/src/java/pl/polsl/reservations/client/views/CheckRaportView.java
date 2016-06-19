@@ -21,8 +21,8 @@ public class CheckRaportView extends JPanel {
     private static final long serialVersionUID = -8486774124937326659L;
 
     private MainView window;
-    
-    private final CheckReportViewMediator checkReportViewMediator;
+
+    private final transient CheckReportViewMediator checkReportViewMediator;
 
     public CheckRaportView(MainView window, CheckReportViewMediator checkReportViewMediator) {
         this.window = window;
@@ -30,8 +30,8 @@ public class CheckRaportView extends JPanel {
         initializeComponents();
         JOptionPane.showMessageDialog(null, "Not supported yet");
     }
-    
-    private void initializeComponents(){
+
+    private void initializeComponents() {
         keyInputDispatcher();
     }
 
@@ -51,12 +51,12 @@ public class CheckRaportView extends JPanel {
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "escape");
         actionMap.put("escape", escapeAction);
     }
-    
-    public MainView getWindow(){
+
+    public MainView getWindow() {
         return window;
     }
-    
-    public void setWindow(MainView window){
+
+    public void setWindow(MainView window) {
         this.window = window;
     }
 

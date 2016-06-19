@@ -1,10 +1,14 @@
 package pl.polsl.reservations.privileges;
 
+import java.io.Serializable;
+
 /**
  *
  * @author wojcdeb448
  */
-public class PrivilegeRequest {
+public class PrivilegeRequest implements Serializable {
+
+    private static final long serialVersionUID = -4000059765778035943L;
 
     private Long privilegeLevel;
     private String reason;

@@ -32,7 +32,7 @@ public class Lookup {
             clientSessionCertificate = ClientTestSessionCertificate.getInstance();
             Properties p = new Properties();
             p.put("java.rmi.server.useCodebaseOnly", "false");
-            p.put(Context.PROVIDER_URL , "http://localhost:8080");
+            p.put(Context.PROVIDER_URL, "http://localhost:8080");
             p.put(Context.INITIAL_CONTEXT_FACTORY,
                     "com.sun.enterprise.naming.SerialInitContextFactory");
             p.setProperty("org.omg.CORBA.ORBInitialHost", "");

@@ -51,6 +51,8 @@ public class CreateReportViewMediator {
             case DEVICE_EDIT:
                 setDeviceDataToEdit();
                 break;
+            default:
+                break;
         }
 
         return createRaportView;
@@ -202,20 +204,27 @@ public class CreateReportViewMediator {
             }
             createRaportView.getDeviceCb().setSelectedIndex(0);
             List<EquipmentTypeDTO> equipmentTypes = roomManagementFacade.getEquipmentTypes();
-            for (EquipmentTypeDTO equipmentType : equipmentTypes) {
-                createRaportView.getTypeCb().addItem(equipmentType.getDescription());
-            }
-            EquipmentDTO equipment = roomEquipment.get(0);
+            EquipmentDTO equipment = null;
             if (equipmentTypes != null && !equipmentTypes.isEmpty()) {
-                createRaportView.getTypeCb().setSelectedItem(equipment.getType());
+                for (EquipmentTypeDTO equipmentType : equipmentTypes) {
+                    createRaportView.getTypeCb().addItem(equipmentType.getDescription());
+                }
+                equipment = roomEquipment.get(0);
+                if (equipment != null) {
+                    createRaportView.getTypeCb().setSelectedItem(equipment.getType());
+                }
             }
-            createRaportView.getNumberTf().setText(equipment.getQuantity().toString());
-            createRaportView.getNameTf().setText(equipment.getName());
+            if (equipment != null) {
+                createRaportView.getNumberTf().setText(equipment.getQuantity().toString());
+                createRaportView.getNameTf().setText(equipment.getName());
+            }
             List<EquipmentStateDTO> equipmentStates = roomManagementFacade.getEquipmentStates();
             for (EquipmentStateDTO equipmentStateDTO : equipmentStates) {
                 createRaportView.getStateCb().addItem(equipmentStateDTO.getDescription());
             }
-            createRaportView.getStateCb().setSelectedItem(equipment.getState());
+            if (equipment != null) {
+                createRaportView.getStateCb().setSelectedItem(equipment.getState());
+            }
         }
 
     }

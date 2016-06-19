@@ -8,7 +8,7 @@ import javax.persistence.Persistence;
 /**
  * @author matis
  */
-public enum PrivilegeLevelEnum implements Serializable{
+public enum PrivilegeLevelEnum implements Serializable {
 
     ADMIN(1, "Admin", "ReservationAdminPU"),
     INSTITUTE_CHIEF(2, "Institute Chief", "ReservationIstitutePU"),
@@ -17,6 +17,26 @@ public enum PrivilegeLevelEnum implements Serializable{
     TECHNICAL_WORKER(5, "Technical Worker", "ReservationTechnicalWorkerPU"),
     STANDARD_USER(6, "Standard User", "ReservationStandardUserPU"),
     TESTER(7, "Tester", "ReservationTestsPU");
+    public static PrivilegeLevelEnum getPrivilegeLevel(int level) {
+        switch (level) {
+            case 1:
+                return ADMIN;
+            case 2:
+                return INSTITUTE_CHIEF;
+            case 3:
+                return DEPARTAMENT_CHIEF;
+            case 4:
+                return TECHNICAL_CHIEF;
+            case 5:
+                return TECHNICAL_WORKER;
+            case 6:
+                return STANDARD_USER;
+            case 7:
+                return TESTER;
+            default:
+                return STANDARD_USER;
+        }
+    }
 
     private final Integer value;
     private final String name;
@@ -40,16 +60,4 @@ public enum PrivilegeLevelEnum implements Serializable{
         return name;
     }
 
-    public static PrivilegeLevelEnum getPrivilegeLevel(int level) {
-        switch (level) {
-            case 1: return ADMIN;
-            case 2: return INSTITUTE_CHIEF;
-            case 3: return DEPARTAMENT_CHIEF;
-            case 4: return TECHNICAL_CHIEF;
-            case 5: return TECHNICAL_WORKER;
-            case 6: return STANDARD_USER;
-            case 7: return TESTER;
-            default: return STANDARD_USER;
-        }
-    }
 }

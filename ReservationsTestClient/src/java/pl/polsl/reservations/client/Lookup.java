@@ -42,13 +42,14 @@ public class Lookup {
     private static ClientSessionCertificate clientSessionCertificate;
 
     static {
+        InputStream resourceAsStream = null;
         try {
             clientSessionCertificate = ClientSessionCertificate.getInstance();
             Properties p = new Properties();
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = documentBuilderFactory.newDocumentBuilder();
             String pathPropertiesFile = "/resources/server.xml";
-            InputStream resourceAsStream = p.getClass().getResourceAsStream(pathPropertiesFile);
+            resourceAsStream = p.getClass().getResourceAsStream(pathPropertiesFile);
             Document doc = dBuilder.parse(resourceAsStream);
             doc.getDocumentElement().normalize();
             NodeList hostAddress = doc.getElementsByTagName("hostAddress");
@@ -98,6 +99,14 @@ public class Lookup {
             throw new RuntimeException(ne);
         } catch (ParserConfigurationException | SAXException | IOException ex) {
             Logger.getLogger(Lookup.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (resourceAsStream != null) {
+                try {
+                    resourceAsStream.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(Lookup.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
     }
 
@@ -118,7 +127,7 @@ public class Lookup {
             }
         } catch (NamingException ex) {
             System.out.println("Remote object doesn't exists!");
-        } 
+        }
         return o;
     }
 

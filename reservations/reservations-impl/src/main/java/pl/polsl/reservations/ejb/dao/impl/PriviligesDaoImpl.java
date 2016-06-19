@@ -30,7 +30,7 @@ public class PriviligesDaoImpl extends AbstractDaoImpl<Priviliges> implements Pr
     }
 
     @Override
-    public List<PriviligeLevels> getPriviligeLevelsCollectionById(Number id){
+    public List<PriviligeLevels> getPriviligeLevelsCollectionById(Number id) {
         Priviliges priviliges = this.find(id);
         return priviliges.getPriviligeLevelsCollection();
     }
@@ -41,7 +41,7 @@ public class PriviligesDaoImpl extends AbstractDaoImpl<Priviliges> implements Pr
 
         Priviliges privilige = this.find(entity.getId());
         List<PriviligeLevels> priviligeLevelsCollection = privilige.getPriviligeLevelsCollection();
-        for(PriviligeLevels priviligeLevels : priviligeLevelsCollection){
+        for (PriviligeLevels priviligeLevels : priviligeLevelsCollection) {
             List<Priviliges> priviligesCollection = priviligeLevels.getPriviligesCollection();
             priviligesCollection.remove(privilige);
             priviligeLevels.setPriviligesCollection(priviligesCollection);
@@ -52,7 +52,7 @@ public class PriviligesDaoImpl extends AbstractDaoImpl<Priviliges> implements Pr
     }
 
     @Override
-    protected void getDependencies(){
+    protected void getDependencies() {
         try {
             priviligeLevelsFacadeRemote = new PriviligeLevelsDaoImpl();
             priviligeLevelsFacadeRemote.setUserContext(userContext);

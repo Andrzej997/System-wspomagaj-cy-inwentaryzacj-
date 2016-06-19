@@ -18,8 +18,8 @@ import pl.polsl.reservations.client.views.utils.ValidationErrorMessanger;
 
 public class LoginView extends JPanel {
 
-    private final int NORMAL_WIDTH = 130;
-    private final int NORMAL_HEIGHT = 30;
+    private static final int NORMAL_WIDTH = 130;
+    private static final int NORMAL_HEIGHT = 30;
     private static final long serialVersionUID = 7390610748297788567L;
 
     private final MainView window;
@@ -87,7 +87,7 @@ public class LoginView extends JPanel {
             window.setView(new WeekDataViewMediator().createView(window, loginMediator.getFirstRoom()));
             MessageBoxUtils.createAvaliableRequestsMessage(this);
         } else {
-            JOptionPane.showMessageDialog(this, "Wrong login or password!!.");
+            JOptionPane.showMessageDialog(this, "Wrong login or password!");
         }
     }
 
@@ -112,7 +112,7 @@ public class LoginView extends JPanel {
         loginLabel.setText("Login: ");
         passwordLabel.setText("Password: ");
         try {
-            Image img = ImageIO.read(getClass().getResource("/resources/login.png"));
+            Image img = ImageIO.read(LoginView.class.getResource("/resources/login.png"));
             ButtonStyle.setStyle(loginButton, img);
         } catch (IOException ex) {
             System.out.println("RESOURCE ERROR: " + ex.toString());
@@ -122,7 +122,7 @@ public class LoginView extends JPanel {
     private void initButtons() {
 
         try {
-            Image img = ImageIO.read(getClass().getResource("/resources/guest_login.png"));
+            Image img = ImageIO.read(LoginView.class.getResource("/resources/guest_login.png"));
             ButtonStyle.setStyle(guestButton, img);
         } catch (IOException ex) {
             System.out.println("RESOURCE ERROR: " + ex.toString());

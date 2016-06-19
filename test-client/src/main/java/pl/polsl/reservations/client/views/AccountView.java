@@ -16,7 +16,7 @@ public class AccountView extends JPanel {
     private JButton passwordButton;
     private JButton addButton;
     private JButton chooseButton;
-    
+
     private transient final AccountViewMediator accountViewMediator;
 
     public AccountView(MainView window, AccountViewMediator accountViewMediator) {
@@ -110,7 +110,7 @@ public class AccountView extends JPanel {
     public JButton getChooseButton() {
         return chooseButton;
     }
-    
+
     public MainView getWindow() {
         return window;
     }

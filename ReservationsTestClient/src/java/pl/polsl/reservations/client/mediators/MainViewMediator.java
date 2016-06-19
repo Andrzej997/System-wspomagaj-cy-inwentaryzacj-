@@ -27,13 +27,13 @@ public class MainViewMediator {
     public void dispatchLogoutMenuItemActionPerformed(ActionEvent evt) {
         userFacade.logout();
     }
-    
-    public String getUserDepartament(){
+
+    public String getUserDepartament() {
         UserDTO userDetails = userFacade.getUserDetails();
         return userDetails.getDepartment();
     }
-    
-    public Integer getUserRoomNumber(){
+
+    public Integer getUserRoomNumber() {
         UserDTO userDetails = userFacade.getUserDetails();
         return userDetails.getRoomNumber();
     }

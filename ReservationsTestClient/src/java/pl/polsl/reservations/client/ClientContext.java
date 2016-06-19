@@ -82,7 +82,7 @@ public class ClientContext {
         Long requestedLevel = 0l;
         for (int i = 0; i < USER_TYPES.length; i++) {
             if (USER_TYPES[i].equals(requestedPrivilegeLevel)) {
-                requestedLevel = new Long(i + 1);
+                requestedLevel = Long.valueOf(i + 1);
             }
         }
         return privilegeLevel <= requestedLevel;

@@ -301,7 +301,7 @@ public class AllRoomsEquipmentReportDocument extends PDFDocument {
     }
 
     private PdfPCell createContentTable(ReservationDTO reservation, Integer startTime, Integer endTime, Integer row) {
-        PdfPCell cell = new PdfPCell(new Phrase("", FontUtils.SMALL));
+        PdfPCell cell = null;
         if (Objects.equals(row, startTime)) {
             cell = new PdfPCell(new Phrase(reservation.getType(), FontUtils.SMALL));
             cell.setBorder(Rectangle.TOP + Rectangle.LEFT + Rectangle.RIGHT);

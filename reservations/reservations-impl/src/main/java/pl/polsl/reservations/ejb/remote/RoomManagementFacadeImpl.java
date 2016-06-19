@@ -381,19 +381,19 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
         }
         return result;
     }
-    
+
     @Override
-    public List<RoomDTO> getDepartamentRoomsById(Long departamentId){
+    public List<RoomDTO> getDepartamentRoomsById(Long departamentId) {
         Departaments departaments = departmentDAO.find(departamentId);
-        if(departaments == null){
+        if (departaments == null) {
             return null;
         }
         List<Room> roomCollection = departaments.getRoomCollection();
-        if(roomCollection == null || roomCollection.isEmpty()){
+        if (roomCollection == null || roomCollection.isEmpty()) {
             return null;
         }
         List<RoomDTO> result = new ArrayList<>();
-        for(Room room : roomCollection){
+        for (Room room : roomCollection) {
             result.add(DTOBuilder.buildRoomDTO(room));
         }
         return result;
@@ -483,7 +483,7 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
             return false;
         }
 
-      /*  List<Room> rooms = departament.getRoomCollection();
+        /*  List<Room> rooms = departament.getRoomCollection();
         if (rooms != null && !rooms.isEmpty()) {
             for (Room room : rooms) {
                 room.setDepartament(null);
@@ -498,7 +498,6 @@ public class RoomManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
                 workersDAO.edit(worker);
             }
         }*/
-
         departmentDAO.remove(departament);
         return true;
     }

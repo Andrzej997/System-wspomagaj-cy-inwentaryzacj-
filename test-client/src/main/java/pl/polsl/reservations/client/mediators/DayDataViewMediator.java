@@ -29,7 +29,7 @@ public class DayDataViewMediator {
     public DayDataView createView(MainView parent, Object date) {
         dayDataView = new DayDataView(parent, date, this);
 
-        this.date =  date;
+        this.date = date;
 
         getRooms();
         getReservations();
@@ -38,12 +38,12 @@ public class DayDataViewMediator {
     }
 
     public void getReservations() {
-       // Calendar calendar = Calendar.getInstance();
-       // calendar.setTime(date);
-       // int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-       // int weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
+        // Calendar calendar = Calendar.getInstance();
+        // calendar.setTime(date);
+        // int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        // int weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
 
-        List<ReservationDTO> roomSchedule = scheduleFacade.getRoomSchedule( (Integer)dayDataView.getChooseRoomDropdown().getSelectedItem(), 2016, true);
+        List<ReservationDTO> roomSchedule = scheduleFacade.getRoomSchedule((Integer) dayDataView.getChooseRoomDropdown().getSelectedItem(), 2016, true);
 
         DefaultTableModel defaultTableModel = new DefaultTableModel(96, 1);
 
@@ -53,7 +53,7 @@ public class DayDataViewMediator {
             int numberOfEndQuarter = reservation.getStartTime() % 96; //r�znica mi�dzy godzinami w bazie i tabeli
             int numberOfStartQuarter = reservation.getEndTime() % 96;
 
-            if (startDay == (int)date-1) {
+            if (startDay == (int) date - 1) {
 
                 for (int j = numberOfStartQuarter; j <= numberOfEndQuarter; j++) {
                     defaultTableModel.setValueAt("T", j, 0);
@@ -64,12 +64,12 @@ public class DayDataViewMediator {
 
         dayDataView.getPlanView().setModel(defaultTableModel);
     }
-    
-    public void getRooms(){
+
+    public void getRooms() {
         List<RoomDTO> roomsList = roomManagementFacade.getRoomsList();
         roomsList.stream().forEach((room) -> {
             dayDataView.getChooseRoomDropdown().addItem(room.getNumber());
-        });    
+        });
     }
 
 }

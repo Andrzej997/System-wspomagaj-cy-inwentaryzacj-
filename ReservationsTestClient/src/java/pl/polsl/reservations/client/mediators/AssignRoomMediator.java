@@ -50,10 +50,11 @@ public class AssignRoomMediator {
         } else {
             underlings = userManagementFacade.getUnderlings(currentUserId.intValue());
         }
-        for (UserDTO worker : underlings) {
-            assignRoomView.getWorkerCb().addItem(worker.getId() + " " + worker.getName() + " " + worker.getSurname());
-        }
         if (underlings != null && !underlings.isEmpty()) {
+            for (UserDTO worker : underlings) {
+                assignRoomView.getWorkerCb().addItem(worker.getId() + " " + worker.getName() + " " + worker.getSurname());
+            }
+
             assignRoomView.getWorkerCb().setSelectedIndex(0);
         }
     }
@@ -68,7 +69,7 @@ public class AssignRoomMediator {
         } else if (ClientContext.getInstance().isAdmin()) {
             roomsList = roomManagementFacade.getRoomsList();
         }
-        if(roomsList == null || roomsList.isEmpty()){
+        if (roomsList == null || roomsList.isEmpty()) {
             return;
         }
         HashMap<Integer, List<Integer>> numbersMap = new HashMap<>();
@@ -111,9 +112,10 @@ public class AssignRoomMediator {
 
     private UserDTO getSelectedWorker() {
         String selectedItem = (String) assignRoomView.getWorkerCb().getSelectedItem();
-        if(selectedItem == null)
+        if (selectedItem == null) {
             return null;
-        int index = selectedItem.indexOf(" ");
+        }
+        int index = selectedItem.indexOf(' ');
         String userIdStr = selectedItem.substring(0, index);
         Integer userId = Integer.parseInt(userIdStr);
         UserDTO userDetails = userManagementFacade.getUserDetails(userId);
@@ -124,9 +126,12 @@ public class AssignRoomMediator {
         Integer roomNumber = assignRoomView.getRoomCb().getSelectedItem();
         if (roomNumber != null) {
             RoomDTO room = roomManagementFacade.getRoom(roomNumber);
-            List<UserDTO> roomWorkers = roomManagementFacade.getRoomWorkers(room.getId());
-            UserDTO roomKeeper = roomManagementFacade.getRoomKeeper(room.getId().intValue());
+            List<UserDTO> roomWorkers = null;
+            UserDTO roomKeeper = null;
             if (room != null) {
+                roomWorkers = roomManagementFacade.getRoomWorkers(room.getId());
+                roomKeeper = roomManagementFacade.getRoomKeeper(room.getId().intValue());
+
                 assignRoomView.getRoomTypeContentLb().setText(room.getType());
                 assignRoomView.getRoomSeatsContentLb().setText(room.getNumberOfSeats().toString());
             } else {
@@ -173,24 +178,27 @@ public class AssignRoomMediator {
         UserDTO selectedWorker = getSelectedWorker();
         Integer roomNumber = assignRoomView.getRoomCb().getSelectedItem();
         boolean asKeeper = assignRoomView.getAsKeeperChb().isSelected();
-        if(selectedWorker == null){
+        if (selectedWorker == null) {
             return;
         }
-        if(selectedWorker.getRoomNumber() != null){
-            if(!MessageBoxUtils.userAlreadyAssignedWarrning(assignRoomView, roomNumber)){
+        if (selectedWorker.getRoomNumber() != null) {
+            if (!MessageBoxUtils.userAlreadyAssignedWarrning(assignRoomView, roomNumber)) {
                 return;
             }
         }
-        if(asKeeper){
+        if (asKeeper) {
             RoomDTO room = roomManagementFacade.getRoom(roomNumber);
-            if(room == null || selectedWorker.getId().equals(room.getKeeperId())){
+            if (room == null || selectedWorker.getId().equals(room.getKeeperId())) {
                 return;
             }
             roomManagementFacade.assignKeeperToRoom(room.getId().intValue(), selectedWorker.getId().intValue());
         } else {
             RoomDTO room = roomManagementFacade.getRoom(roomNumber);
+            if (room == null) {
+                return;
+            }
             List<UserDTO> roomWorkers = roomManagementFacade.getRoomWorkers(room.getId());
-            if(room == null || roomWorkers == null || roomWorkers.isEmpty() || roomWorkers.contains(selectedWorker)){
+            if (roomWorkers == null || roomWorkers.isEmpty() || roomWorkers.contains(selectedWorker)) {
                 return;
             }
             roomManagementFacade.assignUserToRoom(room.getId().intValue(), selectedWorker.getId().intValue());

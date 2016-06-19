@@ -17,7 +17,7 @@ public interface RoomScheduleDao extends AbstractDao<RoomSchedule> {
 
     List<RoomSchedule> getAllSchedulesAtSession(int year, boolean semester);
 
-    RoomSchedule getCurrentDateSchedule(int year, int week,boolean semester, Room room);
+    RoomSchedule getCurrentDateSchedule(int year, int week, boolean semester, Room room);
 
     RoomSchedule getCurrentScheduleForRoom(int roomNumber);
 

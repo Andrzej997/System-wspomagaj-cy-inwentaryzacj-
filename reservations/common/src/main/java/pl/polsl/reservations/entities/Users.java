@@ -5,12 +5,13 @@ import java.util.List;
 import javax.persistence.*;
 import pl.polsl.reservations.logger.LoggerImpl;
 
-@NamedQueries({@NamedQuery(name = "validateUser", query = "select u from Users u where u.username = :username and u.password = :password"),
-        @NamedQuery(name = "validateUserByEmail", query = "select u from Users u where u.email = :email and u.password = :password"),
-        @NamedQuery(name = "getUserPrivligeLevelByUsername", query = "select u.priviligeLevel from Users u where u.username = :username"),
-        @NamedQuery(name = "getWorkerByUsername", query = "select u.workers from Users u where u.username = :username"),
-        @NamedQuery(name = "getUserByUsername", query = "select u from Users u where u.username = :username"),
-        @NamedQuery(name = "getUserByEmail", query = "select u from Users u where u.email = :email")
+@NamedQueries({
+    @NamedQuery(name = "validateUser", query = "select u from Users u where u.username = :username and u.password = :password"),
+    @NamedQuery(name = "validateUserByEmail", query = "select u from Users u where u.email = :email and u.password = :password"),
+    @NamedQuery(name = "getUserPrivligeLevelByUsername", query = "select u.priviligeLevel from Users u where u.username = :username"),
+    @NamedQuery(name = "getWorkerByUsername", query = "select u.workers from Users u where u.username = :username"),
+    @NamedQuery(name = "getUserByUsername", query = "select u from Users u where u.username = :username"),
+    @NamedQuery(name = "getUserByEmail", query = "select u from Users u where u.email = :email")
 })
 
 @Entity
