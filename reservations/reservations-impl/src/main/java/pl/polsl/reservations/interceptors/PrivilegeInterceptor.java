@@ -12,12 +12,21 @@ import pl.polsl.reservations.privileges.PrivilegeEnum;
 
 /**
  *
- * @author matis
+ * @author Mateusz Sojka
+ * @version 1.0
+ * 
+ * Method privilege level interceptor to check method execution privilege by method annotation
  */
 @RequiredPrivilege
 @Interceptor
 public class PrivilegeInterceptor {
 
+    /**
+     * Executes method only when user has privilege to execution
+     * @param ctx InvocationContext object
+     * @return execution result
+     * @throws Exception when user has no access to execute method
+     */
     @AroundInvoke
     public Object methodInterceptor(InvocationContext ctx) throws Exception {
         Object result = null;
@@ -37,6 +46,13 @@ public class PrivilegeInterceptor {
         return result;
     }
 
+    /**
+     * Check if Method is annotated with RequiredPrivilege annotation
+     * @param calledMethod Method object
+     * @param userContext UserContext object, to get current user data
+     * @return true if user has privilege to execute method
+     * @throws Exception if he has not;
+     */
     private boolean checkMethodPrivileges(Method calledMethod, UserContext userContext) throws Exception {
         RequiredPrivilege privilegeAnnotation = calledMethod.getAnnotation(RequiredPrivilege.class);
         if (privilegeAnnotation != null) {

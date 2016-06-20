@@ -18,7 +18,10 @@ import pl.polsl.reservations.interceptors.TransactionalInterceptor;
 import pl.polsl.reservations.logger.LoggerImpl;
 
 /**
- * @author matis
+ * @author Mateusz Sojka
+ * @version 1.0
+ *
+ * Reservation data access object implementation
  */
 @Interceptors({LoggerImpl.class, TransactionalInterceptor.class})
 @Stateful
@@ -33,6 +36,12 @@ public class ReservationsDaoImpl extends AbstractDaoImpl<Reservations> implement
         super(Reservations.class);
     }
 
+    /**
+     * Method to get all reservations from room schedule
+     *
+     * @param roomSchedule RoomSchedule entity
+     * @return list of reservations
+     */
     @Override
     public List<Reservations> getAllReservationsByRoomSchedule(RoomSchedule roomSchedule) {
         Query query = getEntityManager().createNamedQuery("getAllReservationsByRoomSchedule", Reservations.class);
@@ -40,6 +49,13 @@ public class ReservationsDaoImpl extends AbstractDaoImpl<Reservations> implement
         return query.getResultList();
     }
 
+    /**
+     * Method to get all week reservations
+     *
+     * @param week int reservation week
+     * @param year int reservation year
+     * @return list of reservations
+     */
     @Override
     public List<Reservations> getAllWeekReservations(int week, int year) {
         Query query = getEntityManager().createNamedQuery("getAllWeekReservations", Reservations.class);
@@ -48,6 +64,11 @@ public class ReservationsDaoImpl extends AbstractDaoImpl<Reservations> implement
         return query.getResultList();
     }
 
+    /**
+     * Method to get current date reservations
+     *
+     * @return List of reservations
+     */
     @Override
     public List<Reservations> getCurrentDateReservations() {
         Query query = getEntityManager().createNamedQuery("getAllWeekReservations", Reservations.class);
@@ -57,6 +78,12 @@ public class ReservationsDaoImpl extends AbstractDaoImpl<Reservations> implement
         return query.getResultList();
     }
 
+    /**
+     * Method to get all reservations by type
+     *
+     * @param typeId reservation type id
+     * @return list of reservations
+     */
     @Override
     public List<Reservations> getAllReservationsByType(Long typeId) {
         Query query = getEntityManager().createNamedQuery("getAllReservationsByType", Reservations.class);
@@ -64,6 +91,12 @@ public class ReservationsDaoImpl extends AbstractDaoImpl<Reservations> implement
         return query.getResultList();
     }
 
+    /**
+     * Method to get all reservations by user id
+     *
+     * @param userId user id
+     * @return list of reservations
+     */
     @Override
     public List<Reservations> getAllReservationsByUser(Long userId) {
         Query query = getEntityManager().createNamedQuery("getAllReservationsByUser", Reservations.class);
@@ -71,6 +104,11 @@ public class ReservationsDaoImpl extends AbstractDaoImpl<Reservations> implement
         return query.getResultList();
     }
 
+    /**
+     * Method used to remove entity from database
+     *
+     * @param entity
+     */
     @Override
     public void remove(Reservations entity) {
         getDependencies();

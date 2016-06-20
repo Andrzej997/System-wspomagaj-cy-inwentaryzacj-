@@ -6,10 +6,19 @@ import pl.polsl.reservations.privileges.PrivilegeRequest;
 
 /**
  *
- * @author matis
+ * @author Mateusz Sojka
+ * @version 1.0
+ *
+ * Class to build data transport objects from entities
  */
 public class DTOBuilder {
 
+    /**
+     * Method to build departament data transport object
+     *
+     * @param departament entity
+     * @return DepartamentDTO object
+     */
     public static DepartamentDTO buildDepartamentDTO(Departaments departament) {
         DepartamentDTO departamentDTO = new DepartamentDTO();
         departamentDTO.setId(departament.getId());
@@ -19,6 +28,12 @@ public class DTOBuilder {
         return departamentDTO;
     }
 
+    /**
+     * Method to build equipment data transport object
+     *
+     * @param equipment entity
+     * @return EquipmentDTO object
+     */
     public static EquipmentDTO buildEquipmentDTO(Equipment equipment) {
         EquipmentDTO equipmentDTO = new EquipmentDTO();
         equipmentDTO.setId(equipment.getId());
@@ -29,6 +44,12 @@ public class DTOBuilder {
         return equipmentDTO;
     }
 
+    /**
+     * Method to build equipment state transport object
+     *
+     * @param equipmentState entity
+     * @return EquipmentStateDTO object
+     */
     public static EquipmentStateDTO buildEquipmentStateDTO(EqupmentState equipmentState) {
         EquipmentStateDTO equipmentStateDTO = new EquipmentStateDTO();
         equipmentStateDTO.setDescription(equipmentState.getStateDefinition());
@@ -36,6 +57,12 @@ public class DTOBuilder {
         return equipmentStateDTO;
     }
 
+    /**
+     * Method to build equipment type transport object
+     *
+     * @param equipmentType entity
+     * @return EquipmentTypeDTO object
+     */
     public static EquipmentTypeDTO buildEquipmentTypeDTO(EquipmentType equipmentType) {
         EquipmentTypeDTO equipmentTypeDTO = new EquipmentTypeDTO();
         equipmentTypeDTO.setDescription(equipmentType.getShortDescription());
@@ -43,6 +70,12 @@ public class DTOBuilder {
         return equipmentTypeDTO;
     }
 
+    /**
+     * Method to build institute transport object
+     *
+     * @param institute entity
+     * @return InstituteDTO object
+     */
     public static InstituteDTO buildInstituteDTO(Institutes institute) {
         InstituteDTO instituteDTO = new InstituteDTO();
         if (institute != null) {
@@ -53,6 +86,12 @@ public class DTOBuilder {
         return instituteDTO;
     }
 
+    /**
+     * Method to build privilege level transport object
+     *
+     * @param priviligeLevel entity
+     * @return PrivilegeLevelDTO object
+     */
     public static PrivilegeLevelDTO buildPrivilegeLevelDTO(PriviligeLevels priviligeLevel) {
         PrivilegeLevelDTO privilegeLevelDTO = new PrivilegeLevelDTO();
         privilegeLevelDTO.setDescription(priviligeLevel.getDescription());
@@ -60,6 +99,12 @@ public class DTOBuilder {
         return privilegeLevelDTO;
     }
 
+    /**
+     * Method to build reservation transport object
+     *
+     * @param reservation entity
+     * @return ReservationDTO object
+     */
     public static ReservationDTO buildReservationDTO(Reservations reservation) {
         ReservationDTO reservationDTO = new ReservationDTO();
         reservationDTO.setEndTime(reservation.getEndTime());
@@ -71,6 +116,12 @@ public class DTOBuilder {
         return reservationDTO;
     }
 
+    /**
+     * Method to build room transport object
+     *
+     * @param room entity
+     * @return RoomDTO object
+     */
     public static RoomDTO buildRoomDTO(Room room) {
         RoomDTO roomDTO = new RoomDTO();
         roomDTO.setDepartment(room.getDepartament().getDepratamentName());
@@ -82,6 +133,13 @@ public class DTOBuilder {
         return roomDTO;
     }
 
+    /**
+     * Method to build user transport object
+     *
+     * @param user entity
+     * @param worker entity
+     * @return UserDTO object
+     */
     public static UserDTO buildUserDTO(Users user, Workers worker) {
         UserDTO userDTO = new UserDTO();
         userDTO.setAddress(worker.getAdress());
@@ -98,12 +156,18 @@ public class DTOBuilder {
         userDTO.setSurname(worker.getSurname());
         userDTO.setUserName(user.getUsername());
         userDTO.setGrade(worker.getGrade());
-        if(worker.getChief() != null){
+        if (worker.getChief() != null) {
             userDTO.setChiefId(worker.getChief().getId());
         }
         return userDTO;
     }
 
+    /**
+     * Method to build reservation type transport object
+     *
+     * @param reservationType entity
+     * @return ReservationTypeDTO object
+     */
     public static ReservationTypeDTO buildReservationTypeDTO(ReservationTypes reservationType) {
         ReservationTypeDTO reservationTypeDTO = new ReservationTypeDTO();
         reservationTypeDTO.setShortDescription(reservationType.getTypeShortDescription());
@@ -113,10 +177,22 @@ public class DTOBuilder {
         return reservationTypeDTO;
     }
 
+    /**
+     * Method to build privilege request transport object
+     *
+     * @param pr PrivilegeRequest object
+     * @return PrivilegeRequestDTO object
+     */
     public static PrivilegeRequestDTO buildPrivilegeRequestDTO(PrivilegeRequest pr) {
         return new PrivilegeRequestDTO(pr.getPrivilegeLevel(), pr.getUserID(), pr.getReason());
     }
 
+    /**
+     * Method to build room types transport object
+     *
+     * @param roomTypes entity
+     * @return RoomTypesDTO object
+     */
     public static RoomTypesDTO buildRoomTypesDTO(RoomTypes roomTypes) {
         RoomTypesDTO roomTypesDTO = new RoomTypesDTO();
         roomTypesDTO.setId(roomTypes.getRoomType().intValue());

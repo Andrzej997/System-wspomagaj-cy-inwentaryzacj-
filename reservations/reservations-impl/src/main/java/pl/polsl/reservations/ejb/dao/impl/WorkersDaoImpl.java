@@ -18,7 +18,10 @@ import pl.polsl.reservations.interceptors.TransactionalInterceptor;
 import pl.polsl.reservations.logger.LoggerImpl;
 
 /**
- * @author matis
+ * @author Mateusz Sojka
+ * @version 1.0
+ *
+ * Workers data access object implementation
  */
 @Interceptors({LoggerImpl.class, TransactionalInterceptor.class})
 @Stateful
@@ -35,6 +38,12 @@ public class WorkersDaoImpl extends AbstractDaoImpl<Workers> implements WorkersD
         super(Workers.class);
     }
 
+    /**
+     * Method to get workers by name
+     *
+     * @param workerName String
+     * @return list of workers
+     */
     @Override
     public List<Workers> getWorkersByName(String workerName) {
         Query query = this.getEntityManager().createNamedQuery("getWorkersByName", Workers.class);
@@ -42,6 +51,12 @@ public class WorkersDaoImpl extends AbstractDaoImpl<Workers> implements WorkersD
         return query.getResultList();
     }
 
+    /**
+     * Method to get workers by surname
+     *
+     * @param surname String
+     * @return list of workers
+     */
     @Override
     public List<Workers> getWorkersBySurname(String surname) {
         Query query = this.getEntityManager().createNamedQuery("getWorkersBySurname", Workers.class);
@@ -49,6 +64,12 @@ public class WorkersDaoImpl extends AbstractDaoImpl<Workers> implements WorkersD
         return query.getResultList();
     }
 
+    /**
+     * Method to get workers by grade
+     *
+     * @param grade String
+     * @return list of workers
+     */
     @Override
     public List<Workers> getWorkersByGrade(String grade) {
         Query query = this.getEntityManager().createNamedQuery("getWorkersByGrade", Workers.class);
@@ -56,6 +77,12 @@ public class WorkersDaoImpl extends AbstractDaoImpl<Workers> implements WorkersD
         return query.getResultList();
     }
 
+    /**
+     * Method to get workers by address
+     *
+     * @param adress String
+     * @return list of workers
+     */
     @Override
     public List<Workers> getWorkersByAdress(String adress) {
         Query query = this.getEntityManager().createNamedQuery("getWorkersByAdress", Workers.class);
@@ -63,6 +90,12 @@ public class WorkersDaoImpl extends AbstractDaoImpl<Workers> implements WorkersD
         return query.getResultList();
     }
 
+    /**
+     * Method to get workers by pesel
+     *
+     * @param pesel String
+     * @return list of workers
+     */
     @Override
     public List<Workers> getWorkerByPesel(String pesel) {
         Query query = this.getEntityManager().createNamedQuery("getWorkerByPesel", Workers.class);
@@ -70,6 +103,12 @@ public class WorkersDaoImpl extends AbstractDaoImpl<Workers> implements WorkersD
         return query.getResultList();
     }
 
+    /**
+     * Method to get all keepers' rooms
+     *
+     * @param id worker id
+     * @return list of rooms
+     */
     @Override
     public List<Room> getRoomsCollectionByKeeperId(Long id) {
         Query query = this.getEntityManager().createNamedQuery("getRoomsCollectionByKeeperId", Room.class);
@@ -77,6 +116,12 @@ public class WorkersDaoImpl extends AbstractDaoImpl<Workers> implements WorkersD
         return query.getResultList();
     }
 
+    /**
+     * Method to get departament by worker
+     *
+     * @param id worker id
+     * @return Departaments entity
+     */
     @Override
     public Departaments getDepartamentByWorkerId(Long id) {
         Query query = this.getEntityManager().createNamedQuery("getDepartamentByWorkerId", Departaments.class);
@@ -88,24 +133,45 @@ public class WorkersDaoImpl extends AbstractDaoImpl<Workers> implements WorkersD
         }
     }
 
+    /**
+     * Method to get all chiefs
+     *
+     * @return list of workers
+     */
     @Override
     public List<Workers> getAllChiefs() {
         Query query = this.getEntityManager().createNamedQuery("getAllChiefs", Workers.class);
         return query.getResultList();
     }
 
+    /**
+     * Method to get workers which have chief
+     *
+     * @return list of workers
+     */
     @Override
     public List<Workers> getWorkersWhichHaveChief() {
         Query query = this.getEntityManager().createNamedQuery("getWorkersWhichHaveChief", Workers.class);
         return query.getResultList();
     }
 
+    /**
+     * Method to get rooms by worker id
+     *
+     * @param id worker id
+     * @return list of rooms
+     */
     @Override
     public List<Room> getRoomCollectionById(Number id) {
         Workers workers = this.find(id);
         return workers.getRoomCollection();
     }
 
+    /**
+     * Method used to remove entity from database
+     *
+     * @param entity
+     */
     @Override
     public void remove(Workers entity) {
         getDependencies();

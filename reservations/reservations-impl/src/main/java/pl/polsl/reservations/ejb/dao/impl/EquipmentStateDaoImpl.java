@@ -14,7 +14,10 @@ import pl.polsl.reservations.interceptors.TransactionalInterceptor;
 import pl.polsl.reservations.logger.LoggerImpl;
 
 /**
- * @author matis
+ * @author Mateusz Sojka
+ * @version 1.0
+ *
+ * EquipmentState data access object implementation
  */
 @Interceptors({LoggerImpl.class, TransactionalInterceptor.class})
 @Stateful
@@ -29,12 +32,23 @@ public class EquipmentStateDaoImpl extends AbstractDaoImpl<EqupmentState> implem
         super(EqupmentState.class);
     }
 
+    /**
+     * Method to get equipment which has given state
+     *
+     * @param id state id
+     * @return List of equipment
+     */
     @Override
     public List<Equipment> getEquipmentCollectionById(Number id) {
         EqupmentState equipmentType = this.find(id);
         return equipmentType.getEquipmentCollection();
     }
 
+    /**
+     * Method used to remove entity from database
+     *
+     * @param entity
+     */
     @Override
     public void remove(EqupmentState entity) {
         getDependencies();

@@ -4,6 +4,9 @@ import java.io.Serializable;
 
 /**
  * Created by Krzysztof Stręk on 2016-06-04.
+ * @version 1.0
+ * 
+ * ReservationType Data Transport Object
  */
 public class ReservationTypeDTO implements Serializable {
 

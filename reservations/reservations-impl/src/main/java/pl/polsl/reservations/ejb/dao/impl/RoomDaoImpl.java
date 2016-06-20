@@ -15,7 +15,10 @@ import pl.polsl.reservations.interceptors.TransactionalInterceptor;
 import pl.polsl.reservations.logger.LoggerImpl;
 
 /**
- * @author matis
+ * @author Mateusz Sojka
+ * @version 1.0
+ *
+ * Rooms data access object implementation
  */
 @Interceptors({LoggerImpl.class, TransactionalInterceptor.class})
 @Stateful
@@ -38,6 +41,12 @@ public class RoomDaoImpl extends AbstractDaoImpl<Room> implements RoomDao {
         super(Room.class);
     }
 
+    /**
+     * Method to get room by his number
+     *
+     * @param number int room number
+     * @return Room entity
+     */
     @Override
     public Room getRoomByNumber(int number) {
         Query query = getEntityManager().createNamedQuery("getRoomByNumber", Room.class);
@@ -49,6 +58,12 @@ public class RoomDaoImpl extends AbstractDaoImpl<Room> implements RoomDao {
         }
     }
 
+    /**
+     * Method to get room by his keeper
+     *
+     * @param worker Workers entity
+     * @return Room enitity
+     */
     @Override
     public Room getRoomByKeeper(Workers worker) {
         Query query = getEntityManager().createNamedQuery("getRoomByKeeper", Room.class);
@@ -60,24 +75,48 @@ public class RoomDaoImpl extends AbstractDaoImpl<Room> implements RoomDao {
         }
     }
 
+    /**
+     * Method to get room workers by id
+     *
+     * @param id room id
+     * @return List of room workers
+     */
     @Override
     public List<Workers> getWorkersCollectionById(Number id) {
         Room room = this.find(id);
         return room.getWorkerses();
     }
 
+    /**
+     * Method to get equipment collection by room id
+     *
+     * @param id room id
+     * @return list of equipment
+     */
     @Override
     public List<Equipment> getEquipmentCollectionById(Number id) {
         Room room = this.find(id);
         return room.getEquipmentCollection();
     }
 
+    /**
+     * Method to get room schedule collection of room
+     *
+     * @param id room id
+     * @return list of room schedules
+     */
     @Override
     public List<RoomSchedule> getRoomScheduleCollectionById(Number id) {
         Room room = this.find(id);
         return room.getRoomScheduleCollection();
     }
 
+    /**
+     * Method to get room which has higher seats quantity than given value
+     *
+     * @param numberOfSeats minimal seats quantity
+     * @return List of rooms
+     */
     @Override
     public List<Room> getRoomWithNumOfSeatsHigherOrEqualThan(Number numberOfSeats) {
         Query query = getEntityManager().createNamedQuery("getRoomWithNumOfSeatsHigherOrEqualThan");
@@ -85,6 +124,11 @@ public class RoomDaoImpl extends AbstractDaoImpl<Room> implements RoomDao {
         return query.getResultList();
     }
 
+    /**
+     * Method used to remove entity from database
+     *
+     * @param entity
+     */
     @Override
     public void remove(Room entity) {
         getDependencies();

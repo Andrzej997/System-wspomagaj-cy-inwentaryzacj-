@@ -14,7 +14,10 @@ import pl.polsl.reservations.interceptors.TransactionalInterceptor;
 import pl.polsl.reservations.logger.LoggerImpl;
 
 /**
- * @author matis
+ * @author Mateusz Sojka
+ * @version 1.0
+ *
+ * ReservationTypes data access object implementation
  */
 @Interceptors({LoggerImpl.class, TransactionalInterceptor.class})
 @Stateful
@@ -28,12 +31,23 @@ public class ReservationTypesDaoImpl extends AbstractDaoImpl<ReservationTypes> i
         super(ReservationTypes.class);
     }
 
+    /**
+     * Get reservations which has given type
+     *
+     * @param id reservation type id
+     * @return list of reservations
+     */
     @Override
     public List<Reservations> getReservationsCollectionById(Number id) {
         ReservationTypes reservationTypes = this.find(id);
         return reservationTypes.getReservationsCollection();
     }
 
+    /**
+     * Method used to remove entity from database
+     *
+     * @param entity
+     */
     @Override
     public void remove(ReservationTypes entity) {
         getDependencies();

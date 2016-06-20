@@ -9,12 +9,22 @@ import pl.polsl.reservations.privileges.PrivilegeRequest;
 /**
  *
  * @author wojcdeb448
+ * @version 1.0
+ *
+ * Class represents privilege level request queue
  */
 public class PrivilegeLevelRequestsQueueImpl implements PrivilegeLevelRequestsQueue, Serializable {
 
     private static final long serialVersionUID = 4380284070224771302L;
 
+    /**
+     * request queue
+     */
     private final List<PrivilegeRequest> currentPrivilegeLevelsQueue;
+    
+    /**
+     * Singleton
+     */
     private static final PrivilegeLevelRequestsQueueImpl instance = new PrivilegeLevelRequestsQueueImpl();
 
     private PrivilegeLevelRequestsQueueImpl() {
@@ -25,6 +35,12 @@ public class PrivilegeLevelRequestsQueueImpl implements PrivilegeLevelRequestsQu
         return instance;
     }
 
+    /**
+     * Adds privilege request to queue
+     *
+     * @param privilegeRequest PrivilegeRequest object
+     * @return true if success
+     */
     @Override
     public boolean addRequest(PrivilegeRequest privilegeRequest) {
         for (PrivilegeRequest pr : currentPrivilegeLevelsQueue) {
@@ -37,6 +53,12 @@ public class PrivilegeLevelRequestsQueueImpl implements PrivilegeLevelRequestsQu
         return true;
     }
 
+    /**
+     * Method to remove privilege request from queue
+     *
+     * @param privilegeRequest PrivilegeRequest object
+     * @return true if success
+     */
     @Override
     public boolean removeRequest(PrivilegeRequest privilegeRequest) {
         for (PrivilegeRequest pr : currentPrivilegeLevelsQueue) {
@@ -49,6 +71,12 @@ public class PrivilegeLevelRequestsQueueImpl implements PrivilegeLevelRequestsQu
         return false;
     }
 
+    /**
+     * Method returns list of requests for privilege level
+     *
+     * @param maxLevel selected privilege level
+     * @return List of privilege requests
+     */
     @Override
     public List<PrivilegeRequest> getOperationableRequests(Long maxLevel) {
         List<PrivilegeRequest> requests = new ArrayList<>();
@@ -64,6 +92,12 @@ public class PrivilegeLevelRequestsQueueImpl implements PrivilegeLevelRequestsQu
         }
     }
 
+    /**
+     * Method to check if request is already in queue
+     *
+     * @param privilegeRequest PrivilegeRequest object
+     * @return true if success
+     */
     @Override
     public boolean findRequest(PrivilegeRequest privilegeRequest) {
         for (PrivilegeRequest pr : currentPrivilegeLevelsQueue) {

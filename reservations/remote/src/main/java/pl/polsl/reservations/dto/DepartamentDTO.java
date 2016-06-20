@@ -5,6 +5,9 @@ import java.io.Serializable;
 /**
  *
  * @author Wojtek
+ * @version 1.0
+ * 
+ * Departament Data Transport Object
  */
 public class DepartamentDTO implements Serializable {
 

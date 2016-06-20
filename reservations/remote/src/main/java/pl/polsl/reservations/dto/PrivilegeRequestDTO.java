@@ -5,6 +5,9 @@ import java.io.Serializable;
 /**
  *
  * @author wojcdeb448
+ * @version 1.0
+ * 
+ * PrivilegeRequest Data Transport Object
  */
 public class PrivilegeRequestDTO implements Serializable {
 

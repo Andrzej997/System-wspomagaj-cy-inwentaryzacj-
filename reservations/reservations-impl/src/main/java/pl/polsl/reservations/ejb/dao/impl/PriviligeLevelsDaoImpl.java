@@ -18,7 +18,10 @@ import pl.polsl.reservations.interceptors.TransactionalInterceptor;
 import pl.polsl.reservations.logger.LoggerImpl;
 
 /**
- * @author matis
+ * @author Mateusz Sojka
+ * @version 1.0
+ *
+ * PrivilegeLevels data access object implementation
  */
 @Interceptors({LoggerImpl.class, TransactionalInterceptor.class})
 @Stateful
@@ -35,18 +38,36 @@ public class PriviligeLevelsDaoImpl extends AbstractDaoImpl<PriviligeLevels> imp
         super(PriviligeLevels.class);
     }
 
+    /**
+     * Method to get privileges collection by privilege level id
+     *
+     * @param id privilege level id
+     * @return list of Privileges
+     */
     @Override
     public List<Priviliges> getPriviligesCollectionById(Number id) {
         PriviligeLevels priviligeLevels = this.find(id);
         return priviligeLevels.getPriviligesCollection();
     }
 
+    /**
+     * Method to get users which has given privilege level
+     *
+     * @param id privilege level id
+     * @return list of users
+     */
     @Override
     public List<Users> getUsersCollectionById(Number id) {
         PriviligeLevels priviligeLevels = this.find(id);
         return priviligeLevels.getUsersCollection();
     }
 
+    /**
+     * Method to get privilege level entity by level value
+     *
+     * @param levelValue Long with privilege level value
+     * @return PrivilegeLevels enitity
+     */
     @Override
     public PriviligeLevels getPrivligeLevelsEntityByLevelValue(Long levelValue) {
         Query query = getEntityManager().createNamedQuery("getPrivligeLevelsEntityByLevelValue", PriviligeLevels.class);
@@ -58,6 +79,11 @@ public class PriviligeLevelsDaoImpl extends AbstractDaoImpl<PriviligeLevels> imp
         }
     }
 
+    /**
+     * Method used to remove entity from database
+     *
+     * @param entity
+     */
     @Override
     public void remove(PriviligeLevels entity) {
         getDependencies();

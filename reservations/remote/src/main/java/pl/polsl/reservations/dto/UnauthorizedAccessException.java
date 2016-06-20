@@ -2,6 +2,9 @@ package pl.polsl.reservations.dto;
 
 /**
  * Created by Krzysztof Stręk on 2016-05-21.
+ * @version
+ * 
+ * Exception thrown when user has no access to execute method
  */
 public class UnauthorizedAccessException extends Exception {
 

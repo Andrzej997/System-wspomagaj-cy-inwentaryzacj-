@@ -23,16 +23,33 @@ import pl.polsl.reservations.ejb.local.UsersCertifcatesPoolImpl;
 import pl.polsl.reservations.privileges.PrivilegeLevelEnum;
 
 /**
- * @author matis
+ * @author Mateusz Sojka
+ * @version 1.0
+ *
+ * Base abstract class to all data access object classes
  */
 public abstract class AbstractDaoImpl<T> implements Serializable, AbstractDao<T> {
 
     private static final long serialVersionUID = -13071878948980250L;
+
+    /**
+     * DaoEntity field
+     */
     private final Class<T> entityClass;
+
+    /**
+     * UserTransaction field
+     */
     private final UserTransaction userTransaction;
 
+    /**
+     * UserContext field
+     */
     protected UserContext userContext;
 
+    /**
+     * UserCertificatesPool field
+     */
     private final UsersCertifcatesPool usersCertifcatesPool;
 
     protected AbstractDaoImpl(Class<T> entityClass) throws NamingException {
@@ -41,13 +58,26 @@ public abstract class AbstractDaoImpl<T> implements Serializable, AbstractDao<T>
         usersCertifcatesPool = UsersCertifcatesPoolImpl.getInstance();
     }
 
+    /**
+     * Method to obtain UserCertificatesPool objects
+     *
+     * @return UsersCertifcatesPool
+     */
     @Override
     public UsersCertifcatesPool getUsersCertifcatesPool() {
         return this.usersCertifcatesPool;
     }
 
+    /**
+     * Abstract method to obtain crossing dependencies
+     */
     protected abstract void getDependencies();
 
+    /**
+     * Method to obtain user context by user certifate
+     *
+     * @param userCertificate String with certificate
+     */
     @Override
     public void setUserContext(String userCertificate) {
         if (usersCertifcatesPool.checkCertificate(userCertificate)) {
@@ -55,11 +85,21 @@ public abstract class AbstractDaoImpl<T> implements Serializable, AbstractDao<T>
         }
     }
 
+    /**
+     * UserContext setter
+     *
+     * @param userContext UserContext
+     */
     @Override
     public void setUserContext(UserContext userContext) {
         this.userContext = userContext;
     }
 
+    /**
+     * Method creates UserTransaction
+     *
+     * @return UserTransaction
+     */
     @Override
     public UserTransaction getUserTransaction() {
         return this.userTransaction;
@@ -71,6 +111,11 @@ public abstract class AbstractDaoImpl<T> implements Serializable, AbstractDao<T>
         return em;
     }
 
+    /**
+     * Method creates entity
+     *
+     * @param entity T type of entity class
+     */
     @Override
     @Transactional(Transactional.TxType.REQUIRED)
     public void create(T entity) {
@@ -80,6 +125,11 @@ public abstract class AbstractDaoImpl<T> implements Serializable, AbstractDao<T>
         em.persist(entity);
     }
 
+    /**
+     * Method to edit entity
+     *
+     * @param entity T type of entity class
+     */
     @Override
     @Transactional(Transactional.TxType.REQUIRED)
     public void edit(T entity) {
@@ -89,6 +139,11 @@ public abstract class AbstractDaoImpl<T> implements Serializable, AbstractDao<T>
         em.merge(entity);
     }
 
+    /**
+     * Method to remove entity
+     *
+     * @param entity T type of entity class
+     */
     @Override
     @Transactional(Transactional.TxType.REQUIRED)
     public void remove(T entity) {
@@ -100,6 +155,11 @@ public abstract class AbstractDaoImpl<T> implements Serializable, AbstractDao<T>
         em.flush();
     }
 
+    /**
+     * Method to merge entity
+     *
+     * @param entity T type of entity class
+     */
     @Override
     @Transactional(Transactional.TxType.REQUIRED)
     public void merge(T entity) {
@@ -109,6 +169,12 @@ public abstract class AbstractDaoImpl<T> implements Serializable, AbstractDao<T>
         em.merge(entity);
     }
 
+    /**
+     * Method to find entity by id
+     *
+     * @param id value of Numeric type
+     * @return T found entity or null
+     */
     @Override
     public T find(Object id) {
         PrivilegeLevelEnum level = userContext.getPrivilegeLevel();
@@ -117,6 +183,12 @@ public abstract class AbstractDaoImpl<T> implements Serializable, AbstractDao<T>
         return em.find(entityClass, id);
     }
 
+    /**
+     * Method to get reference of entity by id
+     *
+     * @param id value of Numeric type
+     * @return T found entity reference or null
+     */
     @Override
     public T getReference(Object id) {
         PrivilegeLevelEnum level = userContext.getPrivilegeLevel();
@@ -125,6 +197,11 @@ public abstract class AbstractDaoImpl<T> implements Serializable, AbstractDao<T>
         return em.getReference(entityClass, id);
     }
 
+    /**
+     * Method to get all entities
+     *
+     * @return List of entites
+     */
     @Override
     public List<T> findAll() {
         PrivilegeLevelEnum level = userContext.getPrivilegeLevel();
@@ -134,6 +211,12 @@ public abstract class AbstractDaoImpl<T> implements Serializable, AbstractDao<T>
         return em.createQuery(cq).getResultList();
     }
 
+    /**
+     * Method to find all enitities in given range
+     *
+     * @param range int array
+     * @return List of entities
+     */
     @Override
     public List<T> findRange(int[] range) {
         PrivilegeLevelEnum level = userContext.getPrivilegeLevel();
@@ -146,6 +229,11 @@ public abstract class AbstractDaoImpl<T> implements Serializable, AbstractDao<T>
         return q.getResultList();
     }
 
+    /**
+     * Method to get count of entities in database
+     *
+     * @return int count of entities
+     */
     @Override
     public int count() {
         PrivilegeLevelEnum level = userContext.getPrivilegeLevel();
@@ -157,6 +245,13 @@ public abstract class AbstractDaoImpl<T> implements Serializable, AbstractDao<T>
         return ((Long) q.getSingleResult()).intValue();
     }
 
+    /**
+     * Method to find entity by column names and thier values
+     *
+     * @param columnNames List of column names
+     * @param values List of column values
+     * @return List of found entities
+     */
     @Override
     public List<T> findEntity(List<String> columnNames, List<Object> values) {
         PrivilegeLevelEnum level = userContext.getPrivilegeLevel();
@@ -176,6 +271,12 @@ public abstract class AbstractDaoImpl<T> implements Serializable, AbstractDao<T>
         return resultList;
     }
 
+    /**
+     * Method to get long value from object
+     *
+     * @param o object data
+     * @return Long value
+     */
     @Contract("null -> null")
     private Long getLongValue(Object o) {
         if (o instanceof Long) {
@@ -194,6 +295,12 @@ public abstract class AbstractDaoImpl<T> implements Serializable, AbstractDao<T>
         }
     }
 
+    /**
+     * Method return appropriate id value and type from any other type value
+     *
+     * @param value Object value
+     * @return Object of id value
+     */
     @Nullable
     private Object getAppropriateIdValue(Object value) {
         Long idValue = getLongValue(value);
@@ -223,6 +330,9 @@ public abstract class AbstractDaoImpl<T> implements Serializable, AbstractDao<T>
         return value;
     }
 
+    /**
+     * Method to close entity manager
+     */
     @Override
     public void closeEntityManager() {
         PrivilegeLevelEnum level = userContext.getPrivilegeLevel();

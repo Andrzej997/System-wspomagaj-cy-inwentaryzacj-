@@ -8,12 +8,21 @@ import javax.transaction.UserTransaction;
 import pl.polsl.reservations.ejb.local.AbstractDao;
 
 /**
- * Created by matis on 15.05.2016.
+ * @author Mateusz Sojka
+ * @version 1.0
+ * 
+ * DAO methods interceptor to add them transactional scope
  */
 @Transactional
 @Interceptor
 public class TransactionalInterceptor {
 
+    /**
+     * Invokes method in transaction
+     * @param ctx InvocationContext object
+     * @return method result
+     * @throws Exception when something goes wrong
+     */
     @AroundInvoke
     public Object methodInterceptor(InvocationContext ctx) throws Exception {
         Object result = null;
@@ -34,6 +43,11 @@ public class TransactionalInterceptor {
         return result;
     }
 
+    /**
+     * Method to get user transaction from abstractDao
+     * @param ctx InvocationContext object
+     * @return current UserTransaction object
+     */
     public UserTransaction getUserTransaction(InvocationContext ctx) {
         if (ctx.getTarget() instanceof AbstractDao) {
             return ((AbstractDao) ctx.getTarget()).getUserTransaction();

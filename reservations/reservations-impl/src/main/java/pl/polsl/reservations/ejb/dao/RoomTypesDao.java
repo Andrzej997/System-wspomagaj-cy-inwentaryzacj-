@@ -7,10 +7,19 @@ import pl.polsl.reservations.entities.Room;
 import pl.polsl.reservations.entities.RoomTypes;
 
 /**
- * @author matis
+ * @author Mateusz Sojka
+ * @version 1.0
+ *
+ * RoomTypes data access object interface
  */
 @Local
 public interface RoomTypesDao extends AbstractDao<RoomTypes> {
 
+    /**
+     * Method to get rooms which has given room type
+     *
+     * @param id room type id
+     * @return List of rooms
+     */
     List<Room> getRoomCollectionById(Number id);
 }

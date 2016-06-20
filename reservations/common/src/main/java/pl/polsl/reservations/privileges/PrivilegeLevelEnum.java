@@ -6,7 +6,10 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 /**
- * @author matis
+ * @author Mateusz Sojka
+ * @version 1.0
+ *
+ * Enum represenets users privilege levels
  */
 public enum PrivilegeLevelEnum implements Serializable {
 
@@ -17,6 +20,7 @@ public enum PrivilegeLevelEnum implements Serializable {
     TECHNICAL_WORKER(5, "Technical Worker", "ReservationTechnicalWorkerPU"),
     STANDARD_USER(6, "Standard User", "ReservationStandardUserPU"),
     TESTER(7, "Tester", "ReservationTestsPU");
+
     public static PrivilegeLevelEnum getPrivilegeLevel(int level) {
         switch (level) {
             case 1:
@@ -38,8 +42,19 @@ public enum PrivilegeLevelEnum implements Serializable {
         }
     }
 
+    /**
+     * Privilege level value
+     */
     private final Integer value;
+
+    /**
+     * Privilege level name
+     */
     private final String name;
+
+    /**
+     * Factory from persistance unit
+     */
     private final EntityManagerFactory entityManagerFactory;
 
     PrivilegeLevelEnum(Integer value, String name, String entityManagerFactoryName) {
@@ -52,6 +67,11 @@ public enum PrivilegeLevelEnum implements Serializable {
         return value;
     }
 
+    /**
+     * Method to obatin EntityManager which depends on privilege level
+     *
+     * @return new EntityManager instance
+     */
     public EntityManager getEntityManager() {
         return entityManagerFactory.createEntityManager();
     }
