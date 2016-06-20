@@ -299,6 +299,11 @@ public class AddEditUserView extends JPanel {
                 addEditUserViewMediator.refreshUserData();
             }
         });
+        permissionCb.addActionListener((ActionEvent e)-> {
+            if (option == AddUserEnum.ADD && permissionCb.getSelectedItem() != null) {
+                addEditUserViewMediator.getChiefs();
+            }
+        });
     }
 
     private void keyInputDispatcher() {

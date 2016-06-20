@@ -114,4 +114,13 @@ public class MessageBoxUtils {
                 JOptionPane.WARNING_MESSAGE, null, options, options[0]);
         return optionIndex == 0;
     }
+
+    public static Boolean deleteConfirmationWarning(JComponent parent, String deleteWhat) {
+        String message = "Do you really want to delete " + deleteWhat + "?";
+        String title = "Warning";
+        Object[] options = {"ACCEPT", "ABORT"};
+        int optionIndex = JOptionPane.showOptionDialog(parent, message, title, JOptionPane.DEFAULT_OPTION,
+                JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+        return optionIndex == 0;
+    }
 }

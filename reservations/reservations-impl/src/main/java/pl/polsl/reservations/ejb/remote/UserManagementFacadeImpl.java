@@ -125,10 +125,12 @@ public class UserManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
         }
 
         Room oldRoom = worker.getRoom();
-        List<Workers> workerses = oldRoom.getWorkerses();
-        workerses.remove(worker);
-        oldRoom.setWorkerses(workerses);
-        roomFacade.merge(oldRoom);
+        if (oldRoom != null) {
+            List<Workers> workerses = oldRoom.getWorkerses();
+            workerses.remove(worker);
+            oldRoom.setWorkerses(workerses);
+            roomFacade.merge(oldRoom);
+        }
 
         worker.setRoom(room);
         workersFacade.edit(worker);
@@ -352,14 +354,27 @@ public class UserManagementFacadeImpl extends AbstractBusinessFacadeImpl impleme
         workerDB.setPesel(user.getPesel());
         workerDB.setSurname(user.getSurname());
         workerDB.setWorkerName(user.getName());
+        if (user.getRoomNumber() != null) {
+            workerDB.setRoom(roomFacade.getRoomByNumber(user.getRoomNumber()));
+        }
         Departaments departaments = departamentsFacade.getDepartamentByName(user.getDepartment());
         if (departaments != null) {
             workerDB.setDepartament(departaments);
         }
+        if (user.getChiefId() != null) {
+            workerDB.setChief(workersFacade.find(user.getChiefId()));
+        }
 
         workersFacade.create(workerDB);
-        List<Workers> workerByPesel = workersFacade.getWorkerByPesel(workerDB.getPesel());
+        List<Workers> workerByPesel = workersFacade.getWorkerByPesel(user.getPesel());
         userDB.setWorkers(workerByPesel.get(0));
+        if (user.getRoomNumber() != null) {
+            Room room = roomFacade.getRoomByNumber(user.getRoomNumber());
+            List<Workers> workerses = room.getWorkerses();
+            workerses.add(workerByPesel.get(0));
+            room.setWorkerses(workerses);
+            roomFacade.merge(room);
+        }
         usersFacade.create(userDB);
         List<Users> usersCollection = level.getUsersCollection();
         usersCollection.add(usersFacade.getUserByUsername(user.getUserName()));

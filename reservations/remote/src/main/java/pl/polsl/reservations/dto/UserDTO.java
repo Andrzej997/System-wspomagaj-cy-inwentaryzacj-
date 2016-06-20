@@ -32,11 +32,13 @@ public class UserDTO implements Serializable {
     private Long privilegeLevel;
 
     private Integer roomNumber;
+    
+    private Long chiefId;
 
     public UserDTO() {
     }
 
-    public UserDTO(Long id, String address, String department, String grade, String pesel, String name, String surname, String userName, String phoneNumber, String email, Long privilegeLevel, Integer roomNumber) {
+    public UserDTO(Long id, String address, String department, String grade, String pesel, String name, String surname, String userName, String phoneNumber, String email, Long privilegeLevel, Integer roomNumber, Long chiefId) {
         this.id = id;
         this.address = address;
         this.department = department;
@@ -49,6 +51,7 @@ public class UserDTO implements Serializable {
         this.email = email;
         this.privilegeLevel = privilegeLevel;
         this.roomNumber = roomNumber;
+        this.chiefId = chiefId;
     }
 
     public Long getId() {
@@ -146,4 +149,14 @@ public class UserDTO implements Serializable {
     public void setRoomNumber(Integer roomNumber) {
         this.roomNumber = roomNumber;
     }
+
+    public Long getChiefId() {
+        return chiefId;
+    }
+
+    public void setChiefId(Long chiefId) {
+        this.chiefId = chiefId;
+    }
+    
+    
 }

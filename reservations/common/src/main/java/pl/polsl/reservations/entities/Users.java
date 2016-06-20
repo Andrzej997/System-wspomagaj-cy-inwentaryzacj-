@@ -36,7 +36,7 @@ public class Users implements Serializable {
     @JoinColumn(name = "PRIVILIGE_LEVEL", insertable = true, nullable = true, updatable = true)
     private PriviligeLevels priviligeLevel;
 
-    @OneToOne(optional = false, targetEntity = Workers.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(optional = false, targetEntity = Workers.class, fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Workers workers;
 
     @Column(name = "USERNAME", updatable = true, insertable = true, nullable = false)

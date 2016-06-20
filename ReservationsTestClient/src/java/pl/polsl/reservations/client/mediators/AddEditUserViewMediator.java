@@ -54,6 +54,7 @@ public class AddEditUserViewMediator {
                     refreshPrivilegeLevel();
                     refreshUserRoom();
                     refreshDepartament();
+                    refreshChief();
                     break;
                 default:
                     break;
@@ -122,6 +123,10 @@ public class AddEditUserViewMediator {
         newUser.setSurname(addEditUserView.getSurnameTf().getText());
         newUser.setUserName(addEditUserView.getUsernameTf().getText());
         newUser.setPrivilegeLevel(getSelectedPrivilegeLevel());
+        Long chiefId = getSelectedChief();
+        if (chiefId != null) {
+            newUser.setChiefId(chiefId);
+        }
         return userManagementFacade.registerUser(newUser, "");
     }
 
@@ -191,13 +196,30 @@ public class AddEditUserViewMediator {
         addEditUserView.getUserCb().setSelectedIndex(0);
     }
 
-    private void getChiefs() {
+    public void getChiefs() {
         int selectedIndex = addEditUserView.getPermissionCb().getSelectedIndex();
         List<UserDTO> possibleChiefs = userManagementFacade.getPossibleChiefs(selectedIndex);
         addEditUserView.getChiefCb().removeAllItems();
+        if (possibleChiefs == null || possibleChiefs.isEmpty()) {
+            return;
+        }
         for (UserDTO user : possibleChiefs) {
             addEditUserView.getChiefCb().addItem(user.getName() + " " + user.getSurname());
         }
+    }
+
+    private Long getSelectedChief() {
+        int selectedIndex = addEditUserView.getPermissionCb().getSelectedIndex();
+        if (selectedIndex > 0) {
+            List<UserDTO> possibleChiefs = userManagementFacade.getPossibleChiefs(selectedIndex);
+            int selectedChiefIndex = addEditUserView.getChiefCb().getSelectedIndex();
+            UserDTO chief = possibleChiefs.get(selectedChiefIndex);
+            if (chief == null) {
+                return null;
+            }
+            return chief.getId();
+        }
+        return null;
     }
 
     private void getEditedUserData() {
@@ -279,7 +301,32 @@ public class AddEditUserViewMediator {
                 addEditUserView.getDepartmentCb().setSelectedItem(department);
             }
         }
+    }
 
+    private void refreshChief() {
+        Integer selectedUserIndex = addEditUserView.getUserCb().getSelectedIndex();
+        if (selectedUserIndex != null && selectedUserIndex >= 0) {
+            List<UserDTO> usersWithLowerPrivilegeLevel = userFacade.getUsersWithLowerPrivilegeLevel();
+            UserDTO user = usersWithLowerPrivilegeLevel.get(selectedUserIndex);
+            if (user.getChiefId() == null) {
+                return;
+            }
+            UserDTO chief = userManagementFacade.getUserDetails(user.getChiefId().intValue());
+            int selectedIndex = addEditUserView.getPermissionCb().getSelectedIndex();
+            if (selectedIndex >= 0) {
+                List<UserDTO> possibleChiefs = userManagementFacade.getPossibleChiefs(selectedIndex);
+                addEditUserView.getChiefCb().removeAllItems();
+                if (possibleChiefs == null || possibleChiefs.isEmpty()) {
+                    return;
+                }
+                for (UserDTO userx : possibleChiefs) {
+                    addEditUserView.getChiefCb().addItem(userx.getName() + " " + userx.getSurname());
+                    if(userx.getId().equals(chief.getId())){
+                        addEditUserView.getChiefCb().setSelectedItem(userx.getName() + " " + userx.getSurname());
+                    }
+                }
+            }
+        }
     }
 
     public void refreshUserData() {
@@ -288,6 +335,8 @@ public class AddEditUserViewMediator {
         refreshPrivilegeLevel();
         refreshUserRoom();
         refreshDepartament();
+        getChiefs();
+        refreshChief();
     }
 
 }

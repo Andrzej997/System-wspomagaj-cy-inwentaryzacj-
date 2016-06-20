@@ -56,7 +56,7 @@ public class Workers implements Serializable {
     private Room room;
 
     @ManyToOne(targetEntity = Workers.class,
-            cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, optional = true)
+            cascade = CascadeType.MERGE, fetch = FetchType.EAGER, optional = true)
     @JoinColumn(updatable = true, nullable = true)
     private Workers chief;
 

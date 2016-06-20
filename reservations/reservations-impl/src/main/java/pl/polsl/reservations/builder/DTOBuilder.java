@@ -98,6 +98,9 @@ public class DTOBuilder {
         userDTO.setSurname(worker.getSurname());
         userDTO.setUserName(user.getUsername());
         userDTO.setGrade(worker.getGrade());
+        if(worker.getChief() != null){
+            userDTO.setChiefId(worker.getChief().getId());
+        }
         return userDTO;
     }
 
