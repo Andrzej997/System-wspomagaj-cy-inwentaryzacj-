@@ -4,6 +4,9 @@ import java.io.Serializable;
 
 /**
  * Created by Krzysztof Stręk on 2016-05-14.
+ * @version
+ * 
+ * EquipmentState Data Transport Object
  */
 public class EquipmentStateDTO implements Serializable {
 

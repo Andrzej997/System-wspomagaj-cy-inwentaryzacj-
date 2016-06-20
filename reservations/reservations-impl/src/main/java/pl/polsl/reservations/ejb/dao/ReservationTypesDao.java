@@ -7,10 +7,18 @@ import pl.polsl.reservations.entities.ReservationTypes;
 import pl.polsl.reservations.entities.Reservations;
 
 /**
- * @author matis
+ * @author Mateusz Sojka
+ * @version 1.0
+ * 
+ * ReservationTypes data access object interface
  */
 @Local
 public interface ReservationTypesDao extends AbstractDao<ReservationTypes> {
 
+    /**
+     * Get reservations which has given type
+     * @param id reservation type id
+     * @return list of reservations
+     */
     List<Reservations> getReservationsCollectionById(Number id);
 }

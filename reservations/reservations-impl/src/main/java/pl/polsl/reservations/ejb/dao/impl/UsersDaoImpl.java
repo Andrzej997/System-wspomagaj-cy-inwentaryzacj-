@@ -19,7 +19,10 @@ import pl.polsl.reservations.interceptors.TransactionalInterceptor;
 import pl.polsl.reservations.logger.LoggerImpl;
 
 /**
- * @author matis
+ * @author Mateusz Sojka
+ * @version 1.0
+ *
+ * Users data access object implementation
  */
 @Interceptors({LoggerImpl.class, TransactionalInterceptor.class})
 @Stateful
@@ -36,6 +39,13 @@ public class UsersDaoImpl extends AbstractDaoImpl<Users> implements UsersDao {
         super(Users.class);
     }
 
+    /**
+     * Method to validate user login
+     *
+     * @param username String username
+     * @param password String password
+     * @return true if user data exists
+     */
     @Override
     public Boolean validateUser(String username, String password) {
         Query query = this.getEntityManager().createNamedQuery("validateUser", Users.class);
@@ -45,6 +55,13 @@ public class UsersDaoImpl extends AbstractDaoImpl<Users> implements UsersDao {
         return !resultList.isEmpty();
     }
 
+    /**
+     * Method to validate user login by email
+     *
+     * @param email String email
+     * @param password String passwor
+     * @return true if user data exists
+     */
     @Override
     public Boolean validateUserByEmail(String email, String password) {
         Query query = this.getEntityManager().createNamedQuery("validateUserByEmail", Users.class);
@@ -54,6 +71,12 @@ public class UsersDaoImpl extends AbstractDaoImpl<Users> implements UsersDao {
         return !resultList.isEmpty();
     }
 
+    /**
+     * Method to get user privilege level by username
+     *
+     * @param username String username
+     * @return Long privilege level value
+     */
     @Override
     public Long getUserPrivligeLevelByUsername(String username) {
         Query query = this.getEntityManager().createNamedQuery("getUserPrivligeLevelByUsername", PriviligeLevels.class);
@@ -66,6 +89,12 @@ public class UsersDaoImpl extends AbstractDaoImpl<Users> implements UsersDao {
         }
     }
 
+    /**
+     * Method to get worker data by username
+     *
+     * @param username String username
+     * @return Workers entity
+     */
     @Override
     public Workers getWorkerByUsername(String username) {
         Query query = this.getEntityManager().createNamedQuery("getWorkerByUsername", Workers.class);
@@ -77,6 +106,12 @@ public class UsersDaoImpl extends AbstractDaoImpl<Users> implements UsersDao {
         }
     }
 
+    /**
+     * Method to get User by username
+     *
+     * @param username String username
+     * @return Users entity
+     */
     @Override
     public Users getUserByUsername(String username) {
         Query query = this.getEntityManager().createNamedQuery("getUserByUsername", Users.class);
@@ -88,6 +123,12 @@ public class UsersDaoImpl extends AbstractDaoImpl<Users> implements UsersDao {
         }
     }
 
+    /**
+     * Method to get user by email
+     *
+     * @param email String email
+     * @return Users entity
+     */
     @Override
     public Users getUserByEmail(String email) {
         Query query = this.getEntityManager().createNamedQuery("getUserByEmail", Users.class);
@@ -99,12 +140,23 @@ public class UsersDaoImpl extends AbstractDaoImpl<Users> implements UsersDao {
         }
     }
 
+    /**
+     * Method to get reservations which are made by user
+     *
+     * @param id user id
+     * @return List of reservations
+     */
     @Override
     public List<Reservations> getReservationsCollectionById(Number id) {
         Users users = this.find(id);
         return users.getReservationsCollection();
     }
 
+    /**
+     * Method used to remove entity from database
+     *
+     * @param entity
+     */
     @Override
     public void remove(Users entity) {
         getDependencies();

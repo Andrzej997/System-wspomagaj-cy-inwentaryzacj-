@@ -1,7 +1,11 @@
 package pl.polsl.reservations.privileges;
 
 /**
- * Created by Krzysztof Stręk on 2016-05-19.
+ * Created by Krzysztof Strek on 2016-05-19.
+ *
+ * @version 1.0
+ *
+ * Enum representing user privileges to dedicated actions
  */
 public enum PrivilegeEnum {
     //uprawnienia według tabelki ról w dokumentacji
@@ -27,6 +31,13 @@ public enum PrivilegeEnum {
         this.key = key;
     }
 
+    /**
+     * Method returns enum value by key
+     *
+     * @param key String with privilege name
+     * @return PrivilegeEnum value
+     * @throws Exception when there is no such privilege
+     */
     public static PrivilegeEnum getPrivilege(String key) throws Exception {
         for (PrivilegeEnum e : values()) {
             if (e.key.equals(key)) {

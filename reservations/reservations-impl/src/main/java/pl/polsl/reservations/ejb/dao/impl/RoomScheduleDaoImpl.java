@@ -19,7 +19,10 @@ import pl.polsl.reservations.interceptors.TransactionalInterceptor;
 import pl.polsl.reservations.logger.LoggerImpl;
 
 /**
- * @author matis
+ * @author Mateusz Sojka
+ * @version 1.0
+ *
+ * RoomSchedule data access object implementation
  */
 @Interceptors({LoggerImpl.class, TransactionalInterceptor.class})
 @Stateful
@@ -36,6 +39,13 @@ public class RoomScheduleDaoImpl extends AbstractDaoImpl<RoomSchedule> implement
         super(RoomSchedule.class);
     }
 
+    /**
+     * Method to get all schedules by year and semester
+     *
+     * @param year int schedule year
+     * @param semester boolean schedule semester (true means summer)
+     * @return list of room schedules
+     */
     @Override
     public List<RoomSchedule> getAllSchedulesByYearAndSemester(int year, boolean semester) {
         Query query = this.getEntityManager().createNamedQuery("getAllSchedulesByYearAndSemester", RoomSchedule.class);
@@ -44,6 +54,13 @@ public class RoomScheduleDaoImpl extends AbstractDaoImpl<RoomSchedule> implement
         return query.getResultList();
     }
 
+    /**
+     * Method to get all schedules by year and semester at session
+     *
+     * @param year int schedule year
+     * @param semester boolean schedule semester (true means summer)
+     * @return list of room schedules
+     */
     @Override
     public List<RoomSchedule> getAllSchedulesAtSession(int year, boolean semester) {
         Query query = this.getEntityManager().createNamedQuery("getAllSchedulesAtSession", RoomSchedule.class);
@@ -52,6 +69,15 @@ public class RoomScheduleDaoImpl extends AbstractDaoImpl<RoomSchedule> implement
         return query.getResultList();
     }
 
+    /**
+     * Method to get schedule
+     *
+     * @param year int schedule year
+     * @param week int schedule week
+     * @param semester boolean schedule semester (true means summer)
+     * @param room Room entity
+     * @return RoomSchedule entity
+     */
     @Override
     public RoomSchedule getCurrentDateSchedule(int year, int week, boolean semester, Room room) {
         Query query = this.getEntityManager().createNamedQuery("getCurrentDateSchedule", RoomSchedule.class);
@@ -66,6 +92,12 @@ public class RoomScheduleDaoImpl extends AbstractDaoImpl<RoomSchedule> implement
         }
     }
 
+    /**
+     * Method to get current date schedule
+     *
+     * @param roomNumber room number
+     * @return RoomSchedule entity
+     */
     @Override
     public RoomSchedule getCurrentScheduleForRoom(int roomNumber) {
         getDependencies();
@@ -88,12 +120,23 @@ public class RoomScheduleDaoImpl extends AbstractDaoImpl<RoomSchedule> implement
         }
     }
 
+    /**
+     * Method to get reservations collection by schedule id
+     *
+     * @param id schedule id
+     * @return list of reservations
+     */
     @Override
     public List<Reservations> getReservationsCollectionById(Number id) {
         RoomSchedule roomSchedule = this.find(id);
         return roomSchedule.getReservationsCollection();
     }
 
+    /**
+     * Method used to remove entity from database
+     *
+     * @param entity
+     */
     @Override
     public void remove(RoomSchedule entity) {
         getDependencies();

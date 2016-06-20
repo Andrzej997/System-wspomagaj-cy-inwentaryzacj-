@@ -16,7 +16,10 @@ import pl.polsl.reservations.interceptors.TransactionalInterceptor;
 import pl.polsl.reservations.logger.LoggerImpl;
 
 /**
- * @author matis
+ * @author Mateusz Sojka
+ * @version 1.0
+ *
+ * Equipment data access object implementation
  */
 @Interceptors({LoggerImpl.class, TransactionalInterceptor.class})
 @Stateful
@@ -32,6 +35,12 @@ public class EquipmentDaoImpl extends AbstractDaoImpl<Equipment> implements Equi
         super(Equipment.class);
     }
 
+    /**
+     * Method to get room equipment by room number
+     *
+     * @param roomNumber int with room number
+     * @return list of rooms' equipment
+     */
     @Override
     public List<Equipment> getEquipmentByRoomNumber(int roomNumber) {
         Query query = getEntityManager().createNamedQuery("getEquipmentByRoomNumber", Equipment.class);
@@ -39,6 +48,11 @@ public class EquipmentDaoImpl extends AbstractDaoImpl<Equipment> implements Equi
         return query.getResultList();
     }
 
+    /**
+     * Method used to remove entity from database
+     *
+     * @param entity
+     */
     @Override
     public void remove(Equipment entity) {
         getDependencies();

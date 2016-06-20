@@ -14,7 +14,10 @@ import pl.polsl.reservations.interceptors.TransactionalInterceptor;
 import pl.polsl.reservations.logger.LoggerImpl;
 
 /**
- * @author matis
+ * @author Mateusz Sojka
+ * @version 1.0
+ *
+ * Privilege data access object implementation
  */
 @Interceptors({LoggerImpl.class, TransactionalInterceptor.class})
 @Stateful
@@ -29,12 +32,23 @@ public class PriviligesDaoImpl extends AbstractDaoImpl<Priviliges> implements Pr
         super(Priviliges.class);
     }
 
+    /**
+     * Method to get privilege levels which has given privilege
+     *
+     * @param id privilege id
+     * @return list of privilege levels
+     */
     @Override
     public List<PriviligeLevels> getPriviligeLevelsCollectionById(Number id) {
         Priviliges priviliges = this.find(id);
         return priviliges.getPriviligeLevelsCollection();
     }
 
+    /**
+     * Method used to remove entity from database
+     *
+     * @param entity
+     */
     @Override
     public void remove(Priviliges entity) {
         getDependencies();

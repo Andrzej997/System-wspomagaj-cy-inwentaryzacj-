@@ -5,6 +5,9 @@ import java.io.Serializable;
 /**
  *
  * @author Wojtek
+ * @version 1.0
+ * 
+ * Institute Data Transport Object
  */
 public class InstituteDTO implements Serializable {
 

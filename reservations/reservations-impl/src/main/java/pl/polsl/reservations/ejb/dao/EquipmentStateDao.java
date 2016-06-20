@@ -7,10 +7,19 @@ import pl.polsl.reservations.entities.Equipment;
 import pl.polsl.reservations.entities.EqupmentState;
 
 /**
- * @author matis
+ * @author Mateusz Sojka
+ * @version 1.0
+ *
+ * EquipmentState data access object interface
  */
 @Local
 public interface EquipmentStateDao extends AbstractDao<EqupmentState> {
 
+    /**
+     * Method to get equipment which has given state
+     *
+     * @param id state id
+     * @return List of equipment
+     */
     List<Equipment> getEquipmentCollectionById(Number id);
 }

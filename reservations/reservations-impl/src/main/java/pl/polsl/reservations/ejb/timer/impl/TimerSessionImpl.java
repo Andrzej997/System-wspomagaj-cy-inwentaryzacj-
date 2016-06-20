@@ -16,6 +16,9 @@ import pl.polsl.reservations.entities.Users;
 /**
  *
  * @author wojcdeb448
+ * @version 1.0
+ *
+ * Timer to revert users' privilege level after timeout
  */
 @Singleton
 public class TimerSessionImpl implements TimerSession, Serializable {
@@ -30,11 +33,23 @@ public class TimerSessionImpl implements TimerSession, Serializable {
     @EJB
     PriviligeLevelsDao levelsDao;
 
+    /**
+     * Method to create timer
+     *
+     * @param miliseconds timeout value
+     * @param userID user which creates timer
+     */
     @Override
     public void createTimer(long miliseconds, int userID) {
         context.getTimerService().createTimer(miliseconds, userID);
     }
 
+    /**
+     * Method executed after timeout, reverts user privilege level which was
+     * given by his chief
+     *
+     * @param timer instance
+     */
     @Timeout
     public void revertPrivilegeLevel(Timer timer) {
         int id = (int) timer.getInfo();

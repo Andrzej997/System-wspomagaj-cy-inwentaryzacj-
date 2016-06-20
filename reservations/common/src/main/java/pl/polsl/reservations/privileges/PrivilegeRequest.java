@@ -5,13 +5,27 @@ import java.io.Serializable;
 /**
  *
  * @author wojcdeb448
+ * @version 1.0
+ * 
+ * Class represents privilege request, needed to obtain higher privilege level
  */
 public class PrivilegeRequest implements Serializable {
 
     private static final long serialVersionUID = -4000059765778035943L;
 
+    /**
+     * Requested level
+     */
     private Long privilegeLevel;
+    
+    /**
+     * Request reason
+     */
     private String reason;
+    
+    /**
+     * Requesting user id
+     */
     private Long userID;
 
     public PrivilegeRequest(Long privilegeLevel, Long userID, String reason) {

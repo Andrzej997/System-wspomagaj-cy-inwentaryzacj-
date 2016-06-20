@@ -12,7 +12,9 @@ import javax.interceptor.InterceptorBinding;
 
 /**
  *
- * @author matis
+ * @author Mateusz Sojka
+ * @version 1.0
+ * Annotation that informs about required privilege to execute annotated method
  */
 @Inherited
 @InterceptorBinding

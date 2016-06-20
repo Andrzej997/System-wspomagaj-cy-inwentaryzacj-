@@ -16,7 +16,10 @@ import pl.polsl.reservations.interceptors.TransactionalInterceptor;
 import pl.polsl.reservations.logger.LoggerImpl;
 
 /**
- * @author matis
+ * @author Mateusz Sojka
+ * @version 1.0
+ *
+ * Institutes data access object implementation
  */
 @Interceptors({LoggerImpl.class, TransactionalInterceptor.class})
 @Stateful
@@ -31,6 +34,12 @@ public class InstitutesDaoImpl extends AbstractDaoImpl<Institutes> implements In
         super(Institutes.class);
     }
 
+    /**
+     * Method to get institute by his name
+     *
+     * @param name String with institute name
+     * @return Institutes entity
+     */
     @Override
     public Institutes getInstituteByName(String name) {
         Query query = getEntityManager().createNamedQuery("getInstituteByName", Institutes.class);
@@ -42,6 +51,12 @@ public class InstitutesDaoImpl extends AbstractDaoImpl<Institutes> implements In
         }
     }
 
+    /**
+     * Method to get institute by his chief
+     *
+     * @param chiefId chief id
+     * @return Institutes entity
+     */
     @Override
     public Institutes getInstituteByChiefId(Long chiefId) {
         Query query = getEntityManager().createNamedQuery("getInstituteByChiefId", Institutes.class);
@@ -53,12 +68,23 @@ public class InstitutesDaoImpl extends AbstractDaoImpl<Institutes> implements In
         }
     }
 
+    /**
+     * Method to get departaments assigned to institute
+     *
+     * @param id institute id
+     * @return list of departaments
+     */
     @Override
     public List<Departaments> getDepartamentsCollectionById(Number id) {
         Institutes institutes = this.find(id);
         return institutes.getDepartamentsCollection();
     }
 
+    /**
+     * Method used to remove entity from database
+     *
+     * @param entity
+     */
     @Override
     public void remove(Institutes entity) {
         getDependencies();

@@ -7,10 +7,18 @@ import pl.polsl.reservations.entities.PriviligeLevels;
 import pl.polsl.reservations.entities.Priviliges;
 
 /**
- * @author matis
+ * @author Mateusz Sojka
+ * @version 1.0
+ * 
+ * Privilege data access object interface
  */
 @Local
 public interface PriviligesDao extends AbstractDao<Priviliges> {
 
+    /**
+     * Method to get privilege levels which has given privilege
+     * @param id privilege id
+     * @return list of privilege levels
+     */
     List<PriviligeLevels> getPriviligeLevelsCollectionById(Number id);
 }

@@ -14,7 +14,10 @@ import pl.polsl.reservations.interceptors.TransactionalInterceptor;
 import pl.polsl.reservations.logger.LoggerImpl;
 
 /**
- * @author matis
+ * @author Mateusz Sojka
+ * @version 1.0
+ *
+ * RoomTypes data access object implementation
  */
 @Interceptors({LoggerImpl.class, TransactionalInterceptor.class})
 @Stateful
@@ -29,6 +32,12 @@ public class RoomTypesDaoImpl extends AbstractDaoImpl<RoomTypes> implements Room
         super(RoomTypes.class);
     }
 
+    /**
+     * Method to get rooms which has given room type
+     *
+     * @param id room type id
+     * @return List of rooms
+     */
     @Override
     public List<Room> getRoomCollectionById(Number id) {
         RoomTypes roomTypes = this.find(id);
@@ -50,6 +59,11 @@ public class RoomTypesDaoImpl extends AbstractDaoImpl<RoomTypes> implements Room
         super.remove(roomTypes);
     }
 
+    /**
+     * Method used to remove entity from database
+     *
+     * @param entity
+     */
     @Override
     protected void getDependencies() {
         try {

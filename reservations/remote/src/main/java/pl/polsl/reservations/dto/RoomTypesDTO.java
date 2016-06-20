@@ -5,6 +5,9 @@ import java.io.Serializable;
 /**
  *
  * @author matis
+ * @version 1.0
+ * 
+ * RoomTypes Data Transport Object
  */
 public class RoomTypesDTO implements Serializable {
 

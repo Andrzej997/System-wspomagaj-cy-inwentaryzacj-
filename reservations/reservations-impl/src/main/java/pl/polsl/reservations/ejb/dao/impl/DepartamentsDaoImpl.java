@@ -13,14 +13,16 @@ import pl.polsl.reservations.ejb.dao.InstitutesDao;
 import pl.polsl.reservations.ejb.dao.RoomDao;
 import pl.polsl.reservations.ejb.dao.WorkersDao;
 import pl.polsl.reservations.entities.Departaments;
-import pl.polsl.reservations.entities.Institutes;
 import pl.polsl.reservations.entities.Room;
 import pl.polsl.reservations.entities.Workers;
 import pl.polsl.reservations.interceptors.TransactionalInterceptor;
 import pl.polsl.reservations.logger.LoggerImpl;
 
 /**
- * @author matis
+ * @author Mateusz Sojka
+ * @version
+ *
+ * Departaments data access object implementation
  */
 @Interceptors({LoggerImpl.class, TransactionalInterceptor.class})
 @Stateful
@@ -36,6 +38,12 @@ public class DepartamentsDaoImpl extends AbstractDaoImpl<Departaments> implement
         super(Departaments.class);
     }
 
+    /**
+     * Method to get departament by name
+     *
+     * @param name String with departament name
+     * @return Departaments entity
+     */
     @Override
     public Departaments getDepartamentByName(String name) {
         Query query = getEntityManager().createNamedQuery("getDepartamentByName", Departaments.class);
@@ -47,12 +55,23 @@ public class DepartamentsDaoImpl extends AbstractDaoImpl<Departaments> implement
         }
     }
 
+    /**
+     * Method to find departaments which have workers assigned
+     *
+     * @return List of departaments
+     */
     @Override
     public List<Departaments> findDepartametsHavingWorkers() {
         Query query = getEntityManager().createNamedQuery("findDepartametsHavingWorkers", Departaments.class);
         return query.getResultList();
     }
 
+    /**
+     * Method to get departament by his chief
+     *
+     * @param chiefId Long with chief id
+     * @return Departaments entity
+     */
     @Override
     public Departaments getDepartamentByChiefId(Long chiefId) {
         Query query = getEntityManager().createNamedQuery("getDepartamentByChiefId", Departaments.class);
@@ -64,18 +83,35 @@ public class DepartamentsDaoImpl extends AbstractDaoImpl<Departaments> implement
         }
     }
 
+    /**
+     * Method to deparaments room collection by departament id
+     *
+     * @param id departament id
+     * @return list of rooms
+     */
     @Override
     public List<Room> getRoomCollectionById(Long id) {
         Departaments departament = this.find(id);
         return departament.getRoomCollection();
     }
 
+    /**
+     * Method to get departaments' workers by departament id
+     *
+     * @param id departament id
+     * @return list of workers
+     */
     @Override
     public List<Workers> getWorkersCollectionById(Long id) {
         Departaments departament = this.find(id);
         return departament.getWorkersCollection();
     }
 
+    /**
+     * Method used to remove entity from database
+     *
+     * @param entity
+     */
     @Override
     public void remove(Departaments entity) {
         getDependencies();
