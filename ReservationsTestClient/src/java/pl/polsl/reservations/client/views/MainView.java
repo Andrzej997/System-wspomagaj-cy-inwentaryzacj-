@@ -101,32 +101,13 @@ public class MainView extends JFrame {
         FrameStyle.centreWindow(this);
     }
 
-    public void setOptionsAvailable(Color fg) {
-        addMenuItem.setForeground(fg);
-        generateMenu.setForeground(fg);
-        adminMenu.setForeground(fg);
-        createRaportMenu.setForeground(fg);
-        logoutMenuItem.setForeground(fg);
-        accountMenu.setForeground(fg);
-        changePasswordItem.setForeground(fg);
-        editDataMenuItem.setForeground(fg);
-        addUserMenuItem.setForeground(fg);
-        accountMenu.setForeground(fg);
-        addRoomMenuItem.setForeground(fg);
-        addDeviceMenuItem.setForeground(fg);
-        addStateMenuItem.setForeground(fg);
-        addTypeMenuItem.setForeground(fg);
-        roomRaportMenuItem.setForeground(fg);
-        allRaportMenuItem.setForeground(fg);
-        editRoomEquipmentMenuItem.setForeground(fg);
-        departmentRaportMenuItem.setForeground(fg);
-        editUserAdminMenuItem.setForeground(fg);
-        addRoomTypeMenuItem.setForeground(fg);
-        addReservationTypeMenuItem.setForeground(fg);
-        addEditInstituteMenuItem.setForeground(fg);
-        addEditDepartamentMenuItem.setForeground(fg);
-        assignRoomMenuItem.setForeground(fg);
-        assignRoomToDepartamentMenuItem.setForeground(fg);
+    public void setOptionsAvailable(boolean available) {
+        createRaportMenu.setVisible(available);
+        generateMenu.setVisible(available);
+        adminMenu.setVisible(available);
+        accountMenu.setVisible(available);
+        addMenuItem.setVisible(available);
+        logoutMenuItem.setVisible(available);
     }
 
     private void initComponents() {
@@ -322,7 +303,7 @@ public class MainView extends JFrame {
 
     public void logoutMenuItemActionPerformed(ActionEvent evt) {
         if (isLoggedIn) {
-            setOptionsAvailable(Color.gray);
+            setOptionsAvailable(false);
             ClientContext.getInstance().logout();
             isLoggedIn = false;
             setView(new LoginMediator().createView(this));
@@ -352,80 +333,56 @@ public class MainView extends JFrame {
 
     private void generateMenuBarElements() {
         fileMenu.setText("File");
-        //logoutMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         logoutMenuItem.setMnemonic('a');
         logoutMenuItem.setText("Logout");
         fileMenu.add(logoutMenuItem);
         exitMenuItem.setText("Exit");
         fileMenu.add(exitMenuItem);
 
-        //addMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         addMenuItem.setText("Add reservation");
 
-        //createRaportMenu.setForeground(new java.awt.Color(153, 153, 153));
         createRaportMenu.setText("Rooms and equipment");
-        //addRoomMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         addRoomMenuItem.setText("Add room");
         createRaportMenu.add(addRoomMenuItem);
-        //addDeviceMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         addDeviceMenuItem.setText("Add equipment");
         createRaportMenu.add(addDeviceMenuItem);
         editRoomEquipmentMenuItem.setText("Edit equipment");
-        //editRoomEquipmentMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         createRaportMenu.add(editRoomEquipmentMenuItem);
         assignRoomMenuItem.setText("Assign user to room");
-        //assignRoomMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         createRaportMenu.add(assignRoomMenuItem);
         assignRoomToDepartamentMenuItem.setText("Assign room to department");
-        //assignRoomToDepartamentMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         createRaportMenu.add(assignRoomToDepartamentMenuItem);
 
         allRaportMenuItem.setText("All rooms report");
         departmentRaportMenuItem.setText("Department rooms report");
         roomRaportMenuItem.setText("Own room report");
-        //allRaportMenuItem.setForeground(new java.awt.Color(153, 153, 153));
-        //roomRaportMenuItem.setForeground(new java.awt.Color(153, 153, 153));
-        //departmentRaportMenuItem.setForeground(new java.awt.Color(153, 153, 153));
-        //generateMenu.setForeground(new java.awt.Color(153, 153, 153));
         generateMenu.setText("Generate report");
         generateMenu.add(roomRaportMenuItem);
         generateMenu.add(departmentRaportMenuItem);
         generateMenu.add(allRaportMenuItem);
 
         adminMenu.setText("Admin actions");
-        //adminMenu.setForeground(new java.awt.Color(153, 153, 153));
         addUserMenuItem.setText("Add user");
-        //addUserMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         adminMenu.add(addUserMenuItem);
-        //editUserAdminMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         editUserAdminMenuItem.setText("Edit users");
         adminMenu.add(editUserAdminMenuItem);
-        //addEditInstituteMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         addEditInstituteMenuItem.setText("Manage institutes");
         adminMenu.add(addEditInstituteMenuItem);
-        //addEditDepartamentMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         addEditDepartamentMenuItem.setText("Manage departaments");
         adminMenu.add(addEditDepartamentMenuItem);
-        //addStateMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         addStateMenuItem.setText("Add equipment state");
         adminMenu.add(addStateMenuItem);
-        //addTypeMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         addTypeMenuItem.setText("Add equipment type");
         adminMenu.add(addTypeMenuItem);
-        //addRoomTypeMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         addRoomTypeMenuItem.setText("Manage room types");
         adminMenu.add(addRoomTypeMenuItem);
-        //addReservationTypeMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         addReservationTypeMenuItem.setText("Manage reservation types");
         adminMenu.add(addReservationTypeMenuItem);
 
-        //accountMenu.setForeground(new java.awt.Color(153, 153, 153));
         accountMenu.setText("My account");
         accountMenu.add(changePasswordItem);
         changePasswordItem.setText("Change password");
-        //changePasswordItem.setForeground(new java.awt.Color(153, 153, 153));
         editDataMenuItem.setText("Edit user data");
-        //editDataMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         accountMenu.add(editDataMenuItem);
 
         helpMenu.setText("Help");
@@ -434,11 +391,7 @@ public class MainView extends JFrame {
         aboutMenuItem.setText("About");
         helpMenu.add(aboutMenuItem);
 
-        createRaportMenu.setVisible(false);
-        generateMenu.setVisible(false);
-        adminMenu.setVisible(false);
-        accountMenu.setVisible(false);
-        addMenuItem.setVisible(false);
+        setOptionsAvailable(false);
 
         menuBar.add(fileMenu);
         menuBar.add(addMenuItem);
