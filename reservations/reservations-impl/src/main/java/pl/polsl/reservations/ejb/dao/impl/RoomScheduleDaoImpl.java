@@ -135,7 +135,7 @@ public class RoomScheduleDaoImpl extends AbstractDaoImpl<RoomSchedule> implement
     /**
      * Method used to remove entity from database
      *
-     * @param entity
+     * @param entity entity to remove
      */
     @Override
     public void remove(RoomSchedule entity) {

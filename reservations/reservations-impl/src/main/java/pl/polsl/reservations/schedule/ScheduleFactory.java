@@ -6,6 +6,7 @@ import pl.polsl.reservations.dto.ReservationDTO;
 
 /**
  * Created by Krzysztof Stręk on 2016-05-13.
+ * @version 1.0
  */
 @Local
 public interface ScheduleFactory {

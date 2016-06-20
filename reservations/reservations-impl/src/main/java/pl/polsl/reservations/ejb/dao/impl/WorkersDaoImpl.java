@@ -170,7 +170,7 @@ public class WorkersDaoImpl extends AbstractDaoImpl<Workers> implements WorkersD
     /**
      * Method used to remove entity from database
      *
-     * @param entity
+     * @param entity entity to remove
      */
     @Override
     public void remove(Workers entity) {

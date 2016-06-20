@@ -46,7 +46,7 @@ public class ReservationTypesDaoImpl extends AbstractDaoImpl<ReservationTypes> i
     /**
      * Method used to remove entity from database
      *
-     * @param entity
+     * @param entity entity to remove
      */
     @Override
     public void remove(ReservationTypes entity) {

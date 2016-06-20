@@ -13,6 +13,9 @@ import pl.polsl.reservations.entities.RoomSchedule;
 
 /**
  * Created by Krzysztof Stręk on 2016-05-12.
+ * @version 1.0
+ * 
+ * 
  */
 public class RoomScheduleStrategy implements ScheduleStrategy {
 

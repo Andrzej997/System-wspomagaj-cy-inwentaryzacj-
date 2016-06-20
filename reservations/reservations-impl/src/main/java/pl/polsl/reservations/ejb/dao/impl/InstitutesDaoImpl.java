@@ -83,7 +83,7 @@ public class InstitutesDaoImpl extends AbstractDaoImpl<Institutes> implements In
     /**
      * Method used to remove entity from database
      *
-     * @param entity
+     * @param entity entity to remove
      */
     @Override
     public void remove(Institutes entity) {

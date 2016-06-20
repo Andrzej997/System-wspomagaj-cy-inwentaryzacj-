@@ -8,6 +8,7 @@ import pl.polsl.reservations.ejb.dao.RoomScheduleDao;
 
 /**
  * Created by Krzysztof Stręk on 2016-05-12.
+ * @version 1.0
  */
 public interface ScheduleStrategy {
 

@@ -12,6 +12,7 @@ import pl.polsl.reservations.logger.LoggerImpl;
 
 /**
  * Created by Krzysztof Stręk on 2016-05-12.
+ * @version 1.0
  */
 @Stateful
 @Interceptors({LoggerImpl.class})

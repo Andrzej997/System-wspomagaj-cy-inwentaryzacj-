@@ -138,8 +138,8 @@ public class UserFacadeImpl extends AbstractBusinessFacadeImpl implements UserFa
      * Zmienia email, numer telefonu, adres, stopien naukowy, pesel, nazwisko i
      * imie.
      *
-     * @param userDTO
-     * @return
+     * @param userDTO user
+     * @return user details
      */
     @Override
     public boolean changeUserDetails(UserDTO userDTO) {

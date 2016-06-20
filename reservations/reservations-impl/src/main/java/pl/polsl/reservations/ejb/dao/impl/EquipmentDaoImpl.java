@@ -51,7 +51,7 @@ public class EquipmentDaoImpl extends AbstractDaoImpl<Equipment> implements Equi
     /**
      * Method used to remove entity from database
      *
-     * @param entity
+     * @param entity entity to remove
      */
     @Override
     public void remove(Equipment entity) {

@@ -47,7 +47,7 @@ public class EquipmentTypeDaoImpl extends AbstractDaoImpl<EquipmentType> impleme
     /**
      * Method used to remove entity from database
      *
-     * @param entity
+     * @param entity entity to remove
      */
     @Override
     public void remove(EquipmentType entity) {

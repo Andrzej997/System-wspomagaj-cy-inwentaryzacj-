@@ -44,6 +44,11 @@ public class RoomTypesDaoImpl extends AbstractDaoImpl<RoomTypes> implements Room
         return roomTypes.getRoomCollection();
     }
 
+    /**
+     * Method used to remove entity from database
+     *
+     * @param entity entity to remove
+     */
     @Override
     public void remove(RoomTypes entity) {
         getDependencies();
@@ -59,11 +64,6 @@ public class RoomTypesDaoImpl extends AbstractDaoImpl<RoomTypes> implements Room
         super.remove(roomTypes);
     }
 
-    /**
-     * Method used to remove entity from database
-     *
-     * @param entity
-     */
     @Override
     protected void getDependencies() {
         try {

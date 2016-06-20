@@ -155,7 +155,7 @@ public class UsersDaoImpl extends AbstractDaoImpl<Users> implements UsersDao {
     /**
      * Method used to remove entity from database
      *
-     * @param entity
+     * @param entity entity to remove
      */
     @Override
     public void remove(Users entity) {
