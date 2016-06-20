@@ -81,7 +81,7 @@ public class LoginView extends JPanel {
             return;
         }
         if (loginMediator.getUserData(loginTf.getText(), passwordTf.getText())) {
-            window.setOptionsAvailable(Color.black);
+            window.setOptionsAvailable(true);
             ClientContext.getInstance().setUsername(loginTf.getText());
             window.setLogged(true);
             window.setView(new WeekDataViewMediator().createView(window, loginMediator.getFirstRoom()));
@@ -93,7 +93,7 @@ public class LoginView extends JPanel {
 
     private void onClickGuest(ActionEvent evt) {
         loginMediator.loginAsGuest();
-        window.setOptionsAvailable(Color.black);
+        window.setOptionsAvailable(true);
         window.setLogged(true);
         window.setView(new WeekDataViewMediator().createView(window, loginMediator.getFirstRoom()));
     }
