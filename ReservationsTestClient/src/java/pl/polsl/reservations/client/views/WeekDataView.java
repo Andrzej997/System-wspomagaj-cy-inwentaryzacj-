@@ -132,7 +132,7 @@ public class WeekDataView extends JPanel {
             ButtonStyle.setStyle(nextBtn, img2);
             Image img3 = ImageIO.read(WeekDataView.class.getResource("/resources/calendar.png"));
             ButtonStyle.setStyle(calendarBtn, img3);
-            Image img4 = ImageIO.read(WeekDataView.class.getResource("/resources/back.png"));
+            Image img4 = ImageIO.read(WeekDataView.class.getResource("/resources/back_logout.png"));
             ButtonStyle.setStyle(backBtn, img4);
         } catch (IOException ex) {
             System.out.println("RESOURCE ERROR: " + ex.toString());
