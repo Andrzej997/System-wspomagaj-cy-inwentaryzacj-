@@ -11,6 +11,7 @@ import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.views.CreateRaportView;
 import pl.polsl.reservations.client.views.MainView;
 import pl.polsl.reservations.client.views.utils.AddTypeEnum;
+import pl.polsl.reservations.client.views.utils.MessageBoxUtils;
 import pl.polsl.reservations.client.views.utils.RoomComboBox;
 import pl.polsl.reservations.dto.DepartamentDTO;
 import pl.polsl.reservations.dto.EquipmentDTO;
@@ -315,6 +316,9 @@ public class CreateReportViewMediator {
         int selectedDeviceIndex = createRaportView.getDeviceCb().getSelectedIndex();
         List<EquipmentDTO> roomEquipment = roomManagementFacade.getRoomEquipment(selectedRoom.getId().intValue());
         EquipmentDTO oldEqiupment = roomEquipment.get(selectedDeviceIndex);
+        if(!MessageBoxUtils.deleteConfirmationWarning(createRaportView, "this equipment")){
+            return;
+        }
         try {
             roomManagementFacade.removeEquipment(oldEqiupment.getId().intValue());
         } catch (UnauthorizedAccessException ex) {

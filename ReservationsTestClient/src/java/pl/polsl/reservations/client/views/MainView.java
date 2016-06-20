@@ -2,9 +2,13 @@ package pl.polsl.reservations.client.views;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.*;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import pl.polsl.reservations.client.ClientContext;
 import pl.polsl.reservations.client.Lookup;
@@ -34,7 +38,7 @@ public class MainView extends JFrame {
     private boolean isLoggedIn = false;
 
     private JMenuItem aboutMenuItem;
-    private JMenuItem addMenuItem;
+    private JMenu addMenuItem;
     private JMenuItem logoutMenuItem;
     private JMenuItem tutorialMenuItem;
     private JMenuItem exitMenuItem;
@@ -140,7 +144,7 @@ public class MainView extends JFrame {
         menuBar = new JMenuBar();
         fileMenu = new JMenu();
         adminMenu = new JMenu();
-        addMenuItem = new JMenuItem();
+        addMenuItem = new JMenu();
         generateMenu = new JMenu();
         accountMenu = new JMenu();
         logoutMenuItem = new JMenuItem();
@@ -180,7 +184,6 @@ public class MainView extends JFrame {
 
     private void addMenuItemActionPerformed(ActionEvent evt) {
         if (isLoggedIn) {
-
             setView(new AddEditViewMediator().createView(this, false));
         }
     }
@@ -355,10 +358,10 @@ public class MainView extends JFrame {
         fileMenu.add(logoutMenuItem);
         exitMenuItem.setText("Exit");
         fileMenu.add(exitMenuItem);
-        
+
         //addMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         addMenuItem.setText("Add reservation");
-        
+
         //createRaportMenu.setForeground(new java.awt.Color(153, 153, 153));
         createRaportMenu.setText("Rooms and equipment");
         //addRoomMenuItem.setForeground(new java.awt.Color(153, 153, 153));
@@ -376,7 +379,7 @@ public class MainView extends JFrame {
         assignRoomToDepartamentMenuItem.setText("Assign room to department");
         //assignRoomToDepartamentMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         createRaportMenu.add(assignRoomToDepartamentMenuItem);
-        
+
         allRaportMenuItem.setText("All rooms report");
         departmentRaportMenuItem.setText("Department rooms report");
         roomRaportMenuItem.setText("Own room report");
@@ -388,7 +391,7 @@ public class MainView extends JFrame {
         generateMenu.add(roomRaportMenuItem);
         generateMenu.add(departmentRaportMenuItem);
         generateMenu.add(allRaportMenuItem);
-        
+
         adminMenu.setText("Admin actions");
         //adminMenu.setForeground(new java.awt.Color(153, 153, 153));
         addUserMenuItem.setText("Add user");
@@ -415,7 +418,7 @@ public class MainView extends JFrame {
         //addReservationTypeMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         addReservationTypeMenuItem.setText("Manage reservation types");
         adminMenu.add(addReservationTypeMenuItem);
-        
+
         //accountMenu.setForeground(new java.awt.Color(153, 153, 153));
         accountMenu.setText("My account");
         accountMenu.add(changePasswordItem);
@@ -424,27 +427,27 @@ public class MainView extends JFrame {
         editDataMenuItem.setText("Edit user data");
         //editDataMenuItem.setForeground(new java.awt.Color(153, 153, 153));
         accountMenu.add(editDataMenuItem);
-        
+
         helpMenu.setText("Help");
         tutorialMenuItem.setText("Tutorial");
         helpMenu.add(tutorialMenuItem);
         aboutMenuItem.setText("About");
         helpMenu.add(aboutMenuItem);
-        
+
         createRaportMenu.setVisible(false);
         generateMenu.setVisible(false);
         adminMenu.setVisible(false);
         accountMenu.setVisible(false);
         addMenuItem.setVisible(false);
-        
+
         menuBar.add(fileMenu);
+        menuBar.add(addMenuItem);
         menuBar.add(createRaportMenu);
         menuBar.add(generateMenu);
         menuBar.add(adminMenu);
         menuBar.add(accountMenu);
         menuBar.add(helpMenu);
-        menuBar.add(addMenuItem);
-        
+
         addMenuListeners();
     }
 
@@ -482,13 +485,7 @@ public class MainView extends JFrame {
                 generateMenuItemActionPerformed(evt);
             }
         });
-        addMenuItem.addActionListener((ActionEvent evt) -> {
-            if (!ClientContext.getInstance().checkUserPrivilegesToAction("TECHNICAL_WORKER")) {
-                MessageBoxUtils.createPrivilegeError(fileMenu);
-            } else {
-                addMenuItemActionPerformed(evt);
-            }
-        });
+        addMenuItem.addMouseListener(new MouseListenerImpl());
         addRoomMenuItem.addActionListener((ActionEvent evt) -> {
             if (!ClientContext.getInstance().checkUserPrivilegesToAction("INSTITUTE_CHIEF")) {
                 if (!ClientContext.getInstance().canRequestLevel("INSTITUTE_CHIEF")) {
@@ -660,12 +657,12 @@ public class MainView extends JFrame {
         this.aboutMenuItem = aboutMenuItem;
     }
 
-    public JMenuItem getAddMenuItem() {
+    public JMenu getAddMenuItem() {
         return addMenuItem;
     }
 
-    public void setAddMenuItem(JMenuItem addMenuItem) {
-        this.addMenuItem = addMenuItem;
+    public void setAddMenuItem(JMenu addMenu) {
+        this.addMenuItem = addMenu;
     }
 
     public JMenuItem getLogoutMenuItem() {
@@ -961,6 +958,37 @@ public class MainView extends JFrame {
         public void windowClosing(WindowEvent e) {
             Lookup.removeUserCertificate();
             System.exit(0);
+        }
+    }
+
+    private class MouseListenerImpl implements MouseListener {
+
+        public MouseListenerImpl() {
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            if (!ClientContext.getInstance().checkUserPrivilegesToAction("TECHNICAL_WORKER")) {
+                MessageBoxUtils.createPrivilegeError(MainView.this.addMenuItem);
+            } else {
+                MainView.this.addMenuItemActionPerformed(null);
+            }
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
         }
     }
 

@@ -5,6 +5,7 @@ import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.views.AddEditRoomTypeView;
 import pl.polsl.reservations.client.views.MainView;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
+import pl.polsl.reservations.client.views.utils.MessageBoxUtils;
 import pl.polsl.reservations.dto.RoomTypesDTO;
 import pl.polsl.reservations.ejb.remote.RoomManagementFacade;
 
@@ -87,6 +88,9 @@ public class AddEditRoomTypeViewMediator {
         List<RoomTypesDTO> roomTypes = roomManagementFacade.getRoomTypes();
         String selectedItem = (String) addEditRoomTypeView.getRoomTypes().getSelectedItem();
         if (selectedItem.equals("Create new")) {
+            return;
+        }
+        if (!MessageBoxUtils.deleteConfirmationWarning(addEditRoomTypeView, "selected type")) {
             return;
         }
         for (RoomTypesDTO roomType : roomTypes) {

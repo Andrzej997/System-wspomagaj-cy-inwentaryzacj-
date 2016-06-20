@@ -5,6 +5,7 @@ import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.views.AddEditDepartamentView;
 import pl.polsl.reservations.client.views.MainView;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
+import pl.polsl.reservations.client.views.utils.MessageBoxUtils;
 import pl.polsl.reservations.dto.DepartamentDTO;
 import pl.polsl.reservations.dto.InstituteDTO;
 import pl.polsl.reservations.dto.UserDTO;
@@ -135,6 +136,9 @@ public class AddEditDepartamentMediator {
         List<DepartamentDTO> allDepartaments = userManagementFacade.getAllDepartaments();
         String selectedItem = (String) addEditDepartamentView.getDepartamentCb().getSelectedItem();
         if (selectedItem.equals("Create new")) {
+            return;
+        }
+        if (!MessageBoxUtils.deleteConfirmationWarning(addEditDepartamentView, "selected departament")) {
             return;
         }
         for (DepartamentDTO departament : allDepartaments) {

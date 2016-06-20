@@ -17,6 +17,7 @@ import pl.polsl.reservations.client.views.MainView;
 import pl.polsl.reservations.client.views.renderers.DayCustomRenderer;
 import pl.polsl.reservations.client.views.utils.DateUtils;
 import pl.polsl.reservations.client.views.utils.DayTableModel;
+import pl.polsl.reservations.client.views.utils.MessageBoxUtils;
 import pl.polsl.reservations.dto.ReservationDTO;
 import pl.polsl.reservations.dto.ReservationTypeDTO;
 import pl.polsl.reservations.dto.RoomDTO;
@@ -308,7 +309,9 @@ public class AddEditViewMediator {
         ReservationDTO reservation = chosenReservation;
         if (reservation != null) {
             try {
-
+                if (!MessageBoxUtils.deleteConfirmationWarning(addEditView, "selected reservation")) {
+                    return false;
+                }
                 scheduleFacade.removeReservation(reservation.getId().intValue());
                 getReservations();
 

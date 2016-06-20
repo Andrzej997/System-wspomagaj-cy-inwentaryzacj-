@@ -6,6 +6,7 @@ import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.views.AddEditInstituteView;
 import pl.polsl.reservations.client.views.MainView;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
+import pl.polsl.reservations.client.views.utils.MessageBoxUtils;
 import pl.polsl.reservations.dto.InstituteDTO;
 import pl.polsl.reservations.dto.UserDTO;
 import pl.polsl.reservations.ejb.remote.RoomManagementFacade;
@@ -113,6 +114,9 @@ public class AddEditInstituteMediator {
         List<InstituteDTO> allInstitutes = userManagementFacade.getAllInstitutes();
         String selectedItem = (String) addEditInstituteView.getInstituteCb().getSelectedItem();
         if (selectedItem.equals("Create new")) {
+            return;
+        }
+        if(!MessageBoxUtils.deleteConfirmationWarning(addEditInstituteView, "selected institute")){
             return;
         }
         for (InstituteDTO institute : allInstitutes) {

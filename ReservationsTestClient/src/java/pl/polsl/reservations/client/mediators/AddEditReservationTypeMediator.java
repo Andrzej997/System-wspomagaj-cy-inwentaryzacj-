@@ -6,6 +6,7 @@ import pl.polsl.reservations.client.views.AddEditReservationTypeView;
 import pl.polsl.reservations.client.views.MainView;
 import pl.polsl.reservations.client.views.utils.ButtonStyle;
 import pl.polsl.reservations.client.views.utils.ColorUtils;
+import pl.polsl.reservations.client.views.utils.MessageBoxUtils;
 import pl.polsl.reservations.dto.ReservationTypeDTO;
 import pl.polsl.reservations.ejb.remote.ScheduleFacade;
 
@@ -102,6 +103,9 @@ public class AddEditReservationTypeMediator {
         List<ReservationTypeDTO> reservationTypes = scheduleFacade.getReservationTypes();
         String selectedItem = (String) addEditReservationTypeView.getTypeCb().getSelectedItem();
         if (selectedItem.equals("Create new")) {
+            return;
+        }
+        if (!MessageBoxUtils.deleteConfirmationWarning(addEditReservationTypeView, "selected type")) {
             return;
         }
         for (ReservationTypeDTO reservationType : reservationTypes) {

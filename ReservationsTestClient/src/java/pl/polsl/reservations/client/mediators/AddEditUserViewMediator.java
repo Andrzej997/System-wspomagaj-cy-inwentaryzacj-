@@ -9,6 +9,7 @@ import pl.polsl.reservations.client.Lookup;
 import pl.polsl.reservations.client.views.AddEditUserView;
 import pl.polsl.reservations.client.views.MainView;
 import pl.polsl.reservations.client.views.utils.AddUserEnum;
+import pl.polsl.reservations.client.views.utils.MessageBoxUtils;
 import pl.polsl.reservations.client.views.utils.RoomComboBox;
 import pl.polsl.reservations.dto.DepartamentDTO;
 import pl.polsl.reservations.dto.PrivilegeLevelDTO;
@@ -263,6 +264,9 @@ public class AddEditUserViewMediator {
         if (selectedIndex != null) {
             List<UserDTO> usersWithLowerPrivilegeLevel = userFacade.getUsersWithLowerPrivilegeLevel();
             UserDTO user = usersWithLowerPrivilegeLevel.get(selectedIndex);
+            if(!MessageBoxUtils.deleteConfirmationWarning(addEditUserView, "this user")){
+                return;
+            }
             userManagementFacade.removeUser(user);
         }
     }
